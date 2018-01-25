@@ -1,0 +1,72 @@
+{
+    "name": "Electra-Desktop",
+    "productName": "Electra",
+    "version": "0.1.0",
+    "description": "light wallet built with electron and vue",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "electron-forge start",
+        "package": "electron-forge package",
+        "make": "electron-forge make",
+        "publish": "electron-forge publish"
+    },
+    "keywords": [],
+    "author": "JanGunzenhauser",
+    "license": "MIT",
+    "config": {
+        "forge": {
+            "make_targets": {
+                "win32": [
+                    "squirrel"
+                ],
+                "darwin": [
+                    "dmg"
+                ],
+                "linux": [
+                    "deb",
+                    "rpm"
+                ]
+            },
+            "electronPackagerConfig": {
+                "icon": "icon/app.icns"
+            },
+            "electronWinstallerConfig": {
+                "name": "Electra"
+            },
+            "electronInstallerDebian": {},
+            "electronInstallerRedhat": {},
+            "github_repository": {
+                "owner": "",
+                "name": ""
+            },
+            "windowsStoreConfig": {
+                "packageName": "",
+                "name": "Electra"
+            }
+        }
+    },
+    "dependencies": {
+        "electron-compile": "^6.4.2",
+        "electron-devtools-installer": "^2.1.0",
+        "electron-hot-loader": "^0.8.0",
+        "electron-squirrel-startup": "^1.0.0",
+        "global": "^4.3.2",
+        "kapitalize": "^0.3.3",
+        "store": "^2.0.12",
+        "vue": "^2.1.7",
+        "vue-electron": "^1.0.6",
+        "vue-router": "^2.3.1",
+        "vue-svgicon": "^1.1.8",
+        "vueify": "^9.4.1",
+        "vuex": "^2.3.1",
+        "vuex-router-sync": "^4.1.2"
+    },
+    "devDependencies": {
+        "babel-plugin-transform-async-to-generator": "^6.24.1",
+        "babel-plugin-transform-object-rest-spread": "^6.26.0",
+        "babel-preset-env": "^1.6.1",
+        "babel-preset-react": "^6.24.1",
+        "electron-forge": "^4.1.5",
+        "electron-prebuilt-compile": "1.7.9"
+    }
+}
