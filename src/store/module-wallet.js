@@ -22,14 +22,13 @@ const state = {
     moneysupply: 0
   },
   stakingStatus: {
+    enabled: false,
+    staking: false,
     blocks: 0,
     currentblocksize: 0,
+    weight: 0,
     netstakeweight: 0,
-    stakeweight: {
-      minimum: 0,
-      maximum: 0,
-      combined: 0
-    }
+    expectedtime: null
   },
   transactions: []
 }
@@ -56,7 +55,8 @@ const getters = {
   walletStatus: state => state.walletStatus,
   networkStatus: state => state.networkStatus,
   stakingStatus: state => state.stakingStatus,
-  transactions: state => state.transactions
+  transactions: state => state.transactions,
+  expectedTime: state => state.stakingStatus.expectedtime
 }
 
 const actions = {
@@ -72,7 +72,7 @@ const actions = {
         } else {
           const walletStatus = {
             balance: info.balance,
-            stake: info.stake,
+            stake: info.stake
           }
           const networkStatus = {
             ip: info.ip,
@@ -89,19 +89,18 @@ const actions = {
   },
   'update-staking-state' (module) {
     rpc
-      .exec('getmininginfo', (err, info) => {
+      .exec('getstakinginfo', (err, info) => {
         if (err) {
           console.error(err)
         } else {
           const stakingStatus = {
+            enabled: info.enabled,
+            staking: info.staking,
             blocks: info.blocks,
             currentblocksize: info.currentblocksize,
+            weight: info.weight,
             netstakeweight: info.netstakeweight,
-            stakeweight: {
-              minimum: info.stakeweight.minimum,
-              maximum: info.stakeweight.maximum,
-              combined: info.stakeweight.combined
-            }
+            expectedtime: info.expectedtime
           }
           module.commit('SET_STAKING_STATUS', stakingStatus)
         }
@@ -120,7 +119,7 @@ const actions = {
   'send-eca' (module, { address, amount }) {
     let amtStr = amount.toFixed(4)
     let amt = Number(amtStr)
-    rpc 
+    rpc
       .sendtoaddress(address, amt, (err, txid) => {
         if (err) {
           console.log(err)
