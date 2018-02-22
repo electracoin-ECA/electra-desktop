@@ -8,6 +8,6 @@ module.exports = {
   demo: path.resolve('demo'),
   indexTemplate: path.resolve('src/index.html'),
   stylePaths: [
-    path.resolve('src/styles')
+    path.resolve('src/app/styles')
   ]
 }

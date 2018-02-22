@@ -7,7 +7,18 @@ export default class App extends React.Component {
   render() {
     return (
       <Router>
-        <Header />
+        <div class='container'>
+          <div class='header'>
+            <Header />
+          </div>
+          <div class='body'>
+            <div class='sidebar'></div>
+            <div class='main-body'>
+              <Switch>
+              </Switch>
+            </div>
+          </div>
+        </div>
       </Router>
     );
   }
