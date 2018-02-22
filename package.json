@@ -1,15 +1,15 @@
 {
-  "name": "lammar",
+  "name": "Electra",
   "version": "1.0.0",
-  "description": "Metro Project",
+  "description": "Wallet for Electra blockchain ",
   "main": "main.js",
-  "author": "IgotcheMedia Developers",
+  "author": "Electra developers",
   "license": "MIT",
   "scripts": {
-    "prod": "NODE_ENV=production webpack --config webpack.build.config.js && electron --noDevServer .",
-    "dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.config.js",
-    "build": "webpack --config webpack.build.config.js",
-    "package": "webpack --config webpack.build.config.js",
+    "prod": "NODE_ENV=production webpack --config ./webpack/webpack.build.config.js && electron --noDevServer .",
+    "dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack/webpack.dev.config.js",
+    "build": "webpack --config ./webpack/webpack.build.config.js",
+    "package": "webpack --config ./webpack/webpack.build.config.js",
     "postpackage": "electron-packager ./ --out=./build"
   },
   "browserslist": [
