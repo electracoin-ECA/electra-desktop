@@ -1,0 +1,13 @@
+.header-container {
+  flex: 1 1 auto;
+  display: flex;
+
+  .logo {
+    flex: none 1;
+    width: 250px;
+  }
+
+  .wallet-info-container {
+    flex: 1 1 auto;
+  }
+}
