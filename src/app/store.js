@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { createEpicMiddleware, combineEpics } from 'redux-observable';
-import logger from 'redux-logger'
+import logger from 'redux-logger';
 import * as _ from 'lodash';
 
 import * as reducers from './reducers';
