@@ -1,2 +1,11 @@
+# nodejs modules
 node_modules
-out
+
+# Mac extension files
+.DS_Store
+
+# build folders
+builds
+
+# Compiled Code
+dist
