@@ -6,14 +6,9 @@ export default class WalletInfo extends React.Component {
     const {label, info} = this.props
     return (
       <div>
-        <span>{labelx}</span>
+        <span>{label}</span>
         <span>{info}</span>
       </div>
     )
   }
-}
-
-WalletInfo.PropTypes = {
-  label: PropTypes.string,
-  info: PropTypes.string
 }
