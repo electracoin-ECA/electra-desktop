@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import {bindActionCreators} from 'redux'
 import { WalletInfo } from './wallet-info'
 import { getStakingInfo } from './actions'
 
@@ -22,10 +23,11 @@ const mapDispatchToProps = (dispatch) => {
 export default class Header extends React.Component {
 
   componentWillMount() {
+    console.log('before this.,props.getstatkinginfo')
     this.props.getStakingInfo()
+    console.log('after')
   }
   render () {
-
     const { networkWeight, weight, nextRewardIn } = this.props
     return (
       <div class='header-container'>

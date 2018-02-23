@@ -5,12 +5,3 @@ export function getStakingInfo () {
     type: AN.GET_STAKING_INFO
   }
 }
-
-export function receivedStakingInfo (res) {
-  return {
-    type: AN.RECEIVED_STAKING_INFO,
-    payload: {
-      ...res
-    }
-  }
-}
