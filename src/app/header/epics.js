@@ -3,7 +3,6 @@ import * as AN from './action-names'
 import { receivedStakingInfo } from './actions'
 
 export function getStakingInfo (action$, store) {
-  console.log('in getstakinginfo epics')
   return action$.ofType(AN.GET_STAKING_INFO)
   .map(action => ElectronWindow.Apis.wallet.getStakingInfo())
   .switchMap(stakingInfo => {

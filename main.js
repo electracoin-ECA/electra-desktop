@@ -1,17 +1,8 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
-const ElectraJs = require('electra-js');
+const Resource  = require('./electron-resource');
 
-const electraJs = new ElectraJs({
-  rpcServerAuth: {
-    username: 'user',
-    password: 'pass'
-  },
-  rpcServerUri: 'http://127.0.0.1:5788'
-});
-
-console.log(electraJs);
 let mainWindow;
 
 let dev = false;
@@ -53,7 +44,7 @@ function createWindow() {
     mainWindow = null;
   });
 
-  mainWindow.Apis = electraJs;
+  mainWindow.Apis = Resource;
 }
 
 app.on('ready', createWindow);
