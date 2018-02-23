@@ -1,7 +1,7 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Header } from './header';
-const Router = BrowserRouter;
+import React from 'react'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Header } from './header'
+const Router = BrowserRouter
 
 export default class App extends React.Component {
   render() {

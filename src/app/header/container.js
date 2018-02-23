@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { WalletInfo } from './wallet-info';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { WalletInfo } from './wallet-info'
 
 export default class Header extends React.Component {
   render () {
