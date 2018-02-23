@@ -8,9 +8,10 @@ const electraJs = new ElectraJs({
     username: 'user',
     password: 'pass'
   },
-  rpcServerUri: 'http://127.0.01:5788';
+  rpcServerUri: 'http://127.0.0.1:5788'
 });
 
+console.log(electraJs);
 let mainWindow;
 
 let dev = false;
@@ -52,7 +53,7 @@ function createWindow() {
     mainWindow = null;
   });
 
-  mainWindow.Apis.electraJs = electraJs;
+  mainWindow.Apis = electraJs;
 }
 
 app.on('ready', createWindow);

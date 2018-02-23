@@ -8,7 +8,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case AN.RECEIVED_STAKING_INFO:
+    case AN.RECEIVED_STAKING_INFO: {
       const {networkWeight, nextRewardIn, weight} = action.payload
       return {
         ...state,
@@ -16,7 +16,7 @@ export default function (state = initialState, action) {
         nextRewardIn,
         weight
       }
-      break;
+    }
     default:
       return state
   }
