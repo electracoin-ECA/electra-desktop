@@ -23,9 +23,7 @@ const mapDispatchToProps = (dispatch) => {
 export default class Header extends React.Component {
 
   componentWillMount() {
-    console.log('before this.,props.getstatkinginfo')
     this.props.getStakingInfo()
-    console.log('after')
   }
   render () {
     const { networkWeight, weight, nextRewardIn } = this.props
