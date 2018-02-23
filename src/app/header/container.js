@@ -2,9 +2,31 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { WalletInfo } from './wallet-info'
+import { getStakingInfo } from './actions'
 
+const mapStateToProps = (state) => {
+  return {
+    networkWeight: state.networkWeight,
+    weight: state.weight,
+    nextRewardIn: state.nextRewardIn
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    getStakingInfo
+  }, dispatch)
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 export default class Header extends React.Component {
+
+  componentWillMount() {
+    this.props.getStakingInfo()
+  }
   render () {
+
+    const { networkWeight, weight, nextRewardIn } = this.props
     return (
       <div class='header-container'>
         <div class='logo'>
@@ -13,7 +35,7 @@ export default class Header extends React.Component {
         <div class='wallet-info-container'>
           <WalletInfo label={'Active connections'} info={'294'} />
           <WalletInfo label={'Wallet is currently'} info={'Online'} />
-          <WalletInfo label={'Days until staking reward'} info={'13 days'} />
+          <WalletInfo label={'Days until staking reward'} info={nextRewardIn} />
         </div>
       </div>
     )
