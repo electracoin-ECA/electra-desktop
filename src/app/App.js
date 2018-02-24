@@ -1,9 +1,21 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { ElectraActions } from './electra'
 import { Header } from './header'
 const Router = BrowserRouter
 
+const mapActionToProps = {
+  initializeElectra: ElectraActions.initializeElectra
+}
+
+@connect(null, mapActionToProps)
+
 export default class App extends React.Component {
+  componentDidMount () {
+    this.props.initializeElectra()
+  }
+
   render() {
     return (
       <Router>
