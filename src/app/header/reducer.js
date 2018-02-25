@@ -18,7 +18,6 @@ export default function (state = initialState, action) {
       }
     }
     case AN.FAILED_TO_RETRIEVE_STAKING_INFO: {
-      console.log('reachhhhhhhhhhh')
       return {
         ...state,
         something: true
