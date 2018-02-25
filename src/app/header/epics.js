@@ -5,27 +5,32 @@ import {ElectraActions} from '../electra'
  * TODO: If electraJs not exist try to reinitialize
 */
 
-
 export function getStakingInfo (action$, store) {
   return action$.ofType(ActionNames.GET_STAKING_INFO)
-  .map(() => {
-    console.log('reachhhhhh map')
-    store.getState().electraReducer.electraJs}) // get electraJs object from the store
-  //.filter(electraJs => electraJs) // check if electraJs exists
-  .map(electraJs => electraJs.getStakingInfo()) // get staking info
-  .switchMap(stakingInfo => {
-    return stakingInfo
-    .then(data => ({
-        type: ActionNames.RECEIVED_STAKING_INFO,
-        payload: {
-          ...data
-        }
+    .map(() => store.getState().electraReducer.electraJs) // get electraJs object from the store
+    .filter(electraJs => electraJs) // check if electraJs exists
+    .map(electraJs =>  electraJs.wallet.getStakingInfo())
+    .switchMap(promise => {
+      return new Promise((resolve, reject) => {
+        promise
+          .then(data => {
+            resolve({
+              type: ActionNames.RECEIVED_STAKING_INFO,
+               payload: {
+                 ...data
+               }
+            })
+          })
+          .catch (err => {
+            resolve({
+              type: ActionNames.FAILED_TO_RETRIEVE_STAKING_INFO
+            })
+          })
       })
-  )})
-  .catch (err => {
-    console.log('react here')
-    return Observable.of({
-      type: ActionNames.FAILED_TO_RETRIEVE_STAKING_INFO
     })
-  })
+    .catch (err => {
+      return Observable.of({
+        type: ActionNames.FAILED_TO_RETRIEVE_STAKING_INFO
+      })
+    })
 }

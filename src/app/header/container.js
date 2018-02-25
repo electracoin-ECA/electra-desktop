@@ -22,17 +22,14 @@ const mapDispatchToProps = (dispatch) => {
 export default class Header extends React.Component {
 
   componentDidMount() {
-    this.props.getStakingInfo()
     this.triggerFetchInfo()
+    this.props.getStakingInfo()
+  }
+  
+  triggerFetchInfo = () => {
+    setInterval(this.props.getStakingInfo, 1000 * 5)
   }
 
-  // componentDidUpdate () {
-  //   console.log('did update')
-  //   this.triggerFetchInfo()
-  // }
-  triggerFetchInfo () {
-    setInterval(() => { this.props.getStakingInfo() }, 1000 * 5)
-  }
   render () {
     const { networkWeight, weight, nextRewardIn } = this.props
     return (
