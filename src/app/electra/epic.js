@@ -12,15 +12,13 @@ const config = {
 
 export function initializeElectraEpic (action$, store) {
   return action$.ofType(ActionNames.INITIALIZE_ELECTRA)
-    .map(action => new ElectraJs(config))
-
+    .map(() => new ElectraJs(config))
     .map(electraJs => ({
       type: ActionNames.INITIALIZE_ELECTRA_SUCCESS,
       payload: {
         electraJs
       }
     }))
-
     // TODO: notify user to launch electra demon and rein
     .catch(error => Observable.of({
       type: ActionNames.INITIALIZE_ELECTRA_FAIL,
