@@ -6,15 +6,16 @@ import { Header } from './header'
 const Router = BrowserRouter
 
 const mapActionToProps = {
-  initializeElectra: ElectraActions.initializeElectra
+  initializeElectra: ElectraActions.initializeElectra,
+  generateHDWallt: ElectraActions.generateHDWallt
 }
 
 @connect(null, mapActionToProps)
 export default class App extends React.Component {
   componentWillMount () {
-    this.props.initializeElectra()
+    this.props.initializeElectra() // initialize electraJs object
+    this.props.generateHDWallt() // generate HD wallet
   }
-
   render() {
     return (
       <Router>

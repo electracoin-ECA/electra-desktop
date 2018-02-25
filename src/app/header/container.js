@@ -22,11 +22,10 @@ const mapDispatchToProps = (dispatch) => {
 export default class Header extends React.Component {
 
   componentDidMount() {
-    this.triggerFetchInfo()
-    this.props.getStakingInfo()
+    this.tickStakingInfo()
   }
-  
-  triggerFetchInfo = () => {
+
+  tickStakingInfo = () => {
     setInterval(this.props.getStakingInfo, 1000 * 5)
   }
 
