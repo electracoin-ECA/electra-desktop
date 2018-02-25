@@ -10,9 +10,8 @@ const mapActionToProps = {
 }
 
 @connect(null, mapActionToProps)
-
 export default class App extends React.Component {
-  componentDidMount () {
+  componentWillMount () {
     this.props.initializeElectra()
   }
 

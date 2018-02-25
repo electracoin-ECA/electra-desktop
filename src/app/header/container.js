@@ -7,9 +7,8 @@ import { getStakingInfo } from './actions'
 
 const mapStateToProps = (state) => {
   return {
-    networkWeight: state.networkWeight,
-    weight: state.weight,
-    nextRewardIn: state.nextRewardIn
+    ...state.networkWeight,
+    electraJs: state.electraReducer
   }
 }
 
@@ -22,8 +21,17 @@ const mapDispatchToProps = (dispatch) => {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Header extends React.Component {
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getStakingInfo()
+    this.triggerFetchInfo()
+  }
+
+  // componentDidUpdate () {
+  //   console.log('did update')
+  //   this.triggerFetchInfo()
+  // }
+  triggerFetchInfo () {
+    setInterval(() => { this.props.getStakingInfo() }, 1000 * 5)
   }
   render () {
     const { networkWeight, weight, nextRewardIn } = this.props

@@ -17,6 +17,13 @@ export default function (state = initialState, action) {
         weight
       }
     }
+    case AN.FAILED_TO_RETRIEVE_STAKING_INFO: {
+      console.log('reachhhhhhhhhhh')
+      return {
+        ...state,
+        something: true
+      }
+    }
     default:
       return state
   }
