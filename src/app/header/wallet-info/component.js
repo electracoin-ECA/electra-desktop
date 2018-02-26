@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
 export default class WalletInfo extends React.Component {
   render () {
-    const {label, info} = this.props;
+    const {label, info} = this.props
     return (
       <div>
         <span>{label}</span>

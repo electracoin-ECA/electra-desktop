@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
+const Resource  = require('./electron-resource');
 
 let mainWindow;
 
@@ -42,6 +43,8 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+
+  mainWindow.Apis = Resource;
 }
 
 app.on('ready', createWindow);

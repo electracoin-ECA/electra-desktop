@@ -6,5 +6,13 @@
 </head>
 <body>
   <div id="root"></div>
+  <script>
+    window.ElectronWindow = {}
+    if (window.require) {
+      const electron = require('electron')
+      const electronWindow = electron.remote.getCurrentWindow()
+      window.ElectronWindow = electronWindow
+    }
+  </script>
 </body>
 </html>

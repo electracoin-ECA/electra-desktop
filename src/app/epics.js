@@ -1,9 +1,11 @@
-import * as _ from 'lodash';
+import * as _ from 'lodash'
+import { HeaderEpics } from './header'
+import { ElectraEpic } from './electra'
 
-const epcis = _.reduce(
-  [],
+const epics = _.reduce(
+  [HeaderEpics, ElectraEpic],
   (result, epic) => _.concat(result, _.values(epic)),
   []
 );
 
-export default epcis
+export default epics

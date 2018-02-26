@@ -1,3 +1,2 @@
-export function reducer (state = {x: 3}, action)  {
-  return state;
-}
+export { headerReducer } from './header'
+export { electraReducer } from './electra'
