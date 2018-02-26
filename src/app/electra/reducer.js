@@ -17,12 +17,12 @@ export default function electraReducer (state = initialState, action) {
         ...state
       }
     }
-    case ActionNames.HARD_WALLET_GENERATION_SUCCESS: {
+    case ActionNames.SUCCESSFULLY_GENERATED_HARD_WALLET: {
       return {
         ...state
       }
     }
-    case ActionNames.HARD_WALLET_GENERATION_FAIL: {
+    case ActionNames.FAILED_T0_GENERATE_HARD_WALLET: {
       return {
         ...state
       }

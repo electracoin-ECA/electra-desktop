@@ -7,7 +7,7 @@ import { getStakingInfo } from './actions'
 
 const mapStateToProps = (state) => {
   return {
-    ...state.networkWeight,
+    walletInfo: state.headerReducer,
     electraJs: state.electraReducer
   }
 }
@@ -22,15 +22,15 @@ const mapDispatchToProps = (dispatch) => {
 export default class Header extends React.Component {
 
   componentDidMount() {
-    this.tickStakingInfo()
+    this.triggerStakingInfo()
   }
 
-  tickStakingInfo = () => {
+  triggerStakingInfo = () => {
     setInterval(this.props.getStakingInfo, 1000 * 5)
   }
 
   render () {
-    const { networkWeight, weight, nextRewardIn } = this.props
+    const { networkWeight, weight, nextRewardIn } = this.props.walletInfo
     return (
       <div class='header-container'>
         <div class='logo'>

@@ -43,7 +43,6 @@ export function generateHDWallet(action$, store) {
         })
       })
       .catch(err => {
-        console.log(err)
         resolve({
           type: ActionNames.FAILED_T0_GENERATE_HARD_WALLET
         })
@@ -51,7 +50,6 @@ export function generateHDWallet(action$, store) {
     })
   })
   .catch(err => {
-    console.log(err)
     return Observable.of({
       type: ActionNames.FAILED_T0_GENERATE_HARD_WALLET
     })
