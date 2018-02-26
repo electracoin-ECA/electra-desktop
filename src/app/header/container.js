@@ -7,7 +7,7 @@ import { getStakingInfo } from './actions'
 
 const mapStateToProps = (state) => {
   return {
-    ...state.networkWeight,
+    walletInfo: state.headerReducer,
     electraJs: state.electraReducer
   }
 }
@@ -30,7 +30,7 @@ export default class Header extends React.Component {
   }
 
   render () {
-    const { networkWeight, weight, nextRewardIn } = this.props
+    const { networkWeight, weight, nextRewardIn } = this.props.walletInfo
     return (
       <div class='header-container'>
         <div class='logo'>

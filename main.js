@@ -1,7 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
-const Resource  = require('./electron-resource');
 
 let mainWindow;
 
@@ -13,7 +12,13 @@ if (process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) |
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1024, height: 768, show: false, frame: (process.env.NODE_ENV !== 'production')
+    width: 1024,
+    height: 768,
+    webPreferences: {
+      webSecurity: false
+    },
+    show: false,
+    frame: (process.env.NODE_ENV !== 'production')
   });
 
   let indexPath;
@@ -43,8 +48,6 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
-
-  mainWindow.Apis = Resource;
 }
 
 app.on('ready', createWindow);

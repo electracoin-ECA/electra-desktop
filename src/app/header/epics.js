@@ -22,6 +22,7 @@ export function getStakingInfo (action$, store) {
             })
           })
           .catch (err => {
+            console.log(err)
             resolve({
               type: ActionNames.FAILED_TO_RETRIEVE_STAKING_INFO
             })
