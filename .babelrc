@@ -1,0 +1,12 @@
+{
+  "presets": [
+    "es2015",
+    "stage-0",
+    "react"
+  ],
+  "plugins": [
+    "babel-plugin-transform-decorators-legacy",
+    "react-hot-loader/babel",
+    "react-html-attrs"
+  ]
+}
