@@ -5,3 +5,9 @@ export function initializeElectra () {
     type: ActionNames.INITIALIZE_ELECTRA
   }
 }
+
+export function generateHDWallt () {
+  return {
+    type: ActionNames.GENERATE_HARD_WALLET
+  }
+}

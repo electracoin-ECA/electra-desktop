@@ -11,7 +11,7 @@ export function getStakingInfo (action$, store) {
     .filter(electraJs => electraJs) // check if electraJs exists
     .map(electraJs =>  electraJs.wallet.getStakingInfo())
     .switchMap(promise => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         promise
           .then(data => {
             resolve({
