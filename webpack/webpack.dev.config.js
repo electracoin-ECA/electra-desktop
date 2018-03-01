@@ -16,12 +16,15 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js'
   },
+  resolve: {
+    extensions: ['.js', '.ts', '.tsx'],
+  },
   module: {
     rules: webpackRules
   },
   target: 'electron-renderer',
   plugins: webpackPlugins,
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'inline-source-map',
   devServer: {
     historyApiFallback: true,
     contentBase: configPaths.buildPath,
