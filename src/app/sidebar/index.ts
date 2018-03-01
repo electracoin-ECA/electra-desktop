@@ -1,1 +1,1 @@
-export * from './sidebar';
+export Sidebar from './container';

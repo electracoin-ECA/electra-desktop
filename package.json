@@ -73,9 +73,11 @@
     "webpack-dev-server": "^2.9.5"
   },
   "dependencies": {
-    "@types/react": "^16.0.38",
+    "@types/bitcoinjs-lib": "^3.3.1",
     "@types/react-dom": "^16.0.4",
     "@types/react-redux": "^5.0.15",
+    "@types/react-router-dom": "^4.2.4",
+    "@types/redux-logger": "^3.0.5",
     "browserslist": "^3.1.1",
     "classnames": "^2.2.5",
     "electra-js": "^0.1.1",
@@ -83,7 +85,6 @@
     "material-design-iconic-font": "^2.2.0",
     "moment": "^2.20.1",
     "npm-install-webpack-plugin": "^4.0.5",
-    "prop-types": "^15.6.0",
     "react": "^16.1.0",
     "react-dom": "^16.1.0",
     "react-hot-loader": "^3.1.2",

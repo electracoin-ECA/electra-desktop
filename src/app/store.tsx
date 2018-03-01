@@ -14,13 +14,13 @@ const epicMiddleWare = createEpicMiddleware(appEpics);
 const reduxMiddleWares = [];
 
 if (process.env.NODE_ENV !== 'production') {
-  reduxMiddleWares.push(logger)
+	reduxMiddleWares.push(logger)
 }
 reduxMiddleWares.push(epicMiddleWare);
 
 const store = createStore(
-  appReducer,
-  applyMiddleware(...reduxMiddleWares)
+	appReducer,
+	applyMiddleware(...reduxMiddleWares)
 );
 
 export default store;
