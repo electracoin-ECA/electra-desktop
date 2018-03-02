@@ -17,6 +17,9 @@ module.exports = {
   module: {
     rules: webpackRules
   },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js"]
+  },
   target: 'electron-renderer',
   plugins: webpackPlugins,
   devtool: 'cheap-source-map',

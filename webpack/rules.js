@@ -1,9 +1,18 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+const isProduction = process.argv.indexOf('-p') >= 0;
 const ConfigPath = require('./config.path');
 
 module.exports = [
+  {
+    test: /\.tsx?$/,
+    use: isProduction
+      ? 'awesome-typescript-loader?module=es6'
+      : [
+        'react-hot-loader/webpack',
+        'awesome-typescript-loader'
+      ]
+  },
   {
     test: /\.(css|scss)$/,
     use: ExtractTextPlugin.extract({

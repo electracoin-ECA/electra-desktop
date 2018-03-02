@@ -6,7 +6,7 @@ export function initializeElectra () {
   }
 }
 
-export function generateHDWallt () {
+export function generateHDWallet () {
   return {
     type: ActionNames.GENERATE_HARD_WALLET
   }
