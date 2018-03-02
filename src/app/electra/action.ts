@@ -1,12 +1,12 @@
 import * as ActionNames from './action-names'
 
-export function initializeElectra () {
+export function initializeElectra() {
   return {
     type: ActionNames.INITIALIZE_ELECTRA
   }
 }
 
-export function generateHDWallet () {
+export function generateHDWallet() {
   return {
     type: ActionNames.GENERATE_HARD_WALLET
   }
