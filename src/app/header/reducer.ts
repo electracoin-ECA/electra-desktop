@@ -6,7 +6,7 @@ const initialState = {
 	weight: null
 }
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action: any) {
 	switch (action.type) {
 		case ActionNames.RECEIVED_STAKING_INFO: {
 			const {networkWeight, nextRewardIn, weight} = action.payload

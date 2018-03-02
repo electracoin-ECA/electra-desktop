@@ -1,4 +1,6 @@
-export * as ElectraActionNames from './action-names'
-export * as ElectraActions from './actions'
-export electraReducer from './reducer'
-export * as ElectraEpic from './epic'
+import * as ElectraActionNames from './action-names'
+import * as ElectraActions from './action'
+import electraReducer from './reducer'
+import * as ElectraEpic from './epics'
+
+export { ElectraActionNames, ElectraActions, electraReducer, ElectraEpic }

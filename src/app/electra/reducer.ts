@@ -4,7 +4,7 @@ const initialState = {
 	electraJs: null
 }
 
-export default function electraReducer (state = initialState, action) {
+export default function electraReducer (state = initialState, action: any) {
 	switch (action.type) {
 		case ActionNames.INITIALIZE_ELECTRA_SUCCESS: {
 			return {

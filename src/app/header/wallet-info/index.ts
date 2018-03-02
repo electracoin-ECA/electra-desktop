@@ -1,1 +1,3 @@
-export WalletInfo from './component'
+import WalletInfo from './component'
+
+export { WalletInfo }

@@ -1,1 +1,3 @@
-export Overview from './container'
+import Overview from './container'
+
+export { Overview }

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
+const { connect } = require('react-redux');
 import {bindActionCreators} from 'redux'
 import { WalletInfo } from './wallet-info'
 import { getStakingInfo } from './actions'
@@ -11,7 +11,7 @@ const mapStateToProps = (state: any) => {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: any) => {
 	return bindActionCreators({
 		getStakingInfo
 	}, dispatch)
@@ -29,7 +29,7 @@ export default class Header extends React.Component<any, any> {
 	}
 
 	render () {
-		const { networkWeight, weight, nextRewardIn } = this.props.walletInfo
+		const { nextRewardIn } = this.props.walletInfo
 		return (
 			<div className='header-container'>
 				<div className='logo'>

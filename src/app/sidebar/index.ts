@@ -1,1 +1,3 @@
-export Sidebar from './container';
+import Sidebar from './container'
+
+export { Sidebar }
