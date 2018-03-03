@@ -1,26 +1,42 @@
+const moment = require('moment')
+
 export default class Utility {
-  public static formatNextRewardInValue (nextRewardIn: number): string {
-    let formatedNextRewardIn = nextRewardIn
+  /**
+   * Format seconds to either minutes, hours or days, depending the passed value
+   * If the passed value is less than 60 seconds it will return that value.
+   * If the passed value is less than an hour it will return the number of minutes
+   * If the passed value is less than a day, it will return the number of hours left
+   * Finally, if the number of seconds left is more than a day, it will return the number of days
+   */
+  public static formatSecondsToOther (nextRewardIn: number): string {
+    // constant
+    const SECONDS = 'seconds'
+    const minute = 60
+    const hour = 3600
+    const day = 86400
+
     if( nextRewardIn != null)
     {
-      if (nextRewardIn < 60 )
+      if (nextRewardIn < minute )
       {
-        return `${formatedNextRewardIn.toFixed(0)} second(s)`
+        return `${nextRewardIn} second(s)`
       }
-      else if (nextRewardIn < 60*60)
+      else if (nextRewardIn < hour)
       {
-        return `${(formatedNextRewardIn/60).toFixed(0)} minute(s)`
+        return `${(moment.duration(nextRewardIn, SECONDS).asMinutes()).toFixed(0)} minute(s)`
       }
-      else if (nextRewardIn < 24*60*60)
+      else if (nextRewardIn < day)
       {
-        return `${(formatedNextRewardIn/(60*60)).toFixed(0)} hour(s)`
+        return `${Number(moment.duration(nextRewardIn, SECONDS).asHours()).toFixed(0)} hour(s)`
       }
       else
       {
-        return `${(formatedNextRewardIn/(60*60*24)).toFixed(0)} day(s)`
+        return `${(moment.duration(nextRewardIn, SECONDS).asDays()).toFixed(0)} day(s)`
       }
-    } else {
-      return 'false'
+    }
+    else
+    {
+      return 'fetching ...'
     }
   }
 }
