@@ -1,7 +1,7 @@
-const { resolve } = require('path');
-const configPaths = require('./webpack/config.path');
-const webpackRules = require('./webpack/rules');
-const webpackPlugins = require('./webpack/plugins');
+const { resolve } = require('path')
+const configPaths = require('./config.path')
+const webpackRules = require('./rules')
+const webpackPlugins = require('./plugins')
 
 module.exports = {
   entry: configPaths.entry,
@@ -25,4 +25,4 @@ module.exports = {
     chunks: false,
     modules: false
   }
-};
+}

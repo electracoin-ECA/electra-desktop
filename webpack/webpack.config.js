@@ -1,11 +1,11 @@
-const { spawn } = require('child_process');
+const { spawn } = require('child_process')
 
 // Config directories
 
 
-const configPaths = require('./config.path');
-const webpackRules = require('./rules');
-const webpackPlugins = require('./plugins');
+const configPaths = require('./config.path')
+const webpackRules = require('./rules')
+const webpackPlugins = require('./plugins')
 
 module.exports = {
   entry: configPaths.entry,
@@ -38,7 +38,7 @@ module.exports = {
       )
       // eslint-disable-next-line no-unused-vars
         .on('close', code => process.exit(0))
-        .on('error', spawnError => console.error(spawnError));
+        .on('error', spawnError => console.error(spawnError))
     }
   }
-};
+}

@@ -1,5 +1,5 @@
 import * as React from 'react'
-const { connect } = require('react-redux');
+const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux'
 import { WalletInfo } from './wallet-info'
 import { getStakingInfo } from './actions'
@@ -34,14 +34,17 @@ export default class Header extends React.Component<any, any> {
   render() {
     const { nextRewardIn } = this.props.walletInfo
     return (
-      <div className='header-container'>
-        <div className='logo'>
-          <img src='https://cdn.discordapp.com/attachments/414963844587323392/416053920930988032/electra-logo.png'></img>
+      <div className='c-header'>
+        <div className='c-header__logo'>
+            <img src='assets/logo.svg'></img>
         </div>
-        <div className='wallet-info-container'>
+        <div className='c-header__content'>
           <WalletInfo label={'Active connections'} info={'294'} />
           <WalletInfo label={'Wallet is currently'} info={'Online'} />
           <WalletInfo label={'Days until staking reward'} info={Utility.formatSecondsToOther(nextRewardIn)} />
+        </div>
+        <div className='c-header__user'>
+            ((USER-CONTROL))
         </div>
       </div>
     )

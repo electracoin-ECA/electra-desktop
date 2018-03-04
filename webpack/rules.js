@@ -1,7 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const isProduction = process.argv.indexOf('-p') >= 0;
-const ConfigPath = require('./config.path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const ConfigPath = require('./config.path')
+
+const isProduction = process.argv.indexOf('-p') >= 0
 
 module.exports = [
   {
@@ -47,4 +48,4 @@ module.exports = [
     use: [{ loader: 'file-loader?name=font/[name]__[hash:base64:5].[ext]' }],
     include: ConfigPath.stylePaths
   }
-];
+]
