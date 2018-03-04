@@ -1,7 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const isProduction = process.argv.indexOf('-p') >= 0;
 const ConfigPath = require('./config.path');
+
+const isProduction = process.argv.indexOf('-p') >= 0;
 
 module.exports = [
   {

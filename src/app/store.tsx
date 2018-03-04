@@ -1,4 +1,4 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware, Store } from 'redux';
 import { createEpicMiddleware, combineEpics } from 'redux-observable';
 import logger from 'redux-logger';
 import * as _ from 'lodash';
@@ -18,7 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 reduxMiddleWares.push(epicMiddleWare);
 
-const store = createStore(
+const store: Store<any> = createStore(
   appReducer,
   applyMiddleware(...reduxMiddleWares)
 );
