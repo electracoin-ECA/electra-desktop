@@ -1,7 +1,7 @@
-import * as AN from './action-names'
+import * as ActionNames from './action-names'
 
 export function getStakingInfo() {
   return {
-    type: AN.GET_STAKING_INFO
+    type: ActionNames.GET_STAKING_INFO
   }
 }

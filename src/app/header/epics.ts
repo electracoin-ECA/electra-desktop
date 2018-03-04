@@ -16,7 +16,7 @@ export function getStakingInfo(action$: any, store: any) {
         promise
           .then((data: any) => {
             resolve({
-              type: ActionNames.RECEIVED_STAKING_INFO,
+              type: ActionNames.SUCCESSFULLY_RETRIEVED_STAKING_INFO,
               payload: {
                 ...data
               }

@@ -3,6 +3,7 @@ const { connect } = require('react-redux');
 import { bindActionCreators } from 'redux'
 import { WalletInfo } from './wallet-info'
 import { getStakingInfo } from './actions'
+import Utility from '../../utils/utility'
 
 const mapStateToProps = (state: any) => {
   return {
@@ -20,12 +21,14 @@ const mapDispatchToProps = (dispatch: any) => {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Header extends React.Component<any, any> {
 
-  componentDidMount() {
+  componentDidMount () {
     this.triggerStakingInfo()
   }
 
-  triggerStakingInfo = () => {
-    setInterval(() => { this.props.getStakingInfo() }, 1000 * 5)
+  triggerStakingInfo = () : void => {
+    setInterval(() => {
+      this.props.getStakingInfo()
+    }, 1000 * 5)
   }
 
   render() {
@@ -38,7 +41,7 @@ export default class Header extends React.Component<any, any> {
         <div className='wallet-info-container'>
           <WalletInfo label={'Active connections'} info={'294'} />
           <WalletInfo label={'Wallet is currently'} info={'Online'} />
-          <WalletInfo label={'Days until staking reward'} info={nextRewardIn} />
+          <WalletInfo label={'Days until staking reward'} info={Utility.formatSecondsToOther(nextRewardIn)} />
         </div>
       </div>
     )

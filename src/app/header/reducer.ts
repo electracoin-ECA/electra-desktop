@@ -8,7 +8,7 @@ const initialState = {
 
 export default function (state = initialState, action: any) {
   switch (action.type) {
-    case ActionNames.RECEIVED_STAKING_INFO: {
+    case ActionNames.SUCCESSFULLY_RETRIEVED_STAKING_INFO: {
       const { networkWeight, nextRewardIn, weight } = action.payload
       return {
         ...state,
@@ -20,7 +20,6 @@ export default function (state = initialState, action: any) {
     case ActionNames.FAILED_TO_RETRIEVE_STAKING_INFO: {
       return {
         ...state,
-        something: true
       }
     }
     default:

@@ -83,7 +83,7 @@
     "electra-js": "^0.1.1",
     "lodash": "^4.17.4",
     "material-design-iconic-font": "^2.2.0",
-    "moment": "^2.20.1",
+    "moment": "^2.21.0",
     "npm-install-webpack-plugin": "^4.0.5",
     "react": "^16.1.0",
     "react-dom": "^16.1.0",
