@@ -8,6 +8,6 @@ module.exports = {
   assets: path.resolve('src/assets/images'),
   indexTemplate: path.resolve('src/index.html'),
   stylePaths: [
-    path.resolve('static/styles')
+    path.resolve('src/app/styles')
   ]
 }
