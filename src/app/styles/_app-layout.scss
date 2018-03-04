@@ -1,0 +1,25 @@
+
+.c-app-layout {
+    @apply w-full h-full flex flex-col;
+
+    &__toolbar {
+        @apply w-full h-auto flex-none flex items-center;
+    }
+
+    &__container {
+        @apply flex w-full flex-grow;
+
+        > aside {
+            @apply w-auto flex-none;
+            @apply hidden;
+
+            @include mappy-bp(md) {
+                @apply block;
+            }
+        }
+
+        > main {
+            @apply flex-grow p-14 bg-grey-lightest;
+        }
+    }
+}

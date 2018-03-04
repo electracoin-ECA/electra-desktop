@@ -5,9 +5,9 @@ module.exports = {
   sourcePath: path.resolve('src'),
   buildPath: path.resolve('dist'),
   libraryPath: path.resolve('library'),
-  demo: path.resolve('demo'),
+  assets: path.resolve('src/assets/images'),
   indexTemplate: path.resolve('src/index.html'),
   stylePaths: [
-    path.resolve('src/app/styles')
+    path.resolve('static/styles')
   ]
 }
