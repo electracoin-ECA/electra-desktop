@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import * as React from 'react'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 const { connect } = require('react-redux')
 import { ElectraActions } from './electra'
 import { Header } from './header'
-import { Sidebar } from './sidebar';
+import { Sidebar } from './sidebar'
 import { Overview } from './overview'
 
-const Router = BrowserRouter;
+const Router = BrowserRouter
 
 const mapActionToProps = {
   initializeElectra: ElectraActions.initializeElectra,
@@ -39,6 +39,6 @@ export default class App extends React.Component<any, any> {
           </div>
         </div>
       </Router>
-    );
+    )
   }
 }

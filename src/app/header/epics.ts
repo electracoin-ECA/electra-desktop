@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable'
 import * as ActionNames from './action-names'
-import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/of'
 
 /**
  * TODO: If electraJs not exist try to reinitialize
