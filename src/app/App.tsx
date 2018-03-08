@@ -11,8 +11,8 @@ import { Sidebar } from './sidebar'
 import { Transactions } from './transactions'
 
 const mapActionToProps = {
-  initializeElectra: ElectraActions.initializeElectra,
-  generateHDWallet: ElectraActions.generateHDWallet
+  generateHDWallet: ElectraActions.generateHDWallet,
+  initializeElectra: ElectraActions.initializeElectra
 }
 
 @connect(null, mapActionToProps)

@@ -1,6 +1,6 @@
 import ElectraJs from 'electra-js'
 import * as ActionNames from './action-names'
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs'
 import { Store } from 'redux'
 
 // should be loaded from a file
