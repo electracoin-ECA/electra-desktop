@@ -8,24 +8,29 @@ export default class Utility {
    * If the passed value is less than a day, it will return the number of hours left
    * Finally, if the number of seconds left is more than a day, it will return the number of days
    */
-  public static formatSecondsToOther (nextRewardIn: number): string {
+  public static formatSecondsToOther(nextRewardIn: number): string {
     // constant
-    const SECONDS = 'seconds'
-    const minute = 60
-    const hour = 3600
-    const day = 86400
+    const DAYS: number= 86400
+    const HOURS: number = 3600
+    const FETCHING: string = 'fetching...'
+    const MINUTES: number = 60
+    const SECONDS: string = 'seconds'
 
-    if( nextRewardIn != null)
+    if(nextRewardIn !== null)
     {
-      if (nextRewardIn < minute )
+      if (nextRewardIn === -1)
+      {
+        return FETCHING
+      }
+      if (nextRewardIn < MINUTES)
       {
         return `${nextRewardIn} second(s)`
       }
-      else if (nextRewardIn < hour)
+      else if (nextRewardIn < HOURS)
       {
         return `${(moment.duration(nextRewardIn, SECONDS).asMinutes()).toFixed(0)} minute(s)`
       }
-      else if (nextRewardIn < day)
+      else if (nextRewardIn < DAYS)
       {
         return `${Number(moment.duration(nextRewardIn, SECONDS).asHours()).toFixed(0)} hour(s)`
       }
@@ -36,8 +41,7 @@ export default class Utility {
     }
     else
     {
-      return 'fetching ...'
+      return FETCHING
     }
   }
 }
-

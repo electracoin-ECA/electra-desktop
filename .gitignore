@@ -12,3 +12,6 @@ dist
 
 # vscode settings
 .vscode
+
+# build
+build/

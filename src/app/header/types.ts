@@ -1,0 +1,37 @@
+export interface HeaderState {
+  walletStakingInfo: WalletStakingInfo
+}
+
+export interface WalletStakingInfo {
+  networkWeight: number,
+  nextRewardIn: number,
+  staking: boolean,
+  weight: number
+}
+
+/**
+ * action types
+ */
+export type GET_STAKING_INFO = 'GET_STAKING_INFO'
+export type GET_STAKING_INFO_FAIL = 'GET_STAKING_INFO_FAIL'
+export type GET_STAKING_INFO_SUCCESS = 'GET_STAKING_INFO_SUCCESS'
+
+export interface GetStakingInfo {
+  type: GET_STAKING_INFO,
+  by?: string,
+  payload?: WalletStakingInfo
+}
+
+export interface GetStakingInfoFail {
+  type: GET_STAKING_INFO_FAIL,
+  by: string,
+  payload: WalletStakingInfo
+}
+
+export interface GetStakingInfoSuccess {
+  type: GET_STAKING_INFO_SUCCESS,
+  by: string,
+  payload: WalletStakingInfo
+}
+
+export type StakingActions = GetStakingInfo | GetStakingInfoFail | GetStakingInfoSuccess

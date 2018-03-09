@@ -1,10 +1,11 @@
 import * as ActionNames from './action-names'
+import { ElectraActions, ElectraState} from './types'
 
-const initialState = {
+const initialState: ElectraState = {
   electraJs: null
 }
 
-export default function electraReducer(state = initialState, action: any) {
+export default function electraReducer(state: ElectraState = initialState, action: ElectraActions): any {
   switch (action.type) {
     case ActionNames.INITIALIZE_ELECTRA_SUCCESS: {
       return {
@@ -17,12 +18,12 @@ export default function electraReducer(state = initialState, action: any) {
         ...state
       }
     }
-    case ActionNames.SUCCESSFULLY_GENERATED_HARD_WALLET: {
+    case ActionNames.GENERATE_HARD_WALLET_SUCCESS: {
       return {
         ...state
       }
     }
-    case ActionNames.FAILED_T0_GENERATE_HARD_WALLET: {
+    case ActionNames.GENERATED_HARD_WALLET_FAIL: {
       return {
         ...state
       }

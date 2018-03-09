@@ -1,15 +1,22 @@
 import * as ActionNames from './action-names'
+import { HeaderState,
+        StakingActions,
+        WalletStakingInfo } from './types'
 
-const initialState = {
-  networkWeight: null,
-  nextRewardIn: null,
-  weight: null
+const initialState: HeaderState = {
+  walletStakingInfo: {
+    networkWeight: -1,
+    nextRewardIn: -1,
+    staking: false,
+    weight: -1
+  }
 }
 
-export default function (state = initialState, action: any) {
+export default function(state: WalletStakingInfo = initialState.walletStakingInfo, action: StakingActions): any {
   switch (action.type) {
-    case ActionNames.SUCCESSFULLY_RETRIEVED_STAKING_INFO: {
+    case ActionNames.GET_STAKING_INFO_SUCCESS: {
       const { networkWeight, nextRewardIn, weight } = action.payload
+
       return {
         ...state,
         networkWeight,
@@ -17,12 +24,11 @@ export default function (state = initialState, action: any) {
         weight
       }
     }
-    case ActionNames.FAILED_TO_RETRIEVE_STAKING_INFO: {
+    case ActionNames.GET_STAKING_INFO_FAIL: {
       return {
         ...state,
       }
     }
-    default:
-      return state
+    default: return state
   }
 }

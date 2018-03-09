@@ -1,10 +1,13 @@
 import * as React from 'react'
-const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux'
-import { WalletInfo } from './wallet-info'
-import { getStakingInfo } from './actions'
 import Utility from '../../utils/utility'
+import { getStakingInfo } from './actions'
+import { WalletInfo } from './wallet-info'
 
+// tslint:disable-next-line:no-var-requires
+const { connect } = require('react-redux')
+
+// tslint:disable-next-line:interface-name
 const mapStateToProps = (state: any) => {
   return {
     walletInfo: state.headerReducer,
