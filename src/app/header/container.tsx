@@ -39,7 +39,10 @@ export default class Header extends React.Component<any, any> {
   // tslint:disable-next-line:typedef
   render() {
     const { walletStakingInfo } = this.props.walletInfo
-    const { nextRewardIn } = walletStakingInfo
+    const { nextRewardIn, networkWeight, weight, staking } = walletStakingInfo
+    const isOnline: string = staking ? 'Online' : 'offline'
+    const rowTwo: number = 2
+    const rowSix: number = 6
 
     return (
       <div className='c-header'>
@@ -47,14 +50,49 @@ export default class Header extends React.Component<any, any> {
             <img src='assets/logo.svg'></img>
         </div>
         <div className='c-header__content'>
-          <WalletInfo label={'Active connections'} info={'294'} />
-          <WalletInfo label={'Wallet is currently'} info={'Online'} />
-          <WalletInfo label={'Days until staking reward'} info={Utility.formatSecondsToOther(nextRewardIn)} />
+        <div className='c-wallet-info'>
+          <svg className='c-icon c-wallet-info__icon'>
+              <use xlinkHref='#info-circle' />
+          </svg>
+          <div className='c-card c-card--rounded-lg w-24 c-wallet-info__card'>
+              <div className='c-card__content'>
+                <div className='text-xs'>
+                  <div className='flex justify-center'>
+                      <h3>Wallet</h3>
+                      <h3 className='ml-10 text-purple'>Staking</h3>
+                  </div>
+                  <WalletInfo row={rowSix} label={'Staking wallet'} info={`Wallet is currently ${isOnline}`} />
+                  <WalletInfo row={rowTwo} label={'Your weight'} info={weight} />
+                  <WalletInfo
+                    row={rowTwo}
+                    label={'Network weight'}
+                    info={networkWeight}
+                  />
+                  <WalletInfo
+                    row={rowTwo}
+                    label={'Downloaded blocks'}
+                    info={'143521232'}
+                  />
+                  <WalletInfo
+                    row={rowTwo}
+                    label={'Last received block'}
+                    info={'143521232'}
+                  />
+                  <hr />
+                  <WalletInfo
+                    row={rowTwo}
+                    label={'Days until reward'}
+                    info={Utility.formatSecondsToOther(nextRewardIn)}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className='c-header__user'>
-            ((USER-CONTROL))
-        </div>
+      <div className='c-header__user'>
+          ((USER-CONTROL))
       </div>
+    </div>
     )
   }
 }

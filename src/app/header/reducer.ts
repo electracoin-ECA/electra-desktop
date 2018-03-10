@@ -13,12 +13,13 @@ const initialState: HeaderState = {
 export default function(state: HeaderState = initialState, action: StakingActions): any {
   switch (action.type) {
     case ActionNames.GET_STAKING_INFO_SUCCESS: {
-      const { networkWeight, nextRewardIn, weight } = action.payload
+      const { networkWeight, nextRewardIn, weight, staking } = action.payload
 
       return {
         walletStakingInfo: {
         networkWeight,
         nextRewardIn,
+        staking,
         weight
         }
       }
