@@ -1,41 +1,46 @@
 import * as React from 'react'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import Utility from '../../utils/utility'
 import { getStakingInfo } from './actions'
+import { DispatchProps, Props, State } from './types'
 import { WalletInfo } from './wallet-info'
 
 // tslint:disable-next-line:no-var-requires
 const { connect } = require('react-redux')
 
-// tslint:disable-next-line:interface-name
-const mapStateToProps = (state: any) => {
-  return {
-    walletInfo: state.headerReducer,
-    electraJs: state.electraReducer
-  }
-}
+// tslint:disable-next-line:typedef
+const mapStateToProps = (state: State): Props =>
+({
+  electra: state.electra,
+  walletInfo: state.header
+})
 
-const mapDispatchToProps = (dispatch: any) => {
-  return bindActionCreators({
-    getStakingInfo
-  }, dispatch)
-}
+// tslint:disable-next-line:typedef
+const mapDispatchToProps = (dispatch: Dispatch<State>): DispatchProps =>
+  bindActionCreators({
+  getStakingInfo
+// tslint:disable-next-line:align
+}, dispatch)
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Header extends React.Component<any, any> {
 
-  componentDidMount () {
+  // tslint:disable-next-line:typedef
+  componentDidMount() {
     this.triggerStakingInfo()
   }
 
   triggerStakingInfo = () : void => {
     setInterval(() => {
       this.props.getStakingInfo()
-    }, 1000 * 5)
+    // tslint:disable-next-line:no-magic-numbers
+    },          1000 * 5)
   }
-
+  // tslint:disable-next-line:typedef
   render() {
-    const { nextRewardIn } = this.props.walletInfo
+    const { walletStakingInfo } = this.props.walletInfo
+    const { nextRewardIn } = walletStakingInfo
+
     return (
       <div className='c-header'>
         <div className='c-header__logo'>

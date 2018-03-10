@@ -16,32 +16,25 @@ export default class Utility {
     const MINUTES: number = 60
     const SECONDS: string = 'seconds'
 
-    if(nextRewardIn !== null)
+    if (nextRewardIn === -1)
     {
-      if (nextRewardIn === -1)
-      {
-        return FETCHING
-      }
-      if (nextRewardIn < MINUTES)
-      {
-        return `${nextRewardIn} second(s)`
-      }
-      else if (nextRewardIn < HOURS)
-      {
-        return `${(moment.duration(nextRewardIn, SECONDS).asMinutes()).toFixed(0)} minute(s)`
-      }
-      else if (nextRewardIn < DAYS)
-      {
-        return `${Number(moment.duration(nextRewardIn, SECONDS).asHours()).toFixed(0)} hour(s)`
-      }
-      else
-      {
-        return `${(moment.duration(nextRewardIn, SECONDS).asDays()).toFixed(0)} day(s)`
-      }
+      return FETCHING
+    }
+    if (nextRewardIn < MINUTES)
+    {
+      return `${nextRewardIn} second(s)`
+    }
+    else if (nextRewardIn < HOURS)
+    {
+      return `${(moment.duration(nextRewardIn, SECONDS).asMinutes()).toFixed(0)} minute(s)`
+    }
+    else if (nextRewardIn < DAYS)
+    {
+      return `${Number(moment.duration(nextRewardIn, SECONDS).asHours()).toFixed(0)} hour(s)`
     }
     else
     {
-      return FETCHING
+      return `${(moment.duration(nextRewardIn, SECONDS).asDays()).toFixed(0)} day(s)`
     }
   }
 }

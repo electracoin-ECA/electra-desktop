@@ -10,25 +10,25 @@ import { StakingActions, WalletStakingInfo } from './types'
 
 export function getStakingInfo(action$: ActionsObservable<StakingActions>, store: any): any {
   return action$.ofType(ActionNames.GET_STAKING_INFO)
-    .map(() => store.getState().electraReducer.electraJs) // get electraJs object from the store
+    .map(() => store.getState().electra.electraJs) // get electraJs object from the store
     .filter((electraJs: any) => electraJs) // check if electraJs exists
     .map((electraJs: any) => electraJs.wallet.getStakingInfo())
     // tslint:disable-next-line:typedef
     .switchMap((promise: any) => new Promise((resolve) => {
-        promise
-          .then((data: WalletStakingInfo) => {
-            resolve({
-              payload: {
-                ...data
-              },
-              type: ActionNames.GET_STAKING_INFO_SUCCESS
-            })
+      promise
+        .then((data: WalletStakingInfo) => {
+          resolve({
+            payload: {
+              ...data
+            },
+            type: ActionNames.GET_STAKING_INFO_SUCCESS
           })
-          .catch((err: any) => {
-            resolve({
-              type: ActionNames.GET_STAKING_INFO_FAIL
-            })
+        })
+        .catch((err: any) => {
+          resolve({
+            type: ActionNames.GET_STAKING_INFO_FAIL
           })
+        })
       })
     )
     .catch((err: any) =>

@@ -1,3 +1,30 @@
+
+import { ElectraState } from '../electra/types'
+
+/**
+ * State
+ */
+
+ /**
+  * allowed states to be passed to the header feature
+  */
+export interface State {
+  header: HeaderState,
+  electra: ElectraState
+}
+
+/**
+ * return type of mapStateToProps
+ */
+export interface Props {
+  walletInfo: HeaderState,
+  electra: ElectraState
+}
+
+export interface DispatchProps {
+  getStakingInfo() : any
+}
+
 export interface HeaderState {
   walletStakingInfo: WalletStakingInfo
 }

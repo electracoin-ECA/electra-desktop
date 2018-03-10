@@ -15,3 +15,6 @@ dist
 
 # build
 build/
+
+# yarn build error
+yarn-error.log

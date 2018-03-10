@@ -37,7 +37,7 @@ export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra
 
 export function generateHDWallet(action$ : ActionsObservable<GenerateHD> , store: Store<any>): any {
   return action$.ofType(ActionNames.GENERATE_HARD_WALLET)
-  .map(() => store.getState().electraReducer.electraJs)
+  .map(() => store.getState().electra.electraJs)
   .filter((electraJs: any) => electraJs)
   .map((electraJs: any) => electraJs.wallet.generate()) // generate wallet
   .switchMap((promise: Promise<object>) =>
