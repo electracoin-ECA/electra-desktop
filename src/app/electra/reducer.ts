@@ -23,7 +23,7 @@ export default function electraReducer(state: ElectraState = initialState, actio
         ...state
       }
     }
-    case ActionNames.GENERATED_HARD_WALLET_FAIL: {
+    case ActionNames.GENERATE_HARD_WALLET_FAIL: {
       return {
         ...state
       }

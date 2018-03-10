@@ -11,6 +11,8 @@ import { Payments } from './payments'
 import { Sidebar } from './sidebar'
 import { Transactions } from './transactions'
 
+import { DispatchProps, Props} from '../app/header/types'
+
 // tslint:disable-next-line:typedef
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators({

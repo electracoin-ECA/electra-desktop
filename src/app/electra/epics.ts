@@ -51,12 +51,12 @@ export function generateHDWallet(action$ : ActionsObservable<GenerateHD> , store
       })
       .catch((err: any) => {
         resolve({
-          type: ActionNames.GENERATED_HARD_WALLET_FAIL
+          type: ActionNames.GENERATE_HARD_WALLET_FAIL
         })
       })
     }))
   .catch((err: any) =>
     Observable.of({
-      type: ActionNames.GENERATED_HARD_WALLET_FAIL
+      type: ActionNames.GENERATE_HARD_WALLET_FAIL
     }))
 }
