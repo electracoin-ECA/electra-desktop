@@ -1,22 +1,22 @@
 import * as React from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
-import Utility from '../../utils/utility'
+import Utility from '../../utils/common'
 import { getStakingInfo } from './actions'
-import { DispatchProps, Props, State } from './types'
+import { DispatchPropsPartial, State, State as PropsPartial } from './types'
 import { WalletInfo } from './wallet-info'
 
 // tslint:disable-next-line:no-var-requires
 const { connect } = require('react-redux')
 
 // tslint:disable-next-line:typedef
-const mapStateToProps = (state: State): Props =>
+const mapStateToProps = (state: State): PropsPartial =>
 ({
   electra: state.electra,
-  walletInfo: state.header
+  header: state.header
 })
 
 // tslint:disable-next-line:typedef
-const mapDispatchToProps = (dispatch: Dispatch<State>): DispatchProps =>
+const mapDispatchToProps = (dispatch: Dispatch<State>): DispatchPropsPartial =>
   bindActionCreators({
   getStakingInfo
 // tslint:disable-next-line:align
@@ -31,14 +31,17 @@ export default class Header extends React.Component<any, any> {
   }
 
   triggerStakingInfo = () : void => {
+    // tslint:disable-next-line:no-magic-numbers
+    const waitTimeInSeconds: number = 1000*5
     setInterval(() => {
       this.props.getStakingInfo()
-    // tslint:disable-next-line:no-magic-numbers
-    },          1000 * 5)
+    // tslint:disable-next-line:align
+    },waitTimeInSeconds)
   }
+
   // tslint:disable-next-line:typedef
   render() {
-    const { walletStakingInfo } = this.props.walletInfo
+    const { walletStakingInfo } = this.props.header
     const { nextRewardIn, networkWeight, weight, staking } = walletStakingInfo
     const isOnline: string = staking ? 'Online' : 'offline'
     const rowTwo: number = 2
@@ -58,15 +61,15 @@ export default class Header extends React.Component<any, any> {
               <div className='c-card__content'>
                 <div className='text-xs'>
                   <div className='flex justify-center'>
-                      <h3>Wallet</h3>
-                      <h3 className='ml-10 text-purple'>Staking</h3>
+                    <h3>Wallet</h3>
+                    <h3 className='ml-10 text-purple'>Staking</h3>
                   </div>
                   <WalletInfo row={rowSix} label={'Staking wallet'} info={`Wallet is currently ${isOnline}`} />
-                  <WalletInfo row={rowTwo} label={'Your weight'} info={weight} />
+                  <WalletInfo row={rowTwo} label={'Your weight'} info={`${weight}`} />
                   <WalletInfo
                     row={rowTwo}
                     label={'Network weight'}
-                    info={networkWeight}
+                    info={`${networkWeight}`}
                   />
                   <WalletInfo
                     row={rowTwo}
@@ -82,7 +85,7 @@ export default class Header extends React.Component<any, any> {
                   <WalletInfo
                     row={rowTwo}
                     label={'Days until reward'}
-                    info={Utility.formatSecondsToOther(nextRewardIn)}
+                    info={`${Utility.formatSecondsToOther(nextRewardIn)}`}
                   />
                 </div>
               </div>

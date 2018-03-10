@@ -3,10 +3,10 @@ import { HeaderState, StakingActions} from './types'
 
 const initialState: HeaderState = {
   walletStakingInfo: {
-    networkWeight: -1,
-    nextRewardIn: -1,
-    staking: false,
-    weight: -1
+    networkWeight: undefined,
+    nextRewardIn: undefined,
+    staking: undefined,
+    weight: undefined
   }
 }
 

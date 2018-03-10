@@ -12,9 +12,9 @@ export function getStakingInfo(action$: ActionsObservable<StakingActions>, store
   return action$.ofType(ActionNames.GET_STAKING_INFO)
     .map(() => store.getState().electra.electraJs) // get electraJs object from the store
     .filter((electraJs: any) => electraJs) // check if electraJs exists
-    .map((electraJs: any) => electraJs.wallet.getStakingInfo())
+    .map(async (electraJs: any) => electraJs.wallet.getStakingInfo())
     // tslint:disable-next-line:typedef
-    .switchMap((promise: any) => new Promise((resolve) => {
+    .switchMap(async (promise: any) => new Promise((resolve) => {
       promise
         .then((data: WalletStakingInfo) => {
           resolve({

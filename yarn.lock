@@ -3009,9 +3009,9 @@ ejs@^2.5.7:
   version "2.5.7"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.7.tgz#cc872c168880ae3c7189762fd5ffc00896c9518a"
 
-electra-js@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/electra-js/-/electra-js-0.2.0.tgz#7707d18933df515c17b80141f481aee0f6ef19b7"
+electra-js@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/electra-js/-/electra-js-0.3.0.tgz#77723cf030a1c34bb83ebcb8f0f33e8769b10cb1"
   dependencies:
     await-to-js "^2.0.1"
     axios "^0.17.1"

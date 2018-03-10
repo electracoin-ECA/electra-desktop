@@ -1,6 +1,6 @@
-import * as ElectraActionNames from './action-names'
 import * as ElectraActions from './action'
-import electraReducer from './reducer'
+import * as ElectraActionNames from './action-names'
 import * as ElectraEpic from './epics'
+import electraReducer from './reducer'
 
 export { ElectraActionNames, ElectraActions, electraReducer, ElectraEpic }

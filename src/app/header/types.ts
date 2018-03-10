@@ -1,10 +1,5 @@
 
 import { ElectraState } from '../electra/types'
-
-/**
- * State
- */
-
  /**
   * allowed states to be passed to the header feature
   */
@@ -13,20 +8,12 @@ export interface State {
   electra: ElectraState
 }
 
-/**
- * return type of mapStateToProps
- */
-export interface Props {
-  walletInfo: HeaderState,
-  electra: ElectraState
-}
-
 export interface DispatchProps {
-  getStakingInfo() : any
+  getStakingInfo(): GetStakingInfo
 }
 
 export interface HeaderState {
-  walletStakingInfo: WalletStakingInfo
+  walletStakingInfo: WalletStakingInfoPartial
 }
 
 export interface WalletStakingInfo {
@@ -35,6 +22,13 @@ export interface WalletStakingInfo {
   staking: boolean,
   weight: number
 }
+
+/**
+ * Partial objects
+ */
+export type WalletStakingInfoPartial = Partial<WalletStakingInfo>
+export type StatePartial = Partial<State>
+export type DispatchPropsPartial = Partial<DispatchProps>
 
 /**
  * action types

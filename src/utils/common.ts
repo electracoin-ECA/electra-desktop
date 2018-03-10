@@ -10,7 +10,7 @@ export default class Utility {
    * If the passed value is less than a day, it will return the number of hours left
    * Finally, if the number of seconds left is more than a day, it will return the number of days
    */
-  public static formatSecondsToOther(nextRewardIn: number): string {
+  public static formatSecondsToOther(nextRewardIn?: number): string {
     // constant
     const DAYS: number= 86400
     const HOURS: number = 3600
@@ -18,7 +18,7 @@ export default class Utility {
     const MINUTES: number = 60
     const SECONDS: string = 'seconds'
 
-    if (nextRewardIn === -1)
+    if (nextRewardIn === undefined || nextRewardIn === -1)
     {
       return FETCHING
     }

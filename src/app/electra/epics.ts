@@ -39,8 +39,9 @@ export function generateHDWallet(action$ : ActionsObservable<GenerateHD> , store
   return action$.ofType(ActionNames.GENERATE_HARD_WALLET)
   .map(() => store.getState().electra.electraJs)
   .filter((electraJs: any) => electraJs)
-  .map((electraJs: any) => electraJs.wallet.generate()) // generate wallet
-  .switchMap((promise: Promise<object>) =>
+  .map(async (electraJs: any) => electraJs.wallet.generate()) // generate wallet
+  // tslint:disable-next-line:typedef
+  .switchMap(async (promise) =>
     // tslint:disable-next-line:typedef
     new Promise((resolve) => {
       promise

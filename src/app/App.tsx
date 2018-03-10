@@ -19,6 +19,9 @@ const mapDispatchToProps = (dispatch: any) =>
   // tslint:disable-next-line:align
   }, dispatch)
 
+/**
+ * Point of entrance
+ */
 @connect(null, mapDispatchToProps)
 export default class App extends React.Component<any, any> {
   // tslint:disable-next-line:typedef
