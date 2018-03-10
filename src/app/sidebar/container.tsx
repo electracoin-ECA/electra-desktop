@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
 import '../../assets/images/icons/icon-sprite.svg'
+import { Icon } from '../icon'
 
 export default class Sidebar extends React.Component<any, any> {
 
@@ -14,33 +15,25 @@ export default class Sidebar extends React.Component<any, any> {
               <ul className='c-nav__items'>
                 <li>
                   <NavLink exact to='/'>
-                    <svg className='c-icon c-icon--size-xs'>
-                      <use xlinkHref='#home' />
-                    </svg>
+                    <Icon name="home" size="xs"></Icon>
                     Overview
                   </NavLink>
                 </li>
                 <li>
                   <NavLink to='/payments'>
-                    <svg className='c-icon c-icon--size-xs'>
-                          <use xlinkHref='#handshake' />
-                    </svg>
+                    <Icon name="handshake" size="xs"></Icon>
                     Payments
                   </NavLink>
                 </li>
                 <li>
                   <NavLink to='/transactions'>
-                    <svg className='c-icon c-icon--size-xs'>
-                        <use xlinkHref='#exchange-alt' />
-                    </svg>
+                    <Icon name="exchange-alt" size="xs"></Icon>
                     Transactions
                   </NavLink>
                 </li>
                 <li>
                   <NavLink to='/address_book'>
-                    <svg className='c-icon c-icon--size-xs'>
-                        <use xlinkHref='#address-book' />
-                    </svg>
+                    <Icon name="address-book" size="xs"></Icon>
                     Address book
                   </NavLink>
                 </li>
