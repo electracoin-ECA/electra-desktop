@@ -60,9 +60,8 @@ export default class Header extends React.Component<any, any> {
           <div className='c-card c-card--rounded-lg w-24 c-wallet-info__card'>
               <div className='c-card__content'>
                 <div className='text-xs'>
-                  <div className='flex justify-center'>
-                    <h3>Wallet</h3>
-                    <h3 className='ml-10 text-purple'>Staking</h3>
+                  <div className='flex justify-left'>
+                    <h3>Wallet Info</h3>
                   </div>
                   <WalletInfo row={rowSix} label={'Staking wallet'} info={`Wallet is currently ${isOnline}`} />
                   <WalletInfo row={rowTwo} label={'Your weight'} info={`${weight}`} />
