@@ -13,23 +13,16 @@ export interface DispatchProps {
 }
 
 export interface HeaderState {
-  walletStakingInfo: WalletStakingInfoPartial
+  walletStakingInfo: WalletStakingInfo
 }
 
 export interface WalletStakingInfo {
   // tslint:disable-next-line:no-magic-numbers
-  networkWeight: number,
-  nextRewardIn: number,
-  staking: boolean,
-  weight: number
+  networkWeight?: number,
+  nextRewardIn?: number,
+  staking?: boolean,
+  weight?: number
 }
-
-/**
- * Partial objects
- */
-export type WalletStakingInfoPartial = Partial<WalletStakingInfo>
-export type StatePartial = Partial<State>
-export type DispatchPropsPartial = Partial<DispatchProps>
 
 /**
  * action types

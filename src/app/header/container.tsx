@@ -3,29 +3,28 @@ import { bindActionCreators, Dispatch } from 'redux'
 import Utility from '../../utils/common'
 import { Icon } from '../icon'
 import { getStakingInfo } from './actions'
-import { DispatchPropsPartial, State, State as PropsPartial } from './types'
+import { DispatchProps, HeaderState, State, State as Props } from './types'
 import { WalletInfo } from './wallet-info'
 
 // tslint:disable-next-line:no-var-requires
 const { connect } = require('react-redux')
 
 // tslint:disable-next-line:typedef
-const mapStateToProps = (state: State): PropsPartial =>
+const mapStateToProps = (state: State): Props =>
 ({
   electra: state.electra,
   header: state.header
 })
 
 // tslint:disable-next-line:typedef
-const mapDispatchToProps = (dispatch: Dispatch<State>): DispatchPropsPartial =>
+const mapDispatchToProps = (dispatch: Dispatch<State>): DispatchProps =>
   bindActionCreators({
   getStakingInfo
 // tslint:disable-next-line:align
 }, dispatch)
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class Header extends React.Component<any, any> {
-
+export default class Header extends React.Component<Partial<Props & DispatchProps>, any> {
   // tslint:disable-next-line:typedef
   componentDidMount() {
     this.triggerStakingInfo()
@@ -35,14 +34,14 @@ export default class Header extends React.Component<any, any> {
     // tslint:disable-next-line:no-magic-numbers
     const waitTimeInSeconds: number = 1000*5
     setInterval(() => {
-      this.props.getStakingInfo()
+      (this.props as DispatchProps).getStakingInfo()
     // tslint:disable-next-line:align
     },waitTimeInSeconds)
   }
 
   // tslint:disable-next-line:typedef
   render() {
-    const { walletStakingInfo } = this.props.header
+    const { walletStakingInfo } = this.props.header as HeaderState
     const { nextRewardIn, networkWeight, weight, staking } = walletStakingInfo
     const isOnline: string = staking ? 'Online' : 'offline'
     const rowTwo: number = 2
