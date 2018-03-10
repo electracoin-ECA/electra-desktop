@@ -69,9 +69,13 @@ export interface GetConnectionsCountFail {
   type: GET_CONNECTIONS_COUNT_FAIL
 }
 
-export type HeaderActions =   GetStakingInfo
-                            | GetStakingInfoFail
-                            | GetStakingInfoSuccess
-                            | GetConnectionsCount
-                            | GetConnectionsCountSuccess
-                            | GetConnectionsCountFail
+export type StakingActions = GetStakingInfo |
+                            GetStakingInfoFail |
+                            GetStakingInfoSuccess
+
+export type ConnectionActions = GetConnectionsCount |
+                                GetConnectionsCountSuccess |
+                                GetConnectionsCountFail
+
+export type HeaderActions =   StakingActions |
+                              ConnectionActions
