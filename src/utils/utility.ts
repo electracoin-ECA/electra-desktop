@@ -1,5 +1,7 @@
+// tslint:disable-next-line:typedef
 const moment = require('moment')
 
+// tslint:disable-next-line:no-unnecessary-class
 export default class Utility {
   /**
    * Format seconds to either minutes, hours or days, depending the passed value
