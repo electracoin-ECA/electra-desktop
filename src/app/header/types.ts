@@ -17,6 +17,7 @@ export interface HeaderState {
 }
 
 export interface WalletStakingInfo {
+  // tslint:disable-next-line:no-magic-numbers
   networkWeight: number,
   nextRewardIn: number,
   staking: boolean,

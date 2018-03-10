@@ -15,25 +15,25 @@ export default class Sidebar extends React.Component<any, any> {
               <ul className='c-nav__items'>
                 <li>
                   <NavLink exact to='/'>
-                    <Icon name="home" size="xs"></Icon>
+                    <Icon name='home' size='xs'></Icon>
                     Overview
                   </NavLink>
                 </li>
                 <li>
                   <NavLink to='/payments'>
-                    <Icon name="handshake" size="xs"></Icon>
+                    <Icon name='handshake' size='xs'></Icon>
                     Payments
                   </NavLink>
                 </li>
                 <li>
                   <NavLink to='/transactions'>
-                    <Icon name="exchange-alt" size="xs"></Icon>
+                    <Icon name='exchange-alt' size='xs'></Icon>
                     Transactions
                   </NavLink>
                 </li>
                 <li>
                   <NavLink to='/address_book'>
-                    <Icon name="address-book" size="xs"></Icon>
+                    <Icon name='address-book' size='xs'></Icon>
                     Address book
                   </NavLink>
                 </li>

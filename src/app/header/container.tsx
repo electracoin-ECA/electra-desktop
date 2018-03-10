@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import Utility from '../../utils/common'
+import { Icon } from '../icon'
 import { getStakingInfo } from './actions'
 import { DispatchPropsPartial, State, State as PropsPartial } from './types'
 import { WalletInfo } from './wallet-info'
@@ -54,9 +55,7 @@ export default class Header extends React.Component<any, any> {
         </div>
         <div className='c-header__content'>
         <div className='c-wallet-info'>
-          <svg className='c-icon c-wallet-info__icon'>
-              <use xlinkHref='#info-circle' />
-          </svg>
+        <Icon name='info-circle' size='xs'></Icon>
           <div className='c-card c-card--rounded-lg w-24 c-wallet-info__card'>
               <div className='c-card__content'>
                 <div className='text-xs'>
