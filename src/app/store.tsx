@@ -1,17 +1,16 @@
-import { createStore, combineReducers, applyMiddleware, Store } from 'redux'
-import { createEpicMiddleware, combineEpics } from 'redux-observable'
-import logger from 'redux-logger'
 import * as _ from 'lodash'
-
-import * as reducers from './reducers'
+import { applyMiddleware, combineReducers, createStore, Store } from 'redux'
+import logger from 'redux-logger'
+import { combineEpics, createEpicMiddleware } from 'redux-observable'
 import epics from './epics'
+import * as reducers from './reducers'
 
-const appReducer = combineReducers({ ...reducers })
-const appEpics = combineEpics(..._.values(epics))
+const appReducer: any = combineReducers({ ...reducers })
+const appEpics: any = combineEpics(..._.values(epics))
 
-const epicMiddleWare = createEpicMiddleware(appEpics)
+const epicMiddleWare: any = createEpicMiddleware(appEpics)
 
-const reduxMiddleWares = []
+const reduxMiddleWares: any = []
 
 if (process.env.NODE_ENV !== 'production') {
   reduxMiddleWares.push(logger)

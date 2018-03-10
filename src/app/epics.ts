@@ -1,10 +1,10 @@
 import * as _ from 'lodash'
-import { HeaderEpics } from './header'
 import { ElectraEpic } from './electra'
+import { HeaderEpics } from './header'
 
-const epics = _.reduce(
-  [HeaderEpics, ElectraEpic],//[HeaderEpics, ElectraEpic],
-  (result, epic) => _.concat(result, _.values(epic)),
+const epics: any = _.reduce(
+  [HeaderEpics, ElectraEpic],
+  (result: any, epic: any) => _.concat(result, _.values(epic)),
   []
 )
 

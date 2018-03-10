@@ -12,3 +12,9 @@ dist
 
 # vscode settings
 .vscode
+
+# build
+build/
+
+# yarn build error
+yarn-error.log

@@ -1,2 +1,2 @@
-export { headerReducer } from './header'
-export { electraReducer } from './electra'
+export { headerReducer as header } from './header'
+export { electraReducer as electra } from './electra'
