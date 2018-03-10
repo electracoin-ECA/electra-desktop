@@ -31,15 +31,11 @@ const mapDispatchToProps = (dispatch: Dispatch<State>): DispatchProps =>
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Header extends React.Component<Partial<Props & DispatchProps>, any> {
-  public constructor(props: Props & DispatchProps) {
-    super(props)
-    // tslint:disable-next-line:no-magic-numbers
-  }
   public componentDidMount(): void {
     this.triggerIntervalFunction()
   }
 
-  triggerIntervalFunction = (): void => {
+  public triggerIntervalFunction = (): void => {
     // tslint:disable-next-line:no-magic-numbers
     setInterval(() => {
       const props:DispatchProps = this.props as DispatchProps
@@ -49,8 +45,7 @@ export default class Header extends React.Component<Partial<Props & DispatchProp
     }, waitTimeInSeconds)
   }
 
-  // tslint:disable-next-line:typedef
-  render() {
+  public render(): any {
     const { walletStakingInfo, connectionsCount } = this.props.header as HeaderState
     const { nextRewardIn, networkWeight, weight, staking } = walletStakingInfo
     const isOnline: string = staking ? 'Online' : 'offline'

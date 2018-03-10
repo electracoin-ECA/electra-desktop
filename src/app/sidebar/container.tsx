@@ -4,9 +4,7 @@ import '../../assets/images/icons/icon-sprite.svg'
 import { Icon } from '../icon'
 
 export default class Sidebar extends React.Component<any, any> {
-
-  // tslint:disable-next-line:typedef
-  render() {
+  public render(): any {
     return (
       <div className='c-sidebar'>
         <div className='c-sidebar__nav'>
