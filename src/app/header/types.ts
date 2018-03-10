@@ -9,10 +9,12 @@ export interface State {
 }
 
 export interface DispatchProps {
-  getStakingInfo(): GetStakingInfo
+  getStakingInfo(): GetStakingInfo,
+  getConnectionsCount(): GetConnectionsCount
 }
 
 export interface HeaderState {
+  connectionsCount?: number
   walletStakingInfo: WalletStakingInfo
 }
 
@@ -30,6 +32,10 @@ export interface WalletStakingInfo {
 export type GET_STAKING_INFO = 'GET_STAKING_INFO'
 export type GET_STAKING_INFO_FAIL = 'GET_STAKING_INFO_FAIL'
 export type GET_STAKING_INFO_SUCCESS = 'GET_STAKING_INFO_SUCCESS'
+
+export type GET_CONNECTIONS_COUNT = 'GET_CONNECTIONS_COUNT'
+export type GET_CONNECTIONS_COUNT_SUCCESS = 'GET_CONNECTIONS_COUNT_SUCCESS'
+export type GET_CONNECTIONS_COUNT_FAIL = 'GET_CONNECTIONS_COUNT_FAIL'
 
 export interface GetStakingInfo {
   type: GET_STAKING_INFO,
@@ -49,4 +55,27 @@ export interface GetStakingInfoSuccess {
   payload: WalletStakingInfo
 }
 
-export type StakingActions = GetStakingInfo | GetStakingInfoFail | GetStakingInfoSuccess
+export interface GetConnectionsCount {
+  type: GET_CONNECTIONS_COUNT
+}
+
+export interface GetConnectionsCountSuccess {
+  type: GET_CONNECTIONS_COUNT_SUCCESS,
+  by: string,
+  connectionsCount: number
+}
+
+export interface GetConnectionsCountFail {
+  type: GET_CONNECTIONS_COUNT_FAIL
+}
+
+export type StakingActions = GetStakingInfo |
+                            GetStakingInfoFail |
+                            GetStakingInfoSuccess
+
+export type ConnectionActions = GetConnectionsCount |
+                                GetConnectionsCountSuccess |
+                                GetConnectionsCountFail
+
+export type HeaderActions =   StakingActions |
+                              ConnectionActions

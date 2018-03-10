@@ -2,12 +2,17 @@ import * as React from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import Utility from '../../utils/common'
 import { Icon } from '../icon'
-import { getStakingInfo } from './actions'
+import { getConnectionsCount, getStakingInfo } from './actions'
 import { DispatchProps, HeaderState, State, State as Props } from './types'
 import { WalletInfo } from './wallet-info'
 
 // tslint:disable-next-line:no-var-requires
 const { connect } = require('react-redux')
+
+// tslint:disable-next-line:no-magic-numbers
+const waitTimeInSeconds: number = 1000 * 5
+const rowTwo: number = 2
+const rowSix: number = 6
 
 // tslint:disable-next-line:typedef
 const mapStateToProps = (state: State): Props =>
@@ -19,33 +24,36 @@ const mapStateToProps = (state: State): Props =>
 // tslint:disable-next-line:typedef
 const mapDispatchToProps = (dispatch: Dispatch<State>): DispatchProps =>
   bindActionCreators({
-  getStakingInfo
+    getConnectionsCount,
+    getStakingInfo
 // tslint:disable-next-line:align
 }, dispatch)
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Header extends React.Component<Partial<Props & DispatchProps>, any> {
-  // tslint:disable-next-line:typedef
-  componentDidMount() {
-    this.triggerStakingInfo()
+  public constructor(props: Props & DispatchProps) {
+    super(props)
+    // tslint:disable-next-line:no-magic-numbers
+  }
+  public componentDidMount(): void {
+    this.triggerIntervalFunction()
   }
 
-  triggerStakingInfo = () : void => {
+  triggerIntervalFunction = (): void => {
     // tslint:disable-next-line:no-magic-numbers
-    const waitTimeInSeconds: number = 1000*5
     setInterval(() => {
-      (this.props as DispatchProps).getStakingInfo()
+      const props:DispatchProps = this.props as DispatchProps
+      props.getStakingInfo()
+      props.getConnectionsCount()
     // tslint:disable-next-line:align
-    },waitTimeInSeconds)
+    }, waitTimeInSeconds)
   }
 
   // tslint:disable-next-line:typedef
   render() {
-    const { walletStakingInfo } = this.props.header as HeaderState
+    const { walletStakingInfo, connectionsCount } = this.props.header as HeaderState
     const { nextRewardIn, networkWeight, weight, staking } = walletStakingInfo
     const isOnline: string = staking ? 'Online' : 'offline'
-    const rowTwo: number = 2
-    const rowSix: number = 6
 
     return (
       <div className='c-header'>
@@ -78,11 +86,16 @@ export default class Header extends React.Component<Partial<Props & DispatchProp
                     label={'Last received block'}
                     info={'143521232'}
                   />
+                  <WalletInfo
+                    row={rowTwo}
+                    label={'Active Connections'}
+                    info={`${connectionsCount}`}
+                  />
                   <hr />
                   <WalletInfo
                     row={rowTwo}
                     label={'Days until reward'}
-                    info={`${Utility.formatSecondsToOther(nextRewardIn)}`}
+                    info={Utility.formatSecondsToOther(nextRewardIn)}
                   />
                 </div>
               </div>
