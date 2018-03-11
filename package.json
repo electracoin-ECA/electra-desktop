@@ -82,7 +82,7 @@
     "@types/redux-logger": "^3.0.5",
     "browserslist": "^3.1.1",
     "classnames": "^2.2.5",
-    "electra-js": "0.3.0",
+    "electra-js": "^0.3.1",
     "electron": "^1.8.2",
     "lodash": "^4.17.4",
     "material-design-iconic-font": "^2.2.0",
