@@ -62,7 +62,7 @@ export default class Header extends React.Component<Partial<Props & DispatchProp
         </div>
         <div className='c-header__content'>
         <div className='c-wallet-info'>
-        <Icon name='info-circle' size='xs'></Icon>
+        <Icon name='info-circle' size='l'></Icon>
           <div className='c-card c-card--rounded-lg w-24 c-wallet-info__card'>
               <div className='c-card__content'>
                 <div className='text-xs'>
