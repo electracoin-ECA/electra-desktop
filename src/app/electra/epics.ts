@@ -2,7 +2,8 @@ import ElectraJs from 'electra-js'
 import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs'
-import * as ActionNames from './action-names'
+import * as OverviewActionNames from './../overview/action-names'
+import * as ElectraActionNames from './action-names'
 import { Config, GenerateHD, InitialElectra } from './types'
 
 // should be loaded from a file
@@ -16,10 +17,10 @@ const config: Config = {
 }
 
 export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra> , store: Store<any>): any {
-  return action$.ofType(ActionNames.INITIALIZE_ELECTRA)
+  return action$.ofType(ElectraActionNames.INITIALIZE_ELECTRA)
     .map(() => new ElectraJs(config))
     .map((electraJs: any) => ({
-      type: ActionNames.INITIALIZE_ELECTRA_SUCCESS,
+      type: ElectraActionNames.INITIALIZE_ELECTRA_SUCCESS,
       // tslint:disable-next-line:object-literal-sort-keys
       payload: {
         electraJs
@@ -27,7 +28,7 @@ export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra
     }))
     // TODO: notify user to launch electra demon and rein
     .catch((error: Error) => Observable.of({
-      type: ActionNames.INITIALIZE_ELECTRA_FAIL,
+      type: ElectraActionNames.INITIALIZE_ELECTRA_FAIL,
       // tslint:disable-next-line:object-literal-sort-keys
       payload: {
         error: error.toString()
@@ -36,28 +37,21 @@ export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra
 }
 
 export function generateHDWallet(action$ : ActionsObservable<GenerateHD> , store: Store<any>): any {
-  return action$.ofType(ActionNames.GENERATE_HARD_WALLET)
+  return action$.ofType(ElectraActionNames.GENERATE_HARD_WALLET)
   .map(() => store.getState().electra.electraJs)
   .filter((electraJs: any) => electraJs)
   .map(async (electraJs: any) => electraJs.wallet.generate()) // generate wallet
-  // tslint:disable-next-line:typedef
-  .switchMap(async (promise) =>
-    // tslint:disable-next-line:typedef
-    new Promise((resolve) => {
-      promise
-      .then(() => {
-        resolve({
-          type: ActionNames.GENERATE_HARD_WALLET_SUCCESS
-        })
-      })
-      .catch((err: any) => {
-        resolve({
-          type: ActionNames.GENERATE_HARD_WALLET_FAIL
-        })
-      })
+  .mergeMap((promise: Promise<any>) =>
+    Observable
+    .fromPromise(promise)
+    .mergeMap(() =>
+      Observable.of(
+        { type: ElectraActionNames.GENERATE_HARD_WALLET_SUCCESS },
+        { type: OverviewActionNames.GET_GLOBAL_BALANCE }
+      )
+    )
+    .catch((error: Error) => Observable.of({
+      type: ElectraActionNames.GENERATE_HARD_WALLET_FAIL
     }))
-  .catch((err: any) =>
-    Observable.of({
-      type: ActionNames.GENERATE_HARD_WALLET_FAIL
-    }))
+  )
 }

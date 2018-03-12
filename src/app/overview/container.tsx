@@ -1,7 +1,20 @@
 import * as React from 'react'
-import { OverviewData } from './types'
+import { DispatchProps } from './types'
 
-export default class Overview extends React.Component<OverviewData, any> {
+const { connect } = require('react-redux')
+import { bindActionCreators, Dispatch } from 'redux'
+
+import { getGlobalBalance } from './actions'
+
+// tslint:disable-next-line:typedef
+const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
+  bindActionCreators({
+    getGlobalBalance
+// tslint:disable-next-line:align
+}, dispatch)
+
+@connect(null, mapDispatchToProps)
+export default class Overview extends React.Component {
   public render(): any {
     return (
       <div>Overview</div>
