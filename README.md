@@ -31,18 +31,18 @@ Electron wallet for **Electra** blockchain
 ├── src
 │   ├── app
 │   │   ├── App.tsx
-│   │   ├── addressBook
+│   │   ├── addressBook // Available addresses to which you can send
 │   │   │   ├── container.tsx
 │   │   │   └── index.ts
-│   │   ├── electra
+│   │   ├── electra // Configuration of electra-js library
 │   │   │   ├── action-names.ts
 │   │   │   ├── action.ts
 │   │   │   ├── epics.ts
 │   │   │   ├── index.ts
 │   │   │   ├── reducer.ts
 │   │   │   └── types.ts
-│   │   ├── epics.ts
-│   │   ├── header
+│   │   ├── epics.ts // All available epics
+│   │   ├── header // Wallet info and settings
 │   │   │   ├── action-names.ts
 │   │   │   ├── actions.ts
 │   │   │   ├── container.tsx
@@ -50,15 +50,15 @@ Electron wallet for **Electra** blockchain
 │   │   │   ├── index.ts
 │   │   │   ├── reducer.ts
 │   │   │   ├── types.ts
-│   │   │   └── wallet-info
+│   │   │   └── wallet-info // Wallet info component
 │   │   │       ├── component.tsx
 │   │   │       ├── index.ts
 │   │   │       └── types.ts
 │   │   ├── store.tsx
 │   │   ├── styles
-│   │   │   ├── fonts
+│   │   │   ├── fonts // Necessary fonts for development
 │   │   │   │   ├── montserrat-v12-latin-100.woff
-│   │   │   └── vendors
+│   │   │   └── vendors // css
 │   │   │       └── toolkit.css
 │   │   ├── styles.scss
 │   ├── assets
@@ -68,4 +68,23 @@ Electron wallet for **Electra** blockchain
 │   └── utils
 │       └── common.ts
 ```
-	Note: This may not be up to date and should only be used as a guide to how the files are structured.
+> Note: This may not be up to date and should only be used as a guide to how the files are structured.
+
+The project is structured by features. Each feature folder contains, the following files:
+
+- action-names.ts
+- actions.ts
+- container.tsx
+- epics.ts
+- index.ts
+- reducer.ts
+- types.ts
+- component (Optional)
+
+The following is how everything interacts:
+
+Container.tsx will dispatch an action. The action will return an action type. Afterwards either a function in the epics is going to pick and process that action type or a case in the it's reducer.
+
+```
+ container.tsx -> actions -> epics/reducers -> actions
+```
