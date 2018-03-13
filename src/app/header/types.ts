@@ -10,12 +10,14 @@ export interface State {
 
 export interface DispatchProps {
   getStakingInfo(): GetStakingInfo,
-  getConnectionsCount(): GetConnectionsCount
+  getConnectionsCount(): GetConnectionsCount,
+  getBlockCount(): GetBlockCount
 }
 
 export interface HeaderState {
   connectionsCount?: number
-  walletStakingInfo: WalletStakingInfo
+  walletStakingInfo: WalletStakingInfo,
+  blockCount?: number
 }
 
 export interface WalletStakingInfo {
@@ -55,8 +57,6 @@ export type StakingActions = GetStakingInfo |
                             GetStakingInfoSuccess
 
 export interface StakingInfoObservable { payload?: WalletStakingInfo, type: StakingInfoTypes }
-export type StakingResolve = (action: { payload?: WalletStakingInfo, type: StakingInfoTypes }) => void
-
 /**
  * Connection types and interfaces
  */
@@ -86,7 +86,31 @@ export type ConnectionActions = GetConnectionsCount |
                                 GetConnectionsCountFail
 
 export interface ConnectionCountObservable { payload?: number, type: ConnectionCountTypes }
-export type ConnectionCountResolve = (action: { payload?: number, type: ConnectionCountTypes }) => void
+
+/**
+ * Blocks types and interfaces
+ */
+export type GET_BLOCK_COUNT = 'GET_BLOCK_COUNT'
+export type GET_BLOCK_COUNT_SUCCESS = 'GET_BLOCK_COUNT_SUCCESS'
+export type GET_BLOCK_COUNT_FAIL = 'GET_BLOCK_COUNT_FAIL'
+
+export interface GetBlockCount {
+  type: GET_BLOCK_COUNT
+}
+
+export interface GetBlockCountSuccess {
+  type: GET_BLOCK_COUNT_SUCCESS,
+  payload: number
+}
+
+export interface GetBlockCountFail {
+  type: GET_BLOCK_COUNT_FAIL
+}
+
+export type BlockActions =  GetBlockCount |
+                            GetBlockCountSuccess |
+                            GetBlockCountFail
 
 export type HeaderActions =   StakingActions |
-                              ConnectionActions
+                              ConnectionActions |
+                              BlockActions
