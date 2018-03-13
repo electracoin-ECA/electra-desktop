@@ -2,6 +2,8 @@ import * as ActionNames from './action-names'
 import { OverviewActions, OverviewState } from './types'
 
 const initialState: OverviewState = {
+  currentPriceBTC: 0,
+  currentPriceUSD: 0,
   globalBalance: 0
 }
 
@@ -15,7 +17,29 @@ export default function overviewReducer(state: OverviewState = initialState, act
     }
     case ActionNames.GET_GLOBAL_BALANCE_FAIL: {
       return {
+        ...state
+      }
+    }
+    case ActionNames.GET_CURRENT_PRICE_USD_SUCCESS: {
+      return {
         ...state,
+        currentPriceUSD: action.currentPriceUSD
+      }
+    }
+    case ActionNames.GET_CURRENT_PRICE_USD_FAIL: {
+      return {
+        ...state
+      }
+    }
+    case ActionNames.GET_CURRENT_PRICE_BTC_SUCCESS: {
+      return {
+        ...state,
+        currentPriceBTC: action.currentPriceBTC
+      }
+    }
+    case ActionNames.GET_CURRENT_PRICE_BTC_FAIL: {
+      return {
+        ...state
       }
     }
     default: return state
