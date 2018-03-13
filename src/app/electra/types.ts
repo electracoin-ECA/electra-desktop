@@ -27,38 +27,27 @@ export type GENERATE_HARD_WALLET_FAIL = 'GENERATE_HARD_WALLET_FAIL'
 
 export interface InitialElectra {
   type: INITIALIZE_ELECTRA,
-  by?: string,
-  payload?: any
 }
 
 export interface InitializeElectraFail {
   type: INITIALIZE_ELECTRA_FAIL,
-  by?: string,
-  payload?: any
 }
 
 export interface InitializeElectraSuccess {
   type: INITIALIZE_ELECTRA_SUCCESS,
-  by?: string,
-  payload?: any
+  payload: any
 }
 
 export interface GenerateHD {
   type: GENERATE_HARD_WALLET,
-  by?: string,
-  payload?: any
 }
 
 export interface GenerateHDFail {
   type: GENERATE_HARD_WALLET_FAIL,
-  by?: string,
-  payload?: any
 }
 
 export interface GenerateHDSuccess {
   type: GENERATE_HARD_WALLET_SUCCESS,
-  by?: string,
-  payload?: any
 }
 
 export type ElectraActions = InitialElectra|
