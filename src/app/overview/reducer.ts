@@ -12,7 +12,7 @@ export default function overviewReducer(state: OverviewState = initialState, act
     case ActionNames.GET_GLOBAL_BALANCE_SUCCESS: {
       return {
         ...state,
-        globalBalance: action.globalBalance
+        globalBalance: action.payload
       }
     }
     case ActionNames.GET_GLOBAL_BALANCE_FAIL: {
@@ -23,7 +23,7 @@ export default function overviewReducer(state: OverviewState = initialState, act
     case ActionNames.GET_CURRENT_PRICE_USD_SUCCESS: {
       return {
         ...state,
-        currentPriceUSD: action.currentPriceUSD
+        currentPriceUSD: action.payload
       }
     }
     case ActionNames.GET_CURRENT_PRICE_USD_FAIL: {
@@ -34,7 +34,7 @@ export default function overviewReducer(state: OverviewState = initialState, act
     case ActionNames.GET_CURRENT_PRICE_BTC_SUCCESS: {
       return {
         ...state,
-        currentPriceBTC: action.currentPriceBTC
+        currentPriceBTC: action.payload
       }
     }
     case ActionNames.GET_CURRENT_PRICE_BTC_FAIL: {

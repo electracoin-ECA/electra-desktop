@@ -2,12 +2,12 @@ import * as ActionNames from './action-names'
 import { HeaderActions, HeaderState} from './types'
 
 const initialState: HeaderState = {
-  connectionsCount: undefined,
+  connectionsCount: 0,
   walletStakingInfo: {
-    networkWeight: undefined,
-    nextRewardIn: undefined,
-    staking: undefined,
-    weight: undefined
+    networkWeight: 0,
+    nextRewardIn: 0,
+    staking: false,
+    weight: 0
   }
 }
 
@@ -34,7 +34,7 @@ export default function(state: HeaderState = initialState, action: HeaderActions
     case ActionNames.GET_CONNECTIONS_COUNT_SUCCESS: {
       return {
         ...state,
-        connectionsCount: action.connectionsCount
+        connectionsCount: action.payload
       }
     }
     case ActionNames.GET_CONNECTIONS_COUNT_FAIL: {

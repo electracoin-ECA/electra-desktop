@@ -28,7 +28,7 @@ export default class Overview extends React.Component<Props &DispatchProps, any>
   }
 
   public render(): any {
-    const {  globalBalance, currentPriceBTC, currentPriceUSD }  = this.props.overview
+    const { globalBalance, currentPriceBTC, currentPriceUSD }  = this.props.overview
 
     return (
       <div>

@@ -38,7 +38,7 @@ export interface GetGlobalBalance {
 export interface GetGlobalBalanceSuccess {
     type: GET_GLOBAL_BALANCE_SUCCESS,
     by: string,
-    globalBalance: number
+    payload: number
 }
 
 export interface GetGlobalBalanceFail {
@@ -51,8 +51,8 @@ export interface GetCurrentPriceUSD {
 
 export interface GetCurrentPriceUSDSuccess {
     type: GET_CURRENT_PRICE_USD_SUCCESS,
-    by: string,
-    currentPriceUSD: number
+    by?: string,
+    payload?: number
 }
 
 export interface GetCurrentPriceUSDFail {
@@ -65,8 +65,8 @@ export interface GetCurrentPriceBTC {
 
 export interface GetCurrentPriceBTCSuccess {
     type: GET_CURRENT_PRICE_BTC_SUCCESS,
-    by: string,
-    currentPriceBTC: number
+    by?: string,
+    payload?: number
 }
 
 export interface GetCurrentPriceBTCFail {
@@ -83,6 +83,11 @@ export type CurrentPriceActions =   GetCurrentPriceUSD |
                                     GetCurrentPriceBTC |
                                     GetCurrentPriceBTCSuccess |
                                     GetCurrentPriceBTCFail
+export type BalanceTypes = GET_GLOBAL_BALANCE | GET_GLOBAL_BALANCE_FAIL | GET_GLOBAL_BALANCE_SUCCESS
+export type OtherBalanceTypes = GET_CURRENT_PRICE_BTC | GET_CURRENT_PRICE_BTC_FAIL | GET_CURRENT_PRICE_BTC_SUCCESS |
+                                GET_CURRENT_PRICE_USD | GET_CURRENT_PRICE_USD_FAIL | GET_CURRENT_PRICE_USD_SUCCESS
 
+export interface GlobalBalanceObservable { payload?: number, type: BalanceTypes }
+export interface GlobalBalanceOtherObservable { payload?: string, type: OtherBalanceTypes }
 export type OverviewActions =   GlobalBalanceActions |
                                 CurrentPriceActions
