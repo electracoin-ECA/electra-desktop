@@ -2,6 +2,7 @@ import * as ActionNames from './action-names'
 import { HeaderActions, HeaderState} from './types'
 
 const initialState: HeaderState = {
+  blockCount: 0,
   connectionsCount: 0,
   walletStakingInfo: {
     networkWeight: 0,
@@ -38,6 +39,17 @@ export default function(state: HeaderState = initialState, action: HeaderActions
       }
     }
     case ActionNames.GET_CONNECTIONS_COUNT_FAIL: {
+      return {
+        ...state,
+      }
+    }
+    case ActionNames.GET_BLOCK_COUNT_SUCCESS: {
+      return {
+        ...state,
+        blockCount: action.payload
+      }
+    }
+    case ActionNames.GET_BLOCK_COUNT_FAIL: {
       return {
         ...state,
       }

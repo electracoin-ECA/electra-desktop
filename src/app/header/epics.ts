@@ -3,10 +3,8 @@ import 'rxjs/add/observable/of'
 import { Observable } from 'rxjs/Observable'
 import * as ActionNames from './action-names'
 import { ConnectionCountObservable,
-        ConnectionCountResolve,
         HeaderActions,
         StakingInfoObservable,
-        StakingResolve,
         WalletStakingInfo } from './types'
 
 /**
@@ -19,54 +17,52 @@ Observable<StakingInfoObservable> {
     .map(() => store.getState().electra.electraJs) // get electraJs object from the store
     .filter((electraJs: any) => electraJs) // check if electraJs exists
     .map(async (electraJs: any) => electraJs.wallet.getStakingInfo())
-    .switchMap(async (promise: Promise<WalletStakingInfo>) =>
-    new Promise((resolve: StakingResolve): void => {
-      promise
-        .then((data: WalletStakingInfo) => {
-          resolve({
-            payload: {
-              ...data
-            },
-            type: ActionNames.GET_STAKING_INFO_SUCCESS
-          })
-        })
-        .catch((err: Error) => {
-          resolve({
-            type: ActionNames.GET_STAKING_INFO_FAIL
-          })
-        })
-    }))
-    .catch((err: Error) =>
-      Observable.of({
-        type: ActionNames.GET_STAKING_INFO_FAIL
-      }))
+    .mergeMap((promise: Promise<WalletStakingInfo>) =>
+      Observable
+        .fromPromise(promise)
+        .map((data: WalletStakingInfo) => ({
+          payload: { ...data },
+          type: ActionNames.GET_STAKING_INFO_SUCCESS
+        }))
+        .catch((error: Error) => Observable.of({
+          type: ActionNames.GET_STAKING_INFO_FAIL
+        }))
+    )
 }
 
 export function getConnectionsCount(action$: ActionsObservable<HeaderActions>, store: any):
 Observable<ConnectionCountObservable> {
   return action$.ofType(ActionNames.GET_CONNECTIONS_COUNT)
-    .map(() => store.getState().electra.electraJs) // get electraJs object from the store
-    .filter((electraJs: any) => electraJs) // check if electraJs exists
+    .map(() => store.getState().electra.electraJs)
+    .filter((electraJs: any) => electraJs)
     .map(async (electraJs: any) => electraJs.wallet.getConnectionsCount())
-    // tslint:disable-next-line:typedef
-    .switchMap(async (promise: Promise<number>) =>
-    new Promise((resolve: ConnectionCountResolve): void => {
-      promise
-        .then((connectionsCount: number) => {
-          resolve({
-              payload: connectionsCount,
-              type: ActionNames.GET_CONNECTIONS_COUNT_SUCCESS
-            }
-          )
-        })
-        .catch((err: any) => {
-          resolve({
-            type: ActionNames.GET_CONNECTIONS_COUNT_FAIL
-          })
-        })
-    }))
-    .catch((err: any) =>
-      Observable.of({
-        type: ActionNames.GET_CONNECTIONS_COUNT_FAIL
-      }))
+    .mergeMap((promise: Promise<number>) =>
+      Observable
+        .fromPromise(promise)
+        .map((connectionsCount: number) => ({
+          payload: connectionsCount,
+          type: ActionNames.GET_CONNECTIONS_COUNT_SUCCESS
+        }))
+        .catch((error: Error) => Observable.of({
+          type: ActionNames.GET_CONNECTIONS_COUNT_FAIL
+        }))
+    )
+}
+
+export function getBlockCount(action$: ActionsObservable<HeaderActions>, store: any): any {
+  return action$.ofType(ActionNames.GET_BLOCK_COUNT)
+    .map(() => store.getState().electra.electraJs)
+    .filter((electraJs: any) => electraJs)
+    .map(async (electraJs: any) => electraJs.wallet.getBlockCount())
+    .mergeMap((promise: Promise<number>) =>
+      Observable
+        .fromPromise(promise)
+        .map((blockCount: number) => ({
+          payload: blockCount,
+          type: ActionNames.GET_BLOCK_COUNT_SUCCESS
+        }))
+        .catch((error: Error) => Observable.of({
+          type: ActionNames.GET_BLOCK_COUNT_FAIL
+        }))
+    )
 }

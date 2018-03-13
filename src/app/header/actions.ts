@@ -1,5 +1,5 @@
 import * as ActionNames from './action-names'
-import { GetConnectionsCount, GetStakingInfo } from './types'
+import { GetBlockCount, GetConnectionsCount, GetStakingInfo } from './types'
 
 export function getStakingInfo(): GetStakingInfo {
   return {
@@ -10,5 +10,11 @@ export function getStakingInfo(): GetStakingInfo {
 export function getConnectionsCount(): GetConnectionsCount {
   return {
     type: ActionNames.GET_CONNECTIONS_COUNT
+  }
+}
+
+export function getBlockCount(): GetBlockCount {
+  return {
+    type: ActionNames.GET_BLOCK_COUNT
   }
 }
