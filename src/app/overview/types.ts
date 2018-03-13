@@ -1,3 +1,7 @@
+export interface State {
+  overview: OverviewState
+}
+
 export interface DispatchProps {
     getCurrentPriceInBTC(): GetCurrentPriceBTC,
     getCurrentPriceInUSD(): GetCurrentPriceUSD
