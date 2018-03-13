@@ -49,7 +49,7 @@ Observable<ConnectionCountObservable> {
     .filter((electraJs: any) => electraJs) // check if electraJs exists
     .map(async (electraJs: any) => electraJs.wallet.getConnectionsCount())
     // tslint:disable-next-line:typedef
-    .switchMap(async (promise: any) =>
+    .switchMap(async (promise: Promise<number>) =>
     new Promise((resolve: ConnectionCountResolve): void => {
       promise
         .then((connectionsCount: number) => {

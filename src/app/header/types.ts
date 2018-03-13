@@ -34,20 +34,15 @@ export type GET_STAKING_INFO_FAIL = 'GET_STAKING_INFO_FAIL'
 export type GET_STAKING_INFO_SUCCESS = 'GET_STAKING_INFO_SUCCESS'
 
 export interface GetStakingInfo {
-  type: GET_STAKING_INFO,
-  by?: string,
-  payload?: WalletStakingInfo
+  type: GET_STAKING_INFO
 }
 
 export interface GetStakingInfoFail {
-  type: GET_STAKING_INFO_FAIL,
-  by?: string,
-  payload?: WalletStakingInfo
+  type: GET_STAKING_INFO_FAIL
 }
 
 export interface GetStakingInfoSuccess {
   type: GET_STAKING_INFO_SUCCESS,
-  by?: string,
   payload: WalletStakingInfo
 }
 
@@ -75,7 +70,6 @@ export interface GetConnectionsCount {
 
 export interface GetConnectionsCountSuccess {
   type: GET_CONNECTIONS_COUNT_SUCCESS,
-  by: string,
   payload: number
 }
 
