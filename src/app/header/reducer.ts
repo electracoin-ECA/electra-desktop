@@ -7,6 +7,7 @@ const initialState: HeaderState = {
     isHD: false,
     isStaking: false,
     isSynchonized: false,
+    lastBlockGenTime: '',
     localBlockchainHeight: 0,
     localStakingWeight: 0,
     networkBlockchainHeight: 0,
@@ -18,7 +19,17 @@ const initialState: HeaderState = {
 export default function(state: HeaderState = initialState, action: HeaderActions): any {
   switch (action.type) {
     case ActionNames.GET_WALLET_INFO_SUCCESS: {
-      const { connectionsCount, isHD, isStaking, isSynchonized, localBlockchainHeight, localStakingWeight, networkBlockchainHeight, networkStakingWeight, nextStakingRewardIn } = action.payload
+      const {
+        connectionsCount,
+        isHD,
+        isStaking,
+        isSynchonized,
+        localBlockchainHeight,
+        localStakingWeight,
+        networkBlockchainHeight,
+        networkStakingWeight,
+        nextStakingRewardIn
+      } = action.payload
 
       return {
         ...state,
@@ -36,6 +47,17 @@ export default function(state: HeaderState = initialState, action: HeaderActions
       }
     }
     case ActionNames.GET_WALLET_INFO_FAIL: {
+      return {
+        ...state,
+      }
+    }
+    case ActionNames.GET_LAST_BLOCK_TIMESTAMP_SUCCESS: {
+      return {
+        ...state,
+        lastBlockGenTime: action.payload
+      }
+    }
+    case ActionNames.GET_LAST_BLOCK_TIMESTAMP_FAIL: {
       return {
         ...state,
       }
