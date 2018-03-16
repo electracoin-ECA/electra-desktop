@@ -4,7 +4,9 @@ import { DispatchProps, State, State as Props } from './types'
 const { connect } = require('react-redux')
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { getCurrentPriceInBTC, getCurrentPriceInUSD } from './actions'
+import { getCurrentPriceInBTC, getCurrentPriceInUSD, getGlobalBalance } from './actions'
+
+const waitTimeInSeconds: number = 1000 * 10
 
 // tslint:disable-next-line:typedef
 const mapStateToProps  = (state: State): Props =>
@@ -16,17 +18,26 @@ const mapStateToProps  = (state: State): Props =>
 const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
   bindActionCreators({
     getCurrentPriceInBTC,
-    getCurrentPriceInUSD
+    getCurrentPriceInUSD,
+    getGlobalBalance
 // tslint:disable-next-line:align
 }, dispatch)
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Overview extends React.Component<Props &DispatchProps, any> {
-  componentDidMount(): void {
-    this.props.getCurrentPriceInUSD()
-    this.props.getCurrentPriceInBTC()
+  public componentDidMount(): void {
+    this.triggerIntervalFunction()
   }
 
+  public triggerIntervalFunction = (): void => {
+    // tslint:disable-next-line:no-magic-numbers
+    setInterval(() => {
+      this.props.getCurrentPriceInUSD()
+      this.props.getCurrentPriceInBTC()
+      this.props.getGlobalBalance()
+    // tslint:disable-next-line:align
+    }, waitTimeInSeconds)
+  }
   public render(): any {
     const { globalBalance, currentPriceBTC, currentPriceUSD }  = this.props.overview
 

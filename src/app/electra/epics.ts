@@ -3,7 +3,8 @@ import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs'
 import * as ElectraActionNames from './action-names'
-// import * as OverviewActionsNames from './../overview/action-names'
+import * as OverviewActionsNames from './../overview/action-names'
+import { GetGlobalBalance } from './../overview/types'
 import { GenerateHD, InitialElectra, StartDaemon, StopDaemon } from './types'
 
 // should be loaded from a file

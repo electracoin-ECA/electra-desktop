@@ -10,7 +10,11 @@ import { Overview } from './overview'
 import { Payments } from './payments'
 import { Sidebar } from './sidebar'
 import { Transactions } from './transactions'
+import { ipcRenderer } from 'electron'
 
+const mapStateToProps = (state) => ({
+  electraJs: state.electra.electraJs
+})
 // tslint:disable-next-line:typedef
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators({
@@ -24,7 +28,8 @@ const mapDispatchToProps = (dispatch: any) =>
 /**
  * Point of entrance
  */
-@connect(null, mapDispatchToProps)
+
+@connect(mapStateToProps, mapDispatchToProps)
 export default class App extends React.Component<any, any> {
   // tslint:disable-next-line:typedef
   componentWillMount() {
@@ -35,9 +40,11 @@ export default class App extends React.Component<any, any> {
 
   componentWillUnmount() {
     // TODO: this currently doesn't stop the daemon
-    this.props.stopDaemon()
   }
-
+  onClick() {
+    console.log('asdasdasd', this.props.electraJs.wallet)
+    ipcRenderer.send('stop-daemon', this.props.electraJs.wallet)
+  }
   // tslint:disable-next-line:typedef
   render() {
     return (
@@ -49,6 +56,7 @@ export default class App extends React.Component<any, any> {
           <div className='c-app-layout__container'>
               <aside>
                 <Sidebar />
+                <button onClick={ () => this.onClick()} > Click Me to stop</button>
               </aside>
               <main>
                 <Switch>

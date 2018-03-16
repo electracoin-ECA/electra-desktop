@@ -3,6 +3,7 @@ import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs/Observable'
 import * as ActionNames from './action-names'
 import { GlobalBalanceObservable, GlobalBalanceOtherObservable, OverviewActions } from './types'
+import ElectraJs from 'electra-js';
 
 const MAX_DECIMAL_PLACES: number = 8
 const BTC: string = 'BTC'
@@ -12,7 +13,7 @@ export function getGlobalBalance(action$: ActionsObservable<OverviewActions>, st
     return action$.ofType(ActionNames.GET_GLOBAL_BALANCE)
       .map(() => store.getState().electra.electraJs)
       .filter((electraJs: any) => electraJs)
-      .map(async (electraJs: any) => electraJs.wallet.getBalance())
+      .map(async (electraJs: ElectraJs) => electraJs.wallet.getBalance())
       .mergeMap((promise: Promise<number>) =>
       Observable
       .fromPromise(promise)
@@ -20,10 +21,12 @@ export function getGlobalBalance(action$: ActionsObservable<OverviewActions>, st
         payload: globalBalance,
         type: ActionNames.GET_GLOBAL_BALANCE_SUCCESS
       }))
-      .catch((error: Error) => Observable.of({
+      .catch((error: Error) => {
+        console.log(error.message)
+        return Observable.of({
         type: ActionNames.GET_GLOBAL_BALANCE_FAIL
       })
-    )
+      })
   )
 }
 
@@ -32,7 +35,7 @@ export function getCurrentPriceUSD(action$: ActionsObservable<OverviewActions>, 
     return action$.ofType(ActionNames.GET_CURRENT_PRICE_USD)
     .map(() => store.getState().electra.electraJs)
     .filter((electraJs: any) => electraJs)
-    .map(async (electraJs: any) => electraJs.webServices.getCurrentPriceIn())
+    .map(async (electraJs: ElectraJs) => electraJs.webServices.getCurrentPriceIn())
     .mergeMap((promise: Promise<number>) =>
       Observable
         .fromPromise(promise)
@@ -52,7 +55,7 @@ export function getCurrentPriceBTC(action$: ActionsObservable<OverviewActions>, 
     return action$.ofType(ActionNames.GET_CURRENT_PRICE_BTC)
     .map(() => store.getState().electra.electraJs)
     .filter((electraJs: any) => electraJs)
-    .map(async (electraJs: any) => electraJs.webServices.getCurrentPriceIn(BTC))
+    .map(async (electraJs: ElectraJs) => electraJs.webServices.getCurrentPriceIn(BTC))
     .mergeMap((promise: Promise<number>) =>
       Observable
         .fromPromise(promise)

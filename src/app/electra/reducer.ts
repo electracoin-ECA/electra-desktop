@@ -28,10 +28,10 @@ export default function electraReducer(state: ElectraState = initialState, actio
     case ActionNames.GENERATE_HARD_WALLET_FAIL: {
       return {...state}
     }
-    case ActionNames.STOP_DAEMON_SUCCESS: {
+    case ActionNames.START_DAEMON_SUCCESS: {
       return {...state}
     }
-    case ActionNames.STOP_DAEMON_FAIL: {
+    case ActionNames.START_DAEMON_FAIL: {
       return {...state}
     }
     default: return state
