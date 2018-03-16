@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { PropsPartial } from './types'
 
-export default class WalletInfo extends React.Component<PropsPartial, any> {
+export default class WalletInfoComponent extends React.Component<PropsPartial, any> {
   // tslint:disable-next-line:typedef
   render() {
     const { label, info, row } = this.props

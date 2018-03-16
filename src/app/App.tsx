@@ -15,7 +15,9 @@ import { Transactions } from './transactions'
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators({
     startDaemon:ElectraActions.startDaemon,
-    initializeElectra: ElectraActions.initializeElectra
+    initializeElectra: ElectraActions.initializeElectra,
+    generateHDWallet: ElectraActions.generateHDWallet,
+    stopDaemon: ElectraActions.stopDaemon
   // tslint:disable-next-line:align
   }, dispatch)
 
@@ -28,6 +30,12 @@ export default class App extends React.Component<any, any> {
   componentWillMount() {
     this.props.initializeElectra() // initialize electraJs object
     this.props.startDaemon() // generate HD wallet
+    this.props.generateHDWallet()
+  }
+
+  componentWillUnmount() {
+    // TODO: this currently doesn't stop the daemon
+    this.props.stopDaemon()
   }
 
   // tslint:disable-next-line:typedef

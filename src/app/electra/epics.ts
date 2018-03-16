@@ -4,7 +4,7 @@ import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs'
 import * as ElectraActionNames from './action-names'
 // import * as OverviewActionsNames from './../overview/action-names'
-import { GenerateHD, InitialElectra, StartDaemon } from './types'
+import { GenerateHD, InitialElectra, StartDaemon, StopDaemon } from './types'
 
 // should be loaded from a file
 const config: any = {
@@ -70,6 +70,27 @@ export function generateHD(action$ : ActionsObservable<GenerateHD> , store: Stor
       console.log(error.message)
       return Observable.of({
       type: ElectraActionNames.GENERATE_HARD_WALLET_FAIL
+    })})
+  )
+}
+
+export function stopDaemon(action$ : ActionsObservable<StopDaemon> , store: Store<any>): any {
+  return action$.ofType(ElectraActionNames.STOP_DAEMON)
+  .map(() => store.getState().electra.electraJs)
+  .filter((electraJs: any) => electraJs)
+  .map(async (electraJs: ElectraJs) => electraJs.wallet.stopDeamon()) 
+  .mergeMap((promise: Promise<any>) =>
+    Observable
+    .fromPromise(promise)
+    .mergeMap(() =>
+      Observable.of(
+        { type: ElectraActionNames.STOP_DAEMON_SUCCESS }
+      )
+    )
+    .catch((error: Error) => {
+      console.log(error.message)
+      return Observable.of({
+      type: ElectraActionNames.STOP_DAEMON_FAIL
     })})
   )
 }

@@ -1,4 +1,5 @@
 
+
 export interface ElectraState {
   electraJs: any
 }
@@ -76,6 +77,26 @@ export interface StartDaemonSuccess {
   type: START_DAEMON_SUCCESS
 }
 
+/**
+ * STOP daemon
+ */
+
+export type STOP_DAEMON = 'STOP_DAEMON'
+export type STOP_DAEMON_FAIL = 'STOP_DAEMON_FAIL'
+export type STOP_DAEMON_SUCCESS = 'STOP_DAEMON_SUCCESS'
+
+export interface StopDaemon {
+  type: STOP_DAEMON
+}
+
+export interface StopDaemonFail {
+  type: STOP_DAEMON_FAIL
+}
+
+export interface StopDaemonSuccess {
+  type: STOP_DAEMON_SUCCESS
+}
+
 export type ElectraActions = InitialElectra|
                             InitializeElectraFail|
                             InitializeElectraSuccess |
@@ -84,4 +105,7 @@ export type ElectraActions = InitialElectra|
                             GenerateHDSuccess |
                             StartDaemon |
                             StartDaemonFail |
-                            StartDaemonSuccess
+                            StartDaemonSuccess |
+                            StopDaemon |
+                            StopDaemonFail |
+                            StopDaemonSuccess

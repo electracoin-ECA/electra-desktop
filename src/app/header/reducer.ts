@@ -1,55 +1,41 @@
 import * as ActionNames from './action-names'
-import { HeaderActions, HeaderState} from './types'
+import { HeaderActions, HeaderState } from './types'
 
 const initialState: HeaderState = {
-  blockCount: 0,
-  connectionsCount: 0,
-  walletStakingInfo: {
-    networkWeight: 0,
-    nextRewardIn: 0,
-    staking: false,
-    weight: 0
+  walletInfo: {
+    connectionsCount: 0,
+    isHD: false,
+    isStaking: false,
+    isSynchonized: false,
+    localBlockchainHeight: 0,
+    localStakingWeight: 0,
+    networkBlockchainHeight: 0,
+    networkStakingWeight: 0,
+    nextStakingRewardIn: 0
   }
 }
 
 export default function(state: HeaderState = initialState, action: HeaderActions): any {
   switch (action.type) {
-    case ActionNames.GET_STAKING_INFO_SUCCESS: {
-      const { networkWeight, nextRewardIn, weight, staking } = action.payload
+    case ActionNames.GET_WALLET_INFO_SUCCESS: {
+      const { connectionsCount, isHD, isStaking, isSynchonized, localBlockchainHeight, localStakingWeight, networkBlockchainHeight, networkStakingWeight, nextStakingRewardIn } = action.payload
 
       return {
         ...state,
-        walletStakingInfo: {
-          networkWeight,
-          nextRewardIn,
-          staking,
-          weight
+        walletInfo: {
+          connectionsCount,
+          isHD,
+          isStaking,
+          isSynchonized,
+          localBlockchainHeight,
+          localStakingWeight,
+          networkBlockchainHeight,
+          networkStakingWeight,
+          nextStakingRewardIn
         }
       }
     }
-    case ActionNames.GET_STAKING_INFO_FAIL: {
-      return {
-        ...state,
-      }
-    }
-    case ActionNames.GET_CONNECTIONS_COUNT_SUCCESS: {
-      return {
-        ...state,
-        connectionsCount: action.payload
-      }
-    }
-    case ActionNames.GET_CONNECTIONS_COUNT_FAIL: {
-      return {
-        ...state,
-      }
-    }
-    case ActionNames.GET_BLOCK_COUNT_SUCCESS: {
-      return {
-        ...state,
-        blockCount: action.payload
-      }
-    }
-    case ActionNames.GET_BLOCK_COUNT_FAIL: {
+    case ActionNames.GET_WALLET_INFO_FAIL: {
       return {
         ...state,
       }
