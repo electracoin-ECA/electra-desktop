@@ -24,9 +24,11 @@ Observable<StakingInfoObservable> {
           payload: { ...data },
           type: ActionNames.GET_STAKING_INFO_SUCCESS
         }))
-        .catch((error: Error) => Observable.of({
+        .catch((error: Error) => {
+          console.log(error.message)
+          return Observable.of({
           type: ActionNames.GET_STAKING_INFO_FAIL
-        }))
+        })})
     )
 }
 
@@ -61,8 +63,10 @@ export function getBlockCount(action$: ActionsObservable<HeaderActions>, store: 
           payload: blockCount,
           type: ActionNames.GET_BLOCK_COUNT_SUCCESS
         }))
-        .catch((error: Error) => Observable.of({
+        .catch((error: Error) => {
+          console.log(error.message)
+          return Observable.of({
           type: ActionNames.GET_BLOCK_COUNT_FAIL
-        }))
+        })})
     )
 }

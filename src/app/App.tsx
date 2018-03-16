@@ -14,7 +14,7 @@ import { Transactions } from './transactions'
 // tslint:disable-next-line:typedef
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators({
-    generateHDWallet:ElectraActions.generateHDWallet,
+    startDaemon:ElectraActions.startDaemon,
     initializeElectra: ElectraActions.initializeElectra
   // tslint:disable-next-line:align
   }, dispatch)
@@ -27,7 +27,7 @@ export default class App extends React.Component<any, any> {
   // tslint:disable-next-line:typedef
   componentWillMount() {
     this.props.initializeElectra() // initialize electraJs object
-    this.props.generateHDWallet() // generate HD wallet
+    this.props.startDaemon() // generate HD wallet
   }
 
   // tslint:disable-next-line:typedef

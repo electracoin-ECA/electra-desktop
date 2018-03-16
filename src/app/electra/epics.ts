@@ -2,18 +2,13 @@ import ElectraJs from 'electra-js'
 import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs'
-import * as OverviewActionNames from './../overview/action-names'
 import * as ElectraActionNames from './action-names'
-import { Config, GenerateHD, InitialElectra } from './types'
+// import * as OverviewActionsNames from './../overview/action-names'
+import { GenerateHD, InitialElectra, StartDaemon } from './types'
 
 // should be loaded from a file
-const config: Config = {
-  rpcServerAuth: {
-    username: 'user',
-    // tslint:disable-next-line:object-literal-sort-keys
-    password: 'pass'
-  },
-  rpcServerUri: 'http://127.0.0.1:5788'
+const config: any = {
+  isHard: true
 }
 
 export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra> , store: Store<any>): any {
@@ -36,7 +31,30 @@ export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra
     }))
 }
 
-export function generateHDWallet(action$ : ActionsObservable<GenerateHD> , store: Store<any>): any {
+export function startDaemon(action$ : ActionsObservable<StartDaemon> , store: Store<any>): any {
+  return action$.ofType(ElectraActionNames.START_DAEMON)
+  .map(() => store.getState().electra.electraJs)
+  .filter((electraJs: any) => electraJs)
+  .map(async (electraJs: any) => electraJs.wallet.startDeamon()) // generate wallet
+  .mergeMap((promise: Promise<any>) =>
+    Observable
+    .fromPromise(promise)
+    .mergeMap(() =>
+      Observable.of(
+        { type: ElectraActionNames.START_DAEMON_SUCCESS },
+        { type: ElectraActionNames.GENERATE_HARD_WALLET }
+      )
+    )
+    .catch((error: Error) => {
+      console.log(error.message)
+      return Observable.of({
+      type: ElectraActionNames.START_DAEMON_FAIL
+    })})
+  )
+}
+
+
+export function generateHD(action$ : ActionsObservable<GenerateHD> , store: Store<any>): any {
   return action$.ofType(ElectraActionNames.GENERATE_HARD_WALLET)
   .map(() => store.getState().electra.electraJs)
   .filter((electraJs: any) => electraJs)
@@ -47,11 +65,12 @@ export function generateHDWallet(action$ : ActionsObservable<GenerateHD> , store
     .mergeMap(() =>
       Observable.of(
         { type: ElectraActionNames.GENERATE_HARD_WALLET_SUCCESS },
-        { type: OverviewActionNames.GET_GLOBAL_BALANCE }
       )
     )
-    .catch((error: Error) => Observable.of({
+    .catch((error: Error) => {
+      console.log(error.message)
+      return Observable.of({
       type: ElectraActionNames.GENERATE_HARD_WALLET_FAIL
-    }))
+    })})
   )
 }
