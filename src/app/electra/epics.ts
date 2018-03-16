@@ -14,7 +14,7 @@ const config: any = {
 export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra> , store: Store<any>): any {
   return action$.ofType(ElectraActionNames.INITIALIZE_ELECTRA)
     .map(() => new ElectraJs(config))
-    .map((electraJs: any) => ({
+    .map((electraJs: ElectraJs) => ({
       type: ElectraActionNames.INITIALIZE_ELECTRA_SUCCESS,
       // tslint:disable-next-line:object-literal-sort-keys
       payload: {
@@ -35,14 +35,13 @@ export function startDaemon(action$ : ActionsObservable<StartDaemon> , store: St
   return action$.ofType(ElectraActionNames.START_DAEMON)
   .map(() => store.getState().electra.electraJs)
   .filter((electraJs: any) => electraJs)
-  .map(async (electraJs: any) => electraJs.wallet.startDeamon()) // generate wallet
+  .map(async (electraJs: ElectraJs) => electraJs.wallet.startDeamon()) 
   .mergeMap((promise: Promise<any>) =>
     Observable
     .fromPromise(promise)
     .mergeMap(() =>
       Observable.of(
-        { type: ElectraActionNames.START_DAEMON_SUCCESS },
-        { type: ElectraActionNames.GENERATE_HARD_WALLET }
+        { type: ElectraActionNames.START_DAEMON_SUCCESS }
       )
     )
     .catch((error: Error) => {
@@ -58,7 +57,7 @@ export function generateHD(action$ : ActionsObservable<GenerateHD> , store: Stor
   return action$.ofType(ElectraActionNames.GENERATE_HARD_WALLET)
   .map(() => store.getState().electra.electraJs)
   .filter((electraJs: any) => electraJs)
-  .map(async (electraJs: any) => electraJs.wallet.generate()) // generate wallet
+  .map(async (electraJs: ElectraJs) => electraJs.wallet.generate()) // generate wallet
   .mergeMap((promise: Promise<any>) =>
     Observable
     .fromPromise(promise)
