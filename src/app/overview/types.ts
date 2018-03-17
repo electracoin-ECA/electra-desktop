@@ -4,7 +4,8 @@ export interface State {
 
 export interface DispatchProps {
     getCurrentPriceInBTC(): GetCurrentPriceBTC,
-    getCurrentPriceInUSD(): GetCurrentPriceUSD
+    getCurrentPriceInUSD(): GetCurrentPriceUSD,
+    getGlobalBalance(): GetGlobalBalance
 }
 
 export interface OverviewState {

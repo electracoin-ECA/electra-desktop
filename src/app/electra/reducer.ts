@@ -14,19 +14,25 @@ export default function electraReducer(state: ElectraState = initialState, actio
       }
     }
     case ActionNames.INITIALIZE_ELECTRA_FAIL: {
-      return {
-        ...state
-      }
+      return {...state}
+    }
+    case ActionNames.START_DAEMON_SUCCESS: {
+      return {...state}
+    }
+    case ActionNames.START_DAEMON_FAIL: {
+      return {...state}
     }
     case ActionNames.GENERATE_HARD_WALLET_SUCCESS: {
-      return {
-        ...state
-      }
+      return {...state}
     }
     case ActionNames.GENERATE_HARD_WALLET_FAIL: {
-      return {
-        ...state
-      }
+      return {...state}
+    }
+    case ActionNames.START_DAEMON_SUCCESS: {
+      return {...state}
+    }
+    case ActionNames.START_DAEMON_FAIL: {
+      return {...state}
     }
     default: return state
   }

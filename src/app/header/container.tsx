@@ -2,9 +2,9 @@ import * as React from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import Utility from '../../utils/common'
 import { Icon } from '../icon'
-import { getBlockCount, getConnectionsCount, getStakingInfo } from './actions'
+import { getWalletInfo } from './actions'
 import { DispatchProps, HeaderState, State, State as Props } from './types'
-import { WalletInfo } from './wallet-info'
+import { WalletInfoComponent } from './wallet-info'
 
 // tslint:disable-next-line:no-var-requires
 const { connect } = require('react-redux')
@@ -24,9 +24,7 @@ const mapStateToProps = (state: State): Props =>
 // tslint:disable-next-line:typedef
 const mapDispatchToProps = (dispatch: Dispatch<State>): DispatchProps =>
   bindActionCreators({
-    getBlockCount,
-    getConnectionsCount,
-    getStakingInfo
+    getWalletInfo
 // tslint:disable-next-line:align
 }, dispatch)
 
@@ -40,17 +38,15 @@ export default class Header extends React.Component<Partial<Props & DispatchProp
     // tslint:disable-next-line:no-magic-numbers
     setInterval(() => {
       const props:DispatchProps = this.props as DispatchProps
-      props.getStakingInfo()
-      props.getConnectionsCount()
-      props.getBlockCount()
+      props.getWalletInfo()
     // tslint:disable-next-line:align
     }, waitTimeInSeconds)
   }
 
   public render(): any {
-    const { walletStakingInfo, connectionsCount/*,  blockCount */ } = this.props.header as HeaderState
-    const { nextRewardIn, networkWeight, weight, staking } = walletStakingInfo
-    const isOnline: string = staking ? 'Online' : 'offline'
+    const { walletInfo } = this.props.header as HeaderState
+    const { connectionsCount, localStakingWeight, localBlockchainHeight, nextStakingRewardIn, networkStakingWeight, isStaking } = walletInfo
+    const isOnline: string = isStaking ? 'Online' : 'Offline'
 
     return (
       <div className='c-header'>
@@ -66,33 +62,33 @@ export default class Header extends React.Component<Partial<Props & DispatchProp
                   <div className='flex justify-left'>
                     <h3>Wallet Info</h3>
                   </div>
-                  <WalletInfo row={rowSix} label={'Staking wallet'} info={`Wallet is currently ${isOnline}`} />
-                  <WalletInfo row={rowTwo} label={'Your weight'} info={`${weight}`} />
-                  <WalletInfo
+                  <WalletInfoComponent row={rowSix} label={'Staking wallet'} info={`Wallet is currently ${isOnline}`} />
+                  <WalletInfoComponent row={rowTwo} label={'Your weight'} info={`${localStakingWeight}`} />
+                  <WalletInfoComponent
                     row={rowTwo}
                     label={'Network weight'}
-                    info={`${networkWeight}`}
+                    info={`${networkStakingWeight}`}
                   />
-                  <WalletInfo
+                  <WalletInfoComponent
                     row={rowTwo}
                     label={'Downloaded blocks'}
-                    info={'143521232'}
+                    info={`${localBlockchainHeight}`}
                   />
-                  <WalletInfo
+                  <WalletInfoComponent
                     row={rowTwo}
                     label={'Last received block'}
-                    info={'143521232'}
+                    info={'asdasd'}
                   />
-                  <WalletInfo
+                  <WalletInfoComponent
                     row={rowTwo}
                     label={'Active Connections'}
                     info={`${connectionsCount}`}
                   />
                   <hr />
-                  <WalletInfo
+                  <WalletInfoComponent
                     row={rowTwo}
                     label={'Days until reward'}
-                    info={Utility.formatSecondsToOther(nextRewardIn)}
+                    info={Utility.formatSecondsToOther(nextStakingRewardIn)}
                   />
                 </div>
               </div>

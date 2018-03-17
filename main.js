@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
+const { exec } = require('child_process')
 
 let mainWindow
 
@@ -11,6 +12,7 @@ if (process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) |
 
 function createWindow() {
   // Create the browser window.
+  exec("kill -9 $(ps aux | grep -m 1 'electrad.*' | awk '{print $2}')", () => { console.log('Stopped daemon') })
   mainWindow = new BrowserWindow({
     width: 1500,
     height: 900,
@@ -53,6 +55,7 @@ function createWindow() {
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
+  exec("kill -9 $(ps aux | grep -m 1 'electrad.*' | awk '{print $2}')", () => { console.log('Stopped daemon') })
   if (process.platform !== 'darwin') {
     app.quit()
   }
