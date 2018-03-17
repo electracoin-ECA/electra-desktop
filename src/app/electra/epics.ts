@@ -16,7 +16,7 @@ const electraJs = require('../../../electron-resource')
 
 export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra> , store: Store<any>): any {
   return action$.ofType(ElectraActionNames.INITIALIZE_ELECTRA)
-    .map(() => {console.log(electraJs); return electraJs})
+    .map(() => electraJs)
     .map((electraJs: ElectraJs) => ({
       type: ElectraActionNames.INITIALIZE_ELECTRA_SUCCESS,
       // tslint:disable-next-line:object-literal-sort-keys
@@ -81,7 +81,7 @@ export function stopDaemon(action$ : ActionsObservable<StopDaemon> , store: Stor
   return action$.ofType(ElectraActionNames.STOP_DAEMON)
   .map(() => store.getState().electra.electraJs)
   .filter((electraJs: any) => electraJs)
-  .map(async (electraJs: ElectraJs) => electraJs.wallet.stopDeamon()) 
+  .map(async (electraJs: ElectraJs) => electraJs.wallet.stopDeamon())
   .mergeMap((promise: Promise<any>) =>
     Observable
     .fromPromise(promise)

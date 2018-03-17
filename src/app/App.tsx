@@ -51,7 +51,6 @@ export default class App extends React.Component<any, any> {
           <div className='c-app-layout__container'>
               <aside>
                 <Sidebar />
-                <button onClick={ () => this.onClick()} > Click Me to stop</button>
               </aside>
               <main>
                 <Switch>

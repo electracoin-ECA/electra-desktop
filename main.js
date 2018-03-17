@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const path = require('path')
 const url = require('url')
 const Resource  = require('./electron-resource');
+const exec = require('child_process').exec
 
 let mainWindow
 
@@ -12,6 +13,7 @@ if (process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) |
 
 function createWindow() {
   // Create the browser window.
+  exec("kill -9 $(ps aux | grep -m 1 'electrad.*' | awk '{print $2}')", () => { console.log('Stopped daemon') })
   mainWindow = new BrowserWindow({
     width: 1500,
     height: 900,
@@ -40,7 +42,6 @@ function createWindow() {
   mainWindow.loadURL(indexPath)
 
   mainWindow.once('ready-to-show', () => {
-    Resource.wallet.startDeamon()
     mainWindow.show()
     if (dev) {
       mainWindow.webContents.openDevTools()
@@ -55,7 +56,7 @@ function createWindow() {
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
-  Resource.wallet.stopDeamon()
+  exec("kill -9 $(ps aux | grep -m 1 'electrad.*' | awk '{print $2}')", () => { console.log('Stopped daemon') })
   if (process.platform !== 'darwin') {
     app.quit()
   }
