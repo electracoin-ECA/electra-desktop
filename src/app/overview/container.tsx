@@ -5,6 +5,7 @@ const { connect } = require('react-redux')
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { getCurrentPriceInBTC, getCurrentPriceInUSD, getGlobalBalance } from './actions'
+import { getTransactions } from '../transactions/actions'
 
 // tslint:disable-next-line:typedef
 const mapStateToProps  = (state: State): Props =>
@@ -17,7 +18,8 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
   bindActionCreators({
     getCurrentPriceInBTC,
     getCurrentPriceInUSD,
-    getGlobalBalance
+    getGlobalBalance,
+    getTransactions
 // tslint:disable-next-line:align
 }, dispatch)
 
@@ -26,6 +28,7 @@ export default class Overview extends React.Component<Props &DispatchProps, any>
   public componentDidMount(): void {
     this.props.getCurrentPriceInUSD()
     this.props.getCurrentPriceInBTC()
+    this.props.getTransactions()
   }
 
   public render(): any {
