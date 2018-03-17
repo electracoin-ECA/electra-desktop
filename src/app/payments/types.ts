@@ -1,4 +1,5 @@
 export interface State {
+    addresses: object[],
     payments: PaymentsState
 }
 
