@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const path = require('path')
 const url = require('url')
+const Resource  = require('./electron-resource');
 
 let mainWindow
 
@@ -39,6 +40,7 @@ function createWindow() {
   mainWindow.loadURL(indexPath)
 
   mainWindow.once('ready-to-show', () => {
+    Resource.wallet.startDeamon()
     mainWindow.show()
     if (dev) {
       mainWindow.webContents.openDevTools()
@@ -53,7 +55,7 @@ function createWindow() {
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
-
+  Resource.wallet.stopDeamon()
   if (process.platform !== 'darwin') {
     app.quit()
   }
@@ -63,7 +65,4 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
-})
-ipcMain.on('stop-daemon', (event, arg) => {
-  console.log(arg.daemon)
 })

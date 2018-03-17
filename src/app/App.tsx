@@ -10,7 +10,6 @@ import { Overview } from './overview'
 import { Payments } from './payments'
 import { Sidebar } from './sidebar'
 import { Transactions } from './transactions'
-import { ipcRenderer } from 'electron'
 
 const mapStateToProps = (state) => ({
   electraJs: state.electra.electraJs
@@ -40,10 +39,6 @@ export default class App extends React.Component<any, any> {
 
   componentWillUnmount() {
     // TODO: this currently doesn't stop the daemon
-  }
-  onClick() {
-    console.log('asdasdasd', this.props.electraJs.wallet)
-    ipcRenderer.send('stop-daemon', this.props.electraJs.wallet)
   }
   // tslint:disable-next-line:typedef
   render() {

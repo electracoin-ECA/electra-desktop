@@ -8,13 +8,15 @@ import { GetGlobalBalance } from './../overview/types'
 import { GenerateHD, InitialElectra, StartDaemon, StopDaemon } from './types'
 
 // should be loaded from a file
-const config: any = {
-  isHard: true
-}
+// const config: any = {
+//   isHard: true
+// }
+
+const electraJs = require('../../../electron-resource')
 
 export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra> , store: Store<any>): any {
   return action$.ofType(ElectraActionNames.INITIALIZE_ELECTRA)
-    .map(() => new ElectraJs(config))
+    .map(() => {console.log(electraJs); return electraJs})
     .map((electraJs: ElectraJs) => ({
       type: ElectraActionNames.INITIALIZE_ELECTRA_SUCCESS,
       // tslint:disable-next-line:object-literal-sort-keys
