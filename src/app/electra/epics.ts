@@ -4,20 +4,17 @@ import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs'
 import * as ElectraActionNames from './action-names'
 import * as OverviewActionsNames from './../overview/action-names'
-import { GetGlobalBalance } from './../overview/types'
 import { GenerateHD, InitialElectra, StartDaemon, StopDaemon } from './types'
 
 // should be loaded from a file
-// const config: any = {
-//   isHard: true
-// }
-
-const electraJs = require('../../../electron-resource')
+const config: any = {
+  isHard: true
+}
 
 export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra> , store: Store<any>): any {
   return action$.ofType(ElectraActionNames.INITIALIZE_ELECTRA)
-    .map(() => electraJs)
-    .map((electraJs: ElectraJs) => ({
+    .map(() => new ElectraJs(config))
+    .map((electraJs: any) => ({
       type: ElectraActionNames.INITIALIZE_ELECTRA_SUCCESS,
       // tslint:disable-next-line:object-literal-sort-keys
       payload: {
@@ -67,6 +64,7 @@ export function generateHD(action$ : ActionsObservable<GenerateHD> , store: Stor
     .mergeMap(() =>
       Observable.of(
         { type: ElectraActionNames.GENERATE_HARD_WALLET_SUCCESS },
+        { type: OverviewActionsNames.GET_GLOBAL_BALANCE }
       )
     )
     .catch((error: Error) => {

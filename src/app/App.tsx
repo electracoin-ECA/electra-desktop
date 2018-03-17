@@ -11,16 +11,12 @@ import { Payments } from './payments'
 import { Sidebar } from './sidebar'
 import { Transactions } from './transactions'
 
-const mapStateToProps = (state) => ({
-  electraJs: state.electra.electraJs
-})
 // tslint:disable-next-line:typedef
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators({
     startDaemon:ElectraActions.startDaemon,
     initializeElectra: ElectraActions.initializeElectra,
-    generateHDWallet: ElectraActions.generateHDWallet,
-    stopDaemon: ElectraActions.stopDaemon
+    generateHDWallet: ElectraActions.generateHDWallet
   // tslint:disable-next-line:align
   }, dispatch)
 
@@ -28,7 +24,7 @@ const mapDispatchToProps = (dispatch: any) =>
  * Point of entrance
  */
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(null, mapDispatchToProps)
 export default class App extends React.Component<any, any> {
   // tslint:disable-next-line:typedef
   componentWillMount() {
@@ -37,9 +33,6 @@ export default class App extends React.Component<any, any> {
     this.props.generateHDWallet()
   }
 
-  componentWillUnmount() {
-    // TODO: this currently doesn't stop the daemon
-  }
   // tslint:disable-next-line:typedef
   render() {
     return (

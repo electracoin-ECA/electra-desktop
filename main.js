@@ -1,8 +1,7 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron')
+const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
-const Resource  = require('./electron-resource');
-const exec = require('child_process').exec
+const { exec } = require('child_process')
 
 let mainWindow
 

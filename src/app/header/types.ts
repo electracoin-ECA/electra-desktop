@@ -1,6 +1,5 @@
 
 import { ElectraState } from '../electra/types'
-import { } from 'electra-js/dist'
 import { WalletInfo } from 'electra-js/dist/wallet/types'
 
 /**

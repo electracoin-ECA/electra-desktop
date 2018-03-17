@@ -26,7 +26,7 @@ export function getGlobalBalance(action$: ActionsObservable<OverviewActions>, st
         return Observable.of({
         type: ActionNames.GET_GLOBAL_BALANCE_FAIL
       })
-      })
+    })
   )
 }
 
