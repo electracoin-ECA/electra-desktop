@@ -2,7 +2,7 @@ import * as React from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import Utility from '../../utils/common'
 import { Icon } from '../icon'
-import { getWalletInfo } from './actions'
+import { getLastBlockTimestamp, getWalletInfo } from './actions'
 import { DispatchProps, HeaderState, State, State as Props } from './types'
 import { WalletInfoComponent } from './wallet-info'
 
@@ -24,6 +24,7 @@ const mapStateToProps = (state: State): Props =>
 // tslint:disable-next-line:typedef
 const mapDispatchToProps = (dispatch: Dispatch<State>): DispatchProps =>
   bindActionCreators({
+    getLastBlockTimestamp,
     getWalletInfo
 // tslint:disable-next-line:align
 }, dispatch)
@@ -38,6 +39,7 @@ export default class Header extends React.Component<Partial<Props & DispatchProp
     // tslint:disable-next-line:no-magic-numbers
     setInterval(() => {
       const props:DispatchProps = this.props as DispatchProps
+      props.getLastBlockTimestamp()
       props.getWalletInfo()
     // tslint:disable-next-line:align
     }, waitTimeInSeconds)
@@ -45,7 +47,14 @@ export default class Header extends React.Component<Partial<Props & DispatchProp
 
   public render(): any {
     const { walletInfo } = this.props.header as HeaderState
-    const { connectionsCount, localStakingWeight, localBlockchainHeight, nextStakingRewardIn, networkStakingWeight, isStaking } = walletInfo
+    const {
+      connectionsCount,
+      localStakingWeight,
+      localBlockchainHeight,
+      nextStakingRewardIn,
+      networkStakingWeight,
+      isStaking
+    } = walletInfo
     const isOnline: string = isStaking ? 'Online' : 'Offline'
 
     return (
