@@ -1,3 +1,4 @@
+import { GetTransactions } from '../transactions/types'
 export interface State {
   overview: OverviewState
 }
@@ -5,7 +6,8 @@ export interface State {
 export interface DispatchProps {
     getCurrentPriceInBTC(): GetCurrentPriceBTC,
     getCurrentPriceInUSD(): GetCurrentPriceUSD,
-    getGlobalBalance(): GetGlobalBalance
+    getGlobalBalance(): GetGlobalBalance,
+    getTransactions(): GetTransactions
 }
 
 export interface OverviewState {

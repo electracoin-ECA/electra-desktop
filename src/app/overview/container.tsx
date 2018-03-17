@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
 }, dispatch)
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class Overview extends React.Component<Props &DispatchProps, any> {
+export default class Overview extends React.Component<Props & DispatchProps, any> {
   public componentDidMount(): void {
     this.props.getCurrentPriceInUSD()
     this.props.getCurrentPriceInBTC()
