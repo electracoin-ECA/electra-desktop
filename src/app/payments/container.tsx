@@ -43,12 +43,16 @@ export default class Payments extends React.Component<Props & DispatchProps, any
     const address: string = get(this.props, 'addresses[0].hash', '')
 
     return (
-      <div>
-        Payments
-        <input type='text' placeholder='Address to send' onChange={this.setToAddress} />
-        <input type='text' placeholder='Amount' onChange={this.setAmount} />
-        <button onClick={this.onClick}>Send</button>
-        <QRCode value={address} />
+      <div className='c-view'>
+        <div className='c-view__header'>
+          <h2>Payments</h2>
+        </div>
+        <div className='c-view__content'>
+          <input type='text' placeholder='Address to send' onChange={this.setToAddress} />
+          <input type='text' placeholder='Amount' onChange={this.setAmount} />
+          <button onClick={this.onClick}>Send</button>
+          <QRCode value={address} />
+        </div>
       </div>
     )
   }
