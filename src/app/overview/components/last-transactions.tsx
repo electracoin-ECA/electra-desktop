@@ -1,7 +1,7 @@
 import { capitalize, drop, reverse } from 'lodash'
 import * as moment from 'moment'
 import * as React from 'react'
-import { Icon } from '../icon'
+import { Icon } from '../../icon'
 
 const TRANSACTIONS_COUNT: number = 10
 

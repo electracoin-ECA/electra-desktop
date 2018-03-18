@@ -5,8 +5,8 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { getTransactions } from '../transactions/actions'
 import { getCurrentPriceInBTC, getCurrentPriceInUSD, getGlobalBalance } from './actions'
-import CardViewPrices from './card-view-prices'
-import LastTransactions from './last-transactions'
+import CardViewPrices from './components/card-view-prices'
+import LastTransactions from './components/last-transactions'
 import { DispatchProps, State, State as Props } from './types'
 
 const MAX_DECIMALS: number = 8
@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
     getCurrentPriceInBTC,
     getCurrentPriceInUSD,
     getGlobalBalance,
-    getTransactions,
+    getTransactions
     // tslint:disable-next-line:align
   }, dispatch)
 
