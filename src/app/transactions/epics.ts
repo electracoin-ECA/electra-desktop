@@ -3,30 +3,33 @@ import { WalletTransaction } from 'electra-js/dist/wallet/types'
 import { ActionsObservable } from 'redux-observable'
 import 'rxjs/add/observable/of'
 import { Observable } from 'rxjs/Observable'
-import * as ActionNames from './action-names'
+import * as ElectraActionNames from './../electra/action-names'
+import { ElectraActions } from './../electra/types'
+import * as TransactionActionNames from './action-names'
 import { TransactionsActions } from './types'
 
 const TRANSACTIONS_NUMBER: number = 100
-
-export function getTransactions(action$: ActionsObservable<TransactionsActions>, store: any):
+const DELAY: number = 1000
+export function getTransactions(action$: ActionsObservable<TransactionsActions | ElectraActions>, store: any):
   Observable<any> {
-  return action$.ofType(ActionNames.GET_TRANSACTIONS)
+  return action$.ofType(TransactionActionNames.GET_TRANSACTIONS, ElectraActionNames.GENERATE_HARD_WALLET_SUCCESS)
     .map(() => store.getState().electra.electraJs)
     .filter((electraJs: any) => electraJs)
     .map(async (electraJs: ElectraJs) => electraJs.wallet.rpc.listTransactions('*', TRANSACTIONS_NUMBER))
-    .mergeMap((promise: Promise<WalletTransaction[]>) =>
+    .debounceTime(DELAY)
+    .switchMap((promise: Promise<WalletTransaction[]>) =>
       Observable
         .fromPromise(promise)
         .map((data: WalletTransaction[]) => ({
             payload: data,
-            type: ActionNames.GET_TRANSACTIONS_SUCCESS
+            type: TransactionActionNames.GET_TRANSACTIONS_SUCCESS
           }
         ))
         .catch((error: Error) => {
           console.log(error.message)
 
           return Observable.of({
-            type: ActionNames.GET_TRANSACTIONS_FAIL
+            type: TransactionActionNames.GET_TRANSACTIONS
           })
         })
     )

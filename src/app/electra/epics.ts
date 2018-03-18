@@ -2,8 +2,6 @@ import ElectraJs from 'electra-js'
 import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs'
-import * as OverviewActionsNames from './../overview/action-names'
-import * as TransactionActionsNames from './../transactions/action-names'
 import * as ElectraActionNames from './action-names'
 import { GenerateHD, InitialElectra, StartDaemon, StopDaemon } from './types'
 
@@ -11,7 +9,6 @@ import { GenerateHD, InitialElectra, StartDaemon, StopDaemon } from './types'
 const config: any = {
   isHard: true
 }
-const DELAY: number = 5000
 
 export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra> , store: Store<any>): any {
   return action$.ofType(ElectraActionNames.INITIALIZE_ELECTRA)
@@ -66,10 +63,8 @@ export function generateHD(action$ : ActionsObservable<GenerateHD> , store: Stor
     .fromPromise(promise)
     .mergeMap(() =>
       Observable.of(
-        { type: ElectraActionNames.GENERATE_HARD_WALLET_SUCCESS },
-        { type: OverviewActionsNames.GET_GLOBAL_BALANCE },
-        { type: TransactionActionsNames.GET_TRANSACTIONS }
-      ).delay(DELAY)
+        { type: ElectraActionNames.GENERATE_HARD_WALLET_SUCCESS }
+      )
     )
     .catch((error: Error) => {
       // tslint:disable-next-line:no-console
