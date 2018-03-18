@@ -14,28 +14,32 @@ export default function paymentsReducer(state: PaymentsState = initialState, act
       return {
         ...state,
         pendingSend: {
-            ...state.pendingSend,
-            to: action.payload
+          ...state.pendingSend,
+          to: action.payload
         }
       }
     }
 
     case ActionNames.SET_AMOUNT: {
-        return {
-          ...state,
-          pendingSend: {
-              ...state.pendingSend,
-              amount: action.payload
-          }
+      return {
+        ...state,
+        pendingSend: {
+          ...state.pendingSend,
+          amount: action.payload
         }
+      }
     }
 
     case ActionNames.SEND_ECA_SUCCESS: {
-        return { ...state }
+      return { ...state }
     }
 
     case ActionNames.SEND_ECA_FAIL: {
-        return { ...state }
+      return { ...state }
+    }
+
+    case ActionNames.CLEAR_SEND_CARD_FIELDS: {
+      return { ...initialState }
     }
     default: return state
   }

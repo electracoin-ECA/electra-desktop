@@ -2,7 +2,7 @@ import { WalletTransaction } from 'electra-js/dist/wallet/types'
 import * as ActionNames from './action-names'
 import { TransactionsActions } from './types'
 
-const initState: WalletTransaction[]   = []
+const initState: WalletTransaction[] = []
 
 export default function transactionsReducer(state: WalletTransaction[] = initState, action: TransactionsActions): any {
   switch (action.type) {
