@@ -3,7 +3,7 @@ import * as React from 'react'
 const { connect } = require('react-redux')
 import { bindActionCreators, Dispatch } from 'redux'
 
-import TransactionsComponent from '../common/transactions'
+import TransactionsComponent from '../common/transactions/transactions'
 import { getCurrentPriceInBTC, getCurrentPriceInUSD } from './actions'
 import CardViewPrices from './components/card-view-prices'
 import { DispatchProps, State, State as Props } from './types'

@@ -1,3 +1,5 @@
+import { SetMessageAndBadge } from '../common/toast/types'
+
 export interface State {
   addresses: object[],
   payments: PaymentsState
@@ -7,7 +9,8 @@ export interface DispatchProps {
   clearSendCardFields(): ClearSendCardFields,
   sendEca(): SendEca,
   setAmount(value: number): SetAmount,
-  setToAddress(value: string): SetToAddress
+  setToAddress(value: string): SetToAddress,
+  setMessageAndBadge(message: string, badge: string): SetMessageAndBadge
 }
 
 export interface PaymentsState {

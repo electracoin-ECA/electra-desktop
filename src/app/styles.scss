@@ -1,1 +1,7 @@
-@import "./styles/vendors/toolkit.css"
+@import "./styles/vendors/toolkit.css";
+
+.c-toast {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

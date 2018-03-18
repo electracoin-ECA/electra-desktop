@@ -1,7 +1,7 @@
 import { capitalize, reverse } from 'lodash'
 import * as moment from 'moment'
 import * as React from 'react'
-import { Icon } from '../icon'
+import { Icon } from '../../icon'
 
 export default class TransactionsComponent extends React.Component<any, any> {
   public render(): any {
