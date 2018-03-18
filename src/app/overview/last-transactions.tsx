@@ -1,25 +1,18 @@
-import { capitalize, drop, get } from 'lodash'
+import { capitalize, drop, reverse } from 'lodash'
 import * as moment from 'moment'
 import * as React from 'react'
 import { Icon } from '../icon'
-import { State } from '../transactions/types'
-const { connect } = require('react-redux')
 
-const TRANSACTIONS_COUNT: number = 5
+const TRANSACTIONS_COUNT: number = 10
 
-// tslint:disable-next-line:typedef
-const mapStateToProps = (state: State): State => ({
-  transactions: get(state, 'transactions.transactions', [])
-})
-
-@connect(mapStateToProps)
 export default class LastTransactions extends React.Component<any, any> {
   public render(): any {
-    const transactions: any = drop(this.props.transactions, this.props.transactions.length - TRANSACTIONS_COUNT)
+    const transactions: any = this.props.transactions ?
+                              drop(this.props.transactions, this.props.transactions.length - TRANSACTIONS_COUNT) : []
 
     return (
-      <div className='mt-6'>
-        {transactions.map((transaction: any, index: number) => (
+      <div className='mt-6 '>
+        {reverse(transactions).map((transaction: any, index: number) => (
           <div className='c-card mb-4' key={index}>
             <div className='c-card__content flex items-center'>
               <div className='flex-1'>
