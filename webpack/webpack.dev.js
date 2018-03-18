@@ -1,9 +1,12 @@
 const { spawn } = require('child_process')
+const configCommon = require('./webpack.common.js')
 const configPaths = require('./config.path')
-const webpackRules = require('./rules')
-const webpackPlugins = require('./plugins')
+const webpackMerge = require('webpack-merge')
 
-module.exports = {
+module.exports = webpackMerge(configCommon, {
+  target: 'electron-renderer',
+  devtool: 'inline-source-map',
+
   entry: {
     main: [
       'react-hot-loader/patch',
@@ -11,20 +14,7 @@ module.exports = {
       configPaths.entry
     ]
   },
-  output: {
-    path: configPaths.buildPath,
-    publicPath: '/',
-    filename: 'bundle.js'
-  },
-  resolve: {
-    extensions: ['.js', '.ts', '.tsx'],
-  },
-  module: {
-    rules: webpackRules
-  },
-  target: 'electron-renderer',
-  plugins: webpackPlugins,
-  devtool: 'inline-source-map',
+
   devServer: {
     historyApiFallback: true,
     contentBase: configPaths.buildPath,
@@ -42,9 +32,9 @@ module.exports = {
         ['.'],
         { shell: true, env: process.env, stdio: 'inherit' }
       )
-      // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line no-unused-vars
         .on('close', code => process.exit(0))
         .on('error', spawnError => console.error(spawnError))
     }
   }
-}
+})
