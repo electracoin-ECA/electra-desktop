@@ -37,19 +37,22 @@ export default class Overview extends React.Component<Props & DispatchProps, any
 
   public render(): any {
     const values: any = mapValues(this.props.overview, (value: string) => parseFloat(value).toFixed(MAX_DECIMALS))
-
     return (
-      <div>
-        <h3>Overview</h3>
-        <CardViewPrices
-          globalBalance={values.globalBalance}
-          ecaInBTC={(values.currentPriceBTC * values.globalBalance).toFixed(MAX_DECIMALS)}
-          ecaInUSD={(values.currentPriceUSD * values.globalBalance).toFixed(MAX_DECIMALS)}
-          currentPriceBTC={values.currentPriceBTC}
-          currentPriceUSD={values.currentPriceUSD} />
+      <div className='c-view'>
+        <div className='c-view__header'>
+          <h2>Overview</h2>
+        </div>
+        <div className='c-view__content'>
+          <CardViewPrices
+            globalBalance={values.globalBalance}
+            ecaInBTC={(values.currentPriceBTC * values.globalBalance).toFixed(MAX_DECIMALS)}
+            ecaInUSD={(values.currentPriceUSD * values.globalBalance).toFixed(MAX_DECIMALS)}
+            currentPriceBTC={values.currentPriceBTC}
+            currentPriceUSD={values.currentPriceUSD} />
 
-        <h3>Last Transactions</h3>
-        <LastTransactions />
+          <h2>Last Transactions</h2>
+          <LastTransactions />
+        </div>
       </div>
     )
   }
