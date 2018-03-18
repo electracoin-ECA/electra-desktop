@@ -1,7 +1,13 @@
 import { WalletTransaction } from 'electra-js/dist/wallet/types'
 
 export interface State {
-    transactions: WalletTransaction[]
+    transactions: {
+      transactions: WalletTransaction[]
+    }
+}
+
+export interface DispatchProps {
+  getTransactions(): GetTransactions,
 }
 
 /**

@@ -1,12 +1,12 @@
+import ElectraJs from 'electra-js'
 import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs/Observable'
 import * as ActionNames from './action-names'
 import { GlobalBalanceObservable, GlobalBalanceOtherObservable, OverviewActions } from './types'
-import ElectraJs from 'electra-js'
 
 const MAX_DECIMAL_PLACES: number = 8
-const BTC = "BTC"
+const BTC: 'BTC' = 'BTC'
 
 export function getGlobalBalance(action$: ActionsObservable<OverviewActions>, store: Store<any>):
   Observable<GlobalBalanceObservable> {

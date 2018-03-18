@@ -1,14 +1,11 @@
-import { capitalize, drop, reverse } from 'lodash'
+import { capitalize, reverse } from 'lodash'
 import * as moment from 'moment'
 import * as React from 'react'
-import { Icon } from '../../icon'
+import { Icon } from '../icon'
 
-const TRANSACTIONS_COUNT: number = 10
-
-export default class LastTransactions extends React.Component<any, any> {
+export default class TransactionsComponent extends React.Component<any, any> {
   public render(): any {
-    const transactions: any = this.props.transactions ?
-                              drop(this.props.transactions, this.props.transactions.length - TRANSACTIONS_COUNT) : []
+    const { transactions } : any = this.props
 
     return (
       <div className='mt-6 '>

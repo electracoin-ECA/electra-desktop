@@ -1,10 +1,10 @@
 
-import { ElectraState } from '../electra/types'
 import { WalletInfo } from 'electra-js/dist/wallet/types'
+import { ElectraState } from '../electra/types'
 
 /**
-  * allowed states to be passed to the header feature
-  */
+ * allowed states to be passed to the header feature
+ */
 export interface State {
   header: HeaderState,
   electra: ElectraState

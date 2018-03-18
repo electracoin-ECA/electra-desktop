@@ -1,16 +1,16 @@
-import { mapValues } from 'lodash'
+import { drop, mapValues } from 'lodash'
 import * as React from 'react'
 const { connect } = require('react-redux')
 import { bindActionCreators, Dispatch } from 'redux'
 
+import TransactionsComponent from '../common/transactions'
 import { getTransactions } from '../transactions/actions'
 import { getCurrentPriceInBTC, getCurrentPriceInUSD, getGlobalBalance } from './actions'
 import CardViewPrices from './components/card-view-prices'
-import LastTransactions from './components/last-transactions'
 import { DispatchProps, State, State as Props } from './types'
 
 const MAX_DECIMALS: number = 8
-
+const TRANSACTIONS_COUNT: number = 10
 // tslint:disable-next-line:typedef
 const mapStateToProps = (state: State): Props =>
   ({
@@ -38,7 +38,9 @@ export default class Overview extends React.Component<Props & DispatchProps, any
 
   public render(): any {
     const values: any = mapValues(this.props.overview, (value: string) => parseFloat(value).toFixed(MAX_DECIMALS))
-    const transactions: any = this.props.transactions.transactions || []
+    const transactions: any = this.props.transactions.transactions ?
+                              drop(this.props.transactions.transactions,
+                                   this.props.transactions.transactions.length - TRANSACTIONS_COUNT) : []
 
     return (
       <div className='c-view'>
@@ -54,7 +56,7 @@ export default class Overview extends React.Component<Props & DispatchProps, any
             currentPriceUSD={values.currentPriceUSD} />
 
           <h2>Last Transactions</h2>
-          <LastTransactions transactions={transactions}/>
+          <TransactionsComponent transactions={transactions}/>
         </div>
       </div>
     )
