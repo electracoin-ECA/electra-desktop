@@ -1,10 +1,10 @@
 {
   "name": "electra-desktop",
   "version": "1.0.0",
-  "description": "Wallet for Electra blockchain ",
-  "main": "main.js",
-  "author": "Electra developers",
+  "description": "Cross-platform Desktop Wallet for Electra blockchain.",
   "license": "MIT",
+  "private": true,
+  "main": "main.js",
   "scripts": {
     "prod": "NODE_ENV=production webpack --config ./webpack/webpack.build.config.js && electron --noDevServer .",
     "dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack/webpack.dev.config.js",
@@ -104,5 +104,26 @@
     "rxjs": "^5.5.6",
     "tslint": "^5.9.1",
     "utility-types": "^1.0.0"
-  }
+  },
+  "author": {
+    "name": "Electra",
+    "email": "dev@electraproject.org",
+    "url": "https://electraproject.org"
+  },
+  "contributors": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Electra-project/Electra-Desktop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Electra-project/Electra-Desktop/issues"
+  },
+  "homepage": "https://github.com/Electra-project/Electra-Desktop#readme",
+  "keywords": [
+    "blockchain",
+    "eca",
+    "electra",
+    "javascript",
+    "typescript"
+  ]
 }
