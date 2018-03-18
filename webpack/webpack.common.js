@@ -43,13 +43,10 @@ const mainConfig = {
       }
     ])
   ],
-
-  node: {
-    __dirname: false,
-  },
 }
 
 const rendererConfig = {
+  context: process.cwd(),
   target: 'electron-renderer',
 
   output: {
@@ -67,6 +64,10 @@ const rendererConfig = {
   },
 
   plugins: webpackPlugins,
+
+  node: {
+    __dirname: true,
+  },
 }
 
 module.exports = [mainConfig, rendererConfig]
