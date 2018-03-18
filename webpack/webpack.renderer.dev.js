@@ -16,7 +16,7 @@ module.exports = webpackMerge(rendererConfig, {
 
   devServer: {
     historyApiFallback: true,
-    contentBase: configPaths.buildPath,
+    contentBase: configPaths.outputPathRenderer,
     publicPath: '/',
     hot: true,
     port: process.env.NODE_PORT || 8080,

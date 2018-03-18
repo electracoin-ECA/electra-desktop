@@ -1,4 +1,6 @@
 const { spawn } = require('child_process')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const configPaths = require('./config.path')
 const path = require('path')
 const webpackRules = require('./rules')
@@ -10,8 +12,8 @@ const mainConfig = {
   entry: configPaths.entryMain,
 
   output: {
-    path: configPaths.buildPath,
-    filename: 'main.js'
+    path: configPaths.outputPathMain,
+    filename: 'index.js'
   },
 
   resolve: {
@@ -30,6 +32,18 @@ const mainConfig = {
     ],
   },
 
+  plugins: [
+    new CleanWebpackPlugin([configPaths.buildPath], {
+      root: process.cwd(),
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: configPaths.binariesPathFrom,
+        to: configPaths.binariesPathTo,
+      }
+    ])
+  ],
+
   node: {
     __dirname: false,
   },
@@ -39,9 +53,9 @@ const rendererConfig = {
   target: 'electron-renderer',
 
   output: {
-    path: configPaths.buildPath,
+    path: configPaths.outputPathRenderer,
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: 'index.js'
   },
 
   resolve: {
