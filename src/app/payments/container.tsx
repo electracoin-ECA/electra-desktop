@@ -5,14 +5,15 @@ import { get } from 'lodash'
 import * as QRCode from 'qrcode.react'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { Icon } from '../icon'
 import { sendEca, setAmount, setToAddress } from './actions'
 
 // tslint:disable-next-line:typedef
-const mapStateToProps  = (state: State): Props =>
-({
-  addresses: get(state, 'electra.electraJs.wallet.ADDRESSES', []),
-  payments: state.payments
-})
+const mapStateToProps = (state: State): Props =>
+  ({
+    addresses: get(state, 'electra.electraJs.wallet.ADDRESSES', []),
+    payments: state.payments
+  })
 
 // tslint:disable-next-line:typedef
 const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
@@ -20,8 +21,8 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
     sendEca,
     setAmount,
     setToAddress
-// tslint:disable-next-line:align
-}, dispatch)
+    // tslint:disable-next-line:align
+  }, dispatch)
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Payments extends React.Component<Props & DispatchProps, any> {
@@ -29,14 +30,24 @@ export default class Payments extends React.Component<Props & DispatchProps, any
     this.props.sendEca()
   }
 
-  setAmount = (event: any): void  => {
+  setAmount = (event: any): void => {
     const { value } = event.target
     this.props.setAmount(value)
   }
 
-  setToAddress = (event: any): void  => {
+  setToAddress = (event: any): void => {
     const { value } = event.target
     this.props.setToAddress(value)
+  }
+
+  onCopy = (): void => {
+    navigator.clipboard.writeText(get(this.props, 'addresses[0].hash', '')).then(
+      () => {
+        console.log('Async: Copying to clipboard was successful!')
+      },
+      (err) => {
+        console.error('Async: Could not copy text: ', err)
+      })
   }
 
   public render(): any {
@@ -47,11 +58,51 @@ export default class Payments extends React.Component<Props & DispatchProps, any
         <div className='c-view__header'>
           <h2>Payments</h2>
         </div>
-        <div className='c-view__content'>
-          <input type='text' placeholder='Address to send' onChange={this.setToAddress} />
-          <input type='text' placeholder='Amount' onChange={this.setAmount} />
-          <button onClick={this.onClick}>Send</button>
-          <QRCode value={address} />
+        <div className='c-grid c-grid--halves py-4'>
+          <div className='c-grid__item text-center bg-grey-lightest'>
+            <div className='c-card'>
+              <div className='c-card__content'>
+                <h3>Send ECA</h3>
+                <div className='my-4'>
+                  <div className='c-input'>
+                    <span className='c-input__label'>Wallet Address</span>
+                    <input type='text' placeholder='EH123asaeGsearuWWLbKToRdmnoS8BGD9hGC'
+                      onChange={this.setToAddress} />
+                  </div>
+                  <div className='c-input'>
+                    <span className='c-input__label'>Amount</span>
+                    <input type='number' placeholder='ECA' onChange={this.setAmount} />
+                  </div>
+                </div>
+              </div>
+              <div className='c-card__actions'>
+                <button onClick={this.onClick}>Submit payment</button>
+              </div>
+            </div>
+          </div>
+          <div className='c-grid__item text-center bg-grey-lightest'>
+            <div className='c-card'>
+              <div className='c-card__content'>
+                <h3>Receive ECA</h3>
+                <div className='my-4'>
+                  <div className='c-dropdown'>
+                    <select>
+                      <option id='address' value='walletA' selected>{address}</option>
+                    </select>
+                    <div className='c-icon c-dropdown__icon'>
+                      <Icon name='caret-down' />
+                    </div>
+                  </div>
+                  <div className='c-qr-code'>
+                    <QRCode value={address} />
+                  </div>
+                </div>
+              </div>
+              <div className='c-card__actions'>
+                <button onClick={this.onCopy}>Copy wallet address</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     )
