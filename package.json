@@ -1,6 +1,6 @@
 {
   "name": "electra-desktop",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Cross-platform Desktop Wallet for Electra blockchain.",
   "license": "MIT",
   "private": true,
