@@ -1,22 +1,28 @@
 import * as ActionNames from './action-names'
-import { SendEca, SetAmount, SetToAddress  } from './types'
+import { ClearSendCardFields, SendEca, SetAmount, SetToAddress } from './types'
 
 export function sendEca(): SendEca {
-    return {
-        type: ActionNames.SEND_ECA
-    }
+  return {
+    type: ActionNames.SEND_ECA
+  }
 }
 
 export function setAmount(payload: number): SetAmount {
-    return {
-        payload,
-        type: ActionNames.SET_AMOUNT
-    }
+  return {
+    payload,
+    type: ActionNames.SET_AMOUNT
+  }
 }
 
 export function setToAddress(payload: string): SetToAddress {
-    return {
-        payload,
-        type: ActionNames.SET_TO_ADDRESS
-    }
+  return {
+    payload,
+    type: ActionNames.SET_TO_ADDRESS
+  }
+}
+
+export function clearSendCardFields(): ClearSendCardFields {
+  return {
+    type: ActionNames.CLEAR_SEND_CARD_FIELDS
+  }
 }
