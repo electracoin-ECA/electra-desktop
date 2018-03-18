@@ -1,13 +1,15 @@
-import { GetTransactions } from '../transactions/types'
+import { WalletTransaction } from 'electra-js/dist/wallet/types'
+
 export interface State {
-  overview: OverviewState
+  overview: OverviewState,
+  transactions: {
+    transactions: WalletTransaction[]
+  }
 }
 
 export interface DispatchProps {
     getCurrentPriceInBTC(): GetCurrentPriceBTC,
-    getCurrentPriceInUSD(): GetCurrentPriceUSD,
-    getGlobalBalance(): GetGlobalBalance,
-    getTransactions(): GetTransactions
+    getCurrentPriceInUSD(): GetCurrentPriceUSD
 }
 
 export interface OverviewState {

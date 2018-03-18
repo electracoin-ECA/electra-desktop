@@ -45,7 +45,12 @@ export default class Header extends React.Component<Partial<Props & DispatchProp
 
   public render(): any {
     const { walletInfo } = this.props.header as HeaderState
-    const { connectionsCount, localStakingWeight, localBlockchainHeight, nextStakingRewardIn, networkStakingWeight, isStaking } = walletInfo
+    const { connectionsCount,
+            localStakingWeight,
+            localBlockchainHeight,
+            nextStakingRewardIn,
+            networkStakingWeight,
+            isStaking } = walletInfo
     const isOnline: string = isStaking ? 'Online' : 'Offline'
 
     return (

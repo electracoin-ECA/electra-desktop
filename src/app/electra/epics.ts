@@ -2,14 +2,16 @@ import ElectraJs from 'electra-js'
 import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs'
-import * as ElectraActionNames from './action-names'
 import * as OverviewActionsNames from './../overview/action-names'
+import * as TransactionActionsNames from './../transactions/action-names'
+import * as ElectraActionNames from './action-names'
 import { GenerateHD, InitialElectra, StartDaemon, StopDaemon } from './types'
 
 // should be loaded from a file
 const config: any = {
   isHard: true
 }
+const DELAY: number = 5000
 
 export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra> , store: Store<any>): any {
   return action$.ofType(ElectraActionNames.INITIALIZE_ELECTRA)
@@ -35,7 +37,7 @@ export function startDaemon(action$ : ActionsObservable<StartDaemon> , store: St
   return action$.ofType(ElectraActionNames.START_DAEMON)
   .map(() => store.getState().electra.electraJs)
   .filter((electraJs: any) => electraJs)
-  .map(async (electraJs: ElectraJs) => electraJs.wallet.startDeamon()) 
+  .map(async (electraJs: ElectraJs) => electraJs.wallet.startDeamon())
   .mergeMap((promise: Promise<any>) =>
     Observable
     .fromPromise(promise)
@@ -45,13 +47,14 @@ export function startDaemon(action$ : ActionsObservable<StartDaemon> , store: St
       )
     )
     .catch((error: Error) => {
+      // tslint:disable-next-line:no-console
       console.log(error.message)
+
       return Observable.of({
       type: ElectraActionNames.START_DAEMON_FAIL
     })})
   )
 }
-
 
 export function generateHD(action$ : ActionsObservable<GenerateHD> , store: Store<any>): any {
   return action$.ofType(ElectraActionNames.GENERATE_HARD_WALLET)
@@ -64,11 +67,14 @@ export function generateHD(action$ : ActionsObservable<GenerateHD> , store: Stor
     .mergeMap(() =>
       Observable.of(
         { type: ElectraActionNames.GENERATE_HARD_WALLET_SUCCESS },
-        { type: OverviewActionsNames.GET_GLOBAL_BALANCE }
-      )
+        { type: OverviewActionsNames.GET_GLOBAL_BALANCE },
+        { type: TransactionActionsNames.GET_TRANSACTIONS }
+      ).delay(DELAY)
     )
     .catch((error: Error) => {
+      // tslint:disable-next-line:no-console
       console.log(error.message)
+
       return Observable.of({
       type: ElectraActionNames.GENERATE_HARD_WALLET_FAIL
     })})
@@ -89,7 +95,9 @@ export function stopDaemon(action$ : ActionsObservable<StopDaemon> , store: Stor
       )
     )
     .catch((error: Error) => {
+      // tslint:disable-next-line:no-console
       console.log(error.message)
+
       return Observable.of({
       type: ElectraActionNames.STOP_DAEMON_FAIL
     })})
