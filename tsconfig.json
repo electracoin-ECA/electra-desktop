@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": false,
-    "declaration": true,
-    "declarationDir": "dist",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
     "lib": ["dom", "es2017"],
     "module": "commonjs",
     "noEmit": true,
@@ -14,8 +10,7 @@
     "noUnusedLocals": true,
     "sourceMap": true,
     "strictNullChecks": true,
-    "target": "es2015",
-    "jsx": "react"
+    "target": "es2015"
   },
   "include": [
     "src/**/*"
