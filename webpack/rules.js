@@ -1,22 +1,25 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const ConfigPath = require('./config.path')
+const configPaths = require('./config.path')
+const extractTextPlugin = require('extract-text-webpack-plugin')
 
 const isProduction = process.argv.indexOf('-p') >= 0
 
 module.exports = [
   {
     test: /\.tsx?$/,
-    use: isProduction
-      ? 'awesome-typescript-loader?module=es6'
-      : [
-        'react-hot-loader/webpack',
-        'awesome-typescript-loader'
-      ]
+    use: [
+      !isProduction ? { loader: 'react-hot-loader/webpack' } : {},
+      {
+        loader: 'awesome-typescript-loader',
+        options: {
+          configFileName: configPaths.tsconfigRenderer,
+        }
+      }
+    ]
   },
   {
     test: /\.(css|scss)$/,
-    use: ExtractTextPlugin.extract({
+    use: extractTextPlugin.extract({
       fallback: "style-loader",
       use: [
         {
@@ -29,18 +32,18 @@ module.exports = [
         { loader: 'sass-loader', query: {} }
       ]
     }),
-    include: ConfigPath.stylePaths,
+    include: configPaths.stylePaths,
     exclude: [/node_modules/]
   },
   {
     test: /\.jsx?$/,
     use: [{ loader: 'babel-loader' }],
-    include: [ConfigPath.sourcePath]
+    include: [configPaths.sourcePath]
   },
   {
     test: /\.(jpe?g|png|gif)$/i,
     use: [{ loader: 'file-loader?name=img/[name]__[hash:base64:5].[ext]' }],
-    include: ConfigPath.stylePaths
+    include: configPaths.stylePaths
   },
   {
     test: /\.svg$/,
@@ -49,6 +52,6 @@ module.exports = [
   {
     test: /\.(eot|svg|ttf|woff|woff2)$/,
     use: [{ loader: 'file-loader?name=font/[name]__[hash:base64:5].[ext]' }],
-    include: ConfigPath.stylePaths
+    include: configPaths.stylePaths
   }
 ]

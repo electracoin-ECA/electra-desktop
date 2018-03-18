@@ -1,10 +1,9 @@
 const { spawn } = require('child_process')
-const configCommon = require('./webpack.common.js')
+const [mainConfig, rendererConfig] = require('./webpack.common.js')
 const configPaths = require('./config.path')
 const webpackMerge = require('webpack-merge')
 
-module.exports = webpackMerge(configCommon, {
-  target: 'electron-renderer',
+module.exports = webpackMerge(rendererConfig, {
   devtool: 'inline-source-map',
 
   entry: {

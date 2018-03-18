@@ -4,16 +4,17 @@
   "description": "Cross-platform Desktop Wallet for Electra blockchain.",
   "license": "MIT",
   "private": true,
-  "main": "main/index.js",
+  "main": "dist/main.js",
   "scripts": {
     "build": "webpack --config ./webpack/webpack.prod.js",
+    "build:dev:main": "webpack --config ./webpack/webpack.main.dev.js",
     "build:prod": "NODE_ENV=production webpack --config ./webpack/webpack.prod.js && electron --noDevServer .",
     "package": "webpack --config ./webpack/webpack.prod.js",
     "postpackage": "electron-packager ./ --out=./build",
-    "start": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack/webpack.dev.js",
+    "start": "npm run build:dev:main && webpack-dev-server --hot --host 0.0.0.0 --config=./webpack/webpack.renderer.dev.js",
     "validate": "npm run validate:tsc && npm run validate:lint",
-    "validate:lint": "tslint -p tsconfig.json",
-    "validate:tsc": "tsc -p tsconfig.json --noEmit --pretty"
+    "validate:lint": "tslint -p src/tsconfig.json",
+    "validate:tsc": "tsc -p src/tsconfig.json --noEmit --pretty"
   },
   "browserslist": [
     "chrome 64"

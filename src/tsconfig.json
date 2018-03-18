@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.common",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "lib": ["dom", "es2017"],
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
+}
