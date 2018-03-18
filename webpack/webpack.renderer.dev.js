@@ -25,7 +25,7 @@ module.exports = webpackMerge(rendererConfig, {
       chunks: false,
       children: false
     },
-    setup() {
+    before() {
       spawn(
         'electron',
         ['.'],
