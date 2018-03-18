@@ -29,6 +29,10 @@ const mainConfig = {
       },
     ],
   },
+
+  node: {
+    __dirname: false,
+  },
 }
 
 const rendererConfig = {
