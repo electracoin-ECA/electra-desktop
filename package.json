@@ -6,13 +6,14 @@
   "private": true,
   "main": "main.js",
   "scripts": {
-    "prod": "NODE_ENV=production webpack --config ./webpack/webpack.build.config.js && electron --noDevServer .",
-    "dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack/webpack.dev.config.js",
-    "validate:lint": "tslint -p tsconfig.json",
-    "validate:tsc": "tsc -p tsconfig.json --noEmit --pretty",
     "build": "webpack --config ./webpack/webpack.build.config.js",
+    "build:prod": "NODE_ENV=production webpack --config ./webpack/webpack.build.config.js && electron --noDevServer .",
     "package": "webpack --config ./webpack/webpack.build.config.js",
-    "postpackage": "electron-packager ./ --out=./build"
+    "postpackage": "electron-packager ./ --out=./build",
+    "start": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack/webpack.dev.config.js",
+    "validate": "npm run validate:tsc && npm run validate:lint",
+    "validate:lint": "tslint -p tsconfig.json",
+    "validate:tsc": "tsc -p tsconfig.json --noEmit --pretty"
   },
   "browserslist": [
     "chrome 64"
