@@ -22,7 +22,9 @@ export function getGlobalBalance(action$: ActionsObservable<OverviewActions>, st
         type: ActionNames.GET_GLOBAL_BALANCE_SUCCESS
       }))
       .catch((error: Error) => {
+        // tslint:disable-next-line:no-console
         console.log(error.message)
+
         return Observable.of({
         type: ActionNames.GET_GLOBAL_BALANCE_FAIL
       })

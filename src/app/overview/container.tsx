@@ -4,8 +4,7 @@ const { connect } = require('react-redux')
 import { bindActionCreators, Dispatch } from 'redux'
 
 import TransactionsComponent from '../common/transactions'
-import { getTransactions } from '../transactions/actions'
-import { getCurrentPriceInBTC, getCurrentPriceInUSD, getGlobalBalance } from './actions'
+import { getCurrentPriceInBTC, getCurrentPriceInUSD } from './actions'
 import CardViewPrices from './components/card-view-prices'
 import { DispatchProps, State, State as Props } from './types'
 
@@ -22,9 +21,7 @@ const mapStateToProps = (state: State): Props =>
 const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
   bindActionCreators({
     getCurrentPriceInBTC,
-    getCurrentPriceInUSD,
-    getGlobalBalance,
-    getTransactions
+    getCurrentPriceInUSD
     // tslint:disable-next-line:align
   }, dispatch)
 
@@ -33,14 +30,12 @@ export default class Overview extends React.Component<Props & DispatchProps, any
   public componentDidMount(): void {
     this.props.getCurrentPriceInUSD()
     this.props.getCurrentPriceInBTC()
-    this.props.getTransactions()
   }
 
   public render(): any {
     const values: any = mapValues(this.props.overview, (value: string) => parseFloat(value).toFixed(MAX_DECIMALS))
-    const transactions: any = this.props.transactions.transactions ?
-                              drop(this.props.transactions.transactions,
-                                   this.props.transactions.transactions.length - TRANSACTIONS_COUNT) : []
+    let { transactions }: any = this.props.transactions
+    transactions = transactions ? drop(transactions, transactions.length - TRANSACTIONS_COUNT) : []
 
     return (
       <div className='c-view'>
