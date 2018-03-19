@@ -4,15 +4,16 @@ import * as url from 'url'
 
 let mainWindow: BrowserWindow | null
 
-const isDev: boolean =
-  process.defaultApp
-  || /[\\/]electron-prebuilt[\\/]/.test(process.execPath)
-  || /[\\/]electron[\\/]/.test(process.execPath)
+// const isDev: boolean =
+//   process.defaultApp
+//   || /[\\/]electron-prebuilt[\\/]/.test(process.execPath)
+//   || /[\\/]electron[\\/]/.test(process.execPath)
+const isProd: boolean = process.env.NODE_ENV === 'production'
 
 function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    frame: (process.env.NODE_ENV !== 'production'),
+    frame: !isProd,
     height: 900,
     show: false,
     webPreferences: {
@@ -21,7 +22,7 @@ function createWindow(): void {
     width: 1500,
   })
 
-  const indexPath: string = isDev && process.argv.indexOf('--noDevServer') === -1
+  const indexPath: string = !isProd
     ? url.format({
       host: 'localhost:8080',
       pathname: '',
@@ -29,7 +30,7 @@ function createWindow(): void {
       slashes: true,
     })
     : url.format({
-      pathname: path.join(__dirname, 'dist', 'index.html'),
+      pathname: path.resolve(__dirname, '../renderer/index.html'),
       protocol: 'file:',
       slashes: true,
     })
@@ -40,7 +41,7 @@ function createWindow(): void {
     if (mainWindow === null) return
 
     mainWindow.show()
-    if (isDev) mainWindow.webContents.openDevTools()
+    if (!isProd) mainWindow.webContents.openDevTools()
   })
 
   mainWindow.on('closed', () => {

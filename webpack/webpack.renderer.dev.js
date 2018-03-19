@@ -1,7 +1,9 @@
 const { spawn } = require('child_process')
-const [mainConfig, rendererConfig] = require('./webpack.common.js')
+const [, rendererConfig] = require('./webpack.common.js')
 const configPaths = require('./config.path')
 const webpackMerge = require('webpack-merge')
+
+const PORT = process.env.NODE_PORT || 8080
 
 module.exports = webpackMerge(rendererConfig, {
   devtool: 'inline-source-map',
@@ -9,8 +11,8 @@ module.exports = webpackMerge(rendererConfig, {
   entry: {
     main: [
       'react-hot-loader/patch',
-      `webpack-dev-server/client?http://${process.env.NODE_HOST || 'localhost'}:${process.env.NODE_PORT || 8080}/`,
-      configPaths.entry
+      `webpack-dev-server/client?http://${process.env.NODE_HOST || 'localhost'}:${PORT}`,
+      configPaths.entryRenderer
     ]
   },
 
@@ -19,7 +21,7 @@ module.exports = webpackMerge(rendererConfig, {
     contentBase: configPaths.outputPathRenderer,
     publicPath: '/',
     hot: true,
-    port: process.env.NODE_PORT || 8080,
+    port: PORT,
     stats: {
       colors: true,
       chunks: false,
@@ -31,8 +33,7 @@ module.exports = webpackMerge(rendererConfig, {
         ['.'],
         { shell: true, env: process.env, stdio: 'inherit' }
       )
-        // eslint-disable-next-line no-unused-vars
-        .on('close', code => process.exit(0))
+        .on('close',() => process.exit(0))
         .on('error', spawnError => console.error(spawnError))
     }
   }

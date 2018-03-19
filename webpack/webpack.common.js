@@ -1,8 +1,5 @@
-const { spawn } = require('child_process')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const configPaths = require('./config.path')
-const path = require('path')
 const webpackRules = require('./rules')
 const webpackPlugins = require('./plugins')
 
@@ -33,15 +30,9 @@ const mainConfig = {
   },
 
   plugins: [
-    new CleanWebpackPlugin([configPaths.buildPath], {
-      root: process.cwd(),
-    }),
-    new CopyWebpackPlugin([
-      {
-        from: configPaths.binariesPathFrom,
-        to: configPaths.binariesPathTo,
-      }
-    ])
+    // new CleanWebpackPlugin([configPaths.buildPath], {
+    //   root: process.cwd(),
+    // }),
   ],
 }
 
@@ -51,7 +42,7 @@ const rendererConfig = {
 
   output: {
     path: configPaths.outputPathRenderer,
-    publicPath: '/',
+    publicPath: '',
     filename: 'index.js'
   },
 
