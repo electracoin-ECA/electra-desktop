@@ -3,7 +3,11 @@ import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs'
 import * as ElectraActionNames from './action-names'
+<<<<<<< 62e938b84db98efc2ec330d34fde76ec13e78a64
 import { GenerateHD, InitialElectra, StartDaemon, StopDaemon, StartDaemonSuccess, UnlockWallet, UnlockWalletSuccess } from './types'
+=======
+import { GenerateHD, InitialElectra, StartDaemon, StopDaemon, StartDaemonSuccess } from './types'
+>>>>>>> add websocket
 
 // should be loaded from a file
 const config: any = {
@@ -76,8 +80,13 @@ export function startDaemon(action$ : ActionsObservable<StartDaemon> , store: St
   )
 }
 
+<<<<<<< 62e938b84db98efc2ec330d34fde76ec13e78a64
 export function stopDaemon(action$ : ActionsObservable<StopDaemon> , store: Store<any>): any {
   return action$.ofType(ElectraActionNames.STOP_DAEMON)
+=======
+export function generateHD(action$ : ActionsObservable<GenerateHD | StartDaemonSuccess> , store: Store<any>): any {
+  return action$.ofType(ElectraActionNames.GENERATE_HARD_WALLET, ElectraActionNames.START_DAEMON_SUCCESS)
+>>>>>>> add websocket
   .map(() => store.getState().electra.electraJs)
   .filter((electraJs: any) => electraJs)
   .map(async (electraJs: ElectraJs) => electraJs.wallet.stopDaemon())
@@ -103,7 +112,11 @@ export function unlockWallet(action$: ActionsObservable<UnlockWallet | StartDaem
   return action$.ofType(ElectraActionNames.UNLOCK_WALLET, ElectraActionNames.START_DAEMON_SUCCESS)
   .map(() => store.getState().electra.electraJs)
   .filter((electraJs: any) => electraJs)
+<<<<<<< 62e938b84db98efc2ec330d34fde76ec13e78a64
   .map(async (electraJs: ElectraJs) => electraJs.wallet.unlock(electraJs.wallet.mnemonic))
+=======
+  .map(async (electraJs: ElectraJs) => electraJs.wallet.stopDaemon())
+>>>>>>> add websocket
   .mergeMap((promise: Promise<any>) =>
     Observable
     .fromPromise(promise)

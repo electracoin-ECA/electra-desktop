@@ -14,6 +14,7 @@ export interface DispatchProps {
  * action types
  */
 export type GET_TRANSACTIONS = 'GET_TRANSACTIONS'
+export type GET_TRANSACTION = 'GET_TRANSACTION'
 export type GET_TRANSACTIONS_SUCCESS = 'GET_TRANSACTIONS_SUCCESS'
 export type GET_TRANSACTIONS_FAIL = 'GET_TRANSACTIONS_FAIL'
 
@@ -22,6 +23,11 @@ export type GET_TRANSACTIONS_FAIL = 'GET_TRANSACTIONS_FAIL'
  */
 export interface GetTransactions {
     type: GET_TRANSACTIONS
+}
+
+export interface GetTransaction {
+  payload: string,
+  type: GET_TRANSACTION
 }
 
 export interface GetTransactionsSuccess {
@@ -34,5 +40,6 @@ export interface GetTransactionsFail {
 }
 
 export type TransactionsActions =   GetTransactions |
+                                    GetTransaction |
                                     GetTransactionsSuccess |
                                     GetTransactionsFail
