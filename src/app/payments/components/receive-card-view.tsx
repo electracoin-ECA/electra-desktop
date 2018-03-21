@@ -1,11 +1,11 @@
 import * as QRCode from 'qrcode.react'
 import * as React from 'react'
 import * as CopyToClipboard from 'react-copy-to-clipboard'
-import { Icon } from '../icon'
+import { Icon } from '../../icon'
 
 export default class ReceiveCardView extends React.Component<any, any> {
   public render(): any {
-    const { address } = this.props
+    const { address, onClick } = this.props
 
     return (
       <div className='c-grid__item text-center bg-grey-lightest'>
@@ -29,7 +29,7 @@ export default class ReceiveCardView extends React.Component<any, any> {
           <div className='c-card__actions'>
             <CopyToClipboard
               text={address}>
-              <button>Copy wallet address</button>
+              <button onClick={onClick}>Copy wallet address</button>
             </CopyToClipboard>
           </div>
         </div>

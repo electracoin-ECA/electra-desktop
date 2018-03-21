@@ -1,0 +1,4 @@
+import * as types from './types'
+
+export const SET_MESSAGE_AND_BADGE: types.SET_MESSAGE_AND_BADGE = 'SET_MESSAGE_AND_BADGE'
+export const HIDE_MESSAGE_AND_BADGE: types.HIDE_MESSAGE_AND_BADGE = 'HIDE_MESSAGE_AND_BADGE'

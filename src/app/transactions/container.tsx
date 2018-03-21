@@ -1,7 +1,7 @@
 import * as React from 'react'
 const { connect } = require('react-redux')
 import { bindActionCreators, Dispatch } from 'redux'
-import TransactionsComponent from '../common/transactions'
+import TransactionsComponent from '../common/transactions/transactions'
 import { getTransactions } from '../transactions/actions'
 import { DispatchProps, State, State as Props } from './types'
 

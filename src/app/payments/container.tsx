@@ -4,9 +4,11 @@ const { connect } = require('react-redux')
 import { get } from 'lodash'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { setMessageAndBadge } from '../common/toast/actions'
+import { COPIED_ADDRESS, PENDING, SENDING_IN_PROGRESS, SUCCESS } from '../common/toast/toast-messages'
 import { clearSendCardFields, sendEca, setAmount, setToAddress } from './actions'
-import ReceiveCardView from './receive-card-view'
-import SendCardView from './send-card-view'
+import ReceiveCardView from './components/receive-card-view'
+import SendCardView from './components/send-card-view'
 
 // tslint:disable-next-line:typedef
 const mapStateToProps = (state: State): Props =>
@@ -21,6 +23,7 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
     clearSendCardFields,
     sendEca,
     setAmount,
+    setMessageAndBadge,
     setToAddress
     // tslint:disable-next-line:align
   }, dispatch)
@@ -30,6 +33,11 @@ export default class Payments extends React.Component<Props & DispatchProps, any
   onClick = (): void => {
     this.props.sendEca()
     this.props.clearSendCardFields()
+    this.props.setMessageAndBadge(SENDING_IN_PROGRESS, PENDING)
+  }
+
+  onCopy = (): void => {
+    this.props.setMessageAndBadge(COPIED_ADDRESS, SUCCESS)
   }
 
   setAmount = (event: any): void => {
@@ -58,7 +66,7 @@ export default class Payments extends React.Component<Props & DispatchProps, any
             onClick={this.onClick}
             setToAddress={this.setToAddress}
             setAmount={this.setAmount} />
-          <ReceiveCardView address={address} />
+          <ReceiveCardView address={address} onClick={this.onCopy} />
         </div>
       </div>
     )
