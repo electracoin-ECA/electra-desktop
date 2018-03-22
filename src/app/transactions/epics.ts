@@ -10,12 +10,13 @@ import { TransactionsActions } from './types'
 
 const TRANSACTIONS_NUMBER: number = 100
 const DELAY: number = 1000
+
 export function getTransactions(action$: ActionsObservable<TransactionsActions | ElectraActions>, store: any):
   Observable<any> {
   return action$.ofType(TransactionActionNames.GET_TRANSACTIONS, ElectraActionNames.GENERATE_HARD_WALLET_SUCCESS)
     .map(() => store.getState().electra.electraJs)
     .filter((electraJs: any) => electraJs)
-    .map(async (electraJs: ElectraJs) => electraJs.wallet.rpc.listTransactions('*', TRANSACTIONS_NUMBER))
+    .map(async (electraJs: ElectraJs) => electraJs.wallet.getTransactions(TRANSACTIONS_NUMBER))
     .debounceTime(DELAY)
     .switchMap((promise: Promise<WalletTransaction[]>) =>
       Observable
