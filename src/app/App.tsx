@@ -37,7 +37,6 @@ export default class App extends React.Component<any, any> {
   componentWillMount() {
     this.props.initializeElectra() // initialize electraJs object
     this.props.startDaemon() // generate HD wallet
-    this.props.generateHDWallet()
   }
 
   // tslint:disable-next-line:typedef
