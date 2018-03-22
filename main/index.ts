@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron'
+import * as express from 'express'
 import * as path from 'path'
 import * as url from 'url'
 
@@ -62,3 +63,16 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+/**
+ * Run express server to catch incoming post request and notify the user
+ */
+const EXPRESS_PORT: number =3005
+const expressApp: express.Express = express()
+expressApp.post('/transaction/txid=*', (req: any, res: any) => {
+  if(mainWindow) {
+    mainWindow.webContents.send('newTransaction' , {msg: req.params[0] })
+  }
+  res.send('OK')
+})
+expressApp.listen(EXPRESS_PORT)

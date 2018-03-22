@@ -11,11 +11,13 @@ import { Overview } from './overview'
 import { Payments } from './payments'
 import { Sidebar } from './sidebar'
 import { Transactions } from './transactions'
+const {ipcRenderer} = require('electron')
+import store from './store'
+import { getTransaction } from './transactions/actions'
 
 // tslint:disable-next-line:typedef
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators({
-    generateHDWallet: ElectraActions.generateHDWallet,
     initializeElectra: ElectraActions.initializeElectra,
     startDaemon: ElectraActions.startDaemon
     // tslint:disable-next-line:align
@@ -27,9 +29,9 @@ const mapStateToProps = (state: any): any =>
     toast: state.toast
   })
 
-/**
- * Point of entrance
- */
+ipcRenderer.on('newTransaction' , function(event: any , data: any): void {
+  store.dispatch(getTransaction(data.msg))
+})
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class App extends React.Component<any, any> {

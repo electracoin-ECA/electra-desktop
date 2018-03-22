@@ -21,6 +21,7 @@
   ],
   "dependencies": {
     "@types/bitcoinjs-lib": "^3.3.1",
+    "@types/express": "^4.11.1",
     "@types/qrcode.react": "^0.6.3",
     "@types/react-copy-to-clipboard": "^4.2.5",
     "@types/react-dom": "^16.0.4",
@@ -31,6 +32,7 @@
     "classnames": "^2.2.5",
     "electra-js": "^0.5.3",
     "electron": "^1.8.2",
+    "express": "^4.16.3",
     "lodash": "^4.17.4",
     "material-design-iconic-font": "^2.2.0",
     "moment": "^2.21.0",
