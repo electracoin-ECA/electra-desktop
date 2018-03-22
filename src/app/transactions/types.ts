@@ -1,4 +1,4 @@
-import { WalletTransaction } from 'electra-js/dist/wallet/types'
+import { WalletTransaction } from 'electra-js'
 
 export interface State {
     transactions: {
