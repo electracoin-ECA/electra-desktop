@@ -95,6 +95,26 @@ export interface StopDaemonSuccess {
   type: STOP_DAEMON_SUCCESS
 }
 
+/**
+ * Unlock wallet
+ */
+
+export type UNLOCK_WALLET = 'UNLOCK_WALLET'
+export type UNLOCK_WALLET_FAIL = 'UNLOCK_WALLET_FAIL'
+export type UNLOCK_WALLET_SUCCESS = 'UNLOCK_WALLET_SUCCESS'
+
+export interface UnlockWallet {
+  type: UNLOCK_WALLET
+}
+
+export interface UnlockWalletFail {
+  type: UNLOCK_WALLET_FAIL
+}
+
+export interface UnlockWalletSuccess {
+  type: UNLOCK_WALLET_SUCCESS
+}
+
 export type ElectraActions = InitialElectra|
                             InitializeElectraFail|
                             InitializeElectraSuccess |
@@ -106,4 +126,7 @@ export type ElectraActions = InitialElectra|
                             StartDaemonSuccess |
                             StopDaemon |
                             StopDaemonFail |
-                            StopDaemonSuccess
+                            StopDaemonSuccess |
+                            UnlockWallet |
+                            UnlockWalletFail |
+                            UnlockWalletSuccess

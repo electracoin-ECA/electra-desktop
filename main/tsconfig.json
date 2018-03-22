@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.common",
+  "compilerOptions": {
+    "lib": ["es2017"]
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
+}

@@ -1,5 +1,5 @@
 import * as ActionNames from './action-names'
-import { GenerateHD, InitialElectra, StartDaemon, StopDaemon } from './types'
+import { GenerateHD, InitialElectra, StartDaemon, StopDaemon, UnlockWallet } from './types'
 
 export function initializeElectra(): InitialElectra {
   return {
@@ -21,5 +21,11 @@ export function generateHDWallet(): GenerateHD {
 export function stopDaemon(): StopDaemon {
   return {
     type: ActionNames.STOP_DAEMON
+  }
+}
+
+export function unlock(): UnlockWallet {
+  return {
+    type: ActionNames.UNLOCK_WALLET
   }
 }

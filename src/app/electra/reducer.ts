@@ -34,6 +34,12 @@ export default function electraReducer(state: ElectraState = initialState, actio
     case ActionNames.START_DAEMON_FAIL: {
       return {...state}
     }
+    case ActionNames.UNLOCK_WALLET_SUCCESS: {
+      return {...state}
+    }
+    case ActionNames.UNLOCK_WALLET_FAIL: {
+      return {...state}
+    }
     default: return state
   }
 }
