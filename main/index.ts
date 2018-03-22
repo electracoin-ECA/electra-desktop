@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron'
 import * as path from 'path'
 import * as url from 'url'
+import { express } from 'express'
 
 let mainWindow: BrowserWindow | null
 
@@ -62,3 +63,12 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+const expressApp = express()
+expressApp.post('/transaction/txid=*', (req: any, res: any) => {
+  if(mainWindow) {
+    mainWindow.webContents.send('newTransaction' , {msg: req.params[0] });
+  }
+  res.send('OK')
+})
+expressApp.listen(3005)
