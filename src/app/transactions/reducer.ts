@@ -1,4 +1,5 @@
-import { WalletTransaction } from 'electra-js/dist/wallet/types'
+import { WalletTransaction } from 'electra-js'
+
 import * as ActionNames from './action-names'
 import { TransactionsActions } from './types'
 
