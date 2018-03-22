@@ -3,7 +3,7 @@ import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs'
 import * as ElectraActionNames from './action-names'
-import { GenerateHD, InitialElectra, StartDaemon, StopDaemon } from './types'
+import { GenerateHD, InitialElectra, StartDaemon, StopDaemon, StartDaemonSuccess, UnlockWallet, UnlockWalletSuccess } from './types'
 
 // should be loaded from a file
 const config: any = {
@@ -30,11 +30,34 @@ export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra
     }))
 }
 
+export function generateHD(action$ : ActionsObservable<GenerateHD | UnlockWalletSuccess> , store: Store<any>): any {
+  return action$.ofType(ElectraActionNames.GENERATE_HARD_WALLET, ElectraActionNames.UNLOCK_WALLET_SUCCESS)
+  .map(() => store.getState().electra.electraJs)
+  .filter((electraJs: any) => electraJs)
+  .map(async (electraJs: ElectraJs) => electraJs.wallet.generate()) // generate wallet
+  .mergeMap((promise: Promise<any>) =>
+  Observable
+  .fromPromise(promise)
+  .mergeMap(() =>
+  Observable.of(
+    { type: ElectraActionNames.GENERATE_HARD_WALLET_SUCCESS }
+  )
+)
+.catch((error: Error) => {
+  // tslint:disable-next-line:no-console
+  console.log(error.message)
+  
+  return Observable.of({
+    type: ElectraActionNames.GENERATE_HARD_WALLET_FAIL
+  })})
+)
+}
+
 export function startDaemon(action$ : ActionsObservable<StartDaemon> , store: Store<any>): any {
   return action$.ofType(ElectraActionNames.START_DAEMON)
   .map(() => store.getState().electra.electraJs)
   .filter((electraJs: any) => electraJs)
-  .map(async (electraJs: ElectraJs) => electraJs.wallet.startDeamon())
+  .map(async (electraJs: ElectraJs) => electraJs.wallet.startDaemon())
   .mergeMap((promise: Promise<any>) =>
     Observable
     .fromPromise(promise)
@@ -53,34 +76,11 @@ export function startDaemon(action$ : ActionsObservable<StartDaemon> , store: St
   )
 }
 
-export function generateHD(action$ : ActionsObservable<GenerateHD> , store: Store<any>): any {
-  return action$.ofType(ElectraActionNames.GENERATE_HARD_WALLET)
-  .map(() => store.getState().electra.electraJs)
-  .filter((electraJs: any) => electraJs)
-  .map(async (electraJs: ElectraJs) => electraJs.wallet.generate()) // generate wallet
-  .mergeMap((promise: Promise<any>) =>
-    Observable
-    .fromPromise(promise)
-    .mergeMap(() =>
-      Observable.of(
-        { type: ElectraActionNames.GENERATE_HARD_WALLET_SUCCESS }
-      )
-    )
-    .catch((error: Error) => {
-      // tslint:disable-next-line:no-console
-      console.log(error.message)
-
-      return Observable.of({
-      type: ElectraActionNames.GENERATE_HARD_WALLET_FAIL
-    })})
-  )
-}
-
 export function stopDaemon(action$ : ActionsObservable<StopDaemon> , store: Store<any>): any {
   return action$.ofType(ElectraActionNames.STOP_DAEMON)
   .map(() => store.getState().electra.electraJs)
   .filter((electraJs: any) => electraJs)
-  .map(async (electraJs: ElectraJs) => electraJs.wallet.stopDeamon())
+  .map(async (electraJs: ElectraJs) => electraJs.wallet.stopDaemon())
   .mergeMap((promise: Promise<any>) =>
     Observable
     .fromPromise(promise)
@@ -95,6 +95,29 @@ export function stopDaemon(action$ : ActionsObservable<StopDaemon> , store: Stor
 
       return Observable.of({
       type: ElectraActionNames.STOP_DAEMON_FAIL
+    })})
+  )
+}
+
+export function unlockWallet(action$: ActionsObservable<UnlockWallet | StartDaemonSuccess>, store: Store<any>): any {
+  return action$.ofType(ElectraActionNames.UNLOCK_WALLET, ElectraActionNames.START_DAEMON_SUCCESS)
+  .map(() => store.getState().electra.electraJs)
+  .filter((electraJs: any) => electraJs)
+  .map(async (electraJs: ElectraJs) => electraJs.wallet.unlock(electraJs.wallet.mnemonic))
+  .mergeMap((promise: Promise<any>) =>
+    Observable
+    .fromPromise(promise)
+    .mergeMap(() =>
+      Observable.of(
+        { type: ElectraActionNames.UNLOCK_WALLET_SUCCESS }
+      )
+    )
+    .catch((error: Error) => {
+      // tslint:disable-next-line:no-console
+      console.log(error.message)
+
+      return Observable.of({
+      type: ElectraActionNames.UNLOCK_WALLET_FAIL
     })})
   )
 }
