@@ -31,6 +31,7 @@
     "classnames": "^2.2.5",
     "electra-js": "0.5.7",
     "electron": "^1.8.2",
+    "electron-json-storage": "^4.0.2",
     "lodash": "^4.17.4",
     "material-design-iconic-font": "^2.2.0",
     "moment": "^2.21.0",
@@ -51,6 +52,7 @@
     "utility-types": "^1.0.0"
   },
   "devDependencies": {
+    "@types/electron-json-storage": "^4.0.0",
     "@types/lodash": "^4.14.104",
     "autoprefixer": "^8.2.0",
     "awesome-typescript-loader": "^3.5.0",
