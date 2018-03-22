@@ -6,9 +6,9 @@ Electron wallet for **Electra** blockchain
 
 > Note: node version 9.4.0 is required for installation
 #### Development (with hot reloading)
-`yarn`
+`npm i`
 
-`yarn run dev`
+`npm start`
 
 ## Concepts
 
