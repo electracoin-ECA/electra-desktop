@@ -11,6 +11,7 @@
     "member-access":false,
     "no-any": [false],
     "no-empty":[false],
+    "no-console": [true, "log"],
     "no-default-export": [false],
     "no-implicit-dependencies": [true, "dev"],
     "no-inferrable-types": [false],
