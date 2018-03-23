@@ -30,7 +30,7 @@
     "await-to-js": "^2.0.1",
     "browserslist": "^3.1.1",
     "classnames": "^2.2.5",
-    "electra-js": "0.5.10",
+    "electra-js": "0.5.11",
     "electron": "^1.8.2",
     "electron-json-storage": "^4.0.2",
     "lodash": "^4.17.4",
