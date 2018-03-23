@@ -1,5 +1,6 @@
 import * as ActionNames from './action-names'
-import { HeaderActions, HeaderState } from './types'
+import { HeaderActions,
+  HeaderState } from './types'
 
 const initialState: HeaderState = {
   walletInfo: {
@@ -18,7 +19,17 @@ const initialState: HeaderState = {
 export default function(state: HeaderState = initialState, action: HeaderActions): any {
   switch (action.type) {
     case ActionNames.GET_WALLET_INFO_SUCCESS: {
-      const { connectionsCount, isHD, isStaking, isSynchonized, localBlockchainHeight, localStakingWeight, networkBlockchainHeight, networkStakingWeight, nextStakingRewardIn } = action.payload
+      const {
+        connectionsCount,
+        isHD,
+        isStaking,
+        isSynchonized,
+        localBlockchainHeight,
+        localStakingWeight,
+        networkBlockchainHeight,
+        networkStakingWeight,
+        nextStakingRewardIn
+      } = action.payload
 
       return {
         ...state,
