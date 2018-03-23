@@ -1,10 +1,9 @@
+import ElectraJs, { WalletInfo } from 'electra-js'
 import { ActionsObservable } from 'redux-observable'
 import 'rxjs/add/observable/of'
 import { Observable } from 'rxjs/Observable'
 import * as ActionNames from './action-names'
 import { HeaderActions, /*WalletInfoObservable*/ } from './types'
-import { WalletInfo } from 'electra-js/dist/wallet/types';
-import ElectraJs from 'electra-js';
 
 /**
  * TODO: If electraJs not exist try to reinitialize
@@ -24,7 +23,8 @@ Observable<any> {
           type: ActionNames.GET_WALLET_INFO_SUCCESS
         }))
         .catch((error: Error) => {
-          console.log(error.message)
+          console.error(error.message)
+
           return Observable.of({
           type: ActionNames.GET_WALLET_INFO_FAIL
         })})
