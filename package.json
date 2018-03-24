@@ -12,6 +12,7 @@
     "package": "webpack --config ./webpack/webpack.prod.js",
     "postpackage": "electron-packager ./ --out=./build",
     "start": "npm run build:dev:main && webpack-dev-server --hot --host 0.0.0.0 --config=./webpack/webpack.renderer.dev.js",
+    "start:new": "node ./tasks/removeElectraUserDirectory && npm start",
     "validate": "npm run validate:tsc && npm run validate:lint",
     "validate:lint": "tslint -p src/tsconfig.json",
     "validate:tsc": "tsc -p src/tsconfig.json --noEmit --pretty"
@@ -30,7 +31,7 @@
     "await-to-js": "^2.0.1",
     "browserslist": "^3.1.1",
     "classnames": "^2.2.5",
-    "electra-js": "0.5.18",
+    "electra-js": "0.5.19",
     "electron": "^1.8.2",
     "electron-json-storage": "^4.0.2",
     "lodash": "^4.17.4",
