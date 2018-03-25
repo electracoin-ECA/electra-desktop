@@ -9,7 +9,7 @@ export function bindEventToSyncCall<T>(eventName: string, args?: IArguments): T 
 export async function bindEventToAsyncCall<T>(eventName: string, args?: IArguments): Promise<T> {
   return new Promise((resolve: (res: T) => void, reject: (err: Error) => void): void => {
     ipcRenderer
-      .on(`${eventName}:success`, (event: any, resString: string): void => JSON.parse(resString))
+      .on(`${eventName}:success`, (event: any, resString: string): void => resolve(JSON.parse(resString)))
       .on(`${eventName}:error`, (event: any, err: string): void => reject(new Error(err)))
 
     ipcRenderer
