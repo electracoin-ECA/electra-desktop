@@ -1,9 +1,8 @@
 import * as React from 'react'
 import { PropsPartial } from './types'
 
-export default class WalletInfoComponent extends React.Component<PropsPartial, any> {
-  // tslint:disable-next-line:typedef
-  render() {
+export default class WalletInfoComponent extends React.PureComponent<PropsPartial, any> {
+  public render(): JSX.Element {
     const { label, info, row } = this.props
 
     return (
@@ -15,7 +14,7 @@ export default class WalletInfoComponent extends React.Component<PropsPartial, a
             <span className='w-1/2'>
               {info}
             </span>
-            </div>
+          </div>
       </div>
     )
   }
