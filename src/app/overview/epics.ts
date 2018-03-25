@@ -1,10 +1,7 @@
-import ElectraJs from 'electra-js'
 import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs/Observable'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
-import * as ElectraActionNames from './../electra/action-names'
-import { ElectraActions} from './../electra/types'
 import * as OverviewActionNames from './action-names'
 import { GlobalBalanceObservable, GlobalBalanceOtherObservable, OverviewActions } from './types'
 
@@ -12,10 +9,10 @@ const MAX_DECIMAL_PLACES: number = 8
 const DELAY: number = 1000
 const BTC: 'BTC' = 'BTC'
 
-export function getGlobalBalance(action$: ActionsObservable<OverviewActions | ElectraActions>, store: Store<any>):
+export function getGlobalBalance(action$: ActionsObservable<OverviewActions>, store: Store<any>):
   Observable<GlobalBalanceObservable> {
-    return action$.ofType(OverviewActionNames.GET_GLOBAL_BALANCE, ElectraActionNames.GENERATE_HARD_WALLET_SUCCESS)
-      .map(async () => ElectraJsMiddleware.wallet.getBalance())
+    return action$.ofType(OverviewActionNames.GET_GLOBAL_BALANCE)
+      .map(async () => ElectraJsMiddleware.getBalance())
       .debounceTime(DELAY)
       .switchMap((promise: Promise<number>) =>
       Observable
@@ -38,7 +35,7 @@ export function getGlobalBalance(action$: ActionsObservable<OverviewActions | El
 export function getCurrentPriceUSD(action$: ActionsObservable<OverviewActions>, store: Store<any>):
   Observable<GlobalBalanceOtherObservable> {
     return action$.ofType(OverviewActionNames.GET_CURRENT_PRICE_USD)
-    .map(async () => ElectraJsMiddleware.webServices.getCurrentPriceIn())
+    .map(async () => ElectraJsMiddleware.getCurrentPriceIn())
     .mergeMap((promise: Promise<number>) =>
       Observable
         .fromPromise(promise)
@@ -56,7 +53,7 @@ export function getCurrentPriceUSD(action$: ActionsObservable<OverviewActions>, 
 export function getCurrentPriceBTC(action$: ActionsObservable<OverviewActions>, store: Store<any>):
   Observable<GlobalBalanceOtherObservable> {
     return action$.ofType(OverviewActionNames.GET_CURRENT_PRICE_BTC)
-    .map(async () => ElectraJsMiddleware.webServices.getCurrentPriceIn(BTC))
+    .map(async () => ElectraJsMiddleware.getCurrentPriceIn(BTC))
     .mergeMap((promise: Promise<number>) =>
       Observable
         .fromPromise(promise)

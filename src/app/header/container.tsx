@@ -12,9 +12,7 @@ const GET_WALLET_INFO_INTERVAL: number = 5000
 const rowTwo: number = 2
 const rowSix: number = 6
 
-const mapStateToProps: MapStateToProps<StateProps, {}, {}> = (state: StateProps): StateProps =>
-  ({
-    electra: state.electra,
+const mapStateToProps: MapStateToProps<StateProps, {}, {}> = (state: StateProps): StateProps => ({
     header: state.header
   })
 
@@ -27,7 +25,7 @@ class Header extends React.Component<StateProps & DispatchProps> {
   }
 
   public getWalletInfo(): void {
-    setTimeout(this.props.getWalletInfo.bind(this), GET_WALLET_INFO_INTERVAL)
+    setInterval(this.props.getWalletInfo.bind(this), GET_WALLET_INFO_INTERVAL)
   }
 
   public render(): JSX.Element {
