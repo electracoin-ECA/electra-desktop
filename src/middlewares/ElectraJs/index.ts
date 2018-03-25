@@ -10,7 +10,8 @@ export default class ElectraJsMiddleware {
     return ipcRenderer.sendSync('electraJs:constants')
   }
 
-  public static wallet: Wallet = new Wallet()
+  // tslint:disable-next-line:ban-types
+  public static wallet: Wallet
   public static webServices: WebServices = new WebServices()
 
   public static getVersion(): string {
