@@ -1,5 +1,6 @@
-
 import { WalletInfo } from 'electra-js'
+import { Action } from 'redux'
+
 import { ElectraState } from '../electra/types'
 
 /**
@@ -25,16 +26,16 @@ export type GET_WALLET_INFO = 'GET_WALLET_INFO'
 export type GET_WALLET_INFO_FAIL = 'GET_WALLET_INFO_FAIL'
 export type GET_WALLET_INFO_SUCCESS = 'GET_WALLET_INFO_SUCCESS'
 
-export interface GetWalletInfo {
+export interface GetWalletInfo extends Action {
   type: GET_WALLET_INFO
 }
 
-export interface GetWalletInfoFail {
+export interface GetWalletInfoFail extends Action {
   type: GET_WALLET_INFO_FAIL
 }
 
-export interface GetWalletInfoSuccess {
-  type: GET_WALLET_INFO_SUCCESS,
+export interface GetWalletInfoSuccess extends Action {
+  type: GET_WALLET_INFO_SUCCESS
   payload: WalletInfo
 }
 
@@ -46,6 +47,9 @@ export type WalletInfoActions = GetWalletInfo |
                                 GetWalletInfoFail |
                                 GetWalletInfoSuccess
 
-export interface WalletInfoObservable { payload: WalletInfo, type: WalletInfoTypes }
+export interface WalletInfoObservable {
+  payload: WalletInfo
+  type: WalletInfoTypes
+}
 
-export type HeaderActions =   WalletInfoObservable
+export type HeaderActions = WalletInfoObservable
