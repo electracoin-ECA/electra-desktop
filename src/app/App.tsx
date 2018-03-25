@@ -1,11 +1,10 @@
 import * as React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { bindActionCreators } from 'redux'
 import Toast from './common/toast/toast'
 const { connect } = require('react-redux')
+import 'rxjs'
 
 import { AddressBook } from './addressBook'
-import { ElectraActions } from './electra'
 import { Header } from './header'
 import Login from './login'
 import { Overview } from './overview'
@@ -18,25 +17,15 @@ interface ComponentState {
 }
 
 // tslint:disable-next-line:typedef
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators({
-    generateHDWallet: ElectraActions.generateHDWallet,
-    initializeElectra: ElectraActions.initializeElectra,
-    startDaemon: ElectraActions.startDaemon
-    // tslint:disable-next-line:align
-  }, dispatch)
-
-// tslint:disable-next-line:typedef
-const mapStateToProps = (state: any): any =>
-  ({
-    toast: state.toast
-  })
+const mapStateToProps = (state: any): any => ({
+  toast: state.toast
+})
 
 /**
  * Point of entrance
  */
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(mapStateToProps)
 export default class App extends React.Component<any, ComponentState> {
   constructor(props: any) {
     super(props)
@@ -46,7 +35,6 @@ export default class App extends React.Component<any, ComponentState> {
     }
   }
 
-  // tslint:disable-next-line:typedef
   public render(): JSX.Element {
     const { badge, message } = this.props.toast
 
