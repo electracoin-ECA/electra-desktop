@@ -34,11 +34,11 @@ export default class Wallet {
   }
 
   public get randomAddresses(): WalletAddress[] {
-    return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:mnemonic'))
+    return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:randomAddresses'))
   }
 
   public get state(): WalletState {
-    return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:mnemonic'))
+    return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:state'))
   }
 
   public async startDaemon(): Promise<void> {
