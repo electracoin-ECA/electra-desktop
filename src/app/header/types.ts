@@ -3,10 +3,7 @@ import { Action } from 'redux'
 
 import { ElectraState } from '../electra/types'
 
-/**
- * allowed states to be passed to the header feature
- */
-export interface State {
+export interface StateProps {
   header: HeaderState,
   electra: ElectraState
 }
