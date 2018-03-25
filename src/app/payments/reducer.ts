@@ -2,6 +2,7 @@ import * as ActionNames from './action-names'
 import { PaymentsActions, PaymentsState } from './types'
 
 const initialState: PaymentsState = {
+  addresses: [],
   pendingSend: {
     amount: 0,
     to: ''
@@ -31,6 +32,17 @@ export default function paymentsReducer(state: PaymentsState = initialState, act
     }
 
     case ActionNames.SEND_ECA_SUCCESS: {
+      return { ...state }
+    }
+
+    case ActionNames.GET_ADDRESSES_SUCCESS: {
+      return {
+        ...state,
+        addresses: action.payload
+      }
+    }
+
+    case ActionNames.GET_ADDRESSES_FAIL: {
       return { ...state }
     }
 

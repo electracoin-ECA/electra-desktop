@@ -1,11 +1,8 @@
 import { WalletInfo } from 'electra-js'
 import { Action } from 'redux'
 
-import { ElectraState } from '../electra/types'
-
 export interface StateProps {
-  header: HeaderState,
-  electra: ElectraState
+  header: HeaderState
 }
 
 export interface DispatchProps {

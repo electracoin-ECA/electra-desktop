@@ -1,8 +1,10 @@
 import {
   WalletAddress,
   WalletDaemonState,
+  WalletInfo,
   WalletLockState,
   WalletState,
+  WalletTransaction
 } from 'electra-js'
 import { ipcRenderer } from 'electron'
 
@@ -55,6 +57,14 @@ export default class Wallet {
 
   public async getBalance(): Promise<number> {
     return bindEventToAsyncCall<number>('electraJs:wallet:getBalance', arguments)
+  }
+
+  public async getInfo(): Promise<WalletInfo> {
+    return bindEventToAsyncCall<WalletInfo>('electraJs:wallet:getInfo', arguments)
+  }
+
+  public async getTransactions(): Promise<WalletTransaction[]> {
+    return bindEventToAsyncCall<WalletTransaction[]>('electraJs:wallet:getTransactions', arguments)
   }
 
   public async lock(passphrase: string): Promise<void> {

@@ -4,6 +4,7 @@ const { connect } = require('react-redux')
 import { bindActionCreators, Dispatch } from 'redux'
 
 import TransactionsComponent from '../common/transactions/transactions'
+import { getTransactions } from '../transactions/actions'
 import { getCurrentPriceInBTC, getCurrentPriceInUSD } from './actions'
 import CardViewPrices from './components/card-view-prices'
 import { DispatchProps, State, State as Props } from './types'
@@ -11,17 +12,17 @@ import { DispatchProps, State, State as Props } from './types'
 const MAX_DECIMALS: number = 8
 const TRANSACTIONS_COUNT: number = 10
 // tslint:disable-next-line:typedef
-const mapStateToProps = (state: State): Props =>
-  ({
-    overview: state.overview,
-    transactions: state.transactions
-  })
+const mapStateToProps = (state: State): Props => ({
+  overview: state.overview,
+  transactions: state.transactions
+})
 
 // tslint:disable-next-line:typedef
 const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
   bindActionCreators({
     getCurrentPriceInBTC,
-    getCurrentPriceInUSD
+    getCurrentPriceInUSD,
+    getTransactions
     // tslint:disable-next-line:align
   }, dispatch)
 
@@ -51,7 +52,7 @@ export default class Overview extends React.Component<Props & DispatchProps, any
             currentPriceUSD={values.currentPriceUSD} />
 
           <h2>Last Transactions</h2>
-          <TransactionsComponent transactions={transactions}/>
+          <TransactionsComponent transactions={transactions} />
         </div>
       </div>
     )
