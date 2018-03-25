@@ -2,18 +2,23 @@ import ElectraJs from 'electra-js'
 import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs'
-import * as ElectraActionNames from './action-names'
-import { GenerateHD, InitialElectra, StartDaemon, StopDaemon, StartDaemonSuccess, UnlockWallet, UnlockWalletSuccess } from './types'
 
-// should be loaded from a file
-const config: any = {
-  isHard: true
-}
+import ElectraJsMiddleware from '../../middlewares/ElectraJs'
+import * as ElectraActionNames from './action-names'
+import {
+  GenerateHD,
+  InitialElectra,
+  StartDaemon,
+  StartDaemonSuccess,
+  StopDaemon,
+  UnlockWallet,
+  UnlockWalletSuccess,
+} from './types'
 
 export function initializeElectraEpic(action$ : ActionsObservable<InitialElectra> , store: Store<any>): any {
   return action$.ofType(ElectraActionNames.INITIALIZE_ELECTRA)
-    .map(() => new ElectraJs(config))
-    .map((electraJs: any) => ({
+    .map(() => ElectraJsMiddleware)
+    .map((electraJs: ElectraJsMiddleware) => ({
       type: ElectraActionNames.INITIALIZE_ELECTRA_SUCCESS,
       // tslint:disable-next-line:object-literal-sort-keys
       payload: {
@@ -46,7 +51,7 @@ export function generateHD(action$ : ActionsObservable<GenerateHD | UnlockWallet
 .catch((error: Error) => {
   // tslint:disable-next-line:no-console
   console.log(error.message)
-  
+
   return Observable.of({
     type: ElectraActionNames.GENERATE_HARD_WALLET_FAIL
   })})
