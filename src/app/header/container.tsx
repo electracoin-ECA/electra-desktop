@@ -27,7 +27,7 @@ class Header extends React.Component<StateProps & DispatchProps> {
   }
 
   public getWalletInfo(): void {
-    setTimeout((this.props as DispatchProps).getWalletInfo.bind(this), GET_WALLET_INFO_INTERVAL)
+    setTimeout(this.props.getWalletInfo.bind(this), GET_WALLET_INFO_INTERVAL)
   }
 
   public render(): JSX.Element {
