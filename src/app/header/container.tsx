@@ -8,8 +8,7 @@ import { getWalletInfo } from './actions'
 import { DispatchProps, StateProps } from './types'
 import { WalletInfoComponent } from './wallet-info'
 
-// tslint:disable-next-line:no-magic-numbers
-const waitTimeInSeconds: number = 1000 * 5
+const GET_WALLET_INFO_INTERVAL: number = 5000
 const rowTwo: number = 2
 const rowSix: number = 6
 
@@ -23,12 +22,12 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
   (dispatch: Dispatch<StateProps>): DispatchProps => bindActionCreators({ getWalletInfo }, dispatch)
 
 class Header extends React.Component<StateProps & DispatchProps> {
-  public componentDidMount(): void {
-    this.triggerIntervalFunction()
+  public componentWillMount(): void {
+    this.getWalletInfo()
   }
 
-  public triggerIntervalFunction(): void {
-    setInterval((this.props as DispatchProps).getWalletInfo.bind(this), waitTimeInSeconds)
+  public getWalletInfo(): void {
+    setTimeout((this.props as DispatchProps).getWalletInfo.bind(this), GET_WALLET_INFO_INTERVAL)
   }
 
   public render(): JSX.Element {
