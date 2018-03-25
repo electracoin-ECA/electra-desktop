@@ -10,35 +10,35 @@ import { bindEventToAsyncCall } from './helpers'
 
 export default class Wallet {
   public get addresses(): WalletAddress[] {
-    return ipcRenderer.sendSync('electraJs:wallet:addresses')
+    return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:addresses'))
   }
 
   public get allAddresses(): WalletAddress[] {
-    return ipcRenderer.sendSync('electraJs:wallet:allAddresses')
+    return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:allAddresses'))
   }
 
   public get daemonState(): WalletDaemonState {
-    return ipcRenderer.sendSync('electraJs:wallet:daemonState')
+    return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:daemonState'))
   }
 
   public get isNew(): boolean {
-    return ipcRenderer.sendSync('electraJs:wallet:isNew')
+    return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:isNew'))
   }
 
   public get lockState(): WalletLockState {
-    return ipcRenderer.sendSync('electraJs:wallet:lockState')
+    return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:lockState'))
   }
 
   public get mnemonic(): string {
-    return ipcRenderer.sendSync('electraJs:wallet:mnemonic')
+    return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:mnemonic'))
   }
 
   public get randomAddresses(): WalletAddress[] {
-    return ipcRenderer.sendSync('electraJs:wallet:mnemonic')
+    return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:mnemonic'))
   }
 
   public get state(): WalletState {
-    return ipcRenderer.sendSync('electraJs:wallet:mnemonic')
+    return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:mnemonic'))
   }
 
   public async startDaemon(): Promise<void> {
