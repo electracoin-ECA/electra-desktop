@@ -1,33 +1,41 @@
+import { WalletAddress } from 'electra-js'
 import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs/Observable'
+import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import * as ActionNames from './action-names'
+import { SendEca } from './types'
 
-export function getCurrentPriceUSD(action$: ActionsObservable<any>, store: Store<any>):
+export function sendECA(action$: ActionsObservable<any>, store: Store<any>):
   Observable<any> {
-    return action$.ofType(ActionNames.SEND_ECA)
-    .map(() => store.getState())
-    .map((state: any) => ({
-        electraJs: state.electra.electraJs,
-        payments: state.payments
-    }))
+  return action$.ofType(ActionNames.SEND_ECA)
+    .map((action: SendEca) => action.payload)
     .map(async (payload: any) => {
-        const { amount, to } = payload.payments.pendingSend
+      const { amount, to } = payload
 
-        return payload.electraJs.wallet.send(parseFloat(amount), to)
+      return ElectraJsMiddleware.wallet.send(parseFloat(amount), to)
     })
-    .mergeMap((promise: Promise<number>) =>
+    .mergeMap((promise: Promise<void>) =>
       Observable
         .fromPromise(promise)
-        .map((currentPriceUSD: number) => ({
+        .map(() => ({
           type: ActionNames.SEND_ECA_SUCCESS
         }))
         .catch((error: Error) => {
-            console.log(error.message)
+          console.error(error.message)
 
-            return Observable.of({
+          return Observable.of({
             type: ActionNames.SEND_ECA_FAIL
           })
         })
     )
+}
+
+export function getAddresses(action$: ActionsObservable<any>, store: Store<any>):
+  Observable<any> {
+  return action$.ofType(ActionNames.GET_ADDRESSES)
+    .map(() => ElectraJsMiddleware.wallet.allAddresses)
+    .flatMap((addresses: WalletAddress[]) => Observable.of(
+      { payload: addresses, type: ActionNames.GET_ADDRESSES_SUCCESS }
+    ))
 }

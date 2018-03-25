@@ -209,7 +209,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
 
   private async recoverWalletFromMnemonic(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault()
-    await ElectraJsMiddleware.wallet.generate(this.$mnemonic.value, undefined, Number(this.$addressesCount.value))
+    await ElectraJsMiddleware.generate(this.$mnemonic.value, undefined, Number(this.$addressesCount.value))
 
     this.props.onDone()
   }

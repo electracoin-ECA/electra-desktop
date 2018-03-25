@@ -1,6 +1,7 @@
 import { WalletTransaction } from 'electra-js'
+import { GetTransactions } from '../transactions/types'
 
-export interface State {
+export interface StateProps {
   overview: OverviewState,
   transactions: {
     transactions: WalletTransaction[]
@@ -9,7 +10,9 @@ export interface State {
 
 export interface DispatchProps {
     getCurrentPriceInBTC(): GetCurrentPriceBTC,
-    getCurrentPriceInUSD(): GetCurrentPriceUSD
+    getCurrentPriceInUSD(): GetCurrentPriceUSD,
+    getGlobalBalance(): GetGlobalBalance,
+    getTransactions(): GetTransactions
 }
 
 export interface OverviewState {

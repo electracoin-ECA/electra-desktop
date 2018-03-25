@@ -1,37 +1,43 @@
+import { WalletAddress } from 'electra-js'
 import * as React from 'react'
-import { DispatchProps, State, State as Props } from './types'
-const { connect } = require('react-redux')
-import { get } from 'lodash'
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
-
 import { setMessageAndBadge } from '../common/toast/actions'
 import { COPIED_ADDRESS, PENDING, SENDING_IN_PROGRESS, SUCCESS } from '../common/toast/toast-messages'
-import { clearSendCardFields, sendEca, setAmount, setToAddress } from './actions'
+import { clearSendCardFields, getAddresses, sendEca, setAmount, setToAddress } from './actions'
 import ReceiveCardView from './components/receive-card-view'
 import SendCardView from './components/send-card-view'
+import { DispatchProps, StateProps } from './types'
 
 // tslint:disable-next-line:typedef
-const mapStateToProps = (state: State): Props =>
-  ({
-    addresses: get(state, 'electra.electraJs.wallet.ADDRESSES', []),
-    payments: state.payments
-  })
+const mapStateToProps: MapStateToProps<StateProps,{}, {}> = (state: StateProps): StateProps => ({
+  payments: state.payments
+})
 
 // tslint:disable-next-line:typedef
-const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
-  bindActionCreators({
-    clearSendCardFields,
-    sendEca,
-    setAmount,
-    setMessageAndBadge,
-    setToAddress
-    // tslint:disable-next-line:align
-  }, dispatch)
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
+(dispatch: Dispatch<StateProps>): DispatchProps =>
+  bindActionCreators
+  (
+    {
+      clearSendCardFields,
+      getAddresses,
+      sendEca,
+      setAmount,
+      setMessageAndBadge,
+      setToAddress
+    },
+    dispatch
+  )
 
-@connect(mapStateToProps, mapDispatchToProps)
-export default class Payments extends React.Component<Props & DispatchProps, any> {
+class Payments extends React.Component<StateProps & DispatchProps, any> {
+  componentDidMount(): void {
+    this.props.getAddresses()
+  }
+
   onClick = (): void => {
-    this.props.sendEca()
+    const { amount, to } = this.props.payments.pendingSend
+    this.props.sendEca(amount, to)
     this.props.clearSendCardFields()
     this.props.setMessageAndBadge(SENDING_IN_PROGRESS, PENDING)
   }
@@ -51,7 +57,7 @@ export default class Payments extends React.Component<Props & DispatchProps, any
   }
 
   public render(): any {
-    const address: string = get(this.props, 'addresses[0].hash', '')
+    const addresses: WalletAddress[]  = this.props.payments.addresses
     const { amount, to } = this.props.payments.pendingSend
 
     return (
@@ -66,9 +72,11 @@ export default class Payments extends React.Component<Props & DispatchProps, any
             onClick={this.onClick}
             setToAddress={this.setToAddress}
             setAmount={this.setAmount} />
-          <ReceiveCardView address={address} onClick={this.onCopy} />
+          <ReceiveCardView addresses={addresses} onClick={this.onCopy} />
         </div>
       </div>
     )
   }
 }
+
+export default connect<StateProps, DispatchProps, {}>(mapStateToProps, mapDispatchToProps)(Payments)

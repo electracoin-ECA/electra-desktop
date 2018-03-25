@@ -1,20 +1,15 @@
-import ElectraJs, { WalletInfo } from 'electra-js'
+import { WalletInfo } from 'electra-js'
 import { ActionsObservable } from 'redux-observable'
 import 'rxjs/add/observable/of'
 import { Observable } from 'rxjs/Observable'
+import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import * as ActionNames from './action-names'
 import { HeaderActions, /*WalletInfoObservable*/ } from './types'
-
-/**
- * TODO: If electraJs not exist try to reinitialize
- */
 
 export function getWalletInfo(action$: ActionsObservable<HeaderActions>, store: any):
 Observable<any> {
   return action$.ofType(ActionNames.GET_WALLET_INFO)
-    .map(() => store.getState().electra.electraJs) // get electraJs object from the store
-    .filter((electraJs: any) => electraJs) // check if electraJs exists
-    .map(async (electraJs: ElectraJs) => electraJs.wallet.getInfo())
+    .map(async () => ElectraJsMiddleware.wallet.getInfo())
     .mergeMap((promise: Promise<WalletInfo>) =>
       Observable
         .fromPromise(promise)
