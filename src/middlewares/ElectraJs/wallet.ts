@@ -1,9 +1,26 @@
-import { WalletLockState } from 'electra-js'
+import {
+  WalletAddress,
+  WalletDaemonState,
+  WalletLockState,
+  WalletState,
+} from 'electra-js'
 import { ipcRenderer } from 'electron'
 
 import { bindEventToAsyncCall } from './helpers'
 
 export default class Wallet {
+  public get addresses(): WalletAddress[] {
+    return ipcRenderer.sendSync('electraJs:wallet:addresses')
+  }
+
+  public get allAddresses(): WalletAddress[] {
+    return ipcRenderer.sendSync('electraJs:wallet:allAddresses')
+  }
+
+  public get daemonState(): WalletDaemonState {
+    return ipcRenderer.sendSync('electraJs:wallet:daemonState')
+  }
+
   public get isNew(): boolean {
     return ipcRenderer.sendSync('electraJs:wallet:isNew')
   }
@@ -13,6 +30,14 @@ export default class Wallet {
   }
 
   public get mnemonic(): string {
+    return ipcRenderer.sendSync('electraJs:wallet:mnemonic')
+  }
+
+  public get randomAddresses(): WalletAddress[] {
+    return ipcRenderer.sendSync('electraJs:wallet:mnemonic')
+  }
+
+  public get state(): WalletState {
     return ipcRenderer.sendSync('electraJs:wallet:mnemonic')
   }
 
