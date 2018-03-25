@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { bindActionCreators, Dispatch } from 'redux'
+import { ActionCreatorsMapObject, bindActionCreators, Dispatch } from 'redux'
 import Utility from '../../utils/common'
 import { Icon } from '../icon'
 import { getWalletInfo } from './actions'
@@ -16,17 +16,13 @@ const rowSix: number = 6
 
 // tslint:disable-next-line:typedef
 const mapStateToProps = (state: State): Props =>
-({
-  electra: state.electra,
-  header: state.header
-})
+  ({
+    electra: state.electra,
+    header: state.header
+  })
 
-// tslint:disable-next-line:typedef
-const mapDispatchToProps = (dispatch: Dispatch<State>): DispatchProps =>
-  bindActionCreators({
-    getWalletInfo
-// tslint:disable-next-line:align
-}, dispatch)
+const mapDispatchToProps: ActionCreatorsMapObject[0] = (dispatch: Dispatch<State>): DispatchProps =>
+  bindActionCreators({ getWalletInfo }, dispatch)
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Header extends React.Component<Partial<Props & DispatchProps>, any> {
@@ -34,16 +30,11 @@ export default class Header extends React.Component<Partial<Props & DispatchProp
     this.triggerIntervalFunction()
   }
 
-  public triggerIntervalFunction = (): void => {
-    // tslint:disable-next-line:no-magic-numbers
-    setInterval(() => {
-      const props:DispatchProps = this.props as DispatchProps
-      props.getWalletInfo()
-    // tslint:disable-next-line:align
-    }, waitTimeInSeconds)
+  public triggerIntervalFunction(): void {
+    setInterval((this.props as DispatchProps).getWalletInfo.bind(this), waitTimeInSeconds)
   }
 
-  public render(): any {
+  public render(): JSX.Element {
     const { walletInfo } = this.props.header as HeaderState
     const { connectionsCount,
             localStakingWeight,
@@ -101,7 +92,7 @@ export default class Header extends React.Component<Partial<Props & DispatchProp
           </div>
         </div>
       <div className='c-header__user'>
-          ((USER-CONTROL))
+        ((USER-CONTROL))
       </div>
     </div>
     )
