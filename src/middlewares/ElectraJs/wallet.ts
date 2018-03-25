@@ -53,6 +53,10 @@ export default class Wallet {
     return bindEventToAsyncCall<void>('electraJs:wallet:generate', arguments)
   }
 
+  public async getBalance(): Promise<number> {
+    return bindEventToAsyncCall<number>('electraJs:wallet:getBalance', arguments)
+  }
+
   public async lock(passphrase: string): Promise<void> {
     return bindEventToAsyncCall<void>('electraJs:wallet:lock', arguments)
   }

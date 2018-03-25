@@ -1,3 +1,4 @@
+// tslint:disable:max-line-length
 import to from 'await-to-js'
 import ElectraJs from 'electra-js'
 
@@ -68,6 +69,8 @@ export default class Communication {
       { event: 'electraJs:wallet:generate', call: this.electraJs.wallet.generate.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:lock', call: this.electraJs.wallet.lock.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:unlock', call: this.electraJs.wallet.unlock.bind(this.electraJs.wallet) },
+      { event: 'electraJs:wallet:getBalance', call: this.electraJs.wallet.getBalance.bind(this.electraJs.wallet)},
+      { event: 'electraJs:webServices:getCurrentPriceIn', call: this.electraJs.webServices.getCurrentPriceIn.bind(this.electraJs.webServices) }
     ]
       .forEach(({ event, call }: EventToCall) => bindEventToAsyncCall(event, call))
   }
