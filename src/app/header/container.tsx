@@ -1,31 +1,28 @@
 import * as React from 'react'
-import { ActionCreatorsMapObject, bindActionCreators, Dispatch } from 'redux'
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import Utility from '../../utils/common'
 import { Icon } from '../icon'
 import { getWalletInfo } from './actions'
-import { DispatchProps, HeaderState, State, State as Props } from './types'
+import { DispatchProps, StateProps } from './types'
 import { WalletInfoComponent } from './wallet-info'
-
-// tslint:disable-next-line:no-var-requires
-const { connect } = require('react-redux')
 
 // tslint:disable-next-line:no-magic-numbers
 const waitTimeInSeconds: number = 1000 * 5
 const rowTwo: number = 2
 const rowSix: number = 6
 
-// tslint:disable-next-line:typedef
-const mapStateToProps = (state: State): Props =>
+const mapStateToProps: MapStateToProps<StateProps, {}, {}> = (state: StateProps): StateProps =>
   ({
     electra: state.electra,
     header: state.header
   })
 
-const mapDispatchToProps: ActionCreatorsMapObject[0] = (dispatch: Dispatch<State>): DispatchProps =>
-  bindActionCreators({ getWalletInfo }, dispatch)
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
+  (dispatch: Dispatch<StateProps>): DispatchProps => bindActionCreators({ getWalletInfo }, dispatch)
 
-@connect(mapStateToProps, mapDispatchToProps)
-export default class Header extends React.Component<Partial<Props & DispatchProps>, any> {
+class Header extends React.Component<StateProps & DispatchProps> {
   public componentDidMount(): void {
     this.triggerIntervalFunction()
   }
@@ -35,13 +32,14 @@ export default class Header extends React.Component<Partial<Props & DispatchProp
   }
 
   public render(): JSX.Element {
-    const { walletInfo } = this.props.header as HeaderState
-    const { connectionsCount,
-            localStakingWeight,
-            localBlockchainHeight,
-            nextStakingRewardIn,
-            networkStakingWeight,
-            isStaking } = walletInfo
+    const {
+      connectionsCount,
+      localStakingWeight,
+      localBlockchainHeight,
+      nextStakingRewardIn,
+      networkStakingWeight,
+      isStaking,
+    } = this.props.header.walletInfo
     const isOnline: string = isStaking ? 'Online' : 'Offline'
 
     return (
@@ -98,3 +96,5 @@ export default class Header extends React.Component<Partial<Props & DispatchProp
     )
   }
 }
+
+export default connect<StateProps, DispatchProps, {}>(mapStateToProps, mapDispatchToProps)(Header)
