@@ -36,11 +36,6 @@ module.exports = [
     exclude: [/node_modules/]
   },
   {
-    test: /\.jsx?$/,
-    use: [{ loader: 'babel-loader' }],
-    include: [configPaths.sourcePath]
-  },
-  {
     test: /\.(jpe?g|png|gif)$/i,
     use: [{ loader: 'file-loader?name=img/[name]__[hash:base64:5].[ext]' }],
     include: configPaths.stylePaths
