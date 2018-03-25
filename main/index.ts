@@ -1,18 +1,11 @@
-import to from 'await-to-js'
-import ElectraJs from 'electra-js'
 import { app, BrowserWindow } from 'electron'
 import * as path from 'path'
 import * as url from 'url'
 
-/**
- * Creating a new instance of ElectraJs to utilize the StopDaemon api
- * We are doing this because we cannot pass functions through Electron IPC apis
- */
-const config: any = {
-  isHard: true
-}
+import Communication from './middlewares/communication'
 
-const electraJs: ElectraJs = new ElectraJs(config)
+// Start IPC events bus listener
+const communication: Communication = new Communication()
 
 let mainWindow: BrowserWindow | null
 
@@ -64,14 +57,12 @@ function createWindow(): void {
 app.on('ready', createWindow)
 
 app.on('window-all-closed', async () => {
-  await to(electraJs.wallet.stopDaemon())
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+  console.info('Closing Electra daemon...')
+  await communication.electraJs.wallet.stopDaemon()
+
+  if (process.platform !== 'darwin') app.quit()
 })
 
 app.on('activate', () => {
-  if (mainWindow === null) {
-    createWindow()
-  }
+  if (mainWindow === null) createWindow()
 })
