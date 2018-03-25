@@ -1,8 +1,9 @@
-import ElectraJs from 'electra-js'
 import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs/Observable'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
+import Wallet from '../../middlewares/ElectraJs/wallet'
+import WebServices from '../../middlewares/ElectraJs/webServices'
 import * as ElectraActionNames from './../electra/action-names'
 import { ElectraActions} from './../electra/types'
 import * as OverviewActionNames from './action-names'
@@ -15,7 +16,7 @@ const BTC: 'BTC' = 'BTC'
 export function getGlobalBalance(action$: ActionsObservable<OverviewActions | ElectraActions>, store: Store<any>):
   Observable<GlobalBalanceObservable> {
     return action$.ofType(OverviewActionNames.GET_GLOBAL_BALANCE, ElectraActionNames.GENERATE_HARD_WALLET_SUCCESS)
-      .map(async () => ElectraJsMiddleware.wallet.getBalance())
+      .map(async () => Wallet.getBalance())
       .debounceTime(DELAY)
       .switchMap((promise: Promise<number>) =>
       Observable
@@ -38,7 +39,7 @@ export function getGlobalBalance(action$: ActionsObservable<OverviewActions | El
 export function getCurrentPriceUSD(action$: ActionsObservable<OverviewActions>, store: Store<any>):
   Observable<GlobalBalanceOtherObservable> {
     return action$.ofType(OverviewActionNames.GET_CURRENT_PRICE_USD)
-    .map(async () => ElectraJsMiddleware.webServices.getCurrentPriceIn())
+    .map(async () => WebServices.getCurrentPriceIn())
     .mergeMap((promise: Promise<number>) =>
       Observable
         .fromPromise(promise)
@@ -56,7 +57,7 @@ export function getCurrentPriceUSD(action$: ActionsObservable<OverviewActions>, 
 export function getCurrentPriceBTC(action$: ActionsObservable<OverviewActions>, store: Store<any>):
   Observable<GlobalBalanceOtherObservable> {
     return action$.ofType(OverviewActionNames.GET_CURRENT_PRICE_BTC)
-    .map(async () => ElectraJsMiddleware.webServices.getCurrentPriceIn(BTC))
+    .map(async () => WebServices.getCurrentPriceIn(BTC))
     .mergeMap((promise: Promise<number>) =>
       Observable
         .fromPromise(promise)
