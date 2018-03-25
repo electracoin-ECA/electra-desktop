@@ -4,6 +4,7 @@ const webpackRules = require('./rules')
 const webpackPlugins = require('./plugins')
 
 const mainConfig = {
+  context: process.cwd(),
   target: 'electron-main',
 
   entry: configPaths.entryMain,
@@ -34,6 +35,10 @@ const mainConfig = {
     //   root: process.cwd(),
     // }),
   ],
+
+  node: {
+    __dirname: true,
+  },
 }
 
 const rendererConfig = {
