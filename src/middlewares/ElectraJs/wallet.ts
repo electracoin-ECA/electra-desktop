@@ -9,8 +9,9 @@ import {
 import { ipcRenderer } from 'electron'
 
 import { bindEventToAsyncCall } from './helpers'
+import WebServices from './webServices'
 
-export default class Wallet {
+export default class Wallet extends WebServices {
   public static get addresses(): WalletAddress[] {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:addresses'))
   }
