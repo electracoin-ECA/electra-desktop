@@ -1,33 +1,29 @@
 import { drop, mapValues } from 'lodash'
 import * as React from 'react'
-const { connect } = require('react-redux')
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
-
 import TransactionsComponent from '../common/transactions/transactions'
 import { getTransactions } from '../transactions/actions'
 import { getCurrentPriceInBTC, getCurrentPriceInUSD } from './actions'
 import CardViewPrices from './components/card-view-prices'
-import { DispatchProps, State, State as Props } from './types'
+import { DispatchProps, StateProps } from './types'
 
 const MAX_DECIMALS: number = 8
 const TRANSACTIONS_COUNT: number = 10
-// tslint:disable-next-line:typedef
-const mapStateToProps = (state: State): Props => ({
+
+const mapStateToProps: MapStateToProps<StateProps,{}, {}> = (state: StateProps): StateProps => ({
   overview: state.overview,
   transactions: state.transactions
 })
 
-// tslint:disable-next-line:typedef
-const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
+(dispatch: Dispatch<StateProps>): DispatchProps =>
   bindActionCreators({
     getCurrentPriceInBTC,
     getCurrentPriceInUSD,
-    getTransactions
-    // tslint:disable-next-line:align
-  }, dispatch)
+    getTransactions},dispatch)
 
-@connect(mapStateToProps, mapDispatchToProps)
-export default class Overview extends React.Component<Props & DispatchProps, any> {
+class Overview extends React.Component<StateProps & DispatchProps, any> {
   public componentDidMount(): void {
     this.props.getCurrentPriceInUSD()
     this.props.getCurrentPriceInBTC()
@@ -35,7 +31,7 @@ export default class Overview extends React.Component<Props & DispatchProps, any
 
   public render(): any {
     const values: any = mapValues(this.props.overview, (value: string) => parseFloat(value).toFixed(MAX_DECIMALS))
-    let { transactions }: any = this.props.transactions
+    let { transactions } = this.props.transactions
     transactions = transactions ? drop(transactions, transactions.length - TRANSACTIONS_COUNT) : []
 
     return (
@@ -58,3 +54,5 @@ export default class Overview extends React.Component<Props & DispatchProps, any
     )
   }
 }
+
+export default connect<StateProps, DispatchProps, {}>(mapStateToProps, mapDispatchToProps)(Overview)
