@@ -9,69 +9,70 @@ import {
 import { ipcRenderer } from 'electron'
 
 import { bindEventToAsyncCall } from './helpers'
+import WebServices from './webServices'
 
-export default class Wallet {
-  public get addresses(): WalletAddress[] {
+export default class Wallet extends WebServices {
+  public static get addresses(): WalletAddress[] {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:addresses'))
   }
 
-  public get allAddresses(): WalletAddress[] {
+  public static get allAddresses(): WalletAddress[] {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:allAddresses'))
   }
 
-  public get daemonState(): WalletDaemonState {
+  public static get daemonState(): WalletDaemonState {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:daemonState'))
   }
 
-  public get isNew(): boolean {
+  public static get isNew(): boolean {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:isNew'))
   }
 
-  public get lockState(): WalletLockState {
+  public static get lockState(): WalletLockState {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:lockState'))
   }
 
-  public get mnemonic(): string {
+  public static get mnemonic(): string {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:mnemonic'))
   }
 
-  public get randomAddresses(): WalletAddress[] {
+  public static get randomAddresses(): WalletAddress[] {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:randomAddresses'))
   }
 
-  public get state(): WalletState {
+  public static get state(): WalletState {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:state'))
   }
 
-  public async startDaemon(): Promise<void> {
+  public static async startDaemon(): Promise<void> {
     return bindEventToAsyncCall<void>('electraJs:wallet:startDaemon', arguments)
   }
 
-  public async stopDaemon(): Promise<void> {
+  public static async stopDaemon(): Promise<void> {
     return bindEventToAsyncCall<void>('electraJs:wallet:stopDaemon', arguments)
   }
 
-  public async generate(mnemonic?: string, mnemonicExtension?: string, chainsCount?: number): Promise<void> {
+  public static async generate(mnemonic?: string, mnemonicExtension?: string, chainsCount?: number): Promise<void> {
     return bindEventToAsyncCall<void>('electraJs:wallet:generate', arguments)
   }
 
-  public async getBalance(): Promise<number> {
+  public static async getBalance(): Promise<number> {
     return bindEventToAsyncCall<number>('electraJs:wallet:getBalance', arguments)
   }
 
-  public async getInfo(): Promise<WalletInfo> {
+  public static async getInfo(): Promise<WalletInfo> {
     return bindEventToAsyncCall<WalletInfo>('electraJs:wallet:getInfo', arguments)
   }
 
-  public async getTransactions(): Promise<WalletTransaction[]> {
+  public static async getTransactions(): Promise<WalletTransaction[]> {
     return bindEventToAsyncCall<WalletTransaction[]>('electraJs:wallet:getTransactions', arguments)
   }
 
-  public async lock(passphrase: string): Promise<void> {
+  public static async lock(passphrase: string): Promise<void> {
     return bindEventToAsyncCall<void>('electraJs:wallet:lock', arguments)
   }
 
-  public async unlock(passphrase: string, forStakingOnly?: boolean): Promise<void> {
+  public static async unlock(passphrase: string, forStakingOnly?: boolean): Promise<void> {
     return bindEventToAsyncCall<void>('electraJs:wallet:unlock', arguments)
   }
 }
