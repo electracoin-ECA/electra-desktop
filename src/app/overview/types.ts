@@ -1,6 +1,6 @@
 import { WalletTransaction } from 'electra-js'
 
-export interface State {
+export interface StateProps {
   overview: OverviewState,
   transactions: {
     transactions: WalletTransaction[]

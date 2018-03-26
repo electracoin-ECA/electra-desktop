@@ -1,7 +1,7 @@
 import { WalletAddress } from 'electra-js';
 import { SetMessageAndBadge } from '../common/toast/types'
 
-export interface State {
+export interface StateProps {
   payments: PaymentsState
 }
 

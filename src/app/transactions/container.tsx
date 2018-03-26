@@ -1,25 +1,20 @@
 import * as React from 'react'
-const { connect } = require('react-redux')
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import TransactionsComponent from '../common/transactions/transactions'
 import { getTransactions } from '../transactions/actions'
-import { DispatchProps, State, State as Props } from './types'
+import { DispatchProps, StateProps } from './types'
 
-// tslint:disable-next-line:typedef
-const mapStateToProps = (state: State): Props =>
-  ({
-    transactions: state.transactions
-  })
+const mapStateToProps: MapStateToProps<StateProps,{}, {}> = (state: StateProps): StateProps => ({
+  transactions: state.transactions
+})
 
-// tslint:disable-next-line:typedef
-const mapDispatchToProps = (dispatch: Dispatch<State>): DispatchProps =>
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
+(dispatch: Dispatch<StateProps>): DispatchProps =>
   bindActionCreators({
-    getTransactions
-    // tslint:disable-next-line:align
-  }, dispatch)
+    getTransactions},dispatch)
 
-@connect(mapStateToProps, mapDispatchToProps)
-export default class Transactions extends React.Component<Props & DispatchProps, any> {
+class Transactions extends React.Component<StateProps & DispatchProps, any> {
   // tslint:disable-next-line:typedef
   public componentDidMount() {
     this.props.getTransactions()
@@ -40,3 +35,5 @@ export default class Transactions extends React.Component<Props & DispatchProps,
     )
   }
 }
+
+export default connect<StateProps, DispatchProps>(mapStateToProps, mapDispatchToProps)(Transactions)

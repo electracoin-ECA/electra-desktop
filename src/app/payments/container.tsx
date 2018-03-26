@@ -1,23 +1,22 @@
-import * as React from 'react'
-import { DispatchProps, State, State as Props } from './types'
-const { connect } = require('react-redux')
-import { get } from 'lodash'
-import { bindActionCreators, Dispatch } from 'redux'
-
 import { WalletAddress } from 'electra-js'
+import * as React from 'react'
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import { setMessageAndBadge } from '../common/toast/actions'
 import { COPIED_ADDRESS, PENDING, SENDING_IN_PROGRESS, SUCCESS } from '../common/toast/toast-messages'
 import { clearSendCardFields, getAddresses, sendEca, setAmount, setToAddress } from './actions'
 import ReceiveCardView from './components/receive-card-view'
 import SendCardView from './components/send-card-view'
+import { DispatchProps, StateProps } from './types'
 
 // tslint:disable-next-line:typedef
-const mapStateToProps = (state: State): Props => ({
+const mapStateToProps: MapStateToProps<StateProps,{}, {}> = (state: StateProps): StateProps => ({
   payments: state.payments
 })
 
 // tslint:disable-next-line:typedef
-const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
+(dispatch: Dispatch<StateProps>): DispatchProps =>
   bindActionCreators({
     clearSendCardFields,
     getAddresses,
@@ -28,8 +27,7 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps =>
     // tslint:disable-next-line:align
   }, dispatch)
 
-@connect(mapStateToProps, mapDispatchToProps)
-export default class Payments extends React.Component<Props & DispatchProps, any> {
+class Payments extends React.Component<StateProps & DispatchProps, any> {
   componentDidMount(): void {
     this.props.getAddresses()
   }
@@ -76,3 +74,5 @@ export default class Payments extends React.Component<Props & DispatchProps, any
     )
   }
 }
+
+export default connect<StateProps, DispatchProps, {}>(mapStateToProps, mapDispatchToProps)(Payments)
