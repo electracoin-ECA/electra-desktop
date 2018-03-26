@@ -18,15 +18,43 @@ export function getTransactions(action$: ActionsObservable<TransactionsActions>,
       Observable
         .fromPromise(promise)
         .map((data: WalletTransaction[]) => ({
-            payload: data,
-            type: TransactionActionNames.GET_TRANSACTIONS_SUCCESS
-          }
+          payload: data,
+          type: TransactionActionNames.GET_TRANSACTIONS_SUCCESS
+        }
         ))
         .catch((error: Error) => {
           console.error(error.message)
 
           return Observable.of({
             type: TransactionActionNames.GET_TRANSACTIONS
+          })
+        })
+    )
+}
+
+const MAX_DELAY: number = 500
+export function getTransaction(action$: ActionsObservable<TransactionsActions>, store: any):
+  Observable<any> {
+  return action$.ofType(TransactionActionNames.GET_TRANSACTION)
+    .debounceTime(MAX_DELAY)
+    .map((action: any) => ({
+      payload: action.payload
+    }))
+    .map(async (data: any) => ElectraJsMiddleware.getTransactions(100))
+    .switchMap((promise: any) =>
+      Observable
+        .fromPromise(promise)
+        .map((data: any) => {
+          // tslint:disable-next-line
+          new Notification('New Transaction', { body: `Incoming transaction of ${data.amount} ECA` })
+
+          return { type: TransactionActionNames.GET_TRANSACTIONS }
+        })
+        .catch((error: Error) => {
+          console.log(error.message)
+
+          return Observable.of({
+            type: TransactionActionNames.GET_TRANSACTIONS_FAIL
           })
         })
     )

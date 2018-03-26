@@ -68,6 +68,10 @@ export default class Wallet extends WebServices {
     return bindEventToAsyncCall<WalletTransaction[]>('electraJs:wallet:getTransactions', arguments)
   }
 
+  public static async getTransaction(transactionHash: string): Promise<WalletTransaction> {
+    return bindEventToAsyncCall<WalletTransaction>('electraJs:wallet:getTransaction', arguments)
+  }
+
   public static async lock(passphrase: string): Promise<void> {
     return bindEventToAsyncCall<void>('electraJs:wallet:lock', arguments)
   }

@@ -1,8 +1,9 @@
 import * as ActionNames from './action-names'
 import { ClearSendCardFields, GetAddresses, SendEca, SetAmount, SetToAddress } from './types'
 
-export function sendEca(): SendEca {
+export function sendEca(amount: number, to: string): SendEca {
   return {
+    payload: { amount, to },
     type: ActionNames.SEND_ECA
   }
 }

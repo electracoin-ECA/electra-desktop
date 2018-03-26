@@ -8,7 +8,7 @@ export interface StateProps {
 export interface DispatchProps {
   clearSendCardFields(): ClearSendCardFields,
   getAddresses(): GetAddresses,
-  sendEca(): SendEca,
+  sendEca(amount: number, to: string): SendEca,
   setAmount(value: number): SetAmount,
   setToAddress(value: string): SetToAddress,
   setMessageAndBadge(message: string, badge: string): SetMessageAndBadge
@@ -42,6 +42,7 @@ export interface ClearSendCardFields {
 }
 
 export interface SendEca {
+  payload: PendingSendState,
   type: SEND_ECA
 }
 

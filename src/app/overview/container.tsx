@@ -4,7 +4,7 @@ import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import TransactionsComponent from '../common/transactions/transactions'
 import { getTransactions } from '../transactions/actions'
-import { getCurrentPriceInBTC, getCurrentPriceInUSD } from './actions'
+import { getCurrentPriceInBTC, getCurrentPriceInUSD, getGlobalBalance } from './actions'
 import CardViewPrices from './components/card-view-prices'
 import { DispatchProps, StateProps } from './types'
 
@@ -21,6 +21,7 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
   bindActionCreators({
     getCurrentPriceInBTC,
     getCurrentPriceInUSD,
+    getGlobalBalance,
     getTransactions},dispatch)
 
 class Overview extends React.Component<StateProps & DispatchProps, any> {
@@ -28,6 +29,7 @@ class Overview extends React.Component<StateProps & DispatchProps, any> {
     this.props.getCurrentPriceInUSD()
     this.props.getCurrentPriceInBTC()
     this.props.getTransactions()
+    this.props.getGlobalBalance()
   }
 
   public render(): any {
