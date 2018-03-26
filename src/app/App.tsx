@@ -21,10 +21,6 @@ const mapStateToProps = (state: any): any => ({
   toast: state.toast
 })
 
-/**
- * Point of entrance
- */
-
 @connect(mapStateToProps)
 export default class App extends React.Component<any, ComponentState> {
   constructor(props: any) {
@@ -42,7 +38,7 @@ export default class App extends React.Component<any, ComponentState> {
     return (
       <Router>
         <div className='c-app-layout'>
-          {!this.state.isLoading
+          {this.state.isLoading
             ? (
               <Login onDone={(): void => this.setState({ isLoading: false })} />
             )

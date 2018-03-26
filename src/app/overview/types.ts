@@ -8,14 +8,15 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
-    getCurrentPriceInBTC(): GetCurrentPriceBTC,
-    getCurrentPriceInUSD(): GetCurrentPriceUSD
+  getCurrentPriceInBTC(): GetCurrentPriceBTC,
+  getCurrentPriceInUSD(): GetCurrentPriceUSD,
+  getGlobalBalance(): GetGlobalBalance
 }
 
 export interface OverviewState {
-    currentPriceBTC: number,
-    currentPriceUSD: number,
-    globalBalance: number
+  currentPriceBTC: number,
+  currentPriceUSD: number,
+  globalBalance: number
 }
 
 /**
@@ -41,38 +42,38 @@ export interface GetGlobalBalance {
 }
 
 export interface GetGlobalBalanceSuccess {
-    type: GET_GLOBAL_BALANCE_SUCCESS,
-    payload: number
+type: GET_GLOBAL_BALANCE_SUCCESS,
+payload: number
 }
 
 export interface GetGlobalBalanceFail {
-    type: GET_GLOBAL_BALANCE_FAIL
+  type: GET_GLOBAL_BALANCE_FAIL
 }
 
 export interface GetCurrentPriceUSD {
-    type: GET_CURRENT_PRICE_USD
+  type: GET_CURRENT_PRICE_USD
 }
 
 export interface GetCurrentPriceUSDSuccess {
-    type: GET_CURRENT_PRICE_USD_SUCCESS,
-    payload: number
+  type: GET_CURRENT_PRICE_USD_SUCCESS,
+  payload: number
 }
 
 export interface GetCurrentPriceUSDFail {
-    type: GET_CURRENT_PRICE_USD_FAIL
+  type: GET_CURRENT_PRICE_USD_FAIL
 }
 
 export interface GetCurrentPriceBTC {
-    type: GET_CURRENT_PRICE_BTC
+  type: GET_CURRENT_PRICE_BTC
 }
 
 export interface GetCurrentPriceBTCSuccess {
-    type: GET_CURRENT_PRICE_BTC_SUCCESS,
-    payload: number
+  type: GET_CURRENT_PRICE_BTC_SUCCESS,
+  payload: number
 }
 
 export interface GetCurrentPriceBTCFail {
-    type: GET_CURRENT_PRICE_BTC_FAIL
+  type: GET_CURRENT_PRICE_BTC_FAIL
 }
 
 export type GlobalBalanceActions =  GetGlobalBalance |

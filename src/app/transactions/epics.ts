@@ -6,13 +6,12 @@ import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import * as TransactionActionNames from './action-names'
 import { TransactionsActions } from './types'
 
-const TRANSACTIONS_NUMBER: number = 100
 const DELAY: number = 1000
 
 export function getTransactions(action$: ActionsObservable<TransactionsActions>, store: any):
   Observable<any> {
   return action$.ofType(TransactionActionNames.GET_TRANSACTIONS)
-    .map(async () => ElectraJsMiddleware.wallet.getTransactions())
+    .map(async () => ElectraJsMiddleware.getTransactions())
     .debounceTime(DELAY)
     .switchMap((promise: Promise<WalletTransaction[]>) =>
       Observable

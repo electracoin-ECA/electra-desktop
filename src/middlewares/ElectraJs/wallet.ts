@@ -40,6 +40,10 @@ export default class Wallet extends WebServices {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:randomAddresses'))
   }
 
+  public static async send(amount: number, toAddressHash: string): Promise<void> {
+    return bindEventToAsyncCall<void>('electraJs:wallet:send', arguments)
+  }
+
   public static get state(): WalletState {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:state'))
   }

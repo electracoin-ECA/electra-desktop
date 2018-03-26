@@ -73,7 +73,8 @@ export default class Communication {
       { event: 'electraJs:wallet:getBalance', call: this.electraJs.wallet.getBalance.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:getInfo', call: this.electraJs.wallet.getInfo.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:getTransactions', call: this.electraJs.wallet.getTransactions.bind(this.electraJs.wallet)},
-      { event: 'electraJs:webServices:getCurrentPriceIn', call: this.electraJs.webServices.getCurrentPriceIn.bind(this.electraJs.webServices) }
+      { event: 'electraJs:wallet:send', call: this.electraJs.wallet.send.bind(this.electraJs.wallet)},
+      { event: 'electraJs:webServices:getCurrentPriceIn', call: this.electraJs.webServices.getCurrentPriceIn.bind(this.electraJs.webServices)}
     ]
       .forEach(({ event, call }: EventToCall) => bindEventToAsyncCall(event, call))
   }
