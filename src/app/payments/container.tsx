@@ -33,7 +33,8 @@ class Payments extends React.Component<StateProps & DispatchProps, any> {
   }
 
   onClick = (): void => {
-    this.props.sendEca()
+    const { amount, to } = this.props.payments.pendingSend
+    this.props.sendEca(amount, to)
     this.props.clearSendCardFields()
     this.props.setMessageAndBadge(SENDING_IN_PROGRESS, PENDING)
   }

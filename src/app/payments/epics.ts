@@ -4,17 +4,14 @@ import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs/Observable'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import * as ActionNames from './action-names'
+import { SendEca } from './types'
 
 export function sendECA(action$: ActionsObservable<any>, store: Store<any>):
   Observable<any> {
   return action$.ofType(ActionNames.SEND_ECA)
-    .map(() => store.getState())
-    .map((state: any) => ({
-      payments: state.payments
-    }))
+    .map((action: SendEca) => action.payload)
     .map(async (payload: any) => {
-      const { amount, to } = payload.payments.pendingSend
-      console.log(amount)
+      const { amount, to } = payload
 
       return ElectraJsMiddleware.send(parseFloat(amount), to)
     })

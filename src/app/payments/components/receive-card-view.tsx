@@ -1,4 +1,5 @@
 import { WalletAddress } from 'electra-js'
+import { isEmpty } from 'lodash'
 import * as QRCode from 'qrcode.react'
 import * as React from 'react'
 import * as CopyToClipboard from 'react-copy-to-clipboard'
@@ -16,6 +17,14 @@ export default class ReceiveCardView extends React.Component<any, any> {
     this.setState({
       selectedAddress: event.target.value
     })
+  }
+
+  componentWillReceiveProps(newProps: any): void {
+    if (!isEmpty(newProps.addresses) && isEmpty(this.state.selectedAddress)) {
+      this.setState({
+        selectedAddress: newProps.addresses[0].hash
+      })
+    }
   }
 
   public render(): JSX.Element {

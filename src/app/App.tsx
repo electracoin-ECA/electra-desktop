@@ -2,7 +2,10 @@ import * as React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Toast from './common/toast/toast'
 const { connect } = require('react-redux')
+import * as express from 'express'
 import 'rxjs'
+// const { ipcRenderer } = require('electron')
+import store from './store'
 
 import { AddressBook } from './addressBook'
 import { Header } from './header'
@@ -11,6 +14,7 @@ import { Overview } from './overview'
 import { Payments } from './payments'
 import { Sidebar } from './sidebar'
 import { Transactions } from './transactions'
+import { getTransaction } from './transactions/actions';
 
 interface ComponentState {
   isLoading: boolean
@@ -22,8 +26,26 @@ const mapStateToProps = (state: any): any => ({
 })
 
 /**
+ * Run express server to catch incoming post request and notify the user
+ */
+const EXPRESS_PORT: number = 3005
+const expressApp: express.Express = express()
+expressApp.post('/transaction/txid=*', (req: any, res: any) => {
+  // if (mainWindow) {
+  //   mainWindow.webContents.send('newTransaction', { msg: req.params[0] })
+  // }
+  store.dispatch(getTransaction(req.params[0]))
+  res.send('OK')
+})
+expressApp.listen(EXPRESS_PORT)
+
+/**
  * Point of entrance
  */
+
+// ipcRenderer.on('newTransaction', function (event: any, data: any): void {
+//   store.dispatch(getTransaction(data.msg))
+// })
 
 @connect(mapStateToProps)
 export default class App extends React.Component<any, ComponentState> {

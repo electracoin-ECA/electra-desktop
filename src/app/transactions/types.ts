@@ -1,9 +1,9 @@
 import { WalletTransaction } from 'electra-js'
 
 export interface StateProps {
-    transactions: {
-      transactions: WalletTransaction[]
-    }
+  transactions: {
+    transactions: WalletTransaction[]
+  }
 }
 
 export interface DispatchProps {
@@ -16,23 +16,31 @@ export interface DispatchProps {
 export type GET_TRANSACTIONS = 'GET_TRANSACTIONS'
 export type GET_TRANSACTIONS_SUCCESS = 'GET_TRANSACTIONS_SUCCESS'
 export type GET_TRANSACTIONS_FAIL = 'GET_TRANSACTIONS_FAIL'
+export type GET_TRANSACTION = 'GET_TRANSACTION'
 
 /**
  * action interfaces
  */
+
+export interface GetTransaction {
+  payload: string,
+  type: GET_TRANSACTION
+}
+
 export interface GetTransactions {
-    type: GET_TRANSACTIONS
+  type: GET_TRANSACTIONS
 }
 
 export interface GetTransactionsSuccess {
-    type: GET_TRANSACTIONS_SUCCESS,
-    payload: WalletTransaction[]
+  type: GET_TRANSACTIONS_SUCCESS,
+  payload: WalletTransaction[]
 }
 
 export interface GetTransactionsFail {
-    type: GET_TRANSACTIONS_FAIL
+  type: GET_TRANSACTIONS_FAIL
 }
 
-export type TransactionsActions =   GetTransactions |
-                                    GetTransactionsSuccess |
-                                    GetTransactionsFail
+export type TransactionsActions = GetTransactions |
+  GetTransaction |
+  GetTransactionsSuccess |
+  GetTransactionsFail
