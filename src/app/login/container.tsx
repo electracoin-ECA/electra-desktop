@@ -70,7 +70,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
 
   private async startDaemon(): Promise<void> {
     this.setState({ loadingText: 'Starting Daemon...' })
-    await ElectraJsMiddleware.wallet.startDaemon()
+    await ElectraJsMiddleware.startDaemon()
     this.setState({ loadingText: undefined })
 
     // Now that we have started the wallet daemon,
@@ -82,7 +82,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
     // If the wallet state is LOCKED, we first need to ask the user for its current password.
     // Indeed it can only be LOCKED if the legacy wallet had already been installed
     // and a passphrase had already been set on this device.
-    if (ElectraJsMiddleware.wallet.lockState === 'LOCKED') {
+    if (ElectraJsMiddleware.lockState === 'LOCKED') {
       this.setState({
         firstInstallationScreen: 'ASK_USER_FOR_EXISTING_PASSPHRASE',
         isFullInstallation: false,
@@ -94,7 +94,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
     // If it's a brand new wallet because no ".Electra" directory was present before we started the Daemon,
     // we need to start the full first installation process in case the user wants to import or recover
     // a wallet that was previously generated on this device or another one.
-    if (ElectraJsMiddleware.wallet.isNew) {
+    if (ElectraJsMiddleware.isNew) {
       this.setState({
         firstInstallationScreen: 'ASK_USER_FOR_START_ACTION',
         isFullInstallation: true,
@@ -120,7 +120,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
       loadingText: 'Locking wallet...',
     })
 
-    const [err] = await to(ElectraJsMiddleware.wallet.unlock(this.$passphrase.value, false))
+    const [err] = await to(ElectraJsMiddleware.unlock(this.$passphrase.value, false))
     if (err !== null) {
       this.setState({
         error: 'Wrong passphrase !',
@@ -136,11 +136,11 @@ export default class Login extends React.PureComponent<ComponentProps, Component
 
   private async generateNewHdWallet(): Promise<void> {
     this.setState({ loadingText: 'Generating new mnemonic...' })
-    await ElectraJsMiddleware.wallet.generate()
+    await ElectraJsMiddleware.generate()
     this.setState({
       firstInstallationScreen: 'SHOW_USER_NEW_MNEMONIC',
       loadingText: undefined,
-      mnemonic: ElectraJsMiddleware.wallet.mnemonic,
+      mnemonic: ElectraJsMiddleware.mnemonic,
     })
   }
 
@@ -181,10 +181,10 @@ export default class Login extends React.PureComponent<ComponentProps, Component
       firstInstallationScreen: undefined,
       loadingText: 'Locking wallet...',
     })
-    await ElectraJsMiddleware.wallet.lock(this.state.passphrase)
+    await ElectraJsMiddleware.lock(this.state.passphrase)
 
     this.setState({ loadingText: 'Unlocking wallet...' })
-    await ElectraJsMiddleware.wallet.unlock(this.state.passphrase, false)
+    await ElectraJsMiddleware.unlock(this.state.passphrase, false)
 
     this.generateNewHdWallet()
   }
@@ -202,7 +202,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
   }
 
   private async recoverWalletFromMnemonic(): Promise<void> {
-    await ElectraJsMiddleware.wallet.generate(this.$mnemonic.value, undefined, Number(this.$addressesCount.value))
+    await ElectraJsMiddleware.generate(this.$mnemonic.value, undefined, Number(this.$addressesCount.value))
 
     this.props.onDone()
   }
@@ -299,7 +299,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
             <p>Please enter your new mnemonic to ensure you got it well:</p>
             <input
               ref={($node: HTMLInputElement): HTMLInputElement => this.$mnemonic = $node}
-              type={'password'}
+              type={'text'}
             /><br />
             {this.state.error !== undefined && <p>Error: {this.state.error}</p>}
             <button
