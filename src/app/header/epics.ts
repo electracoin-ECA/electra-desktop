@@ -9,7 +9,7 @@ import { HeaderActions, /*WalletInfoObservable*/ } from './types'
 export function getWalletInfo(action$: ActionsObservable<HeaderActions>, store: any):
 Observable<any> {
   return action$.ofType(ActionNames.GET_WALLET_INFO)
-    .map(async () => ElectraJsMiddleware.getInfo())
+    .map(async () => ElectraJsMiddleware.wallet.getInfo())
     .mergeMap((promise: Promise<WalletInfo>) =>
       Observable
         .fromPromise(promise)

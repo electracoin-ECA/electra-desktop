@@ -13,7 +13,7 @@ export function sendECA(action$: ActionsObservable<any>, store: Store<any>):
     .map(async (payload: any) => {
       const { amount, to } = payload
 
-      return ElectraJsMiddleware.send(parseFloat(amount), to)
+      return ElectraJsMiddleware.wallet.send(parseFloat(amount), to)
     })
     .mergeMap((promise: Promise<void>) =>
       Observable
@@ -22,7 +22,7 @@ export function sendECA(action$: ActionsObservable<any>, store: Store<any>):
           type: ActionNames.SEND_ECA_SUCCESS
         }))
         .catch((error: Error) => {
-          console.log(error.message)
+          console.error(error.message)
 
           return Observable.of({
             type: ActionNames.SEND_ECA_FAIL
@@ -34,7 +34,7 @@ export function sendECA(action$: ActionsObservable<any>, store: Store<any>):
 export function getAddresses(action$: ActionsObservable<any>, store: Store<any>):
   Observable<any> {
   return action$.ofType(ActionNames.GET_ADDRESSES)
-    .map(() => ElectraJsMiddleware.allAddresses)
+    .map(() => ElectraJsMiddleware.wallet.allAddresses)
     .flatMap((addresses: WalletAddress[]) => Observable.of(
       { payload: addresses, type: ActionNames.GET_ADDRESSES_SUCCESS }
     ))

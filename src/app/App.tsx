@@ -1,18 +1,16 @@
-import * as React from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Toast from './common/toast/toast'
-const { connect } = require('react-redux')
 import * as express from 'express'
+import * as React from 'react'
+import { connect } from 'react-redux'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import 'rxjs'
-// const { ipcRenderer } = require('electron')
-import store from './store'
-
 import { AddressBook } from './addressBook'
+import Toast from './common/toast/toast'
 import { Header } from './header'
 import Login from './login'
 import { Overview } from './overview'
 import { Payments } from './payments'
 import { Sidebar } from './sidebar'
+import store from './store'
 import { Transactions } from './transactions'
 import { getTransaction } from './transactions/actions';
 
@@ -39,16 +37,7 @@ expressApp.post('/transaction/txid=*', (req: any, res: any) => {
 })
 expressApp.listen(EXPRESS_PORT)
 
-/**
- * Point of entrance
- */
-
-// ipcRenderer.on('newTransaction', function (event: any, data: any): void {
-//   store.dispatch(getTransaction(data.msg))
-// })
-
-@connect(mapStateToProps)
-export default class App extends React.Component<any, ComponentState> {
+class App extends React.Component<any, ComponentState> {
   constructor(props: any) {
     super(props)
 
@@ -94,3 +83,5 @@ export default class App extends React.Component<any, ComponentState> {
     )
   }
 }
+
+export default connect<null, null, {}>(mapStateToProps, null)(App)

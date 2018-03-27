@@ -15,12 +15,11 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
     getTransactions},dispatch)
 
 class Transactions extends React.Component<StateProps & DispatchProps, any> {
-  // tslint:disable-next-line:typedef
-  public componentDidMount() {
+  componentDidMount(): void {
     this.props.getTransactions()
   }
 
-  public render(): any {
+  render(): any {
     const transactions: any = this.props.transactions.transactions || []
 
     return (

@@ -25,14 +25,14 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
     getTransactions},dispatch)
 
 class Overview extends React.Component<StateProps & DispatchProps, any> {
-  public componentDidMount(): void {
+  componentDidMount(): void {
     this.props.getCurrentPriceInUSD()
     this.props.getCurrentPriceInBTC()
     this.props.getTransactions()
     this.props.getGlobalBalance()
   }
 
-  public render(): any {
+  render(): any {
     const values: any = mapValues(this.props.overview, (value: string) => parseFloat(value).toFixed(MAX_DECIMALS))
     let { transactions } = this.props.transactions
     transactions = transactions ? drop(transactions, transactions.length - TRANSACTIONS_COUNT) : []

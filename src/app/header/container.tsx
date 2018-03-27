@@ -20,15 +20,15 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
   (dispatch: Dispatch<StateProps>): DispatchProps => bindActionCreators({ getWalletInfo }, dispatch)
 
 class Header extends React.Component<StateProps & DispatchProps> {
-  public componentWillMount(): void {
+  componentWillMount(): void {
     this.getWalletInfo()
   }
 
-  public getWalletInfo(): void {
+  getWalletInfo(): void {
     setInterval(this.props.getWalletInfo.bind(this), GET_WALLET_INFO_INTERVAL)
   }
 
-  public render(): JSX.Element {
+  render(): JSX.Element {
     const {
       connectionsCount,
       localStakingWeight,
