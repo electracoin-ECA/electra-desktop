@@ -5,7 +5,9 @@ import * as React from 'react'
 import * as zxcvbn from 'zxcvbn'
 
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
-import Spinner from './spinner'
+import LoadingSpinner from './loading-spinner'
+
+const styles: any = require('./styles.css')
 
 interface ComponentProps {
   onDone(): void
@@ -113,7 +115,8 @@ export default class Login extends React.PureComponent<ComponentProps, Component
     })
   }
 
-  private async unlockWallet(): Promise<void> {
+  private async unlockWallet(event: React.FormEvent<HTMLFormElement>): Promise<void> {
+    event.preventDefault()
     this.setState({
       error: undefined,
       firstInstallationScreen: undefined,
@@ -153,7 +156,8 @@ export default class Login extends React.PureComponent<ComponentProps, Component
     this.setState({ passphraseStrength })
   }
 
-  private async checkNewPassphrase(): Promise<void> {
+  private async checkNewPassphrase(event: React.FormEvent<HTMLFormElement>): Promise<void> {
+    event.preventDefault()
     this.setState({ error: undefined })
 
     if (this.$passphrase.value === undefined || this.$passphrase.value.length < PASSPHRASE_LENGTH_MIN) {
@@ -168,7 +172,8 @@ export default class Login extends React.PureComponent<ComponentProps, Component
     })
   }
 
-  private async checkNewPassphraseRepeat(): Promise<void> {
+  private async checkNewPassphraseRepeat(event: React.FormEvent<HTMLFormElement>): Promise<void> {
+    event.preventDefault()
     this.setState({ error: undefined })
 
     if (this.state.passphrase !== this.$passphrase.value) {
@@ -189,7 +194,8 @@ export default class Login extends React.PureComponent<ComponentProps, Component
     this.generateNewHdWallet()
   }
 
-  private checkNewMnemonic(): void {
+  private checkNewMnemonic(event: React.FormEvent<HTMLFormElement>): void {
+    event.preventDefault()
     this.setState({ error: undefined })
 
     if (this.$mnemonic.value !== this.state.mnemonic) {
@@ -201,130 +207,197 @@ export default class Login extends React.PureComponent<ComponentProps, Component
     this.props.onDone()
   }
 
-  private async recoverWalletFromMnemonic(): Promise<void> {
+  private async recoverWalletFromMnemonic(event: React.FormEvent<HTMLFormElement>): Promise<void> {
+    event.preventDefault()
     await ElectraJsMiddleware.wallet.generate(this.$mnemonic.value, undefined, Number(this.$addressesCount.value))
 
     this.props.onDone()
   }
 
+  // tslint:disable-next-line:cyclomatic-complexity
   public render(): JSX.Element {
     return (
-      <div>
-        {this.state.loadingText !== undefined && <Spinner text={this.state.loadingText} />}
+      <div className={styles.container}>
+        {this.state.loadingText !== undefined && (
+          <div className={styles.innerContainer}>
+            <LoadingSpinner text={this.state.loadingText} />
+          </div>
+        )}
 
         {/* Brand new wallet user choices */}
         {this.state.firstInstallationScreen === 'ASK_USER_FOR_START_ACTION' && (
-          <div>
+          <div className={styles.innerContainer}>
             <button
               children={'CREATE A NEW WALLET'}
+              className={styles.button}
               onClick={(): void => this.setState({ firstInstallationScreen: 'ASK_USER_FOR_NEW_PASSPHRASE' })}
-            /><br />
+            />
             <button
               children={'IMPORT PRIVATE KEYS'}
+              className={styles.button}
               onClick={(): void => this.setState({})}
-            /><br />
+            />
             <button
               children={'RECOVER A WALLET VIA MNEMONIC'}
+              className={styles.button}
               onClick={(): void => this.setState({ firstInstallationScreen: 'ASK_USER_FOR_EXISTING_MNEMONIC' })}
-            /><br />
+            />
           </div>
         )}
 
         {/* First Setup for a brand new wallet (1/4) */}
         {this.state.firstInstallationScreen === 'ASK_USER_FOR_NEW_PASSPHRASE' && (
-          <div>
-            <h1>First Setup 1/4</h1>
-            <p>Please enter a new strong passphrase:</p>
-            <input
-              ref={($node: HTMLInputElement): HTMLInputElement => this.$passphrase = $node}
-              onInput={this.checkPassphraseStrength.bind(this)}
-              type={'password'}
-            /><br />
-            {this.state.error !== undefined && <p>Error: {this.state.error}</p>}
-            {this.state.passphraseStrength !== undefined && (
-              <p>It will take {this.state.passphraseStrength} for a hacker to crack your password.</p>
-            )}
-            <button children={'NEXT'} onClick={this.checkNewPassphrase.bind(this)} />
+          <div className={styles.innerContainerSplit}>
+            <div className={styles.innerContainerSplitLeft}>
+              <h1 className={styles.title}>First Setup 1/4</h1>
+              <p className={styles.message}>
+                {this.state.passphraseStrength !== undefined
+                  ? [
+                    <span key={'message-first-line'}>It will take {this.state.passphraseStrength}</span>,
+                    <span key={'message-second-line'}>for a hacker to crack your password.</span>
+                  ]
+                  : `Are you ready for the test ?`
+                }
+              </p>
+            </div>
+            <form className={styles.innerContainerSplitRight} onSubmit={this.checkNewPassphrase.bind(this)}>
+              <p>Please enter a new strong passphrase:</p>
+              <input
+                autoFocus={true}
+                className={this.state.error !== undefined ? styles.inputError : styles.input}
+                onInput={this.checkPassphraseStrength.bind(this)}
+                ref={($node: HTMLInputElement): HTMLInputElement => this.$passphrase = $node}
+                type={'password'}
+              />
+              <p className={styles.error} children={this.state.error !== undefined && `Error: ${this.state.error}`} />
+              <button children={'NEXT'} className={styles.button} type={'submit'} />
+            </form>
           </div>
         )}
 
         {/* First Setup for a brand new wallet (2/4) */}
         {this.state.firstInstallationScreen === 'ASK_USER_FOR_NEW_PASSPHRASE_REPEAT' && (
-          <div>
-            <h1>First Setup 2/4</h1>
-            <p>Please repeat your passphrase:</p>
-            <input
-              ref={($node: HTMLInputElement): HTMLInputElement => this.$passphrase = $node}
-              type={'password'}
-            /><br />
-            {this.state.error !== undefined && <p>Error: {this.state.error}</p>}
-            <button children={'NEXT'} onClick={this.checkNewPassphraseRepeat.bind(this)} />
+          <div className={styles.innerContainerSplit}>
+            <div className={styles.innerContainerSplitLeft}>
+              <h1 className={styles.title}>First Setup 2/4</h1>
+              <p className={styles.message}>Life is full of rehearsals.</p>
+            </div>
+            <form className={styles.innerContainerSplitRight} onSubmit={this.checkNewPassphraseRepeat.bind(this)}>
+              <p>Please repeat your passphrase:</p>
+              <input
+                autoFocus={true}
+                className={this.state.error !== undefined ? styles.inputError : styles.input}
+                ref={($node: HTMLInputElement): HTMLInputElement => this.$passphrase = $node}
+                type={'password'}
+              />
+              <p className={styles.error} children={this.state.error !== undefined && `Error: ${this.state.error}`} />
+              <button children={'NEXT'} className={styles.button} type={'submit'} />
+            </form>
           </div>
         )}
 
         {/* First Setup for an existing legacy wallet (1/3) */}
         {this.state.firstInstallationScreen === 'ASK_USER_FOR_EXISTING_PASSPHRASE' && (
-          <div>
-            <h1>First Setup 1/3</h1>
-            <p>Please enter your current passphrase to unlock your existing wallet:</p>
-            <input
-              ref={($node: HTMLInputElement): HTMLInputElement => this.$passphrase = $node}
-              type={'password'}
-            /><br />
-            {this.state.error !== undefined && <p>Error: {this.state.error}</p>}
-            <button children={'UNLOCK'} onClick={this.unlockWallet.bind(this)} />
+          <div className={styles.innerContainerSplit}>
+            <div className={styles.innerContainerSplitLeft}>
+              <h1 className={styles.title}>First Setup 1/3</h1>
+              <p className={styles.message}>You never forget where you come from.</p>
+            </div>
+            <form className={styles.innerContainerSplitRight} onSubmit={this.unlockWallet.bind(this)}>
+              <p>Please enter your current passphrase to unlock your existing wallet:</p>
+              <input
+                autoFocus={true}
+                className={this.state.error !== undefined ? styles.inputError : styles.input}
+                ref={($node: HTMLInputElement): HTMLInputElement => this.$passphrase = $node}
+                type={'password'}
+              />
+              <p className={styles.error} children={this.state.error !== undefined && `Error: ${this.state.error}`} />
+              <button children={'UNLOCK'} className={styles.button} type={'submit'} />
+            </form>
           </div>
         )}
 
         {/* First Setup for a brand new wallet (3/4) */}
         {/* First Setup for an existing legacy wallet (2/3) */}
         {this.state.firstInstallationScreen === 'SHOW_USER_NEW_MNEMONIC' && (
-          <div>
-            <h1>First Setup {this.state.isFullInstallation ? '3/4' : '2/3'}</h1>
-            <p>Please write down your mnemonic somewhere:</p>
-            <p><em>It will be used to recover your wallet if you loose your data.</em></p>
-            <h2>{this.state.mnemonic}</h2>
-            <button
-              children={'I HAVE WRITTEN DOWN MY MNEMONIC'}
-              onClick={(): void => this.setState({ firstInstallationScreen: 'ASK_USER_FOR_NEW_MNEMONIC_REPEAT' })}
-            />
+          <div className={styles.innerContainerSplit}>
+            <div className={styles.innerContainerSplitLeft}>
+              <h1 className={styles.title}>First Setup {this.state.isFullInstallation ? '3/4' : '2/3'}</h1>
+              <p className={styles.message}>
+                <span>It will allow you to recover your wallet</span>
+                <span>if you loose your data and/or your password.</span>
+              </p>
+            </div>
+            <div className={styles.innerContainerSplitRight}>
+              <p>Please write down your mnemonic somewhere:</p>
+              <div className={styles.mnemonic}>
+                {this.state.mnemonic !== undefined && (this.state.mnemonic.match(/([a-z]+\s){3}[a-z]+/g) as string[])
+                  .map((words: string) => <span children={words} />)
+                }
+              </div>
+              <button
+                children={'I HAVE WRITTEN DOWN MY MNEMONIC'}
+                className={styles.button}
+                onClick={(): void => this.setState({ firstInstallationScreen: 'ASK_USER_FOR_NEW_MNEMONIC_REPEAT' })}
+              />
+            </div>
           </div>
         )}
 
         {/* First Setup for a brand new wallet (4/4) */}
         {/* First Setup for an existing legacy wallet (3/3) */}
         {this.state.firstInstallationScreen === 'ASK_USER_FOR_NEW_MNEMONIC_REPEAT' && (
-          <div>
-            <h1>First Setup {this.state.isFullInstallation ? '4/4' : '3/3'}</h1>
-            <p>Please enter your new mnemonic to ensure you got it well:</p>
-            <input
-              ref={($node: HTMLInputElement): HTMLInputElement => this.$mnemonic = $node}
-              type={'password'}
-            /><br />
-            {this.state.error !== undefined && <p>Error: {this.state.error}</p>}
-            <button
-              children={'SHOW ME AGAIN MY MNEMONIC'}
-              onClick={(): void => this.setState({ firstInstallationScreen: 'SHOW_USER_NEW_MNEMONIC' })}
-            />
-            <button children={'CHECK'} onClick={this.checkNewMnemonic.bind(this)} />
+          <div className={styles.innerContainerSplit}>
+            <div className={styles.innerContainerSplitLeft}>
+              <h1 className={styles.title}>First Setup {this.state.isFullInstallation ? '4/4' : '3/3'}</h1>
+              <p className={styles.message}>Happiness is the longing for repetition.</p>
+            </div>
+            <form className={styles.innerContainerSplitRight} onSubmit={this.checkNewMnemonic.bind(this)}>
+              <p>Please enter your mnemonic to ensure you got it well:</p>
+              <input
+                autoFocus={true}
+                className={this.state.error !== undefined ? styles.inputError : styles.input}
+                ref={($node: HTMLInputElement): HTMLInputElement => this.$mnemonic = $node}
+                type={'text'}
+              />
+              <p className={styles.error} children={this.state.error !== undefined && `Error: ${this.state.error}`} />
+              <div className={styles.buttonsRow}>
+                <button
+                  children={'SHOW ME MY MNEMONIC AGAIN'}
+                  className={styles.button}
+                  onClick={(): void => this.setState({ firstInstallationScreen: 'SHOW_USER_NEW_MNEMONIC' })}
+                />
+                <button children={'CHECK'} className={styles.button} type={'submit'} />
+              </div>
+            </form>
           </div>
         )}
 
-        {/* Recovering from a mnemonic (1/2) */}
+        {/* Recovering from a mnemonic */}
         {this.state.firstInstallationScreen === 'ASK_USER_FOR_EXISTING_MNEMONIC' && (
-          <div>
-            <h1>Recovering Setup 1/2</h1>
-            <p>Please enter your existing mnemonic:</p>
-            <input
-              ref={($node: HTMLInputElement): HTMLInputElement => this.$mnemonic = $node}
-              type={'text'}
-            /><br />
-            <p>Please enter how many addresses you had:</p>
-            <input
-              ref={($node: HTMLInputElement): HTMLInputElement => this.$addressesCount = $node}
-              type={'number'}
-            /><br />
-            <button children={'RECOVER'} onClick={this.recoverWalletFromMnemonic.bind(this)} />
+          <div className={styles.innerContainerSplit}>
+            <div className={styles.innerContainerSplitLeft}>
+              <h1 className={styles.title}>Wallet Recovering</h1>
+              <p className={styles.message}>I learned that one can always start again.</p>
+            </div>
+            <form className={styles.innerContainerSplitRight} onSubmit={this.recoverWalletFromMnemonic.bind(this)}>
+              <p>Please enter your existing mnemonic:</p>
+              <input
+                autoFocus={true}
+                className={this.state.error !== undefined ? styles.inputError : styles.input}
+                ref={($node: HTMLInputElement): HTMLInputElement => this.$mnemonic = $node}
+                type={'text'}
+              />
+              <p className={styles.error} children={this.state.error !== undefined && `Error: ${this.state.error}`} />
+              <p>Please enter how many addresses you had:</p>
+              <input
+                autoFocus={true}
+                className={this.state.error !== undefined ? styles.inputError : styles.input}
+                ref={($node: HTMLInputElement): HTMLInputElement => this.$addressesCount = $node}
+                type={'number'}
+              />
+              <button children={'RECOVER'} className={styles.button} type={'submit'} />
+            </form>
           </div>
         )}
       </div>

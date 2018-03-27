@@ -1,0 +1,99 @@
+.container {
+  align-items: center;
+  background: #2e022a;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
+
+.innerContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 9rem;
+  justify-content: space-between;
+}
+
+.innerContainerSplit {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.innerContainerSplitLeft {
+  align-items: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: 21px;
+  height: 100%;
+  justify-content: center;
+  text-align: center;
+  width: 50%;
+}
+
+.innerContainerSplitRight {
+  background-color: #7c1d74;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  height: 100%;
+  padding: 2rem;
+  justify-content: center;
+  width: 50%;
+}
+
+.title {
+  color: #b63bac;
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 2.4rem;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  height: 62px;
+  justify-content: center;
+}
+
+.mnemonic {
+  align-items: center;
+  color: #ffd000;
+  display: flex;
+  flex-direction: column;
+  font-size: 21px;
+  font-weight: 600;
+  margin: 1rem 0 1.5rem;
+}
+
+.input {
+  background-color: transparent;
+  border: solid 2px white;
+  color: inherit;
+  font-size: inherit;
+  margin-top: 1rem;
+  outline: none;
+  padding: .2rem .2rem;
+}
+.inputError {
+  composes: input;
+
+  border: solid 2px #ffd000;
+}
+
+.error {
+  color: #ffd000;
+  font-size: 12px;
+  font-weight: 600;
+  margin: .5rem 0 1rem;
+}
+
+.buttonsRow {
+  display: flex;
+  justify-content: space-between;
+}
+.button {
+  border-radius: 0;
+}
