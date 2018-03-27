@@ -12,9 +12,7 @@ const GET_WALLET_INFO_INTERVAL: number = 5000
 const rowTwo: number = 2
 const rowSix: number = 6
 
-const mapStateToProps: MapStateToProps<StateProps, {}, {}> = (state: StateProps): StateProps =>
-  ({
-    electra: state.electra,
+const mapStateToProps: MapStateToProps<StateProps, {}, {}> = (state: StateProps): StateProps => ({
     header: state.header
   })
 
@@ -22,15 +20,15 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
   (dispatch: Dispatch<StateProps>): DispatchProps => bindActionCreators({ getWalletInfo }, dispatch)
 
 class Header extends React.Component<StateProps & DispatchProps> {
-  public componentWillMount(): void {
+  componentWillMount(): void {
     this.getWalletInfo()
   }
 
-  public getWalletInfo(): void {
-    setTimeout(this.props.getWalletInfo.bind(this), GET_WALLET_INFO_INTERVAL)
+  getWalletInfo(): void {
+    setInterval(this.props.getWalletInfo.bind(this), GET_WALLET_INFO_INTERVAL)
   }
 
-  public render(): JSX.Element {
+  render(): JSX.Element {
     const {
       connectionsCount,
       localStakingWeight,

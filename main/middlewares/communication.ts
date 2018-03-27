@@ -22,11 +22,11 @@ function bindEventToProp(eventName: string, instance: any, prop: string): void {
   })
 }
 
-/*function bindEventToSyncCall(eventName: string, call: () => any): void {
-  ipcMain.on(eventName, async (event: any, argsString: string) => {
-    event.returnValue = call.apply(null, JSON.parse(argsString))
-  })
-}*/
+// function bindEventToSyncCall(eventName: string, call: () => any): void {
+//   ipcMain.on(eventName, async (event: any, argsString: string) => {
+//     event.returnValue = call.apply(null, JSON.parse(argsString))
+//   })
+// }
 
 function bindEventToAsyncCall(eventName: string, call: () => Promise<any>): void {
   ipcMain.on(eventName, async (event: any, argsString: string) => {
@@ -59,6 +59,7 @@ export default class Communication {
       { event: 'electraJs:wallet:isNew', instance: this.electraJs.wallet, prop: 'isNew' },
       { event: 'electraJs:wallet:lockState', instance: this.electraJs.wallet, prop: 'lockState' },
       { event: 'electraJs:wallet:mnemonic', instance: this.electraJs.wallet, prop: 'mnemonic' },
+      { event: 'electraJs:wallet:allAddresses', instance: this.electraJs.wallet, prop: 'allAddresses' },
     ]
       .forEach(({ event, instance, prop }: EventToProp) => bindEventToProp(event, instance, prop));
 
@@ -70,6 +71,10 @@ export default class Communication {
       { event: 'electraJs:wallet:lock', call: this.electraJs.wallet.lock.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:unlock', call: this.electraJs.wallet.unlock.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:getBalance', call: this.electraJs.wallet.getBalance.bind(this.electraJs.wallet)},
+      { event: 'electraJs:wallet:getInfo', call: this.electraJs.wallet.getInfo.bind(this.electraJs.wallet)},
+      // { event: 'electraJs:wallet:getTransaction', call: this.electraJs.wallet.getTransaction.bind(this.electraJs.wallet)},
+      { event: 'electraJs:wallet:send', call: this.electraJs.wallet.send.bind(this.electraJs.wallet)},
+      { event: 'electraJs:wallet:getTransactions', call: this.electraJs.wallet.getTransactions.bind(this.electraJs.wallet)},
       { event: 'electraJs:webServices:getCurrentPriceIn', call: this.electraJs.webServices.getCurrentPriceIn.bind(this.electraJs.webServices) }
     ]
       .forEach(({ event, call }: EventToCall) => bindEventToAsyncCall(event, call))

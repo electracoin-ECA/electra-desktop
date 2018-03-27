@@ -1,43 +1,43 @@
+import * as express from 'express'
 import * as React from 'react'
+import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { bindActionCreators } from 'redux'
-import Toast from './common/toast/toast'
-const { connect } = require('react-redux')
-
+import 'rxjs'
 import { AddressBook } from './addressBook'
-import { ElectraActions } from './electra'
+import Toast from './common/toast/toast'
 import { Header } from './header'
 import Login from './login'
 import { Overview } from './overview'
 import { Payments } from './payments'
 import { Sidebar } from './sidebar'
+import store from './store'
 import { Transactions } from './transactions'
+import { getTransaction } from './transactions/actions';
 
 interface ComponentState {
   isLoading: boolean
 }
 
 // tslint:disable-next-line:typedef
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators({
-    generateHDWallet: ElectraActions.generateHDWallet,
-    initializeElectra: ElectraActions.initializeElectra,
-    startDaemon: ElectraActions.startDaemon
-    // tslint:disable-next-line:align
-  }, dispatch)
-
-// tslint:disable-next-line:typedef
-const mapStateToProps = (state: any): any =>
-  ({
-    toast: state.toast
-  })
+const mapStateToProps = (state: any): any => ({
+  toast: state.toast
+})
 
 /**
- * Point of entrance
+ * Run express server to catch incoming post request and notify the user
  */
+const EXPRESS_PORT: number = 3005
+const expressApp: express.Express = express()
+expressApp.post('/transaction/txid=*', (req: any, res: any) => {
+  // if (mainWindow) {
+  //   mainWindow.webContents.send('newTransaction', { msg: req.params[0] })
+  // }
+  store.dispatch(getTransaction(req.params[0]))
+  res.send('OK')
+})
+expressApp.listen(EXPRESS_PORT)
 
-@connect(mapStateToProps, mapDispatchToProps)
-export default class App extends React.Component<any, ComponentState> {
+class App extends React.Component<any, ComponentState> {
   constructor(props: any) {
     super(props)
 
@@ -46,7 +46,6 @@ export default class App extends React.Component<any, ComponentState> {
     }
   }
 
-  // tslint:disable-next-line:typedef
   public render(): JSX.Element {
     const { badge, message } = this.props.toast
 
@@ -58,14 +57,14 @@ export default class App extends React.Component<any, ComponentState> {
               <Login onDone={(): void => this.setState({ isLoading: false })} />
             )
             : [
-              <div className='c-app-layout__toolbar'>
+              <div key='toolbar' className='c-app-layout__toolbar'>
                 <Header />
               </div>,
-              <div className='c-app-layout__container'>
+              <div key='container' className='c-app-layout__container'>
                 <aside>
                   <Sidebar />
                 </aside>
-                <main>
+                <main key='main'>
                   <Switch>
                     <Route exact path='/' component={Overview} />
                     <Route exact path='/payments' component={Payments} />
@@ -84,3 +83,5 @@ export default class App extends React.Component<any, ComponentState> {
     )
   }
 }
+
+export default connect<null, null, {}>(mapStateToProps, null)(App)
