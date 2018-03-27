@@ -57,14 +57,14 @@ class App extends React.Component<any, ComponentState> {
               <Login onDone={(): void => this.setState({ isLoading: false })} />
             )
             : [
-              <div className='c-app-layout__toolbar'>
+              <div key='toolbar' className='c-app-layout__toolbar'>
                 <Header />
               </div>,
-              <div className='c-app-layout__container'>
+              <div key='container' className='c-app-layout__container'>
                 <aside>
                   <Sidebar />
                 </aside>
-                <main>
+                <main key='main'>
                   <Switch>
                     <Route exact path='/' component={Overview} />
                     <Route exact path='/payments' component={Payments} />

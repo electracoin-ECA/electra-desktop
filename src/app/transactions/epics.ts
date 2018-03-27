@@ -12,7 +12,7 @@ const DELAY: number = 1000
 export function getTransactions(action$: ActionsObservable<TransactionsActions>, store: any):
   Observable<any> {
   return action$.ofType(TransactionActionNames.GET_TRANSACTIONS)
-    .map(async () => ElectraJsMiddleware.wallet.getTransactions(TRANSACTIONS_NUMBER))
+    .map(async () => ElectraJsMiddleware.getTransactions(TRANSACTIONS_NUMBER))
     .debounceTime(DELAY)
     .switchMap((promise: Promise<WalletTransaction[]>) =>
       Observable
@@ -40,7 +40,7 @@ export function getTransaction(action$: ActionsObservable<TransactionsActions>, 
     .map((action: any) => ({
       payload: action.payload
     }))
-    .map(async (data: any) => ElectraJsMiddleware.wallet.getTransactions(TRANSACTIONS_NUMBER))
+    .map(async (data: any) => ElectraJsMiddleware.getTransactions(TRANSACTIONS_NUMBER))
     .switchMap((promise: any) =>
       Observable
         .fromPromise(promise)

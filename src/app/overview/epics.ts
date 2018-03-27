@@ -12,7 +12,7 @@ const BTC: 'BTC' = 'BTC'
 export function getGlobalBalance(action$: ActionsObservable<OverviewActions>, store: Store<any>):
   Observable<GlobalBalanceObservable> {
     return action$.ofType(OverviewActionNames.GET_GLOBAL_BALANCE)
-      .map(async () => ElectraJsMiddleware.wallet.getBalance())
+      .map(async () => ElectraJsMiddleware.getBalance())
       .debounceTime(DELAY)
       .switchMap((promise: Promise<number>) =>
       Observable
