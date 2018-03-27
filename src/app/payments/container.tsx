@@ -17,15 +17,18 @@ const mapStateToProps: MapStateToProps<StateProps,{}, {}> = (state: StateProps):
 // tslint:disable-next-line:typedef
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
 (dispatch: Dispatch<StateProps>): DispatchProps =>
-  bindActionCreators({
-    clearSendCardFields,
-    getAddresses,
-    sendEca,
-    setAmount,
-    setMessageAndBadge,
-    setToAddress
-    // tslint:disable-next-line:align
-  }, dispatch)
+  bindActionCreators
+  (
+    {
+      clearSendCardFields,
+      getAddresses,
+      sendEca,
+      setAmount,
+      setMessageAndBadge,
+      setToAddress
+    },
+    dispatch
+  )
 
 class Payments extends React.Component<StateProps & DispatchProps, any> {
   componentDidMount(): void {
