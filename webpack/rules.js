@@ -18,17 +18,29 @@ module.exports = [
     ]
   },
   {
-    test: /\.(css|scss)$/,
+    test: /\.css$/,
+    loader: 'style-loader',
+  },
+  {
+    test: /\.css$/,
+    loader: 'css-loader',
+    query: {
+      modules: true,
+      localIdentName: '[local]-[hash:base64:5]',
+      sourceMap: true,
+    },
+  },
+  {
+    test: /\.scss$/,
     use: extractTextPlugin.extract({
       fallback: "style-loader",
       use: [
         {
           loader: 'css-loader',
           options: {
-            importLoaders: 2,
+            importLoaders: 1,
           }
         },
-        'postcss-loader',
         { loader: 'sass-loader', query: {} }
       ]
     }),

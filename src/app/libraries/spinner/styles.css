@@ -1,0 +1,33 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@keyframes fadePulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: .5;
+    transform: scale(.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.container svg {
+  animation: fadePulse 1.5s linear infinite;
+  height: 100px;
+  width: 100px;
+}
+
+.st0{fill:url(#SVGID_1_);}
+.st1{fill:#FFFFFF;}
+.st2{fill:url(#SVGID_2_);}
