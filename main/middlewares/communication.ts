@@ -66,7 +66,7 @@ export default class Communication {
       { event: 'electraJs:wallet:unlock', call: this.electraJs.wallet.unlock.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:getBalance', call: this.electraJs.wallet.getBalance.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:getInfo', call: this.electraJs.wallet.getInfo.bind(this.electraJs.wallet)},
-      // { event: 'electraJs:wallet:getTransaction', call: this.electraJs.wallet.getTransaction.bind(this.electraJs.wallet)},
+      { event: 'electraJs:wallet:getTransaction', call: this.electraJs.wallet.getTransaction.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:send', call: this.electraJs.wallet.send.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:getTransactions', call: this.electraJs.wallet.getTransactions.bind(this.electraJs.wallet)},
       { event: 'electraJs:webServices:getCurrentPriceInUSD', call: this.electraJs.webServices.getCurrentPriceIn.bind(this.electraJs.webServices) },

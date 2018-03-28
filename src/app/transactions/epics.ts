@@ -40,7 +40,7 @@ export function getTransaction(action$: ActionsObservable<TransactionsActions>, 
     .map((action: any) => ({
       payload: action.payload
     }))
-    .map(async (data: any) => ElectraJsMiddleware.wallet.getTransactions(TRANSACTIONS_NUMBER))
+    .map(async (data: any) => ElectraJsMiddleware.wallet.getTransaction(data.payload))
     .switchMap((promise: any) =>
       Observable
         .fromPromise(promise)
