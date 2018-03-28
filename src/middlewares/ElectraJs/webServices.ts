@@ -7,7 +7,10 @@ export default class WebServices {
     return bindEventToAsyncCall<number>('electraJs:webServices:getBalanceFor', arguments)
   }
 
-  public getCurrentPriceIn(currency?: CoinMarketCapCurrency): Promise<number> {
-    return bindEventToAsyncCall<number>('electraJs:webServices:getCurrentPriceIn', arguments)
+  public getCurrentPriceInUSD(currency?: CoinMarketCapCurrency): Promise<number> {
+    return bindEventToAsyncCall<number>('electraJs:webServices:getCurrentPriceInUSD', arguments)
+  }
+  public getCurrentPriceInBTC(currency?: CoinMarketCapCurrency): Promise<number> {
+    return bindEventToAsyncCall<number>('electraJs:webServices:getCurrentPriceInBTC', arguments)
   }
 }
