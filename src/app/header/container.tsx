@@ -1,4 +1,3 @@
-import { toString } from 'lodash'
 import * as React from 'react'
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
@@ -70,7 +69,7 @@ class Header extends React.Component<StateProps & DispatchProps> {
                   <WalletInfoComponent
                     row={rowTwo}
                     label={'Last received block'}
-                    info={toString(lastBlockGeneratedAt)}
+                    info={String(lastBlockGeneratedAt)}
                   />
                   <WalletInfoComponent
                     row={rowTwo}
