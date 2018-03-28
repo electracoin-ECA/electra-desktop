@@ -35,7 +35,7 @@ export function getGlobalBalance(action$: ActionsObservable<OverviewActions>, st
 export function getCurrentPriceUSD(action$: ActionsObservable<OverviewActions>, store: Store<any>):
   Observable<GlobalBalanceOtherObservable> {
     return action$.ofType(OverviewActionNames.GET_CURRENT_PRICE_USD)
-    .map(async () => ElectraJsMiddleware.webServices.getCurrentPriceIn())
+    .map(async () => ElectraJsMiddleware.webServices.getCurrentPriceInUSD())
     .mergeMap((promise: Promise<number>) =>
       Observable
         .fromPromise(promise)
@@ -53,7 +53,7 @@ export function getCurrentPriceUSD(action$: ActionsObservable<OverviewActions>, 
 export function getCurrentPriceBTC(action$: ActionsObservable<OverviewActions>, store: Store<any>):
   Observable<GlobalBalanceOtherObservable> {
     return action$.ofType(OverviewActionNames.GET_CURRENT_PRICE_BTC)
-    .map(async () => ElectraJsMiddleware.webServices.getCurrentPriceIn(BTC))
+    .map(async () => ElectraJsMiddleware.webServices.getCurrentPriceInBTC(BTC))
     .mergeMap((promise: Promise<number>) =>
       Observable
         .fromPromise(promise)
