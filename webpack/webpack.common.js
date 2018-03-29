@@ -68,7 +68,10 @@ const rendererConfig = {
 
   externals: [
     webpackNodeExternals({
-      whitelist: ['webpack/hot/dev-server']
+      whitelist: [
+        'webpack-dev-server/client?http://localhost:8080',
+        'webpack/hot/dev-server',
+      ]
     })
   ],
 }
