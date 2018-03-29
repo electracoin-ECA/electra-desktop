@@ -51,7 +51,7 @@ class Overview extends React.Component<StateProps & DispatchProps, any> {
             currentPriceBTC={values.currentPriceBTC}
             currentPriceUSD={values.currentPriceUSD} />
 
-          <h2>Last Transactions</h2>
+          <h2>Recent Transactions</h2>
           <TransactionsComponent transactions={transactions} />
         </div>
       </div>
