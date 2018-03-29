@@ -1,3 +1,4 @@
+import { toString } from 'lodash'
 import * as React from 'react'
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
@@ -31,6 +32,7 @@ class Header extends React.Component<StateProps & DispatchProps> {
   render(): JSX.Element {
     const {
       connectionsCount,
+      lastBlockGeneratedAt,
       localStakingWeight,
       localBlockchainHeight,
       nextStakingRewardIn,
@@ -68,7 +70,7 @@ class Header extends React.Component<StateProps & DispatchProps> {
                   <WalletInfoComponent
                     row={rowTwo}
                     label={'Last received block'}
-                    info={'asdasd'}
+                    info={toString(lastBlockGeneratedAt)}
                   />
                   <WalletInfoComponent
                     row={rowTwo}

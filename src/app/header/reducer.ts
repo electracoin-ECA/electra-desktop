@@ -1,6 +1,6 @@
+import * as moment from 'moment'
 import * as ActionNames from './action-names'
-import { HeaderActions,
-  HeaderState } from './types'
+import { HeaderActions, HeaderState } from './types'
 
 const initialState: HeaderState = {
   walletInfo: {
@@ -8,6 +8,7 @@ const initialState: HeaderState = {
     isHD: false,
     isStaking: false,
     isSynchonized: false,
+    lastBlockGeneratedAt: 0,
     localBlockchainHeight: 0,
     localStakingWeight: 0,
     networkBlockchainHeight: 0,
@@ -24,6 +25,7 @@ export default function(state: HeaderState = initialState, action: HeaderActions
         isHD,
         isStaking,
         isSynchonized,
+        lastBlockGeneratedAt,
         localBlockchainHeight,
         localStakingWeight,
         networkBlockchainHeight,
@@ -38,6 +40,7 @@ export default function(state: HeaderState = initialState, action: HeaderActions
           isHD,
           isStaking,
           isSynchonized,
+          lastBlockGeneratedAt: moment.unix(lastBlockGeneratedAt).fromNow(),
           localBlockchainHeight,
           localStakingWeight,
           networkBlockchainHeight,
