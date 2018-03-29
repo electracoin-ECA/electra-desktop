@@ -1,5 +1,5 @@
 import { WalletTransaction } from 'electra-js'
-import { capitalize, reverse } from 'lodash'
+import { capitalize } from 'lodash'
 import * as moment from 'moment'
 import * as React from 'react'
 import { Icon } from '../../icon'
@@ -10,7 +10,7 @@ export default class TransactionsComponent extends React.Component<any, any> {
 
     return (
       <div className='mt-6 '>
-        {reverse(transactions).map((transaction: WalletTransaction, index: number) => (
+        {transactions.map((transaction: WalletTransaction, index: number) => (
           <div className='c-card mb-4' key={index}>
             <div className='c-card__content flex items-center'>
               <div className='flex-1'>
