@@ -19,7 +19,7 @@ export function getTransactions(action$: ActionsObservable<TransactionsActions>,
       Observable
         .fromPromise(promise)
         .map((data: WalletTransaction[]) => ({
-          payload: data,
+          payload: data.reverse(),
           type: TransactionActionNames.GET_TRANSACTIONS_SUCCESS
         }
         ))
