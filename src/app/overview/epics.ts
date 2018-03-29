@@ -1,3 +1,4 @@
+import { WalletBalance } from 'electra-js'
 import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs/Observable'
@@ -14,11 +15,14 @@ export function getGlobalBalance(action$: ActionsObservable<OverviewActions>, st
     return action$.ofType(OverviewActionNames.GET_GLOBAL_BALANCE)
       .map(async () => ElectraJsMiddleware.wallet.getBalance())
       .debounceTime(DELAY)
-      .switchMap((promise: Promise<number>) =>
+      .switchMap((promise: Promise<WalletBalance>) =>
       Observable
       .fromPromise(promise)
-      .map((globalBalance: number) => ({
-        payload: globalBalance,
+      .map((balance: WalletBalance) => ({
+        payload: {
+          confirmed: balance.confirmed,
+          unconfirmed: balance.unconfirmed
+        },
         type: OverviewActionNames.GET_GLOBAL_BALANCE_SUCCESS
       }))
       .catch((error: Error) => {

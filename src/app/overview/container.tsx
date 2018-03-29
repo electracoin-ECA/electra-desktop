@@ -44,9 +44,10 @@ class Overview extends React.Component<StateProps & DispatchProps, any> {
         </div>
         <div className='c-view__content'>
           <CardViewPrices
-            globalBalance={values.globalBalance}
-            ecaInBTC={(values.currentPriceBTC * values.globalBalance).toFixed(MAX_DECIMALS)}
-            ecaInUSD={(values.currentPriceUSD * values.globalBalance).toFixed(MAX_DECIMALS)}
+            confirmedBalance={values.confirmedBalance}
+            unconfirmedBalance={values.unconfirmedBalance}
+            ecaInBTC={(values.currentPriceBTC * values.confirmedBalance).toFixed(MAX_DECIMALS)}
+            ecaInUSD={(values.currentPriceUSD * values.confirmedBalance).toFixed(MAX_DECIMALS)}
             currentPriceBTC={values.currentPriceBTC}
             currentPriceUSD={values.currentPriceUSD} />
 

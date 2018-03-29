@@ -1,4 +1,4 @@
-import { WalletTransaction } from 'electra-js'
+import { WalletBalance, WalletTransaction } from 'electra-js'
 import { GetTransactions } from '../transactions/types'
 
 export interface StateProps {
@@ -18,7 +18,8 @@ export interface DispatchProps {
 export interface OverviewState {
     currentPriceBTC: number,
     currentPriceUSD: number,
-    globalBalance: number
+    confirmedBalance: number,
+    unconfirmedBalance: number
 }
 
 /**
@@ -45,7 +46,7 @@ export interface GetGlobalBalance {
 
 export interface GetGlobalBalanceSuccess {
     type: GET_GLOBAL_BALANCE_SUCCESS,
-    payload: number
+    payload: WalletBalance
 }
 
 export interface GetGlobalBalanceFail {
@@ -93,7 +94,7 @@ export type BalanceTypes = GET_GLOBAL_BALANCE | GET_GLOBAL_BALANCE_FAIL | GET_GL
 export type OtherBalanceTypes = GET_CURRENT_PRICE_BTC | GET_CURRENT_PRICE_BTC_FAIL | GET_CURRENT_PRICE_BTC_SUCCESS |
                                 GET_CURRENT_PRICE_USD | GET_CURRENT_PRICE_USD_FAIL | GET_CURRENT_PRICE_USD_SUCCESS
 
-export interface GlobalBalanceObservable { payload?: number, type: BalanceTypes }
+export interface GlobalBalanceObservable { payload?: WalletBalance, type: BalanceTypes }
 export interface GlobalBalanceOtherObservable { payload?: string, type: OtherBalanceTypes }
 
 export type OverviewActions =   GlobalBalanceActions |

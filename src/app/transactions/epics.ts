@@ -3,6 +3,7 @@ import { ActionsObservable } from 'redux-observable'
 import 'rxjs/add/observable/of'
 import { Observable } from 'rxjs/Observable'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
+import * as OverviewActionNames from '../overview/action-names'
 import * as TransactionActionNames from './action-names'
 import { TransactionsActions } from './types'
 
@@ -44,11 +45,14 @@ export function getTransaction(action$: ActionsObservable<TransactionsActions>, 
     .switchMap((promise: any) =>
       Observable
         .fromPromise(promise)
-        .map((data: any) => {
+        .flatMap((data: any) => {
           // tslint:disable-next-line
           new Notification('New Transaction', { body: `Incoming transaction of ${data.amount} ECA` })
 
-          return { type: TransactionActionNames.GET_TRANSACTIONS }
+          return Observable.of(
+            { type: TransactionActionNames.GET_TRANSACTIONS },
+            { type: OverviewActionNames.GET_GLOBAL_BALANCE }
+          )
         })
         .catch((error: Error) => {
           console.error(error.message)

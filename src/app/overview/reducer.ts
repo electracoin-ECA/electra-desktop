@@ -2,9 +2,10 @@ import * as ActionNames from './action-names'
 import { OverviewActions, OverviewState } from './types'
 
 const initialState: OverviewState = {
+  confirmedBalance: 0,
   currentPriceBTC: 0,
   currentPriceUSD: 0,
-  globalBalance: 0
+  unconfirmedBalance: 0
 }
 
 export default function overviewReducer(state: OverviewState = initialState, action: OverviewActions): any {
@@ -12,7 +13,8 @@ export default function overviewReducer(state: OverviewState = initialState, act
     case ActionNames.GET_GLOBAL_BALANCE_SUCCESS: {
       return {
         ...state,
-        globalBalance: action.payload
+        confirmedBalance: action.payload.confirmed,
+        unconfirmedBalance: action.payload.unconfirmed
       }
     }
     case ActionNames.GET_GLOBAL_BALANCE_FAIL: {
