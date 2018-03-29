@@ -1,7 +1,8 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const configPaths = require('./config.path')
-const webpackRules = require('./rules')
+const webpackNodeExternals = require('webpack-node-externals')
 const webpackPlugins = require('./plugins')
+const webpackRules = require('./rules')
 
 const mainConfig = {
   context: process.cwd(),
@@ -64,6 +65,12 @@ const rendererConfig = {
   node: {
     __dirname: true,
   },
+
+  externals: [
+    webpackNodeExternals({
+      whitelist: ['webpack/hot/dev-server']
+    })
+  ],
 }
 
 module.exports = [mainConfig, rendererConfig]
