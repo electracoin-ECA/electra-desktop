@@ -1,5 +1,5 @@
 // tslint:disable-next-line:typedef
-const moment = require('moment')
+import * as moment from 'moment'
 
 // tslint:disable-next-line:no-unnecessary-class
 export default class Utility {
@@ -14,15 +14,19 @@ export default class Utility {
     // constant
     const DAYS: number= 86400
     const HOURS: number = 3600
-    const FETCHING: string = 'fetching...'
+    const FETCHING: string = '∞'
     const MINUTES: number = 60
-    const SECONDS: string = 'seconds'
+    const SECONDS: 'seconds' = 'seconds'
 
     if (nextRewardIn === undefined || nextRewardIn === -1)
     {
       return FETCHING
     }
-    if (nextRewardIn < MINUTES)
+    if (nextRewardIn < -1)
+    {
+      return '∞'
+    }
+    if (nextRewardIn < MINUTES && nextRewardIn > 0)
     {
       return `${nextRewardIn} second(s)`
     }

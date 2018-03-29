@@ -4,7 +4,10 @@ import { OverviewActions, OverviewState } from './types'
 const initialState: OverviewState = {
   currentPriceBTC: 0,
   currentPriceUSD: 0,
-  globalBalance: 0
+  globalBalance: {
+    confirmed: 0,
+    unconfirmed: 0
+  }
 }
 
 export default function overviewReducer(state: OverviewState = initialState, action: OverviewActions): any {

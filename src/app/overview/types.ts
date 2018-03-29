@@ -18,7 +18,7 @@ export interface DispatchProps {
 export interface OverviewState {
     currentPriceBTC: number,
     currentPriceUSD: number,
-    globalBalance: number
+    globalBalance: GlobalBalance
 }
 
 /**
@@ -45,9 +45,13 @@ export interface GetGlobalBalance {
 
 export interface GetGlobalBalanceSuccess {
     type: GET_GLOBAL_BALANCE_SUCCESS,
-    payload: number
+    payload: GlobalBalance
 }
 
+export interface GlobalBalance {
+  confirmed: number,
+  unconfirmed: number
+}
 export interface GetGlobalBalanceFail {
     type: GET_GLOBAL_BALANCE_FAIL
 }
