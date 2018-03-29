@@ -1,5 +1,6 @@
 import {
   WalletAddress,
+  WalletBalance,
   WalletDaemonState,
   WalletInfo,
   WalletLockState,
