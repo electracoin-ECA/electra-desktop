@@ -34,7 +34,7 @@
     "await-to-js": "^2.0.1",
     "browserslist": "^3.2.3",
     "classnames": "^2.2.5",
-    "electra-js": "0.8.1",
+    "electra-js": "0.10.2",
     "electron": "^1.8.2",
     "electron-json-storage": "^4.0.2",
     "express": "^4.16.3",
