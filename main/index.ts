@@ -22,7 +22,7 @@ function createWindow(): void {
     height: 900,
     show: false,
     webPreferences: {
-      webSecurity: false
+      webSecurity: true
     },
     width: 1500,
   })
