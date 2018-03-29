@@ -12,7 +12,7 @@ import { Payments } from './payments'
 import { Sidebar } from './sidebar'
 import store from './store'
 import { Transactions } from './transactions'
-import { getTransaction } from './transactions/actions';
+import { getTransaction } from './transactions/actions'
 
 interface ComponentState {
   isLoading: boolean
@@ -57,10 +57,10 @@ class App extends React.Component<any, ComponentState> {
               <Login onDone={(): void => this.setState({ isLoading: false })} />
             )
             : [
-              <div className='c-app-layout__toolbar'>
+              <div key='toolbar' className='c-app-layout__toolbar'>
                 <Header />
               </div>,
-              <div className='c-app-layout__container'>
+              <div key='container' className='c-app-layout__container'>
                 <aside>
                   <Sidebar />
                 </aside>
