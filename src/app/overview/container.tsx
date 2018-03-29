@@ -34,6 +34,7 @@ class Overview extends React.Component<StateProps & DispatchProps, any> {
 
   render(): any {
     const values: any = mapValues(this.props.overview, (value: string) => parseFloat(value).toFixed(MAX_DECIMALS))
+    const { confirmed, unconfirmed } = this.props.overview.globalBalance
     let { transactions } = this.props.transactions
     transactions = transactions ? drop(transactions, transactions.length - TRANSACTIONS_COUNT) : []
 
@@ -44,9 +45,9 @@ class Overview extends React.Component<StateProps & DispatchProps, any> {
         </div>
         <div className='c-view__content'>
           <CardViewPrices
-            globalBalance={values.globalBalance}
-            ecaInBTC={(values.currentPriceBTC * values.globalBalance).toFixed(MAX_DECIMALS)}
-            ecaInUSD={(values.currentPriceUSD * values.globalBalance).toFixed(MAX_DECIMALS)}
+            globalBalance={confirmed}
+            ecaInBTC={(values.currentPriceBTC * confirmed).toFixed(MAX_DECIMALS)}
+            ecaInUSD={(values.currentPriceUSD * confirmed).toFixed(MAX_DECIMALS)}
             currentPriceBTC={values.currentPriceBTC}
             currentPriceUSD={values.currentPriceUSD} />
 
