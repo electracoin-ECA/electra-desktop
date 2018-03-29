@@ -9,7 +9,7 @@ import {
 } from 'electra-js'
 import { ipcRenderer } from 'electron'
 
-import { bindEventToAsyncCall } from './helpers'
+import { bindEventToAsyncCall, bindEventToSyncCall } from './helpers'
 
 export default class Wallet {
   public get addresses(): WalletAddress[] {
@@ -52,6 +52,10 @@ export default class Wallet {
     return bindEventToAsyncCall<void>('electraJs:wallet:stopDaemon', arguments)
   }
 
+  public export(): string {
+    return bindEventToSyncCall<string>('electraJs:wallet:export', arguments)
+  }
+
   public async generate(mnemonic?: string, mnemonicExtension?: string, chainsCount?: number): Promise<void> {
     return bindEventToAsyncCall<void>('electraJs:wallet:generate', arguments)
   }
@@ -70,6 +74,10 @@ export default class Wallet {
 
   public async getTransaction(transactionHash: string): Promise<WalletTransaction> {
     return bindEventToAsyncCall<WalletTransaction>('electraJs:wallet:getTransaction', arguments)
+  }
+
+  public async import(data: string, passphrase: string): Promise<void> {
+    return bindEventToAsyncCall<void>('electraJs:wallet:import', arguments)
   }
 
   public async lock(passphrase: string): Promise<void> {
