@@ -2,7 +2,7 @@ import { app, BrowserWindow } from 'electron'
 import * as path from 'path'
 import * as url from 'url'
 
-import Communication from './middlewares/communication'
+import Communication from './communication'
 
 // Start IPC events bus listener
 const communication: Communication = new Communication()

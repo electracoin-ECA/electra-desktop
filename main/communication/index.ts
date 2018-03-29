@@ -1,42 +1,9 @@
 // tslint:disable:max-line-length
-import to from 'await-to-js'
+
 import ElectraJs from 'electra-js'
 
-import { ipcMain } from 'electron'
-
-interface EventToProp {
-  event: string
-  instance: any
-  prop: string
-}
-
-interface EventToCall {
-  event: string
-  call(): any | Promise<any>
-}
-
-function bindEventToProp(eventName: string, instance: any, prop: string): void {
-  ipcMain.on(eventName, async (event: any) => {
-    console.info(`ipcMain: ${eventName}`)
-    event.returnValue = JSON.stringify(instance[prop])
-  })
-}
-
-function bindEventToAsyncCall(eventName: string, call: () => Promise<any>): void {
-  ipcMain.on(eventName, async (event: any, argsString: string) => {
-    console.info(`ipcMain: ${eventName}`)
-    const [err, res] = await to(call.apply(null, JSON.parse(argsString)))
-    if (err !== null) {
-      console.info(`ipcMain: ${eventName}:error`, err)
-      event.sender.send(`${eventName}:error`, err.message)
-
-      return
-    }
-
-    console.info(`ipcMain: ${eventName}:success`, res)
-    event.sender.send(`${eventName}:success`, JSON.stringify(res))
-  })
-}
+import { bindEventToAsyncCall, bindEventToProp, bindEventToSyncCall } from './helpers'
+import { EventToCall, EventToProp } from './types'
 
 export default class Communication {
   public electraJs: ElectraJs
@@ -57,7 +24,7 @@ export default class Communication {
     ]
       .forEach(({ event, instance, prop }: EventToProp) => bindEventToProp(event, instance, prop));
 
-      // Bind events to async calls
+    // Bind events to async calls
     [
       { event: 'electraJs:wallet:startDaemon', call: this.electraJs.wallet.startDaemon.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:stopDaemon', call: this.electraJs.wallet.stopDaemon.bind(this.electraJs.wallet) },
@@ -72,6 +39,12 @@ export default class Communication {
       { event: 'electraJs:webServices:getCurrentPriceInUSD', call: this.electraJs.webServices.getCurrentPriceIn.bind(this.electraJs.webServices) },
       { event: 'electraJs:webServices:getCurrentPriceInBTC', call: this.electraJs.webServices.getCurrentPriceIn.bind(this.electraJs.webServices) }
     ]
-      .forEach(({ event, call }: EventToCall) => bindEventToAsyncCall(event, call))
+      .forEach(({ event, call }: EventToCall) => bindEventToAsyncCall(event, call));
+
+    // Bind events to sync calls
+    [
+      { event: 'electraJs:wallet:export', call: this.electraJs.wallet.export.bind(this.electraJs.wallet) },
+    ]
+      .forEach(({ event, call }: EventToCall) => bindEventToSyncCall(event, call))
   }
 }
