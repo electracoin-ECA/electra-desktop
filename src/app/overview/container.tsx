@@ -1,4 +1,5 @@
-import { drop, mapValues } from 'lodash'
+import { WalletTransaction } from 'electra-js'
+import { get, mapValues, take } from 'lodash'
 import * as React from 'react'
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
@@ -34,8 +35,7 @@ class Overview extends React.Component<StateProps & DispatchProps, any> {
 
   render(): any {
     const values: any = mapValues(this.props.overview, (value: string) => parseFloat(value).toFixed(MAX_DECIMALS))
-    let { transactions } = this.props.transactions
-    transactions = transactions ? drop(transactions, transactions.length - TRANSACTIONS_COUNT) : []
+    const transactions: WalletTransaction[] = take(get(this.props, 'transactions.transactions', []), TRANSACTIONS_COUNT)
 
     return (
       <div className='c-view'>
