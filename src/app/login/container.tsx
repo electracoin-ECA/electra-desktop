@@ -1,10 +1,13 @@
 import to from 'await-to-js'
+import { WalletAddress, WalletAddressWithoutPK, WalletExchangeFormat, WalletStartDataHard } from 'electra-js'
 import * as storage from 'electron-json-storage'
-import { isEmpty } from 'ramda'
+import { isEmpty, pick } from 'ramda'
 import * as React from 'react'
 import * as zxcvbn from 'zxcvbn'
 
+import { USER_SETTINGS_DEFAULT } from '../../constants'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
+import { UserSettings } from '../../types'
 import LoadingSpinner from './loading-spinner'
 
 const styles: any = require('./styles.css')
@@ -32,10 +35,6 @@ interface ComponentState {
   passphraseStrength?: string
 }
 
-interface UserSettings {
-  isFirstInstallation: boolean
-}
-
 const PASSPHRASE_LENGTH_MIN: number = 8
 
 export default class Login extends React.PureComponent<ComponentProps, ComponentState> {
@@ -57,7 +56,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
 
   private retrieveUserSettings(): void {
     this.setState({ loadingText: 'Loading user settings...' })
-    storage.get('userSettings', (err: Error, userSettings: Partial<UserSettings>) => {
+    storage.get('userSettings', async (err: Error, userSettings: Partial<UserSettings>) => {
       if (err) throw err
 
       this.setState({
@@ -66,7 +65,53 @@ export default class Login extends React.PureComponent<ComponentProps, Component
         isFirstInstallation: isEmpty(userSettings),
       })
 
-      this.startDaemon()
+      await this.startDaemon()
+
+      // Now that we have started the wallet daemon,
+      // we need to start the first login process if this is a first installation.
+      if (this.state.isFirstInstallation) {
+        this.startFirstInstallation()
+
+        return
+      }
+
+      const walletStartData: WalletStartDataHard =
+        pick<UserSettings, 'addresses' | 'masterNodeAddress' | 'randomAddresses'>(
+          ['addresses', 'masterNodeAddress', 'randomAddresses'],
+          userSettings as UserSettings
+        )
+      ElectraJsMiddleware.wallet.start(walletStartData)
+      this.props.onDone()
+    })
+  }
+
+  private async saveUserSettings(): Promise<void> {
+    this.setState({ loadingText: 'Locking wallet...' })
+    await ElectraJsMiddleware.wallet.lock()
+
+    this.setState({ loadingText: 'Exporting addresses...' })
+    const masterNodeAddress: WalletAddress = ElectraJsMiddleware.wallet.masterNodeAddress
+    const addresses: WalletAddressWithoutPK[] = ElectraJsMiddleware.wallet.addresses
+    const randomAddresses: WalletAddressWithoutPK[] = ElectraJsMiddleware.wallet.randomAddresses
+
+    this.setState({ loadingText: 'Exporting WEF...' })
+    const wef: WalletExchangeFormat = JSON.parse(await ElectraJsMiddleware.wallet.export())
+
+    this.setState({ loadingText: 'Saving user settings...' })
+    const userSettings: UserSettings = {
+      ...USER_SETTINGS_DEFAULT,
+      ...{
+        addresses,
+        masterNodeAddress,
+        randomAddresses,
+        wef,
+      }
+    }
+
+    storage.set('userSettings', userSettings, (err: Error) => {
+      if (err) throw err
+
+      this.props.onDone()
     })
   }
 
@@ -74,10 +119,6 @@ export default class Login extends React.PureComponent<ComponentProps, Component
     this.setState({ loadingText: 'Starting Daemon...' })
     await ElectraJsMiddleware.wallet.startDaemon()
     this.setState({ loadingText: undefined })
-
-    // Now that we have started the wallet daemon,
-    // we need to start the first login process if this is a first installation.
-    if (this.state.isFirstInstallation) this.startFirstInstallation()
   }
 
   private startFirstInstallation(): void {
@@ -119,7 +160,6 @@ export default class Login extends React.PureComponent<ComponentProps, Component
     event.preventDefault()
     this.setState({
       error: undefined,
-      firstInstallationScreen: undefined,
       loadingText: 'Locking wallet...',
     })
 
@@ -182,10 +222,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
       return
     }
 
-    this.setState({
-      firstInstallationScreen: undefined,
-      loadingText: 'Locking wallet...',
-    })
+    this.setState({ loadingText: 'Locking wallet...' })
     await ElectraJsMiddleware.wallet.lock(this.state.passphrase)
 
     this.setState({ loadingText: 'Unlocking wallet...' })
@@ -194,7 +231,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
     this.generateNewHdWallet()
   }
 
-  private checkNewMnemonic(event: React.FormEvent<HTMLFormElement>): void {
+  private async checkNewMnemonic(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault()
     this.setState({ error: undefined })
 
@@ -204,7 +241,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
       return
     }
 
-    this.props.onDone()
+    this.saveUserSettings()
   }
 
   private async recoverWalletFromMnemonic(event: React.FormEvent<HTMLFormElement>): Promise<void> {
@@ -225,7 +262,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
         )}
 
         {/* Brand new wallet user choices */}
-        {this.state.firstInstallationScreen === 'ASK_USER_FOR_START_ACTION' && (
+        {!Boolean(this.state.loadingText) && this.state.firstInstallationScreen === 'ASK_USER_FOR_START_ACTION' && (
           <div className={styles.innerContainer}>
             <button
               children={'CREATE A NEW WALLET'}
@@ -246,7 +283,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
         )}
 
         {/* First Setup for a brand new wallet (1/4) */}
-        {this.state.firstInstallationScreen === 'ASK_USER_FOR_NEW_PASSPHRASE' && (
+        {!Boolean(this.state.loadingText) && this.state.firstInstallationScreen === 'ASK_USER_FOR_NEW_PASSPHRASE' && (
           <div className={styles.innerContainerSplit}>
             <div className={styles.innerContainerSplitLeft}>
               <h1 className={styles.title}>First Setup 1/4</h1>
@@ -276,7 +313,8 @@ export default class Login extends React.PureComponent<ComponentProps, Component
         )}
 
         {/* First Setup for a brand new wallet (2/4) */}
-        {this.state.firstInstallationScreen === 'ASK_USER_FOR_NEW_PASSPHRASE_REPEAT' && (
+        {!Boolean(this.state.loadingText) &&
+        this.state.firstInstallationScreen === 'ASK_USER_FOR_NEW_PASSPHRASE_REPEAT' && (
           <div className={styles.innerContainerSplit}>
             <div className={styles.innerContainerSplitLeft}>
               <h1 className={styles.title}>First Setup 2/4</h1>
@@ -297,7 +335,8 @@ export default class Login extends React.PureComponent<ComponentProps, Component
         )}
 
         {/* First Setup for an existing legacy wallet (1/3) */}
-        {this.state.firstInstallationScreen === 'ASK_USER_FOR_EXISTING_PASSPHRASE' && (
+        {!Boolean(this.state.loadingText) &&
+        this.state.firstInstallationScreen === 'ASK_USER_FOR_EXISTING_PASSPHRASE' && (
           <div className={styles.innerContainerSplit}>
             <div className={styles.innerContainerSplitLeft}>
               <h1 className={styles.title}>First Setup 1/3</h1>
@@ -319,7 +358,8 @@ export default class Login extends React.PureComponent<ComponentProps, Component
 
         {/* First Setup for a brand new wallet (3/4) */}
         {/* First Setup for an existing legacy wallet (2/3) */}
-        {this.state.firstInstallationScreen === 'SHOW_USER_NEW_MNEMONIC' && (
+        {!Boolean(this.state.loadingText) &&
+        this.state.firstInstallationScreen === 'SHOW_USER_NEW_MNEMONIC' && (
           <div className={styles.innerContainerSplit}>
             <div className={styles.innerContainerSplitLeft}>
               <h1 className={styles.title}>First Setup {this.state.isFullInstallation ? '3/4' : '2/3'}</h1>
@@ -332,7 +372,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
               <p>Please write down your mnemonic somewhere:</p>
               <div className={styles.mnemonic}>
                 {this.state.mnemonic !== undefined && (this.state.mnemonic.match(/([a-z]+\s){3}[a-z]+/g) as string[])
-                  .map((words: string) => <span children={words} />)
+                  .map((words: string, index: number) => <span key={`mnemonic-part-${index}`} children={words} />)
                 }
               </div>
               <button
@@ -346,7 +386,8 @@ export default class Login extends React.PureComponent<ComponentProps, Component
 
         {/* First Setup for a brand new wallet (4/4) */}
         {/* First Setup for an existing legacy wallet (3/3) */}
-        {this.state.firstInstallationScreen === 'ASK_USER_FOR_NEW_MNEMONIC_REPEAT' && (
+        {!Boolean(this.state.loadingText) &&
+        this.state.firstInstallationScreen === 'ASK_USER_FOR_NEW_MNEMONIC_REPEAT' && (
           <div className={styles.innerContainerSplit}>
             <div className={styles.innerContainerSplitLeft}>
               <h1 className={styles.title}>First Setup {this.state.isFullInstallation ? '4/4' : '3/3'}</h1>
@@ -374,7 +415,8 @@ export default class Login extends React.PureComponent<ComponentProps, Component
         )}
 
         {/* Recovering from a mnemonic */}
-        {this.state.firstInstallationScreen === 'ASK_USER_FOR_EXISTING_MNEMONIC' && (
+        {!Boolean(this.state.loadingText) &&
+        this.state.firstInstallationScreen === 'ASK_USER_FOR_EXISTING_MNEMONIC' && (
           <div className={styles.innerContainerSplit}>
             <div className={styles.innerContainerSplitLeft}>
               <h1 className={styles.title}>Wallet Recovering</h1>
