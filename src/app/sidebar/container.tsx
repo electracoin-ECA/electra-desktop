@@ -29,12 +29,12 @@ export default class Sidebar extends React.Component<any, any> {
                     Transactions
                   </NavLink>
                 </li>
-                <li>
+                {/* <li>
                   <NavLink to='/address_book'>
                     <Icon name='address-book' size='xs'></Icon>
                     Address book
                   </NavLink>
-                </li>
+                </li> */}
               </ul>
           </nav>
         </div>
