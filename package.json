@@ -10,7 +10,7 @@
   "scripts": {
     "build": "webpack --config ./webpack/webpack.prod.js",
     "build:dev:main": "webpack --config ./webpack/webpack.main.dev.js",
-    "build:prod": "NODE_ENV=production webpack --config ./webpack/webpack.prod.js && electron --noDevServer .",
+    "build:prod": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js && electron --noDevServer .",
     "package": "webpack --config ./webpack/webpack.prod.js",
     "postpackage": "electron-packager ./ --out=./build",
     "start": "npm run build:dev:main && webpack-dev-server --hot --host 0.0.0.0 --config=./webpack/webpack.renderer.dev.js",
