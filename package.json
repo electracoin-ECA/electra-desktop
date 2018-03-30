@@ -68,6 +68,7 @@
     "awesome-typescript-loader": "^3.5.0",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
+    "cross-env": "^5.1.4",
     "css-loader": "^0.28.7",
     "dotenv-webpack": "^1.5.4",
     "electron-builder": "^20.7.1",
