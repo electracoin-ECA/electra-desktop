@@ -14,7 +14,7 @@ export function bindEventToAsyncCall(eventName: string, call: () => Promise<any>
     const [err, res] = await to(call.apply(null, JSON.parse(argsString)))
     if (err !== null) {
       console.info(`ipcMain: ${eventName}:error`, err)
-      event.sender.send(`${eventName}:error`, err.message)
+      event.sender.send(`${eventName}:error`, typeof err === 'string' ? err : err.message)
 
       return
     }
@@ -24,7 +24,7 @@ export function bindEventToAsyncCall(eventName: string, call: () => Promise<any>
   })
 }
 
-export function bindEventToSyncCall(eventName: string, call: () => Promise<any>): void {
+export function bindEventToSyncCall(eventName: string, call: () => any): void {
   ipcMain.on(eventName, (event: any, argsString: string) => {
     console.info(`ipcMain: ${eventName}`)
 
@@ -32,11 +32,11 @@ export function bindEventToSyncCall(eventName: string, call: () => Promise<any>)
       // tslint:disable-next-line:no-shadowed-variable
       const res: any = call.apply(null, JSON.parse(argsString))
       console.info(`ipcMain: ${eventName}:success`, res)
-      event.returnValue = JSON.stringify(res)
+      event.returnValue = res === undefined ? '' : JSON.stringify(res)
     }
     catch (err) {
       console.info(`ipcMain: ${eventName}:error`, err)
-      event.sender.send(`${eventName}:error`, err.message)
+      event.sender.send(`${eventName}:error`, typeof err === 'string' ? err : err.message)
     }
   })
 }

@@ -1,23 +1,29 @@
 import {
   WalletAddress,
+  WalletAddressWithoutPK,
   WalletBalance,
   WalletDaemonState,
+  WalletExchangeFormat,
   WalletInfo,
   WalletLockState,
+  WalletStartDataHard,
   WalletState,
   WalletTransaction,
-  WalletBalance
 } from 'electra-js'
 import { ipcRenderer } from 'electron'
 
 import { bindEventToAsyncCall, bindEventToSyncCall } from './helpers'
 
 export default class Wallet {
-  public get addresses(): WalletAddress[] {
+  /*
+    GETTERS
+  */
+
+  public get addresses(): WalletAddressWithoutPK[] {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:addresses'))
   }
 
-  public get allAddresses(): WalletAddress[] {
+  public get allAddresses(): WalletAddressWithoutPK[] {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:allAddresses'))
   }
 
@@ -33,17 +39,25 @@ export default class Wallet {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:lockState'))
   }
 
+  public get masterNodeAddress(): WalletAddress {
+    return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:masterNodeAddress'))
+  }
+
   public get mnemonic(): string {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:mnemonic'))
   }
 
-  public get randomAddresses(): WalletAddress[] {
+  public get randomAddresses(): WalletAddressWithoutPK[] {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:randomAddresses'))
   }
 
   public get state(): WalletState {
     return JSON.parse(ipcRenderer.sendSync('electraJs:wallet:state'))
   }
+
+  /*
+    METHODS
+  */
 
   public async startDaemon(): Promise<void> {
     return bindEventToAsyncCall<void>('electraJs:wallet:startDaemon', arguments)
@@ -77,16 +91,20 @@ export default class Wallet {
     return bindEventToAsyncCall<WalletTransaction>('electraJs:wallet:getTransaction', arguments)
   }
 
-  public async import(data: string, passphrase: string): Promise<void> {
+  public async import(wefData: WalletExchangeFormat, passphrase: string): Promise<void> {
     return bindEventToAsyncCall<void>('electraJs:wallet:import', arguments)
   }
 
-  public async lock(passphrase: string): Promise<void> {
+  public async lock(passphrase?: string): Promise<void> {
     return bindEventToAsyncCall<void>('electraJs:wallet:lock', arguments)
   }
 
   public async unlock(passphrase: string, forStakingOnly?: boolean): Promise<void> {
     return bindEventToAsyncCall<void>('electraJs:wallet:unlock', arguments)
+  }
+
+  public start(data: WalletStartDataHard): void {
+    return bindEventToSyncCall<void>('electraJs:wallet:start', arguments)
   }
 
   public async send(amount: number, to: string): Promise<void> {
