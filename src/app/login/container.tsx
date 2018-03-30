@@ -108,8 +108,11 @@ export default class Login extends React.PureComponent<ComponentProps, Component
       }
     }
 
-    storage.set('userSettings', userSettings, (err: Error) => {
+    storage.set('userSettings', userSettings, async (err: Error) => {
       if (err) throw err
+
+      this.setState({ loadingText: 'Unlocking wallet...' })
+      await ElectraJsMiddleware.wallet.unlock(this.state.passphrase as string)
 
       this.props.onDone()
     })
