@@ -33,6 +33,7 @@
     "@types/react-redux": "^5.0.15",
     "@types/react-router-dom": "^4.2.6",
     "@types/redux-logger": "^3.0.5",
+    "ajv": "^6.4.0",
     "await-to-js": "^2.0.1",
     "browserslist": "^3.2.4",
     "classnames": "^2.2.5",
