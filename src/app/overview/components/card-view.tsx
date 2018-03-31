@@ -8,8 +8,8 @@ export default class CardView extends React.Component<any, any> {
       <div className='c-grid__item'>
         <div className='c-card'>
           <div className='c-card__content text-center'>
-            <span className='block text-4xl font-extra-bold'>{price}</span>
-            <span className='text-grey-light'>{bottomPrice}&nbsp;</span>
+            <span className='block text-3xl font-extra-bold'>{price}</span>
+            <span className='text-grey'>{bottomPrice}&nbsp;</span>
             <span className='block text-lg text-purple font-semi-bold'>{currency}</span>
           </div>
         </div>

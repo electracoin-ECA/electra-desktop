@@ -5,7 +5,7 @@ export default class SendCardView extends React.Component<any, any> {
     const { onClick, setToAddress, setAmount, amount, address } = this.props
 
     return (
-      <div className='c-grid__item text-center bg-grey-lightest'>
+      <div className='c-grid__item'>
         <div className='c-card'>
           <div className='c-card__content'>
             <h3>Send ECA</h3>
