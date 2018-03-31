@@ -365,7 +365,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
               <h1 className={styles.title}>First Setup {this.state.isFullInstallation ? '3/4' : '2/3'}</h1>
               <p className={styles.message}>
                 <span>It will allow you to recover your wallet</span>
-                <span>if you loose your data and/or your password.</span>
+                <span>if you lose your data and/or your password.</span>
               </p>
             </div>
             <div className={styles.innerContainerSplitRight}>
