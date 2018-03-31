@@ -8,7 +8,7 @@ module.exports = [
   {
     test: /\.tsx?$/,
     use: [
-      !isProduction ? { loader: 'react-hot-loader/webpack' } : {},
+      // !isProduction ? { loader: 'react-hot-loader/webpack' } : {},
       {
         loader: 'awesome-typescript-loader',
         options: {
