@@ -6,7 +6,7 @@
   "description": "Cross-platform Desktop Wallet for Electra blockchain.",
   "license": "MIT",
   "private": true,
-  "main": "dist/main/index.js",
+  "main": "dist/main.js",
   "scripts": {
     "build": "webpack --config ./webpack/webpack.prod.js",
     "build:dev:main": "webpack --config ./webpack/webpack.main.dev.js",
@@ -68,7 +68,7 @@
     "@types/ramda": "^0.25.21",
     "@types/zxcvbn": "^4.4.0",
     "autoprefixer": "^8.2.0",
-    "awesome-typescript-loader": "^3.5.0",
+    "awesome-typescript-loader": "^4.0.1",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
     "cross-env": "^5.1.4",
