@@ -1,6 +1,7 @@
 // tslint:disable:max-line-length
 
 import ElectraJs, { WalletHard } from 'electra-js'
+import * as path from 'path'
 
 import { bindEventToAsyncCall, bindEventToProp, bindEventToSyncCall } from './helpers'
 import { EventToCall, EventToProp } from './types'
@@ -9,7 +10,10 @@ export default class Communication {
   public electraJs: ElectraJs<WalletHard>
 
   constructor() {
-    this.electraJs = new ElectraJs({ isHard: true })
+    this.electraJs = new ElectraJs({
+      binariesPath: path.resolve(__dirname, 'bin'),
+      isHard: true,
+    })
 
     this.bindEvents()
   }
