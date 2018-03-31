@@ -12,8 +12,10 @@ export default class LoadingSpinner extends React.PureComponent<ComponentProps, 
   public render(): JSX.Element {
     return (
       <div className={styles.container}>
-        <Spinner />
-        <p className={styles.text}>{this.props.text}</p>
+        <div className={styles.innerContainer}>
+          <Spinner />
+          <p className={styles.text}>{this.props.text}</p>
+        </div>
       </div>
     )
   }

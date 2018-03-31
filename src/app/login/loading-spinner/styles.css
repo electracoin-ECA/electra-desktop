@@ -1,8 +1,16 @@
 .container {
   align-items: center;
+  background: #2e022a;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
+
+.innerContainer {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 9rem;
   justify-content: space-between;
 }
 
