@@ -1,18 +1,20 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const configPaths = require('./config.path')
-const webpackNodeExternals = require('webpack-node-externals')
-const webpackPlugins = require('./plugins')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path')
+const webpack = require('webpack')
 const webpackRules = require('./rules')
 
 const mainConfig = {
-  context: process.cwd(),
   target: 'electron-main',
 
   entry: configPaths.entryMain,
 
   output: {
-    path: configPaths.outputPathMain,
-    filename: 'index.js'
+    path: configPaths.distPath,
+    filename: 'main.js'
   },
 
   resolve: {
@@ -32,24 +34,37 @@ const mainConfig = {
   },
 
   plugins: [
-    // new CleanWebpackPlugin([configPaths.buildPath], {
-    //   root: process.cwd(),
-    // }),
+    new CleanWebpackPlugin([configPaths.distPath], {
+      root: process.cwd(),
+    }),
+
+    new CopyWebpackPlugin([
+      {
+        from: path.join(configPaths.assetsPath, 'images'),
+        to: path.join(configPaths.distPath, 'assets'),
+        toType: 'dir'
+      },
+      {
+        from: path.join(configPaths.binariesPath),
+        to: path.join(configPaths.distPath, 'bin'),
+        toType: 'dir',
+        ignore: ['.gitkeep'],
+      },
+    ]),
   ],
 
   node: {
-    __dirname: true,
+    __dirname: false,
   },
 }
 
 const rendererConfig = {
-  context: process.cwd(),
   target: 'electron-renderer',
 
   output: {
-    path: configPaths.outputPathRenderer,
+    path: configPaths.distPath,
     publicPath: '',
-    filename: 'index.js'
+    filename: 'renderer.js'
   },
 
   resolve: {
@@ -60,18 +75,15 @@ const rendererConfig = {
     rules: webpackRules
   },
 
-  plugins: webpackPlugins,
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: configPaths.indexTemplate
+    }),
 
-  node: {
-    __dirname: true,
-  },
+    new ExtractTextPlugin('bundle.css'),
 
-  externals: [
-    webpackNodeExternals({
-      whitelist: [
-        'webpack-dev-server/client?http://localhost:8080',
-        'webpack/hot/dev-server',
-      ]
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': process.env.NODE_ENV ? JSON.stringify(process.env.NODE_ENV) : JSON.stringify('development')
     })
   ],
 }
