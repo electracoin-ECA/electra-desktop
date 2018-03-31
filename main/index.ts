@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Event, Menu, Tray } from 'electron'
+import { app, BrowserWindow, Event, ipcMain, Menu, Tray } from 'electron'
 import * as path from 'path'
 import * as url from 'url'
 
@@ -14,6 +14,10 @@ const communication: Communication = new Communication()
 
 // Instantiate tray item
 let tray: Tray
+
+// Allow main process to send events to renderer process
+let rendererProcessSender: any
+ipcMain.on('app:quit:listen', (event: any) => rendererProcessSender = event.sender)
 
 function createWindow(): void {
   // Create the browser window.
@@ -35,7 +39,7 @@ function createWindow(): void {
       slashes: true,
     })
     : url.format({
-      pathname: path.resolve(__dirname, '../renderer/index.html'),
+      pathname: path.resolve(__dirname, 'index.html'),
       protocol: 'file:',
       slashes: true,
     })
@@ -82,6 +86,7 @@ function updateTray(): void {
         {
           click: async (): Promise<void> => {
             isQuiting = true
+            rendererProcessSender.send('app:quit')
             console.info('Closing Electra daemon...')
             await communication.electraJs.wallet.stopDaemon()
 
@@ -110,7 +115,7 @@ function toggleMainWindows(): void {
 }
 
 app.once('ready', () => {
-  tray = new Tray(path.resolve(__dirname, '../renderer/assets/logo.png'))
+  tray = new Tray(path.resolve(__dirname, 'assets/logo.png'))
   tray.setToolTip('Electra Desktop')
   tray.on('click', toggleMainWindows)
 
