@@ -61,7 +61,7 @@ class App extends React.Component<any, ComponentState> {
               </aside>
               <main>
                 {/* TODO Fix this dirty hack to handle missing redirect on production app. */}
-                {process.env.NODE_ENV === 'production' && <Redirect to='/' />}
+                <Redirect to='/' />
                 <Switch>
                   <Route exact path='/' component={Overview} />
                   <Route exact path='/payments' component={Payments} />

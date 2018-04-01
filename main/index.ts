@@ -5,6 +5,7 @@ import * as url from 'url'
 import Communication from './communication'
 
 let isHidden: boolean = false
+const isHot: boolean = Boolean(process.env.IS_HOT)
 const isProd: boolean = process.env.NODE_ENV === 'production'
 let isQuiting: boolean = false
 let mainWindow: BrowserWindow
@@ -26,12 +27,13 @@ function createWindow(): void {
     height: 900,
     show: false,
     webPreferences: {
+      devTools: !isProd,
       webSecurity: true
     },
     width: 1500,
   })
 
-  const indexPath: string = !isProd
+  const indexPath: string = isHot
     ? url.format({
       host: 'localhost:8080',
       pathname: '',
@@ -115,7 +117,7 @@ function toggleMainWindows(): void {
 }
 
 app.once('ready', () => {
-  tray = new Tray(path.resolve(__dirname, 'assets/logo.png'))
+  tray = new Tray(path.resolve(__dirname, 'assets/logos/128x128.png'))
   tray.setToolTip('Electra Desktop')
   tray.on('click', toggleMainWindows)
 

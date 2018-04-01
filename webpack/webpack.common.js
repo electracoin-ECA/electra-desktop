@@ -7,13 +7,19 @@ const path = require('path')
 const webpack = require('webpack')
 const webpackRules = require('./rules')
 
+const PLATFORM_TO_BINARIY = {
+  'darwin': 'electrad-macos',
+  'linux': 'electrad-linux',
+  'win32': 'electrad-windows.exe',
+}
+
 const mainConfig = {
   target: 'electron-main',
 
   entry: configPaths.entryMain,
 
   output: {
-    path: configPaths.distPath,
+    path: configPaths.buildPath,
     filename: 'main.js'
   },
 
@@ -34,23 +40,21 @@ const mainConfig = {
   },
 
   plugins: [
-    new CleanWebpackPlugin([configPaths.distPath], {
+    new CleanWebpackPlugin([configPaths.buildPath], {
       root: process.cwd(),
     }),
 
     new CopyWebpackPlugin([
       {
         from: path.join(configPaths.assetsPath, 'images'),
-        to: path.join(configPaths.distPath, 'assets'),
+        to: path.join(configPaths.buildPath, 'assets'),
         toType: 'dir'
       },
-      {
-        from: path.join(configPaths.binariesPath),
-        to: path.join(configPaths.distPath, 'bin'),
-        toType: 'dir',
-        ignore: ['.gitkeep'],
-      },
     ]),
+
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }),
   ],
 
   node: {
@@ -62,13 +66,13 @@ const rendererConfig = {
   target: 'electron-renderer',
 
   output: {
-    path: configPaths.distPath,
+    path: configPaths.buildPath,
     publicPath: '',
     filename: 'renderer.js'
   },
 
   resolve: {
-    extensions: [".ts", ".tsx", ".js"]
+    extensions: [".ts", ".tsx", ".js"],
   },
 
   module: {
@@ -77,14 +81,14 @@ const rendererConfig = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: configPaths.indexTemplate
+      template: configPaths.indexTemplate,
     }),
 
     new ExtractTextPlugin('bundle.css'),
 
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': process.env.NODE_ENV ? JSON.stringify(process.env.NODE_ENV) : JSON.stringify('development')
-    })
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }),
   ],
 }
 

@@ -6,12 +6,16 @@ import * as path from 'path'
 import { bindEventToAsyncCall, bindEventToProp, bindEventToSyncCall } from './helpers'
 import { EventToCall, EventToProp } from './types'
 
+const isHot: boolean = Boolean(process.env.IS_HOT)
+
 export default class Communication {
   public electraJs: ElectraJs<WalletHard>
 
   constructor() {
     this.electraJs = new ElectraJs({
-      binariesPath: path.resolve(__dirname, 'bin'),
+      binariesPath: isHot
+        ? path.resolve(__dirname, '../node_modules/electra-js/bin')
+        : path.resolve(__dirname, '../../app.asar.unpacked/node_modules/electra-js/bin'),
       isHard: true,
     })
 

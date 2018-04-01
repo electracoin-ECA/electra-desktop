@@ -2,8 +2,7 @@ const path = require('path')
 
 module.exports = {
   assetsPath: path.resolve(__dirname, '../src/assets'),
-  binariesPath: path.resolve(__dirname, '../node_modules/electra-js/bin'),
-  distPath: path.resolve(__dirname, '../dist'),
+  buildPath: path.resolve(__dirname, '../build'),
   entryMain: path.resolve(__dirname, '../main/index.ts'),
   entryRenderer: path.resolve(__dirname, '../src/index.tsx'),
   indexTemplate: path.resolve(__dirname, '../src/index.html'),
