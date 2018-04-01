@@ -45,13 +45,16 @@
     },
     "dmg": {
       "icon": "build/assets/logos/logo.icns"
+    },
+    "win": {
+      "icon": "build/assets/logos/logo.ico"
     }
   },
   "dependencies": {
     "ajv": "^6.4.0",
     "await-to-js": "^2.0.1",
     "classnames": "^2.2.5",
-    "electra-js": "0.11.1",
+    "electra-js": "0.11.2",
     "electron-json-storage": "^4.0.2",
     "lodash": "^4.17.4",
     "material-design-iconic-font": "^2.2.0",

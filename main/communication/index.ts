@@ -13,9 +13,11 @@ export default class Communication {
 
   constructor() {
     this.electraJs = new ElectraJs({
-      binariesPath: isHot
-        ? path.resolve(__dirname, '../node_modules/electra-js/bin')
-        : path.resolve(__dirname, '../../app.asar.unpacked/node_modules/electra-js/bin'),
+      binariesPath: process.platform !== 'win32'
+        ? isHot
+          ? path.resolve(__dirname, '../node_modules/electra-js/bin')
+          : path.resolve(__dirname, '../../app.asar.unpacked/node_modules/electra-js/bin')
+        : undefined,
       isHard: true,
     })
 
