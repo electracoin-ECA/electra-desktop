@@ -117,7 +117,7 @@ function toggleMainWindows(): void {
 }
 
 app.once('ready', () => {
-  tray = new Tray(path.resolve(__dirname, 'assets/logos/128x128.png'))
+  tray = new Tray(path.resolve(__dirname, 'assets/icons/tray.png'))
   tray.setToolTip('Electra Desktop')
   tray.on('click', toggleMainWindows)
 

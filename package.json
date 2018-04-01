@@ -12,7 +12,7 @@
     "build:stag": "cross-env NODE_ENV=staging webpack --config ./webpack/webpack.static.js",
     "package:prod": "rimraf ./dist && npm run build:prod && electron-builder",
     "package:stag": "rimraf ./dist && npm run build:stag && electron-builder",
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "node ./tasks/changeBinariesRights && electron-builder install-app-deps",
     "start": "cross-env IS_HOT=1 webpack --config ./webpack/webpack.main.hot.js && webpack-dev-server --hot --host 0.0.0.0 --config=./webpack/webpack.renderer.hot.js",
     "start:new": "node ./tasks/removeElectraUserDirectory && npm start",
     "start:prod": "npm run build:prod && electron --noDevServer .",
