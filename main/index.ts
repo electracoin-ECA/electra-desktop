@@ -1,6 +1,7 @@
 import { app, BrowserWindow, Event, ipcMain, Menu, Tray } from 'electron'
 import * as path from 'path'
 import * as url from 'url'
+const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer')
 
 import Communication from './communication'
 
@@ -35,7 +36,7 @@ function createWindow(): void {
 
   const indexPath: string = isHot
     ? url.format({
-      host: 'localhost:8080',
+      host: '0.0.0.0:8080',
       pathname: '',
       protocol: 'http:',
       slashes: true,
@@ -86,20 +87,28 @@ function updateTray(): void {
     ).concat(
       [
         {
-          click: async (): Promise<void> => {
-            isQuiting = true
-            rendererProcessSender.send('app:quit')
-            console.info('Closing Electra daemon...')
-            await communication.electraJs.wallet.stopDaemon()
-
-            if (process.platform !== 'darwin') app.quit()
-          },
+          click: exitApp,
           label: 'Exit',
         },
       ]
     )
   )
   tray.setContextMenu(contextMenu)
+}
+
+async function exitApp(): Promise<void> {
+  isQuiting = true
+
+  try {
+    rendererProcessSender.send('app:quit')
+    console.info('Closing Electra daemon...')
+    await communication.electraJs.wallet.stopDaemon()
+    app.quit()
+  }
+  catch(err) {
+    console.error(err)
+    app.quit()
+  }
 }
 
 function toggleMainWindows(): void {
@@ -122,5 +131,23 @@ app.once('ready', () => {
   tray.on('click', toggleMainWindows)
 
   updateTray()
+
+  if (isHot) {
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then((name: any) => {
+        console.info(`Added Extension: ${name}`)
+        createWindow()
+      })
+      .catch(console.error)
+
+    return
+  }
+
   createWindow()
+})
+
+app.once('before-quit', (event: Event) => {
+  if (process.platform !== 'darwin') return
+  event.preventDefault()
+  exitApp()
 })
