@@ -1,11 +1,8 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const configPaths = require('./config.path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const webpack = require('webpack')
-const webpackRules = require('./rules')
 
 const PLATFORM_TO_BINARIY = {
   'darwin': 'electrad-macos',
@@ -24,7 +21,7 @@ const mainConfig = {
   },
 
   resolve: {
-    extensions: [".ts", ".json"]
+    extensions: [".ts", ".js", ".json"]
   },
 
   module: {
@@ -51,10 +48,6 @@ const mainConfig = {
         toType: 'dir'
       },
     ]),
-
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-    }),
   ],
 
   node: {
@@ -65,27 +58,11 @@ const mainConfig = {
 const rendererConfig = {
   target: 'electron-renderer',
 
-  output: {
-    path: configPaths.buildPath,
-    publicPath: '',
-    filename: 'renderer.js'
-  },
-
   resolve: {
-    extensions: [".ts", ".tsx", ".js"],
-  },
-
-  module: {
-    rules: webpackRules
+    extensions: [".ts", ".tsx", ".js", ".json"],
   },
 
   plugins: [
-    new HtmlWebpackPlugin({
-      template: configPaths.indexTemplate,
-    }),
-
-    new ExtractTextPlugin('bundle.css'),
-
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
