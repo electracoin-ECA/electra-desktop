@@ -4,17 +4,7 @@ const webpack = require('webpack')
 const webpackMerge = require('webpack-merge')
 
 module.exports = [
-  webpackMerge(mainConfig, {
-    plugins: [
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify('production')
-      }),
-    ],
-
-    node: {
-      __dirname: false,
-    },
-  }),
+  mainConfig,
 
   webpackMerge(rendererConfig, {
     entry: configPaths.entryRenderer,

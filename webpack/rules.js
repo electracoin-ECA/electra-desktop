@@ -2,20 +2,19 @@
 const configPaths = require('./config.path')
 const extractTextPlugin = require('extract-text-webpack-plugin')
 
-const isProduction = process.argv.indexOf('-p') >= 0
+const isHot = Boolean(process.env.IS_HOT)
 
 module.exports = [
   {
     test: /\.tsx?$/,
-    use: [
-      // !isProduction ? { loader: 'react-hot-loader/webpack' } : {},
+    use: (isHot ? [{ loader: 'react-hot-loader/webpack' }] : []).concat([
       {
         loader: 'awesome-typescript-loader',
         options: {
           configFileName: configPaths.tsconfigRenderer,
         }
       }
-    ]
+    ])
   },
   {
     test: /\.css$/,
