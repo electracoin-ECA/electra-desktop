@@ -41,7 +41,7 @@ class Header extends React.Component<StateProps & DispatchProps> {
     } = this.props.header.walletInfo
     const isOnline: string = isStaking ? 'Online' : 'Offline'
     // Need this variable as isSynchonized is not working properly
-    const isSynchronized = localBlockchainHeight >= networkBlockchainHeight
+    const isSynchronized: boolean = Number(localBlockchainHeight) >= networkBlockchainHeight
 
     return (
       <div className='c-header'>
