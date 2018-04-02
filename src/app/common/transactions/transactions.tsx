@@ -2,7 +2,7 @@ import { WalletTransaction } from 'electra-js'
 import { capitalize, isEmpty } from 'lodash'
 import * as moment from 'moment'
 import * as React from 'react'
-import { Icon } from '../../icon'
+import { Icon } from '../../libraries/icon'
 
 const CONFIRMATIONS_NEEDED: number = 10
 const NO_CONFIRMATIONS: number = 0
