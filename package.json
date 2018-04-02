@@ -11,6 +11,7 @@
     "package:prod": "rimraf ./dist && cross-env NODE_ENV=production webpack --config ./scripts/webpack.static.js && electron-builder",
     "package:stag": "rimraf ./dist && cross-env NODE_ENV=staging webpack --config ./scripts/webpack.static.js && electron-builder",
     "postinstall": "node ./tasks/changeBinariesRights && electron-builder install-app-deps",
+    "release": "npm run package:prod",
     "start": "cross-env NODE_ENV=development node --max_old_space_size=2096 ./scripts/server.js",
     "start:new": "node ./tasks/removeElectraUserDirectory && npm start",
     "start:prod": "cross-env ELECTRON_IS_DEV=1 NODE_ENV=production webpack --config ./scripts/webpack.static.js && electron --noDevServer .",
