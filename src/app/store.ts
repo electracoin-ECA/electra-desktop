@@ -2,6 +2,7 @@ import * as _ from 'lodash'
 import { applyMiddleware, combineReducers, createStore, Store } from 'redux'
 import logger from 'redux-logger'
 import { combineEpics, createEpicMiddleware } from 'redux-observable'
+import thunk from 'redux-thunk'
 import epics from './epics'
 import * as reducers from './reducers'
 
@@ -16,6 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
   reduxMiddleWares.push(logger)
 }
 reduxMiddleWares.push(epicMiddleWare)
+reduxMiddleWares.push(thunk)
 
 const store: Store<any> = createStore(
   appReducer,
