@@ -31,8 +31,8 @@
       "output": "dist"
     },
     "linux": {
-      "category": "Finance",
-      "icon": "build/assets/logos/512x512.png",
+      "category": "Office",
+      "icon": "build/assets/icons/",
       "target": [
         {
           "target": "deb"
