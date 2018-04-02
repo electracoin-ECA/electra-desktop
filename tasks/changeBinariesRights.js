@@ -9,3 +9,12 @@ if (process.platform === 'darwin') {
       path.resolve(__dirname, '../node_modules/electra-js/bin/electrad-macos'),
     ])
 }
+
+if (process.platform === 'linux') {
+  console.log('Updating Linux binary rights...')
+  const process = childProcess
+    .spawn('chmod', [
+      '755',
+      path.resolve(__dirname, '../node_modules/electra-js/bin/electrad-linux'),
+    ])
+}
