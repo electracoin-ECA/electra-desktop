@@ -167,7 +167,7 @@ app.once('ready', () => {
   tray.on('click', toggleMainWindows)
   updateTray()
 
-  if (isHot) {
+  if (isHot && process.platform !== 'win32') {
     installExtension(REACT_DEVELOPER_TOOLS)
       .then((name: any) => {
         log.info(`Added Extension: ${name}`)
