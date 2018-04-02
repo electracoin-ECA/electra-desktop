@@ -11,6 +11,7 @@ export interface DispatchProps {
   sendEca(amount: number, to: string): SendEca,
   setAmount(value: number): SetAmount,
   setToAddress(value: string): SetToAddress,
+  setOpened(value: boolean): SetOpened,
   setMessageAndBadge(message: string, badge: string): SetMessageAndBadge
 }
 
@@ -36,6 +37,7 @@ export type GET_ADDRESSES_SUCCESS = 'GET_ADDRESSES_SUCCESS'
 export type SET_TO_ADDRESS = 'SET_TO_ADDRESS'
 export type SET_AMOUNT = 'SET_AMOUNT'
 export type CLEAR_SEND_CARD_FIELDS = 'CLEAR_SEND_CARD_FIELDS'
+export type SET_OPENED = 'SET_OPENED'
 
 export interface ClearSendCardFields {
   type: CLEAR_SEND_CARD_FIELDS
@@ -70,6 +72,11 @@ export interface GetAddressesSuccess {
 export interface SetToAddress {
   type: SET_TO_ADDRESS,
   payload: string
+}
+
+export interface SetOpened {
+  payload: boolean,
+  type: SET_OPENED
 }
 
 export interface SetAmount {

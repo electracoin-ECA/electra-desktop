@@ -11,11 +11,16 @@ const HALF: number = 50
 const THREE_QUARTERS: number = 75
 const COMPLETED: number = 100
 
-export default class TransactionsComponent extends React.Component<any, any> {
-  constructor(props: object) {
+interface State {
+  expanded?: boolean[],
+  transactions: WalletTransaction[]
+}
+
+export default class TransactionsComponent extends React.Component<State, any> {
+  constructor(props: State) {
     super(props)
+
     this.state = { expanded: [] }
-    this.toggleExpand = this.toggleExpand.bind(this)
   }
 
   toggleExpand(index: number): void {
@@ -45,7 +50,7 @@ export default class TransactionsComponent extends React.Component<any, any> {
             className={`c-card  mb-4 ${expanded[index] ? 'expanded' : ''}`} key={index}>
             <div
               className='c-card__content items-center pr-16'
-              onClick={(): void => this.toggleExpand(index)}
+              onClick={this.toggleExpand.bind(this, index)}
             >
               <div className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0'>
                 <span className='block'>{capitalize(transaction.type)}</span>
