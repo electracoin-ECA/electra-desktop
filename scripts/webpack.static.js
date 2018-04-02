@@ -40,16 +40,16 @@ module.exports = [
         },
         {
           test: /\.css$/,
-          loader: 'style-loader',
-        },
-        {
-          test: /\.css$/,
-          loader: 'css-loader',
-          query: {
-            modules: true,
-            localIdentName: '[local]-[hash:base64:5]',
-            sourceMap: true,
-          },
+          use: ExtractTextWebpackPlugin.extract({
+            fallback: 'style-loader',
+            use: [{
+              loader: 'css-loader',
+              query: {
+                modules: true,
+                localIdentName: '[local]-[hash:base64:5]',
+              },
+            }],
+          }),
         },
         {
           test: /\.scss$/,
@@ -69,19 +69,28 @@ module.exports = [
           exclude: [/node_modules/],
         },
         {
-          test: /\.(jpe?g|png|gif)$/i,
-          use: [{ loader: 'file-loader?name=img/[name]__[hash:base64:5].[ext]' }],
-          include: configPaths.stylePaths
+          test: /\.woff2?$/,
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 100000,
+              mimetype: 'application/font-woff',
+            }
+          },
         },
         {
-          test: /\.svg$/,
+          test: /\.sprite\.svg$/,
           loader: 'svg-sprite-loader',
         },
         {
-          test: /\.(eot|svg|ttf|woff|woff2)$/,
-          use: [{ loader: 'file-loader?name=font/[name]__[hash:base64:5].[ext]' }],
-          include: configPaths.stylePaths,
-        }
+          test: /(?<!sprite)\.(gif|jpe?g|png|svg|webp)$/i,
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 100000,
+            }
+          }
+        },
       ]
     },
 

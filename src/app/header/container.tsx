@@ -3,10 +3,12 @@ import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import Utility from '../../utils/common'
-import { Icon } from '../icon'
+import { Icon } from '../libraries/icon'
 import { getWalletInfo } from './actions'
 import { DispatchProps, StateProps } from './types'
 import { WalletInfoComponent } from './wallet-info'
+
+const logo: string = require('./logo.svg')
 
 const GET_WALLET_INFO_INTERVAL: number = 5000
 const rowTwo: number = 2
@@ -46,7 +48,7 @@ class Header extends React.Component<StateProps & DispatchProps> {
     return (
       <div className='c-header'>
         <div className='c-header__logo'>
-            <img src='assets/logo.svg'></img>
+          <img src={logo}></img>
         </div>
         <div className='c-header__content'>
         <div className='c-wallet-info'>

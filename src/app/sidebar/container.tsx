@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
-import '../../assets/images/icons/icon-sprite.svg'
-import { Icon } from '../icon'
+import { Icon } from '../libraries/icon'
 
 export default class Sidebar extends React.Component<any, any> {
   public render(): any {

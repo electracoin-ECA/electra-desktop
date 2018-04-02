@@ -43,7 +43,7 @@ const mainConfig = {
 
     new CopyWebpackPlugin([
       {
-        from: path.join(configPaths.assetsPath, 'images'),
+        from: path.join(configPaths.assetsPath),
         to: path.join(configPaths.buildPath, 'assets'),
         toType: 'dir'
       },

@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash'
 import * as QRCode from 'qrcode.react'
 import * as React from 'react'
 import * as CopyToClipboard from 'react-copy-to-clipboard'
-import { Icon } from '../../icon'
+import { Icon } from '../../libraries/icon'
 
 export default class ReceiveCardView extends React.Component<any, any> {
   constructor(props: object) {
