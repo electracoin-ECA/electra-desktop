@@ -52,14 +52,7 @@
       "icon": "build/assets/icons/icon.ico"
     },
     "publish": {
-      "provider": "github",
-      "repo": "Electra-Desktop",
-      "owner": "Electra-project",
-      "vPrefixedTagName": true,
-      "host": "github.com",
-      "protocol": "https",
-      "private": false,
-      "releaseType": "draft"
+      "provider": "github"
     }
   },
   "dependencies": {
