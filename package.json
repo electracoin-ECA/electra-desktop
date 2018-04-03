@@ -43,7 +43,8 @@
     },
     "mac": {
       "category": "public.app-category.finance",
-      "icon": "build/assets/icons/icon.icns"
+      "icon": "build/assets/icons/icon.icns",
+      "target": "dmg"
     },
     "dmg": {
       "icon": "build/assets/icons/icon.icns"
