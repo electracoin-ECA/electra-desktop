@@ -35,7 +35,7 @@ script:
         electronuserland/builder:wine \
         /bin/bash -c "npm i && npm run release"
     else
-      npm run release
+      npm run release:mac
     fi
 
 before_cache:
