@@ -34,6 +34,12 @@ export default class Sidebar extends React.Component<any, any> {
                     Address book
                   </NavLink>
                 </li> */}
+                <li>
+                  <NavLink to='/settings'>
+                    <Icon name='cog' size='xs'></Icon>
+                    Settings
+                  </NavLink>
+                </li>
               </ul>
           </nav>
         </div>
