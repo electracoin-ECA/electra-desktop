@@ -36,7 +36,6 @@ class App extends React.Component<any, ComponentState> {
 
   public componentDidMount(): void {
     ipcRenderer.on('app:quit', () => this.setState({ isQuitting: true }))
-    ipcRenderer.send('app:quit:listen')
   }
 
   public render(): JSX.Element {
