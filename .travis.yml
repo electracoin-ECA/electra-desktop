@@ -8,13 +8,11 @@ matrix:
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-      if: branch = prepare-release
 
     # Windows Release
     - os: linux
       services: docker
       language: generic
-      if: branch = prepare-release
 
 before_install:
   - |
