@@ -11,6 +11,7 @@ import Login from './login'
 import LoadingSpinner from './login/loading-spinner'
 import { Overview } from './overview'
 import { Payments } from './payments'
+import { Settings } from './settings'
 import { Sidebar } from './sidebar'
 import { Transactions } from './transactions'
 
@@ -66,6 +67,7 @@ class App extends React.Component<any, ComponentState> {
                   <Route exact path='/payments' component={Payments} />
                   <Route exact path='/transactions' component={Transactions} />
                   <Route exact path='/address_book' component={AddressBook} />
+                  <Route exact path='/settings' component={Settings} />
                 </Switch>
                 <Toast
                   message={message}
