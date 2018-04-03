@@ -1,7 +1,6 @@
 matrix:
   include:
     # MacOS Release
-    if: branch = prepare-release
     - os: osx
       osx_image: xcode9.2
       language: node_js
@@ -9,12 +8,13 @@ matrix:
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+      if: branch = prepare-release
 
-    if: branch = prepare-release
     # Windows Release
     - os: linux
       services: docker
       language: generic
+      if: branch = prepare-release
 
 before_install:
   - |
