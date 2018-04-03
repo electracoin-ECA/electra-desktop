@@ -55,7 +55,7 @@
       "provider": "github",
       "repo": "Electra-Desktop",
       "owner": "Electra-project",
-      "vPrefixedTagName ": true,
+      "vPrefixedTagName": true,
       "host": "github.com",
       "protocol": "https",
       "private": false,
