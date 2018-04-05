@@ -53,8 +53,7 @@
       "icon": "build/assets/icons/icon.ico"
     },
     "publish": {
-      "provider": "github",
-      "releaseType": "prerelease"
+      "provider": "github"
     }
   },
   "dependencies": {
