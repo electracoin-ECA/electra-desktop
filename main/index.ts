@@ -16,7 +16,9 @@ let isQuiting: boolean = false
 let mainWindow: BrowserWindow
 
 // Logs level
-log.transports.file.level = isProd ? false : 'debug'
+log.transports.console.level = log.transports.file.level = process.env.NODE_ENV === 'production'
+  ? false
+  : process.env.NODE_ENV === 'developement' ? 'silly' : 'debug'
 
 // Auto-update logs
 autoUpdater.logger = log
