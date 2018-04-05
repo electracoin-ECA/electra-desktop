@@ -1,6 +1,6 @@
 // tslint:disable-next-line:no-implicit-dependencies
-import { ProgressInfo } from 'builder-util-runtime'
-import { app, BrowserWindow, Event, Menu, Tray } from 'electron'
+import { ProgressInfo, UpdateInfo } from 'builder-util-runtime'
+import { app, BrowserWindow, Event, ipcMain, Menu, Tray } from 'electron'
 import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 import * as path from 'path'
@@ -12,6 +12,7 @@ import Communication from './communication'
 let isHidden: boolean = false
 const isHot: boolean = Boolean(process.env.IS_HOT)
 const isProd: boolean = process.env.NODE_ENV === 'production'
+let isUpdating: boolean = false
 let isQuiting: boolean = false
 let mainWindow: BrowserWindow
 
@@ -20,8 +21,9 @@ log.transports.console.level = log.transports.file.level = process.env.NODE_ENV 
   ? false
   : process.env.NODE_ENV === 'developement' ? 'silly' : 'debug'
 
-// Auto-update logs
+// AutoUpdater configuration
 autoUpdater.logger = log
+autoUpdater.autoDownload = false
 
 // Start IPC events bus listener
 const communication: Communication = new Communication()
@@ -64,6 +66,14 @@ function createWindow(): void {
     if (!isProd) mainWindow.webContents.openDevTools()
 
     // Check for updates
+    ipcMain.on('ipcRenderer:autoUpdater:downloadUpdate', () => {
+      isUpdating = true
+      autoUpdater.downloadUpdate()
+    })
+    ipcMain.on('ipcRenderer:autoUpdater:quitAndInstall', () => {
+      isUpdating = true
+      autoUpdater.quitAndInstall()
+    })
     autoUpdater.checkForUpdatesAndNotify()
   })
 
@@ -108,10 +118,11 @@ function updateTray(): void {
 }
 
 async function exitApp(): Promise<void> {
+  if (isUpdating) return
   isQuiting = true
 
   try {
-    mainWindow.webContents.send('app:quit')
+    mainWindow.webContents.send('ipcMain:app:quit')
     log.info('Closing Electra daemon...')
     await communication.electraJs.wallet.stopDaemon()
     app.quit()
@@ -136,29 +147,23 @@ function toggleMainWindows(): void {
   updateTray()
 }
 
-autoUpdater.on('checking-for-update', () => {
-  log.debug(`electron-updater: Checking for update...`)
-  mainWindow.webContents.send('app:autoUpdate:checking')
+// autoUpdater.on('checking-for-update', () => {
+//   mainWindow.webContents.send('ipcMain:autoUpdater:checking')
+// })
+autoUpdater.on('update-available', (info: UpdateInfo) => {
+  mainWindow.webContents.send('ipcMain:autoUpdater:found', JSON.stringify(info))
 })
-autoUpdater.on('update-available', (info: any) => {
-  log.debug('electron-updater: An update has been found.', info)
-  mainWindow.webContents.send('app:autoUpdate:found', JSON.stringify(info))
-})
-autoUpdater.on('update-not-available', (info: any) => {
-  log.debug('electron-updater: No update has been found.', info)
-  mainWindow.webContents.send('app:autoUpdate:notFound', JSON.stringify(info))
+/*autoUpdater.on('update-not-available', (info: any) => {
+  mainWindow.webContents.send('ipcMain:autoUpdater:notFound', JSON.stringify(info))
 })
 autoUpdater.on('error', (err: any) => {
-  log.error('electron-updater: An error happened.', err)
-  mainWindow.webContents.send('app:autoUpdate:error', JSON.stringify(err))
-})
+  mainWindow.webContents.send('ipcMain:autoUpdater:error', JSON.stringify(err))
+})*/
 autoUpdater.on('download-progress', (progressObj: ProgressInfo) => {
-  log.error('electron-updater: Downloading update...', progressObj)
-  mainWindow.webContents.send('app:autoUpdate:progress', JSON.stringify(progressObj))
+  mainWindow.webContents.send('ipcMain:autoUpdater:progress', JSON.stringify(progressObj))
 })
 autoUpdater.on('update-downloaded', (info: any) => {
-  log.debug('electron-updater: Update downloaded.', info)
-  mainWindow.webContents.send('app:autoUpdate:downloaded', JSON.stringify(info))
+  mainWindow.webContents.send('ipcMain:autoUpdater:downloaded', JSON.stringify(info))
 })
 
 app.once('ready', () => {

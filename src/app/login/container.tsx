@@ -8,7 +8,7 @@ import * as zxcvbn from 'zxcvbn'
 import { USER_SETTINGS_DEFAULT } from '../../constants'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { UserSettings } from '../../types'
-import LoadingSpinner from './loading-spinner'
+import Loader from '../libraries/loader'
 
 const styles: any = require('./styles.css')
 
@@ -257,7 +257,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
       <div className={styles.container}>
         {this.state.loadingText !== undefined && (
           <div className={styles.innerContainer}>
-            <LoadingSpinner text={this.state.loadingText} />
+            <Loader text={this.state.loadingText} />
           </div>
         )}
 
