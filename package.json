@@ -66,7 +66,6 @@
     "electron-updater": "^2.21.4",
     "lodash": "^4.17.4",
     "material-design-iconic-font": "^2.2.0",
-    "material-ui": "^0.20.0",
     "moment": "^2.22.0",
     "numeral": "^2.0.6",
     "qrcode.react": "^0.8.0",
