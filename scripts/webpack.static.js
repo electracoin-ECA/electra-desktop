@@ -10,7 +10,7 @@ module.exports = [
     plugins: [
       new webpack.DefinePlugin({
         'process.env.IS_HOT': false,
-        'process.env.ELECTRON_IS_DEV': Boolean(process.env.ELECTRON_IS_DEV),
+        'process.env.ELECTRON_IS_LOCAL': Boolean(process.env.ELECTRON_IS_LOCAL),
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       }),
     ],
