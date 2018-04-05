@@ -2,10 +2,10 @@ import to from 'await-to-js'
 import { ipcMain } from 'electron'
 import log from 'electron-log'
 
-const isProd: boolean = process.env.NODE_ENV === 'production'
-
 // Logs level
-log.transports.file.level = isProd ? false : 'debug'
+log.transports.console.level = log.transports.file.level = process.env.NODE_ENV === 'production'
+  ? false
+  : process.env.NODE_ENV === 'developement' ? 'silly' : 'debug'
 
 export function bindEventToProp(eventName: string, instance: any, prop: string): void {
   ipcMain.on(eventName, (event: any) => {
@@ -25,19 +25,21 @@ export function bindEventToAsyncCall(eventName: string, call: () => Promise<any>
       return
     }
 
-    log.debug(`ipcMain: ${eventName}:success`, res)
+    log.debug(`ipcMain: ${eventName}:success`)
+    log.silly(`ipcMain: ${eventName}:success`, res)
     event.sender.send(`${eventName}:success`, JSON.stringify(res))
   })
 }
 
 export function bindEventToSyncCall(eventName: string, call: () => any): void {
   ipcMain.on(eventName, (event: any, argsString: string) => {
-    log.debug(`ipcMain: ${eventName}`)
+    // log.debug(`ipcMain: ${eventName}`)
 
     try {
       // tslint:disable-next-line:no-shadowed-variable
       const res: any = call.apply(null, JSON.parse(argsString))
-      log.debug(`ipcMain: ${eventName}:success`, res)
+      log.debug(`ipcMain: ${eventName}:success`)
+      log.silly(`ipcMain: ${eventName}:success`, res)
       event.returnValue = res === undefined ? '' : JSON.stringify(res)
     }
     catch (err) {
