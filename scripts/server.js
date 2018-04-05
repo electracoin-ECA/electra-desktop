@@ -3,8 +3,9 @@
  * https://webpack.github.io/docs/hot-module-replacement-with-webpack.html
  */
 
-const express = require('express')
 const { spawn } = require('child_process')
+const cors = require('cors')
+const express = require('express')
 const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
@@ -21,6 +22,7 @@ const webpackDevMiddlewareInstance = webpackDevMiddleware(compiler, {
   }
 })
 
+app.use(cors())
 app.use(webpackDevMiddlewareInstance)
 
 app.use(webpackHotMiddleware(compiler))
