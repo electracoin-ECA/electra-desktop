@@ -1,10 +1,10 @@
 import * as numeral from 'numeral'
 import * as React from 'react'
 
-const ONE_THOUSAND: number = 1000
-const ONE_MILLION: number = 1000000
-const ONE_CENT: number = 0.01
-const ONE_MILLI_CENT: number = 0.00001
+const ONE_THOUSAND = 1_000
+const ONE_MILLION = 1_000_000
+const ONE_CENT = 0.01
+const ONE_MILLI_CENT = 0.000_01
 
 interface ComponentProps {
   confirmedBalance: number

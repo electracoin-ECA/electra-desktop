@@ -65,6 +65,12 @@ export default class Login extends React.PureComponent<ComponentProps, Component
         isFirstInstallation: isEmpty(userSettings),
       })
 
+      // If the page was reloaded (i.e.: development environment), the #state won't be EMPTY.
+      // And it needs to be EMPTY in order for #startDaemon() to work.
+      if (ElectraJsMiddleware.wallet.state !== 'EMPTY') {
+        ElectraJsMiddleware.wallet.reset()
+      }
+
       await this.startDaemon()
 
       // Now that we have started the wallet daemon,
