@@ -95,7 +95,7 @@ export type OtherBalanceTypes = GET_CURRENT_PRICE_BTC | GET_CURRENT_PRICE_BTC_FA
                                 GET_CURRENT_PRICE_USD | GET_CURRENT_PRICE_USD_FAIL | GET_CURRENT_PRICE_USD_SUCCESS
 
 export interface GlobalBalanceObservable { payload?: WalletBalance, type: BalanceTypes }
-export interface GlobalBalanceOtherObservable { payload?: string, type: OtherBalanceTypes }
+export interface GlobalBalanceOtherObservable { payload?: number, type: OtherBalanceTypes }
 
 export type OverviewActions =   GlobalBalanceActions |
                                 CurrentPriceActions

@@ -2,15 +2,34 @@ import * as React from 'react'
 
 import CardView from './card-view'
 
-export default class CardViewPrices extends React.Component<any, any> {
-  public render(): any {
-    const { confirmedBalance, ecaInBTC, ecaInUSD, currentPriceBTC, currentPriceUSD, unconfirmedBalance } = this.props
+interface ComponentProps {
+  confirmedBalance: number
+  unconfirmedBalance: number
+  confirmedBalanceInBTC: number
+  unconfirmedBalanceInBTC: number
+  confirmedBalanceInUSD: number
+  unconfirmedBalanceInUSD: number
+}
 
+export default class CardViewPrices extends React.Component<ComponentProps> {
+  public render(): any {
     return (
       <div className='c-grid c-grid--thirds py-4'>
-        <CardView price={confirmedBalance} bottomPrice={unconfirmedBalance} currency='ECA' />
-        <CardView price={ecaInBTC} bottomPrice={currentPriceBTC} currency='BTC' />
-        <CardView price={ecaInUSD} bottomPrice={currentPriceUSD} currency='USD' />
+        <CardView
+          confirmedBalance={this.props.confirmedBalance}
+          unconfirmedBalance={this.props.unconfirmedBalance}
+          currencyName='ECA'
+        />
+        <CardView
+          confirmedBalance={this.props.confirmedBalanceInBTC}
+          unconfirmedBalance={this.props.unconfirmedBalanceInBTC}
+          currencyName='BTC'
+        />
+        <CardView
+          confirmedBalance={this.props.confirmedBalanceInUSD}
+          unconfirmedBalance={this.props.unconfirmedBalanceInUSD}
+          currencyName='USD'
+        />
       </div>
     )
   }
