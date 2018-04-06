@@ -99,15 +99,19 @@ export default class Wallet {
     return bindEventToAsyncCall<void>('electraJs:wallet:lock', arguments)
   }
 
-  public async unlock(passphrase: string, forStakingOnly?: boolean): Promise<void> {
-    return bindEventToAsyncCall<void>('electraJs:wallet:unlock', arguments)
+  public reset(): void {
+    return bindEventToSyncCall<void>('electraJs:wallet:reset', arguments)
+  }
+
+  public async send(amount: number, to: string): Promise<void> {
+    return bindEventToAsyncCall<void>('electraJs:wallet:send', arguments)
   }
 
   public start(data: WalletStartDataHard): void {
     return bindEventToSyncCall<void>('electraJs:wallet:start', arguments)
   }
 
-  public async send(amount: number, to: string): Promise<void> {
-    return bindEventToAsyncCall<void>('electraJs:wallet:send', arguments)
+  public async unlock(passphrase: string, forStakingOnly?: boolean): Promise<void> {
+    return bindEventToAsyncCall<void>('electraJs:wallet:unlock', arguments)
   }
 }

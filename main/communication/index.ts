@@ -57,6 +57,7 @@ export default class Communication {
     // Bind events to sync calls
     [
       { event: 'electraJs:wallet:export', call: this.electraJs.wallet.export.bind(this.electraJs.wallet) },
+      { event: 'electraJs:wallet:reset', call: this.electraJs.wallet.reset.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:start', call: this.electraJs.wallet.start.bind(this.electraJs.wallet)},
     ]
       .forEach(({ event, call }: EventToCall) => bindEventToSyncCall(event, call))
