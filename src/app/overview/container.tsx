@@ -1,5 +1,5 @@
 import { WalletTransaction } from 'electra-js'
-import { get, mapValues, take } from 'lodash'
+import { get, take } from 'lodash'
 import * as React from 'react'
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
@@ -9,7 +9,7 @@ import { getCurrentPriceInBTC, getCurrentPriceInUSD, getGlobalBalance } from './
 import CardViewPrices from './components/card-view-prices'
 import { DispatchProps, StateProps } from './types'
 
-const MAX_DECIMALS: number = 8
+// const MAX_DECIMALS: number = 8
 const TRANSACTIONS_COUNT: number = 10
 
 const mapStateToProps: MapStateToProps<StateProps,{}, {}> = (state: StateProps): StateProps => ({
@@ -34,7 +34,6 @@ class Overview extends React.Component<StateProps & DispatchProps, any> {
   }
 
   render(): any {
-    const values: any = mapValues(this.props.overview, (value: string) => parseFloat(value).toFixed(MAX_DECIMALS))
     const transactions: WalletTransaction[] = take(get(this.props, 'transactions.transactions', []), TRANSACTIONS_COUNT)
 
     return (
@@ -44,12 +43,12 @@ class Overview extends React.Component<StateProps & DispatchProps, any> {
         </div>
         <div className='c-view__content'>
           <CardViewPrices
-            confirmedBalance={values.confirmedBalance}
-            unconfirmedBalance={values.unconfirmedBalance}
-            ecaInBTC={(values.currentPriceBTC * values.confirmedBalance).toFixed(MAX_DECIMALS)}
-            ecaInUSD={(values.currentPriceUSD * values.confirmedBalance).toFixed(MAX_DECIMALS)}
-            currentPriceBTC={values.currentPriceBTC}
-            currentPriceUSD={values.currentPriceUSD} />
+            confirmedBalance={this.props.overview.confirmedBalance}
+            unconfirmedBalance={this.props.overview.unconfirmedBalance}
+            confirmedBalanceInBTC={this.props.overview.confirmedBalance * this.props.overview.currentPriceBTC}
+            unconfirmedBalanceInBTC={this.props.overview.unconfirmedBalance * this.props.overview.currentPriceUSD}
+            confirmedBalanceInUSD={this.props.overview.currentPriceBTC}
+            unconfirmedBalanceInUSD={this.props.overview.currentPriceUSD} />
 
           <h2>Recent Transactions</h2>
           <TransactionsComponent transactions={transactions} />

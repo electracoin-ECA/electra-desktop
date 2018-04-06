@@ -1,16 +1,87 @@
+import * as numeral from 'numeral'
 import * as React from 'react'
 
-export default class CardView extends React.Component<any, any> {
-  public render(): any {
-    const { bottomPrice, currency, price } = this.props
+const ONE_THOUSAND: number = 1000
+const ONE_MILLION: number = 1000000
+const ONE_CENT: number = 0.01
+const ONE_MILLI_CENT: number = 0.00001
 
+interface ComponentProps {
+  confirmedBalance: number
+  currencyName: 'BTC' | 'ECA' | 'USD'
+  unconfirmedBalance: number
+}
+
+interface ComponentState {
+  confirmedBalance: string
+  currencyPrefix: 'm' | 'μ' | undefined
+  unconfirmedBalance: string
+}
+
+function formatPrice(price: number): string {
+  return numeral(price).format(price < 1 ? '0,0.00[000000]' : '0,0.00a').toUpperCase()
+}
+
+function formatPriceFiat(price: number): string {
+  const formattedPrice: string = numeral(price).format('0,0.00a').toUpperCase()
+
+  return (price !== 0 && price < ONE_CENT) || formattedPrice === 'NaN' ? '~0.00' : formattedPrice
+}
+
+export default class CardView extends React.PureComponent<ComponentProps, ComponentState> {
+  public static getDerivedStateFromProps({
+    confirmedBalance,
+    currencyName,
+    unconfirmedBalance,
+  }: ComponentProps): ComponentState {
+    if (currencyName === 'USD') {
+      return {
+        confirmedBalance: formatPriceFiat(confirmedBalance),
+        currencyPrefix: undefined,
+        unconfirmedBalance: formatPriceFiat(unconfirmedBalance),
+      }
+    }
+
+    const priceMin: number = Math.max(confirmedBalance, unconfirmedBalance)
+
+    switch (true) {
+      case priceMin === 0 || priceMin >= ONE_CENT:
+        return {
+          confirmedBalance: formatPrice(confirmedBalance),
+          currencyPrefix: undefined,
+          unconfirmedBalance: formatPrice(unconfirmedBalance),
+        }
+
+      case priceMin >= ONE_MILLI_CENT:
+        return {
+          confirmedBalance: formatPrice(confirmedBalance * ONE_THOUSAND),
+          currencyPrefix: 'm',
+          unconfirmedBalance: formatPrice(unconfirmedBalance * ONE_THOUSAND),
+        }
+
+      default:
+        return {
+          confirmedBalance: formatPrice(confirmedBalance * ONE_MILLION),
+          currencyPrefix: 'μ',
+          unconfirmedBalance: formatPrice(unconfirmedBalance * ONE_MILLION),
+        }
+    }
+  }
+
+  public render(): any {
     return (
       <div className='c-grid__item'>
         <div className='c-card'>
           <div className='c-card__content text-center'>
-            <span className='block text-3xl font-extra-bold'>{price}</span>
-            <span className='text-grey'>{bottomPrice}&nbsp;</span>
-            <span className='block text-lg text-purple font-semi-bold'>{currency}</span>
+            <div className='block text-3xl font-extra-bold'>
+              {this.state.confirmedBalance}
+            </div>
+            <div className='text-grey'>
+              {this.state.unconfirmedBalance}
+            </div>
+            <div className='block text-lg text-purple font-semi-bold'>
+              {this.state.currencyPrefix}{this.props.currencyName}
+            </div>
           </div>
         </div>
       </div>

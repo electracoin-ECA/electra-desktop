@@ -6,15 +6,14 @@ import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import * as OverviewActionNames from './action-names'
 import { GlobalBalanceObservable, GlobalBalanceOtherObservable, OverviewActions } from './types'
 
-const MAX_DECIMAL_PLACES: number = 8
-const DELAY: number = 1000
 const BTC: 'BTC' = 'BTC'
+const ONE_SECOND: number = 1000
 
 export function getGlobalBalance(action$: ActionsObservable<OverviewActions>, store: Store<any>):
   Observable<GlobalBalanceObservable> {
     return action$.ofType(OverviewActionNames.GET_GLOBAL_BALANCE)
       .map(async () => ElectraJsMiddleware.wallet.getBalance())
-      .debounceTime(DELAY)
+      .debounceTime(ONE_SECOND)
       .switchMap((promise: Promise<WalletBalance>) =>
       Observable
       .fromPromise(promise)
@@ -44,7 +43,7 @@ export function getCurrentPriceUSD(action$: ActionsObservable<OverviewActions>, 
       Observable
         .fromPromise(promise)
         .map((currentPriceUSD: number) => ({
-          payload: currentPriceUSD.toFixed(MAX_DECIMAL_PLACES),
+          payload: currentPriceUSD,
           type: OverviewActionNames.GET_CURRENT_PRICE_USD_SUCCESS
         }))
         .catch((error: Error) => Observable.of({
@@ -62,7 +61,7 @@ export function getCurrentPriceBTC(action$: ActionsObservable<OverviewActions>, 
       Observable
         .fromPromise(promise)
         .map((currentPriceBTC: number) => ({
-          payload: currentPriceBTC.toFixed(MAX_DECIMAL_PLACES),
+          payload: currentPriceBTC,
           type: OverviewActionNames.GET_CURRENT_PRICE_BTC_SUCCESS
         }))
         .catch((error: Error) => Observable.of({
