@@ -1,58 +1,50 @@
-import * as ActionNames from './action-names'
-import { PaymentsActions, PaymentsState } from './types'
+import { ActionList, ActionType, State } from './types'
 
-const initialState: PaymentsState = {
+const initialState: State = {
   addresses: [],
-  pendingSend: {
+  isUnlockModalOpened: false,
+  pendingTransaction: {
     amount: 0,
-    to: ''
-  }
+    to: '',
+  },
 }
 
-export default function paymentsReducer(state: PaymentsState = initialState, action: PaymentsActions): any {
+export default function(state: State = initialState, action: ActionList[keyof ActionList]): State {
   switch (action.type) {
-    case ActionNames.SET_TO_ADDRESS: {
+    case ActionType.SET_TO_ADDRESS:
       return {
         ...state,
-        pendingSend: {
-          ...state.pendingSend,
-          to: action.payload
-        }
+        pendingTransaction: {
+          ...state.pendingTransaction,
+          to: action.payload,
+        },
       }
-    }
 
-    case ActionNames.SET_AMOUNT: {
+    case ActionType.SET_AMOUNT:
       return {
         ...state,
-        pendingSend: {
-          ...state.pendingSend,
-          amount: action.payload
-        }
+        pendingTransaction: {
+          ...state.pendingTransaction,
+          amount: action.payload,
+        },
       }
-    }
 
-    case ActionNames.SEND_ECA_SUCCESS: {
-      return { ...state }
-    }
-
-    case ActionNames.GET_ADDRESSES_SUCCESS: {
+    case ActionType.GET_ADDRESSES_SUCCESS:
       return {
         ...state,
-        addresses: action.payload
+        addresses: action.payload,
       }
-    }
 
-    case ActionNames.GET_ADDRESSES_FAIL: {
-      return { ...state }
-    }
-
-    case ActionNames.SEND_ECA_FAIL: {
-      return { ...state }
-    }
-
-    case ActionNames.CLEAR_SEND_CARD_FIELDS: {
+    case ActionType.CLEAR_SEND_CARD_FIELDS:
       return { ...initialState }
-    }
-    default: return state
+
+    case ActionType.TOGGLE_UNLOCK_MODAL:
+      return {
+        ...state,
+        isUnlockModalOpened: !state.isUnlockModalOpened,
+      }
+
+    default:
+      return state
   }
 }

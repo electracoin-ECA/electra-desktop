@@ -1,95 +1,55 @@
 import { WalletAddress } from 'electra-js'
+
 import { SetMessageAndBadge } from '../common/toast/types'
+import { ActionBaseWithPayload, ActionListGenerator } from '../types'
 
-export interface StateProps {
-  payments: PaymentsState
+/*
+ * State
+ */
+export interface State {
+  addresses: WalletAddress[]
+  isUnlockModalOpened: boolean
+  pendingTransaction: PendingTransaction
 }
-
-export interface DispatchProps {
-  clearSendCardFields(): ClearSendCardFields,
-  getAddresses(): GetAddresses,
-  sendEca(amount: number, to: string): SendEca,
-  setAmount(value: number): SetAmount,
-  setToAddress(value: string): SetToAddress,
-  setOpened(value: boolean): SetOpened,
-  setMessageAndBadge(message: string, badge: string): SetMessageAndBadge
-}
-
-export interface PaymentsState {
-  addresses: WalletAddress[],
-  pendingSend: PendingSendState
-}
-
-export interface PendingSendState {
-  amount: number,
+export interface PendingTransaction {
+  amount: number
   to: string
 }
 
-/**
- * Payments types interfaces
+/*
+ * Dispatchers
  */
-export type SEND_ECA = 'SEND_ECA'
-export type SEND_ECA_FAIL = 'SEND_ECA_FAIL'
-export type SEND_ECA_SUCCESS = 'SEND_ECA_SUCCESS'
-export type GET_ADDRESSES = 'GET_ADDRESSES'
-export type GET_ADDRESSES_FAIL = 'GET_ADDRESSES_FAIL'
-export type GET_ADDRESSES_SUCCESS = 'GET_ADDRESSES_SUCCESS'
-export type SET_TO_ADDRESS = 'SET_TO_ADDRESS'
-export type SET_AMOUNT = 'SET_AMOUNT'
-export type CLEAR_SEND_CARD_FIELDS = 'CLEAR_SEND_CARD_FIELDS'
-export type SET_OPENED = 'SET_OPENED'
-
-export interface ClearSendCardFields {
-  type: CLEAR_SEND_CARD_FIELDS
+export type Dispatchers = {
+  clearSendCardFields(): ActionList['CLEAR_SEND_CARD_FIELDS']
+  getAddresses(): ActionList['GET_ADDRESSES']
+  sendEca(amount: number, to: string): ActionList['SEND_ECA']
+  setAmount(amount: number): ActionList['SET_AMOUNT']
+  setToAddress(address: string): ActionList['SET_TO_ADDRESS']
+  toggleUnlockModal(): ActionList['TOGGLE_UNLOCK_MODAL']
+}
+export type ComponentDispatchers = Dispatchers & {
+  setMessageAndBadge(message: string, badge: string): SetMessageAndBadge
 }
 
-export interface SendEca {
-  payload: PendingSendState,
-  type: SEND_ECA
+/*
+ * Actions
+ */
+export enum ActionType {
+  CLEAR_SEND_CARD_FIELDS = 'CLEAR_SEND_CARD_FIELDS',
+  GET_ADDRESSES = 'GET_ADDRESSES',
+  GET_ADDRESSES_FAIL = 'GET_ADDRESSES_FAIL',
+  GET_ADDRESSES_SUCCESS = 'GET_ADDRESSES_SUCCESS',
+  SEND_ECA = 'SEND_ECA',
+  SEND_ECA_FAIL = 'SEND_ECA_FAIL',
+  SEND_ECA_SUCCESS = 'SEND_ECA_SUCCESS',
+  SET_AMOUNT = 'SET_AMOUNT',
+  SET_TO_ADDRESS = 'SET_TO_ADDRESS',
+  TOGGLE_UNLOCK_MODAL = 'TOGGLE_UNLOCK_MODAL',
 }
 
-export interface SendEcaFail {
-  type: SEND_ECA_FAIL
-}
-
-export interface SendEcaSuccess {
-  type: SEND_ECA_SUCCESS
-}
-
-export interface GetAddresses {
-  type: GET_ADDRESSES
-}
-
-export interface GetAddressesFail {
-  type: GET_ADDRESSES_FAIL
-}
-
-export interface GetAddressesSuccess {
-  payload: WalletAddress[],
-  type: GET_ADDRESSES_SUCCESS
-}
-
-export interface SetToAddress {
-  type: SET_TO_ADDRESS,
-  payload: string
-}
-
-export interface SetOpened {
-  payload: boolean,
-  type: SET_OPENED
-}
-
-export interface SetAmount {
-  type: SET_AMOUNT,
-  payload: number
-}
-
-export type PaymentsActions = SendEca |
-  SendEcaFail |
-  SendEcaSuccess |
-  GetAddresses |
-  GetAddressesFail |
-  GetAddressesSuccess |
-  SetToAddress |
-  SetAmount |
-  ClearSendCardFields
+export type ActionList = ActionListGenerator<ActionType, {
+  GET_ADDRESSES_SUCCESS: ActionBaseWithPayload<ActionType.GET_ADDRESSES_SUCCESS, WalletAddress[]>
+  SEND_ECA: ActionBaseWithPayload<ActionType.SEND_ECA, PendingTransaction>
+  SET_AMOUNT: ActionBaseWithPayload<ActionType.SET_AMOUNT, number>
+  SET_TO_ADDRESS: ActionBaseWithPayload<ActionType.SET_TO_ADDRESS, string>
+}>

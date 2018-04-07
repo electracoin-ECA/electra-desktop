@@ -1,9 +1,14 @@
 import * as React from 'react'
 
-export default class SendCardView extends React.Component<any, any> {
-  public render(): any {
-    const { onClick, setToAddress, setAmount, amount, address } = this.props
+interface ComponentProps {
+  onPaymentSubmit(toAddress: string, amount: number): void
+}
 
+export default class SendCardView extends React.PureComponent<ComponentProps> {
+  private $toAddress: HTMLInputElement
+  private $amount: HTMLInputElement
+
+  public render(): any {
     return (
       <div className='c-grid__item'>
         <div className='c-card'>
@@ -12,17 +17,27 @@ export default class SendCardView extends React.Component<any, any> {
             <div className='my-4'>
               <div className='c-input'>
                 <span className='c-input__label'>Wallet Address</span>
-                <input type='text' placeholder='EH123asaeGsearuWWLbKToRdmnoS8BGD9hGC'
-                  onChange={setToAddress} value={address} />
+                <input
+                  placeholder='EH123asaeGsearuWWLbKToRdmnoS8BGD9hGC'
+                  ref={(node: HTMLInputElement) => this.$toAddress = node}
+                  type='text'
+                />
               </div>
               <div className='c-input'>
                 <span className='c-input__label'>Amount</span>
-                <input type='number' placeholder='ECA' value={amount} onChange={setAmount} />
+                <input
+                  placeholder='0.00'
+                  ref={(node: HTMLInputElement) => this.$amount = node}
+                  type='number'
+                />
               </div>
             </div>
           </div>
           <div className='c-card__actions'>
-            <button onClick={onClick}>Submit payment</button>
+            <button
+              children={'Submit payment'}
+              onClick={() => this.props.onPaymentSubmit(this.$toAddress.value, Number(this.$amount.value))}
+            />
           </div>
         </div>
       </div>
