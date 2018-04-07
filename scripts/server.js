@@ -24,8 +24,8 @@ const webpackDevMiddlewareInstance = webpackDevMiddleware(compiler, {
 
 app.use(cors())
 app.use(webpackDevMiddlewareInstance)
-
 app.use(webpackHotMiddleware(compiler))
+app.use((req, res, next) => res.redirect('/'))
 
 const server = app.listen(PORT, '127.0.0.1', serverError => {
   if (serverError) {
