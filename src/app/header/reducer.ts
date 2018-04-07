@@ -1,8 +1,6 @@
-import * as moment from 'moment'
-import * as ActionNames from './action-names'
-import { HeaderActions, HeaderState } from './types'
+import { ActionList, ActionType, State } from './types'
 
-const initialState: HeaderState = {
+const initialState: State = {
   walletInfo: {
     connectionsCount: 0,
     isHD: false,
@@ -13,47 +11,18 @@ const initialState: HeaderState = {
     localStakingWeight: 0,
     networkBlockchainHeight: 0,
     networkStakingWeight: 0,
-    nextStakingRewardIn: 0
-  }
+    nextStakingRewardIn: 0,
+  },
 }
 
-export default function(state: HeaderState = initialState, action: HeaderActions): any {
+export default function(state: State = initialState, action: ActionList[keyof ActionList]): State {
   switch (action.type) {
-    case ActionNames.GET_WALLET_INFO_SUCCESS: {
-      const {
-        connectionsCount,
-        isHD,
-        isStaking,
-        isSynchonized,
-        lastBlockGeneratedAt,
-        localBlockchainHeight,
-        localStakingWeight,
-        networkBlockchainHeight,
-        networkStakingWeight,
-        nextStakingRewardIn
-      } = action.payload
+    case ActionType.GET_WALLET_INFO_SUCCESS:
+      return ({
+        ...state,
+        walletInfo: action.payload,
+      })
 
-      return {
-        ...state,
-        walletInfo: {
-          connectionsCount,
-          isHD,
-          isStaking,
-          isSynchonized,
-          lastBlockGeneratedAt: moment.unix(lastBlockGeneratedAt).fromNow(),
-          localBlockchainHeight,
-          localStakingWeight,
-          networkBlockchainHeight,
-          networkStakingWeight,
-          nextStakingRewardIn
-        }
-      }
-    }
-    case ActionNames.GET_WALLET_INFO_FAIL: {
-      return {
-        ...state,
-      }
-    }
     default: return state
   }
 }

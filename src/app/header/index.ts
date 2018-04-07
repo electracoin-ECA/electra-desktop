@@ -1,5 +1,5 @@
 import Header from './container'
-import * as HeaderEpics from './epics'
+import headerEpics from './epics'
 import headerReducer from './reducer'
 
-export { Header, headerReducer, HeaderEpics }
+export { Header, headerReducer, headerEpics }
