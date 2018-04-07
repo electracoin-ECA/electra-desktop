@@ -1,5 +1,14 @@
 @import "./styles/vendors/toolkit.css";
 
+* {
+  cursor: default;
+  user-select: none;
+}
+
+.c-app-layout__container > main {
+  position: static;
+}
+
 .c-toast {
   position: fixed;
   bottom: 0;
