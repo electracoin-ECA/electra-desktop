@@ -1,41 +1,42 @@
 import { WalletAddress } from 'electra-js'
-import { Store } from 'redux'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs/Observable'
+
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
-import * as ActionNames from './action-names'
-import { SendEca } from './types'
+import { ActionList as UnlockModalActionsList, ActionType as UnlockModalActionType } from '../common/unlock-modal/types'
+import { ActionList, ActionType } from './types'
 
-export function sendECA(action$: ActionsObservable<any>, store: Store<any>):
-  Observable<any> {
-  return action$.ofType(ActionNames.SEND_ECA)
-    .map((action: SendEca) => action.payload)
-    .map(async (payload: any) => {
-      const { amount, to } = payload
+export default {
+  closeElectraDaemon: (action$: ActionsObservable<UnlockModalActionsList['SET_LOCK_TO_UNLOCKED_SUCCESS']>) =>
+    action$.ofType(UnlockModalActionType.SET_LOCK_TO_UNLOCKED_SUCCESS)
+      .map((): ActionList['TOGGLE_UNLOCK_MODAL'] => ({
+        type: ActionType.TOGGLE_UNLOCK_MODAL,
+      })),
 
-      return ElectraJsMiddleware.wallet.send(parseFloat(amount), to)
-    })
-    .mergeMap((promise: Promise<void>) =>
-      Observable
-        .fromPromise(promise)
-        .map(() => ({
-          type: ActionNames.SEND_ECA_SUCCESS
-        }))
-        .catch((error: Error) => {
-          console.error(error.message)
+  getAddresses: (action$: ActionsObservable<ActionList['GET_ADDRESSES']>) =>
+    action$.ofType(ActionType.GET_ADDRESSES)
+      .map(() => ElectraJsMiddleware.wallet.allAddresses)
+      .flatMap((addresses: WalletAddress[]) =>
+        Observable.of<ActionList['GET_ADDRESSES_SUCCESS']>({
+          payload: addresses,
+          type: ActionType.GET_ADDRESSES_SUCCESS,
+        }),
+      ),
 
-          return Observable.of({
-            type: ActionNames.SEND_ECA_FAIL
-          })
-        })
-    )
-}
+  sendECA: (action$: ActionsObservable<ActionList['SEND_ECA']>) =>
+    action$.ofType(ActionType.SEND_ECA)
+      .mergeMap(({ payload: { amount, to } }: ActionList['SEND_ECA']) =>
+        Observable.fromPromise(ElectraJsMiddleware.wallet.send(amount, to))
+          .map(() => ({
+            type: ActionType.SEND_ECA_SUCCESS,
+          }))
+          .catch((error: Error) => {
+            console.error(error.message)
 
-export function getAddresses(action$: ActionsObservable<any>, store: Store<any>):
-  Observable<any> {
-  return action$.ofType(ActionNames.GET_ADDRESSES)
-    .map(() => ElectraJsMiddleware.wallet.allAddresses)
-    .flatMap((addresses: WalletAddress[]) => Observable.of(
-      { payload: addresses, type: ActionNames.GET_ADDRESSES_SUCCESS }
-    ))
+            return Observable.of({
+              type: ActionType.SEND_ECA_FAIL,
+            })
+          }),
+    ),
+
 }

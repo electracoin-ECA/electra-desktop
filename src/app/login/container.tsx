@@ -35,7 +35,7 @@ interface ComponentState {
   passphraseStrength?: string
 }
 
-const PASSPHRASE_LENGTH_MIN: number = 8
+const PASSPHRASE_LENGTH_MIN = 8
 
 export default class Login extends React.PureComponent<ComponentProps, ComponentState> {
   private $addressesCount: HTMLInputElement
@@ -84,7 +84,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
       const walletStartData: WalletStartDataHard =
         pick<UserSettings, 'addresses' | 'masterNodeAddress' | 'randomAddresses'>(
           ['addresses', 'masterNodeAddress', 'randomAddresses'],
-          userSettings as UserSettings
+          userSettings as UserSettings,
         )
       ElectraJsMiddleware.wallet.start(walletStartData)
       this.props.onDone()
@@ -111,7 +111,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
         masterNodeAddress,
         randomAddresses,
         wef,
-      }
+      },
     }
 
     storage.set('userSettings', userSettings, (err: Error) => {
@@ -214,7 +214,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
 
     this.setState({
       firstInstallationScreen: 'ASK_USER_FOR_NEW_PASSPHRASE_REPEAT',
-      passphrase: this.$passphrase.value
+      passphrase: this.$passphrase.value,
     })
   }
 
@@ -297,7 +297,7 @@ export default class Login extends React.PureComponent<ComponentProps, Component
                 {this.state.passphraseStrength !== undefined
                   ? [
                     <span key={'message-first-line'}>It will take {this.state.passphraseStrength}</span>,
-                    <span key={'message-second-line'}>for a hacker to crack your password.</span>
+                    <span key={'message-second-line'}>for a hacker to crack your password.</span>,
                   ]
                   : `Are you ready for the test ?`
                 }

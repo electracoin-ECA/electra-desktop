@@ -10,7 +10,7 @@ import { WalletInfoComponent } from './wallet-info'
 
 const logo: string = require('./logo.svg')
 
-const GET_WALLET_INFO_INTERVAL = 5000
+// const GET_WALLET_INFO_INTERVAL = 5000
 const rowTwo = 2
 const rowSix = 6
 
@@ -27,7 +27,7 @@ class Header extends React.Component<StateProps & DispatchProps> {
   }
 
   getWalletInfo(): void {
-    setInterval(this.props.getWalletInfo.bind(this), GET_WALLET_INFO_INTERVAL)
+    // setInterval(this.props.getWalletInfo.bind(this), GET_WALLET_INFO_INTERVAL)
   }
 
   render(): JSX.Element {
