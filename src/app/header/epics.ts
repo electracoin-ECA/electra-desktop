@@ -4,25 +4,34 @@ import 'rxjs/add/observable/of'
 import { Observable } from 'rxjs/Observable'
 
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
-import * as ActionNames from './action-names'
-import { HeaderActions } from './types'
+import { ActionType } from './types'
 
-export function getWalletInfo(action$: ActionsObservable<HeaderActions>, store: any):
-Observable<any> {
-  return action$.ofType(ActionNames.GET_WALLET_INFO)
-    .map(async () => ElectraJsMiddleware.wallet.getInfo())
-    .mergeMap((promise: Promise<WalletInfo>) =>
-      Observable
-        .fromPromise(promise)
-        .map((data: WalletInfo) => ({
-          payload: { ...data },
-          type: ActionNames.GET_WALLET_INFO_SUCCESS,
-        }))
-        .catch((error: Error) => {
-          console.error(error.message)
+const GET_WALLET_INFO_INTERVAL = 5_000
 
-          return Observable.of({
-          type: ActionNames.GET_WALLET_INFO_FAIL,
-        })}),
-    )
+export default {
+  getWalletInfo: (action$: ActionsObservable<{ type: 'GET_WALLET_INFO' }>) =>
+    action$.ofType(ActionType.GET_WALLET_INFO)
+      .delay(GET_WALLET_INFO_INTERVAL)
+      .mergeMap(() =>
+        Observable
+          .fromPromise(ElectraJsMiddleware.wallet.getInfo())
+          .flatMap((data: WalletInfo) => [
+            {
+              payload: data,
+              type: ActionType.GET_WALLET_INFO_SUCCESS,
+            },
+            { type: ActionType.GET_WALLET_INFO_LOOP },
+          ])
+          .catch((error: Error) => {
+            console.error(error.message)
+
+            return Observable.of({
+            type: ActionType.GET_WALLET_INFO_ERROR,
+          })}),
+      ),
+
+  getWalletInfoNext: (action$: ActionsObservable<{ type: 'GET_WALLET_INFO_LOOP' }>) =>
+    action$.ofType(ActionType.GET_WALLET_INFO_LOOP)
+      .delay(GET_WALLET_INFO_INTERVAL)
+      .map(() => ({ type: ActionType.GET_WALLET_INFO })),
 }

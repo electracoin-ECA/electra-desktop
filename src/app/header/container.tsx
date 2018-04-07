@@ -1,36 +1,26 @@
+import * as _ from 'lodash'
+import * as moment from 'moment'
+import * as numeral from 'numeral'
 import * as React from 'react'
-import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { connect } from 'react-redux'
 
-import Utility from '../../utils/common'
 import { Icon } from '../libraries/icon'
-import { getWalletInfo } from './actions'
-import { DispatchProps, StateProps } from './types'
+import { StoreState } from '../types'
+import dispatchers from './dispatchers'
+import { Dispatchers } from './types'
 import { WalletInfoComponent } from './wallet-info'
 
 const logo: string = require('./logo.svg')
 
-// const GET_WALLET_INFO_INTERVAL = 5000
 const rowTwo = 2
 const rowSix = 6
 
-const mapStateToProps: MapStateToProps<StateProps, {}, {}> = (state: StateProps): StateProps => ({
-    header: state.header,
-  })
-
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
-  (dispatch: Dispatch<StateProps>): DispatchProps => bindActionCreators({ getWalletInfo }, dispatch)
-
-class Header extends React.Component<StateProps & DispatchProps> {
-  componentWillMount(): void {
-    this.getWalletInfo()
+class Header extends React.Component<StoreState & Dispatchers> {
+  public componentWillMount(): void {
+    this.props.getWalletInfo()
   }
 
-  getWalletInfo(): void {
-    // setInterval(this.props.getWalletInfo.bind(this), GET_WALLET_INFO_INTERVAL)
-  }
-
-  render(): JSX.Element {
+  public render(): JSX.Element {
     const {
       connectionsCount,
       lastBlockGeneratedAt,
@@ -39,11 +29,9 @@ class Header extends React.Component<StateProps & DispatchProps> {
       nextStakingRewardIn,
       networkStakingWeight,
       networkBlockchainHeight,
+      isSynchonized,
       isStaking,
     } = this.props.header.walletInfo
-    const isOnline: string = isStaking ? 'Online' : 'Offline'
-    // Need this variable as isSynchonized is not working properly
-    const isSynchronized: boolean = Number(localBlockchainHeight) >= networkBlockchainHeight
 
     return (
       <div className='c-header'>
@@ -63,22 +51,33 @@ class Header extends React.Component<StateProps & DispatchProps> {
                   <div className='flex justify-left'>
                     <h3>Wallet Info</h3>
                   </div>
-                  <WalletInfoComponent row={rowSix} label={'Staking wallet'} info={`Wallet is currently ${isOnline}`} />
-                  <WalletInfoComponent row={rowTwo} label={'Your weight'} info={`${localStakingWeight}`} />
+                  <WalletInfoComponent
+                    row={rowSix}
+                    label={'Status'}
+                    info={isStaking ? 'Staking' : 'Not staking'}
+                  />
+                  <WalletInfoComponent
+                    row={rowTwo}
+                    label={'Your weight'}
+                    info={`${numeral(localStakingWeight).format('0,0')}`}
+                  />
                   <WalletInfoComponent
                     row={rowTwo}
                     label={'Network weight'}
-                    info={`${networkStakingWeight}`}
+                    info={`${numeral(networkStakingWeight).format('0,0')}`}
                   />
                   <WalletInfoComponent
                     row={rowTwo}
                     label={'Downloaded blocks'}
-                    info={`${localBlockchainHeight} ${isSynchronized ? '(Synced)' : ''}`}
+                    info={`
+                      ${numeral(localBlockchainHeight).format('0,0')}
+                      ${isSynchonized ? '(Synced)' : ` / ${networkBlockchainHeight}`}
+                    `}
                   />
                   <WalletInfoComponent
                     row={rowTwo}
                     label={'Last received block'}
-                    info={String(lastBlockGeneratedAt)}
+                    info={lastBlockGeneratedAt === 0 ? 'Fetching...' : moment.unix(lastBlockGeneratedAt).fromNow()}
                   />
                   <WalletInfoComponent
                     row={rowTwo}
@@ -88,8 +87,13 @@ class Header extends React.Component<StateProps & DispatchProps> {
                   <hr />
                   <WalletInfoComponent
                     row={rowTwo}
-                    label={'Days until reward'}
-                    info={Utility.formatSecondsToOther(nextStakingRewardIn)}
+                    label={'Next reward'}
+                    info={nextStakingRewardIn === 0
+                      ? 'Fetching...'
+                      : nextStakingRewardIn === -1
+                        ? 'Never'
+                        : _.upperFirst(moment().add(nextStakingRewardIn, 's').fromNow())
+                    }
                   />
                 </div>
               </div>
@@ -101,4 +105,4 @@ class Header extends React.Component<StateProps & DispatchProps> {
   }
 }
 
-export default connect<StateProps, DispatchProps, {}>(mapStateToProps, mapDispatchToProps)(Header)
+export default connect<StoreState, Dispatchers, {}>((state: StoreState) => ({ ...state }), dispatchers)(Header)

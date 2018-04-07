@@ -1,5 +1,0 @@
-import * as types from './types'
-
-export const GET_WALLET_INFO: types.GET_WALLET_INFO = 'GET_WALLET_INFO'
-export const GET_WALLET_INFO_SUCCESS: types.GET_WALLET_INFO_SUCCESS = 'GET_WALLET_INFO_SUCCESS'
-export const GET_WALLET_INFO_FAIL: types.GET_WALLET_INFO_FAIL = 'GET_WALLET_INFO_FAIL'

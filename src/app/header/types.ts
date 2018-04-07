@@ -1,49 +1,31 @@
 import { WalletInfo } from 'electra-js'
-import { Action } from 'redux'
 
-export interface StateProps {
-  header: HeaderState
-}
+import { ActionBaseWithPayload, ActionListGenerator } from '../types'
 
-export interface DispatchProps {
-  getWalletInfo(): GetWalletInfo,
-}
-
-export interface HeaderState {
+/*
+ * State
+ */
+export interface State {
   walletInfo: WalletInfo
 }
 
 /**
- * Staking types interfaces
+ * Dispatchers
  */
-export type GET_WALLET_INFO = 'GET_WALLET_INFO'
-export type GET_WALLET_INFO_FAIL = 'GET_WALLET_INFO_FAIL'
-export type GET_WALLET_INFO_SUCCESS = 'GET_WALLET_INFO_SUCCESS'
-
-export interface GetWalletInfo extends Action {
-  type: GET_WALLET_INFO
+export interface Dispatchers {
+  getWalletInfo(): ActionList['GET_WALLET_INFO'],
 }
 
-export interface GetWalletInfoFail extends Action {
-  type: GET_WALLET_INFO_FAIL
+/*
+ * Actions
+ */
+export enum ActionType {
+  GET_WALLET_INFO = 'GET_WALLET_INFO',
+  GET_WALLET_INFO_ERROR = 'GET_WALLET_INFO_ERROR',
+  GET_WALLET_INFO_SUCCESS = 'GET_WALLET_INFO_SUCCESS',
+  GET_WALLET_INFO_LOOP = 'GET_WALLET_INFO_LOOP',
 }
 
-export interface GetWalletInfoSuccess extends Action {
-  type: GET_WALLET_INFO_SUCCESS
-  payload: WalletInfo
-}
-
-export type WalletInfoTypes = GET_WALLET_INFO |
-                              GET_WALLET_INFO_FAIL |
-                              GET_WALLET_INFO_SUCCESS
-
-export type WalletInfoActions = GetWalletInfo |
-                                GetWalletInfoFail |
-                                GetWalletInfoSuccess
-
-export interface WalletInfoObservable {
-  payload: WalletInfo
-  type: WalletInfoTypes
-}
-
-export type HeaderActions = WalletInfoObservable
+export type ActionList = ActionListGenerator<ActionType, {
+  GET_WALLET_INFO_SUCCESS: ActionBaseWithPayload<ActionType.GET_WALLET_INFO_SUCCESS, WalletInfo>
+}>
