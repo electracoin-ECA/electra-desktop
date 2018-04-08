@@ -30,6 +30,7 @@
     "one-line": [true, "open-brace", "check-whitespace"],
     "only-arrow-functions": [false],
     "prefer-function-over-method": [false],
+    "prefer-method-signature": [false],
     "quotemark": [true, "single"],
     "semicolon": [true, "never"],
     "trailing-comma": [
