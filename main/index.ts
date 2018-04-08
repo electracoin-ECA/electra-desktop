@@ -8,12 +8,13 @@ import * as url from 'url'
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer')
 
 import Communication from './communication'
+import setMainMenu from './setMainMenu'
 
-let isHidden: boolean = false
-const isHot: boolean = Boolean(process.env.IS_HOT)
-const isProd: boolean = process.env.NODE_ENV === 'production'
-let isUpdating: boolean = false
-let isQuiting: boolean = false
+let isHidden = false
+const isHot = Boolean(process.env.IS_HOT)
+const isProd = process.env.NODE_ENV === 'production'
+let isUpdating = false
+let isQuiting = false
 let mainWindow: BrowserWindow
 
 // Logs level
@@ -34,12 +35,13 @@ let tray: Tray
 function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
+    backgroundColor: '#2e022a',
     frame: !isProd,
     height: 900,
     show: false,
     webPreferences: {
       devTools: !isProd,
-      webSecurity: true
+      webSecurity: true,
     },
     width: 1500,
   })
@@ -111,8 +113,8 @@ function updateTray(): void {
           click: exitApp,
           label: 'Exit',
         },
-      ]
-    )
+      ],
+    ),
   )
   tray.setContextMenu(contextMenu)
 }
@@ -127,7 +129,7 @@ async function exitApp(): Promise<void> {
     await communication.electraJs.wallet.stopDaemon()
     app.quit()
   }
-  catch(err) {
+  catch (err) {
     log.error(err)
     app.quit()
   }
@@ -174,6 +176,9 @@ app.once('ready', () => {
   tray.on('click', toggleMainWindows)
   updateTray()
 
+  // Enable copy, paste and other common shortcuts for MacOS
+  if (process.platform === 'darwin') setMainMenu(exitApp)
+
   if (isHot && process.platform !== 'win32') {
     installExtension(REACT_DEVELOPER_TOOLS)
       .then((name: any) => {
@@ -189,7 +194,6 @@ app.once('ready', () => {
 })
 
 app.once('before-quit', (event: Event) => {
-  if (process.platform !== 'darwin') return
   event.preventDefault()
   exitApp()
 })
