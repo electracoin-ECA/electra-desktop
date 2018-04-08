@@ -18,7 +18,7 @@ export default {
             ElectraJsMiddleware.wallet.unlock(passphrase, false),
           ]),
         )
-          .flatMap((): [ActionList['SET_LOCK_TO_UNLOCKED_SUCCESS'], ActionList['SET_LOCK_TO_STAKING_ONLY']] => [
+          .flatMapTo([
             { type: ActionType.SET_LOCK_TO_UNLOCKED_SUCCESS },
             {
               payload: passphrase,
@@ -35,11 +35,22 @@ export default {
           }),
       ),
 
-  setLockToUStackingOnly: (action$: ActionsObservable<{ type: 'SET_LOCK_TO_STAKING_ONLY' }>) =>
+  setLockToStackingOnly: (action$: ActionsObservable<{ type: 'SET_LOCK_TO_STAKING_ONLY' }>) =>
     action$.ofType(ActionType.SET_LOCK_TO_STAKING_ONLY)
       .delay(RELOCK_FOR_STAKING_ONLY_DELAY)
       .mergeMap(({ payload: passphrase }: ActionList['SET_LOCK_TO_STAKING_ONLY']) =>
         Observable.fromPromise(ElectraJsMiddleware.wallet.lock())
+          .map(() => passphrase)
+          .catch((error: Error) => {
+            console.error(error.message)
+
+            return Observable.of<ActionList['SET_LOCK_TO_STAKING_ONLY_ERROR']>({
+              type: ActionType.SET_LOCK_TO_STAKING_ONLY_ERROR,
+            })
+          }),
+      )
+      .mergeMap((passphrase: string) =>
+        Observable.fromPromise(ElectraJsMiddleware.wallet.lock(passphrase))
           .map((): ActionList['SET_LOCK_TO_STAKING_ONLY_SUCCESS'] => ({
             type: ActionType.SET_LOCK_TO_STAKING_ONLY_SUCCESS,
           }))

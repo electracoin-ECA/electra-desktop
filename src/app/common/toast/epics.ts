@@ -21,7 +21,7 @@ export function setToastMessageAndBadgeOnSendSuccess(
   action$: ActionsObservable<PaymentActionList[keyof PaymentActionList] | ToastActions>,
   store: Store<any>,
 ): Observable<any> {
-  return action$.ofType(PaymentsActionType.SEND_ECA_SUCCESS)
+  return action$.ofType(PaymentsActionType.SEND_TRANSACTION_SUCCESS)
     .mapTo({
       payload: {
         badge: SUCCESS,
@@ -35,7 +35,7 @@ export function setToastMessageAndBadgeOnSendFail(
   action$: ActionsObservable<PaymentActionList[keyof PaymentActionList] | ToastActions>,
   store: Store<any>,
 ): Observable<any> {
-  return action$.ofType(PaymentsActionType.SEND_ECA_FAIL)
+  return action$.ofType(PaymentsActionType.SEND_TRANSACTION_ERROR)
     .mapTo({
       payload: {
         badge: FAILED,

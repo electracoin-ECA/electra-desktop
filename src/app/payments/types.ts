@@ -8,23 +8,21 @@ import { ActionBaseWithPayload, ActionListGenerator } from '../types'
  */
 export interface State {
   addresses: WalletAddress[]
+  addressError: string | undefined
+  amountError: string | undefined
   isUnlockModalOpened: boolean
-  pendingTransaction: PendingTransaction
 }
-export interface PendingTransaction {
+export interface Transaction {
   amount: number
-  to: string
+  toAddress: string
 }
 
 /*
  * Dispatchers
  */
 export type Dispatchers = {
-  clearSendCardFields(): ActionList['CLEAR_SEND_CARD_FIELDS']
   getAddresses(): ActionList['GET_ADDRESSES']
-  sendEca(amount: number, to: string): ActionList['SEND_ECA']
-  setAmount(amount: number): ActionList['SET_AMOUNT']
-  setToAddress(address: string): ActionList['SET_TO_ADDRESS']
+  submitTransaction(amount: number, toAddress: string): ActionList['SUBMIT_TRANSACTION']
   toggleUnlockModal(): ActionList['TOGGLE_UNLOCK_MODAL']
 }
 export type ComponentDispatchers = Dispatchers & {
@@ -35,21 +33,23 @@ export type ComponentDispatchers = Dispatchers & {
  * Actions
  */
 export enum ActionType {
-  CLEAR_SEND_CARD_FIELDS = 'CLEAR_SEND_CARD_FIELDS',
   GET_ADDRESSES = 'GET_ADDRESSES',
-  GET_ADDRESSES_FAIL = 'GET_ADDRESSES_FAIL',
+  GET_ADDRESSES_ERROR = 'GET_ADDRESSES_ERROR',
   GET_ADDRESSES_SUCCESS = 'GET_ADDRESSES_SUCCESS',
-  SEND_ECA = 'SEND_ECA',
-  SEND_ECA_FAIL = 'SEND_ECA_FAIL',
-  SEND_ECA_SUCCESS = 'SEND_ECA_SUCCESS',
-  SET_AMOUNT = 'SET_AMOUNT',
-  SET_TO_ADDRESS = 'SET_TO_ADDRESS',
+  SEND_TRANSACTION = 'SEND_TRANSACTION',
+  SEND_TRANSACTION_ERROR = 'SEND_TRANSACTION_ERROR',
+  SEND_TRANSACTION_SUCCESS = 'SEND_TRANSACTION_SUCCESS',
+  SUBMIT_TRANSACTION = 'SUBMIT_TRANSACTION',
+  SUBMIT_TRANSACTION_ERROR = 'SUBMIT_TRANSACTION_ERROR',
   TOGGLE_UNLOCK_MODAL = 'TOGGLE_UNLOCK_MODAL',
 }
 
 export type ActionList = ActionListGenerator<ActionType, {
   GET_ADDRESSES_SUCCESS: ActionBaseWithPayload<ActionType.GET_ADDRESSES_SUCCESS, WalletAddress[]>
-  SEND_ECA: ActionBaseWithPayload<ActionType.SEND_ECA, PendingTransaction>
-  SET_AMOUNT: ActionBaseWithPayload<ActionType.SET_AMOUNT, number>
-  SET_TO_ADDRESS: ActionBaseWithPayload<ActionType.SET_TO_ADDRESS, string>
+  SEND_TRANSACTION: ActionBaseWithPayload<ActionType.SEND_TRANSACTION, Transaction>
+  SUBMIT_TRANSACTION: ActionBaseWithPayload<ActionType.SUBMIT_TRANSACTION, Transaction>
+  SUBMIT_TRANSACTION_ERROR: ActionBaseWithPayload<
+    ActionType.SUBMIT_TRANSACTION_ERROR,
+    { addressError?: string, amountError?: string }
+  >
 }>

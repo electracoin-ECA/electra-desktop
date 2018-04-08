@@ -1,12 +1,16 @@
 import * as React from 'react'
 
+const styles: any = require('./styles.css')
+
 interface ComponentProps {
-  onPaymentSubmit(toAddress: string, amount: number): void
+  addressError: string | undefined
+  amountError: string | undefined
+  onPaymentSubmit(amount: number, toAddress: string): void
 }
 
 export default class SendCardView extends React.PureComponent<ComponentProps> {
-  private $toAddress: HTMLInputElement
   private $amount: HTMLInputElement
+  private $toAddress: HTMLInputElement
 
   public render(): any {
     return (
@@ -15,7 +19,7 @@ export default class SendCardView extends React.PureComponent<ComponentProps> {
           <div className='c-card__content'>
             <h3>Send ECA</h3>
             <div className='my-4'>
-              <div className='c-input'>
+              <div className={`c-input ${this.props.addressError && styles.inputError}`}>
                 <span className='c-input__label'>Wallet Address</span>
                 <input
                   placeholder='EH123asaeGsearuWWLbKToRdmnoS8BGD9hGC'
@@ -23,7 +27,8 @@ export default class SendCardView extends React.PureComponent<ComponentProps> {
                   type='text'
                 />
               </div>
-              <div className='c-input'>
+              {Boolean(this.props.addressError) && <p children={this.props.addressError} className={styles.error} />}
+              <div className={`c-input ${this.props.amountError && styles.inputError}`}>
                 <span className='c-input__label'>Amount</span>
                 <input
                   placeholder='0.00'
@@ -31,12 +36,13 @@ export default class SendCardView extends React.PureComponent<ComponentProps> {
                   type='number'
                 />
               </div>
+              {Boolean(this.props.amountError) && <p children={this.props.amountError} className={styles.error} />}
             </div>
           </div>
           <div className='c-card__actions'>
             <button
               children={'Submit payment'}
-              onClick={() => this.props.onPaymentSubmit(this.$toAddress.value, Number(this.$amount.value))}
+              onClick={() => this.props.onPaymentSubmit(Number(this.$amount.value), this.$toAddress.value)}
             />
           </div>
         </div>

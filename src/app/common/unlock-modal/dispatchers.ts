@@ -1,12 +1,11 @@
-// import to from 'await-to-js'
-// import { WalletLockState } from 'electra-js'
+import { ActionList, ActionType, Dispatchers } from './types'
 
-// import ElectraJsMiddleware from '../../../middlewares/ElectraJs'
-import { ActionList, ActionType, DispatchProps } from './types'
+const dispatchers: Dispatchers = {
+  closeUnlockModal: (): ActionList['CLOSE_UNLOCK_MODAL'] =>
+    ({
+      type: ActionType.CLOSE_UNLOCK_MODAL,
+    }),
 
-// const RELOCK_DELAY = 60_000
-
-const dispatchers: DispatchProps = {
   setLockToUnlocked: (passphrase: string): ActionList['SET_LOCK_TO_UNLOCKED'] =>
     ({
       payload: passphrase,

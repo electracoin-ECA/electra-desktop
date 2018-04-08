@@ -1,46 +1,39 @@
 import { ActionList, ActionType, State } from './types'
 
 const initialState: State = {
+  addressError: undefined,
   addresses: [],
+  amountError: undefined,
   isUnlockModalOpened: false,
-  pendingTransaction: {
-    amount: 0,
-    to: '',
-  },
 }
 
 export default function(state: State = initialState, action: ActionList[keyof ActionList]): State {
   switch (action.type) {
-    case ActionType.SET_TO_ADDRESS:
-      return {
-        ...state,
-        pendingTransaction: {
-          ...state.pendingTransaction,
-          to: action.payload,
-        },
-      }
-
-    case ActionType.SET_AMOUNT:
-      return {
-        ...state,
-        pendingTransaction: {
-          ...state.pendingTransaction,
-          amount: action.payload,
-        },
-      }
-
     case ActionType.GET_ADDRESSES_SUCCESS:
       return {
         ...state,
         addresses: action.payload,
       }
 
-    case ActionType.CLEAR_SEND_CARD_FIELDS:
-      return { ...initialState }
+    case ActionType.SEND_TRANSACTION:
+      return {
+        ...state,
+        addressError: initialState.addressError,
+        amountError: initialState.amountError,
+      }
+
+    case ActionType.SUBMIT_TRANSACTION_ERROR:
+      return {
+        ...state,
+        addressError: action.payload.addressError,
+        amountError: action.payload.amountError,
+      }
 
     case ActionType.TOGGLE_UNLOCK_MODAL:
       return {
         ...state,
+        addressError: initialState.addressError,
+        amountError: initialState.amountError,
         isUnlockModalOpened: !state.isUnlockModalOpened,
       }
 

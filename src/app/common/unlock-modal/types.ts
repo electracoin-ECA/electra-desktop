@@ -11,7 +11,8 @@ export interface State {
 /*
  * Dispatchers
  */
-export type DispatchProps = {
+export type Dispatchers = {
+  closeUnlockModal(): ActionList['CLOSE_UNLOCK_MODAL']
   setLockToUnlocked(password: string): ActionList['SET_LOCK_TO_UNLOCKED']
 }
 
@@ -19,6 +20,7 @@ export type DispatchProps = {
  * Actions
  */
 export enum ActionType {
+  CLOSE_UNLOCK_MODAL = 'CLOSE_UNLOCK_MODAL',
   SET_LOCK_TO_STAKING_ONLY = 'SET_LOCK_TO_STAKING_ONLY',
   SET_LOCK_TO_STAKING_ONLY_ERROR = 'SET_LOCK_TO_STAKING_ONLY_ERROR',
   SET_LOCK_TO_STAKING_ONLY_SUCCESS = 'SET_LOCK_TO_STAKING_ONLY_SUCCESS',

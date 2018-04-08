@@ -1,20 +1,16 @@
 // import to from 'await-to-js'
 import * as React from 'react'
-import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { connect } from 'react-redux'
 
 import Loader from '../../libraries/loader'
 import Modal from '../../libraries/modal'
 import { StoreState } from '../../types'
 import dispatchers from './dispatchers'
-import { DispatchProps } from './types'
+import { Dispatchers } from './types'
 
-const mapStateToProps: MapStateToProps<StoreState, {}, {}> = (state: StoreState): StoreState => ({ ...state })
+const styles: any = require('./styles.css')
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = (dispatch: Dispatch<StoreState>): DispatchProps =>
-  bindActionCreators(dispatchers, dispatch)
-
-class UnlockModal extends React.PureComponent<StoreState & DispatchProps> {
+class UnlockModal extends React.PureComponent<StoreState & Dispatchers> {
   private $password: HTMLInputElement
 
   public render(): JSX.Element {
@@ -23,16 +19,21 @@ class UnlockModal extends React.PureComponent<StoreState & DispatchProps> {
         {!this.props.unlockModal.isUnlocking && (
           <Modal
             confirmButtonText={'UNLOCK'}
+            isForm={true}
             title={'Passphrase Verification'}
             text={'Please enter your passphrase to unlock your wallet:'}
-            onClose={() => void 0}
+            onClose={() => this.props.closeUnlockModal()}
             onConfirm={() => this.props.setLockToUnlocked(this.$password.value)}
           >
-            {Boolean(this.props.unlockModal.error) && <div children={this.props.unlockModal.error} />}
             <input
               autoFocus={true}
+              className={Boolean(this.props.unlockModal.error) ? styles.inputError : styles.input}
               ref={(node: HTMLInputElement) => this.$password = node}
               type={'password'}
+            />
+            <p
+              className={styles.error}
+              children={Boolean(this.props.unlockModal.error) && `Error: ${this.props.unlockModal.error}`}
             />
           </Modal>
         )}
@@ -45,4 +46,7 @@ class UnlockModal extends React.PureComponent<StoreState & DispatchProps> {
   }
 }
 
-export default connect<StoreState, DispatchProps>(mapStateToProps, mapDispatchToProps)(UnlockModal)
+export default connect<StoreState, Dispatchers>(
+  (state: StoreState) => ({ ...state }),
+  dispatchers,
+)(UnlockModal)
