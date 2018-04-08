@@ -25,11 +25,11 @@ interface ComponentState {
   loaderText: string
 }
 
-const ONE_SECOND: number = 1000
+const ONE_SECOND = 1000
 
 // tslint:disable-next-line:typedef
 const mapStateToProps = (state: any): any => ({
-  toast: state.toast
+  toast: state.toast,
 })
 
 class App extends React.Component<any, ComponentState> {
@@ -78,7 +78,7 @@ class App extends React.Component<any, ComponentState> {
   private updateDownloadStatus(event: any, resString: string): void {
     const progressInfo: ProgressInfo = JSON.parse(resString) as ProgressInfo
     this.setState({
-      loaderText: `Downloading update ${this.updateInfo.version} (${Math.round(progressInfo.percent)}%)...`
+      loaderText: `Downloading update ${this.updateInfo.version} (${Math.round(progressInfo.percent)}%)...`,
     })
   }
 
@@ -124,7 +124,7 @@ class App extends React.Component<any, ComponentState> {
                   badge={this.props.toast.badge}
                 />
               </main>
-            </div>
+            </div>,
           ]}
         </div>
       </Router>

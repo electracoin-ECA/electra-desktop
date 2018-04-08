@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { setMessageAndBadge } from '../common/toast/actions'
 import { COPIED_ADDRESS, /*PENDING, SENDING_IN_PROGRESS,*/ SUCCESS } from '../common/toast/toast-messages'
-import { UnlockModal } from '../common/unlock-modal'
+import UnlockModal from '../common/unlock-modal'
 import { StoreState } from '../types'
 import ReceiveCardView from './components/receive-card-view'
 import SendCardView from './components/send-card-view'
@@ -18,7 +18,7 @@ class Payments extends React.Component<StoreState & ComponentDispatchers> {
   public render(): JSX.Element {
     return (
       <div className='c-view'>
-        {this.props.payments.isUnlockModalOpened && <UnlockModal />}
+        {this.props.payments.isUnlockModalOpened && <UnlockModal isCancellable={true} isStakingOnly={false} />}
         <div className='c-view__header'>
           <h2>Payments</h2>
         </div>

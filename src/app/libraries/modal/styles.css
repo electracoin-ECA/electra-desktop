@@ -39,7 +39,6 @@
 }
 
 .button {
-  border-radius: 0;
   width: 50%;
 }
 .button:nth-child(1) {
@@ -53,3 +52,8 @@
 
   background-color: #42083d;
 }
+
+.singleButton {
+  width: 100%;
+}
+

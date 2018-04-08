@@ -4,6 +4,7 @@ import * as numeral from 'numeral'
 import * as React from 'react'
 import { connect } from 'react-redux'
 
+import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { Icon } from '../libraries/icon'
 import { StoreState } from '../types'
 import dispatchers from './dispatchers'
@@ -55,6 +56,11 @@ class Header extends React.Component<StoreState & Dispatchers> {
                     row={rowSix}
                     label={'Status'}
                     info={isStaking ? 'Staking' : 'Not staking'}
+                  />
+                  <WalletInfoComponent
+                    row={rowTwo}
+                    label={'Lock'}
+                    info={_.capitalize(ElectraJsMiddleware.wallet.lockState)}
                   />
                   <WalletInfoComponent
                     row={rowTwo}
