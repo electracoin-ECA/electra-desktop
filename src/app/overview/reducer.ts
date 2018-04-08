@@ -14,7 +14,7 @@ export default function overviewReducer(state: OverviewState = initialState, act
       return {
         ...state,
         confirmedBalance: action.payload.confirmed,
-        unconfirmedBalance: action.payload.unconfirmed
+        unconfirmedBalance: action.payload.unconfirmed,
       }
     }
     case ActionNames.GET_GLOBAL_BALANCE_FAIL: {

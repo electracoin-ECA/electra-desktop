@@ -46,9 +46,9 @@ class Overview extends React.Component<StateProps & DispatchProps, any> {
             confirmedBalance={this.props.overview.confirmedBalance}
             unconfirmedBalance={this.props.overview.unconfirmedBalance}
             confirmedBalanceInBTC={this.props.overview.confirmedBalance * this.props.overview.currentPriceBTC}
-            unconfirmedBalanceInBTC={this.props.overview.unconfirmedBalance * this.props.overview.currentPriceUSD}
-            confirmedBalanceInUSD={this.props.overview.currentPriceBTC}
-            unconfirmedBalanceInUSD={this.props.overview.currentPriceUSD} />
+            unconfirmedBalanceInBTC={this.props.overview.unconfirmedBalance * this.props.overview.currentPriceBTC}
+            confirmedBalanceInUSD={this.props.overview.confirmedBalance * this.props.overview.currentPriceUSD}
+            unconfirmedBalanceInUSD={this.props.overview.unconfirmedBalance * this.props.overview.currentPriceUSD} />
 
           <h2>Recent Transactions</h2>
           <TransactionsComponent transactions={transactions} />
