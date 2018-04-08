@@ -9,8 +9,8 @@ import { ActionList, ActionType, Transaction } from './types'
 let pendingTransaction: Transaction | undefined
 
 export default {
-  closeUnlockModal: (action$: ActionsObservable<UnlockModalActionsList['CLOSE_UNLOCK_MODAL']>) =>
-    action$.ofType(UnlockModalActionType.CLOSE_UNLOCK_MODAL)
+  closeUnlockModal: (action$: ActionsObservable<UnlockModalActionsList['CANCEL_UNLOCK_MODAL']>) =>
+    action$.ofType(UnlockModalActionType.CANCEL_UNLOCK_MODAL)
       .mapTo({ type: ActionType.TOGGLE_UNLOCK_MODAL }),
 
   closeUnlockModalAndSendTransaction: (action$: ActionsObservable<

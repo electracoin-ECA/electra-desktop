@@ -1,5 +1,6 @@
 import { State as UnlockModalState } from './common/unlock-modal/types'
 import { State as HeaderState } from './header/types'
+import { State as LoginState } from './login/types'
 import { State as PaymentsState } from './payments/types'
 
 export interface ActionBase<ActionType extends string> {
@@ -25,6 +26,7 @@ export type ActionListGenerator<
 
 export interface StoreState {
   header: HeaderState
+  login: LoginState
   payments: PaymentsState
   unlockModal: UnlockModalState
 }

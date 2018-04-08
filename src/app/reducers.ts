@@ -1,4 +1,5 @@
 export { headerReducer as header } from './header'
+export { loginReducer as login } from './login'
 export { transactionsReducer as transactions } from './transactions'
 export { overviewReducer as overview } from './overview'
 export { paymentsReducer as payments } from './payments'

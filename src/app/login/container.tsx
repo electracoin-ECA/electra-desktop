@@ -3,46 +3,28 @@ import { WalletAddress, WalletAddressWithoutPK, WalletExchangeFormat, WalletStar
 import * as storage from 'electron-json-storage'
 import { isEmpty, pick } from 'ramda'
 import * as React from 'react'
+import { connect } from 'react-redux'
 import * as zxcvbn from 'zxcvbn'
 
 import { USER_SETTINGS_DEFAULT } from '../../constants'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { UserSettings } from '../../types'
+import UnlockModal from '../common/unlock-modal'
 import Loader from '../libraries/loader'
+import { StoreState } from '../types'
+import dispatchers from './dispatchers'
+import { Dispatchers, OwnProps, OwnState } from './types'
 
 const styles: any = require('./styles.css')
 
-interface ComponentProps {
-  onDone(): void
-}
-
-interface ComponentState {
-  error?: string
-  firstInstallationScreen?:
-    'ASK_USER_FOR_EXISTING_PASSPHRASE'
-    | 'ASK_USER_FOR_NEW_MNEMONIC_REPEAT'
-    | 'ASK_USER_FOR_NEW_PASSPHRASE'
-    | 'ASK_USER_FOR_NEW_PASSPHRASE_REPEAT'
-    | 'ASK_USER_FOR_EXISTING_MNEMONIC'
-    // | 'ASK_USER_FOR_MNEMONIC_REPEAT'
-    | 'ASK_USER_FOR_START_ACTION'
-    | 'SHOW_USER_NEW_MNEMONIC'
-  isFirstInstallation?: boolean
-  isFullInstallation?: boolean
-  loadingText: string | undefined
-  mnemonic?: string
-  passphrase?: string
-  passphraseStrength?: string
-}
-
 const PASSPHRASE_LENGTH_MIN = 8
 
-export default class Login extends React.PureComponent<ComponentProps, ComponentState> {
+class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnState> {
   private $addressesCount: HTMLInputElement
   private $mnemonic: HTMLInputElement
   private $passphrase: HTMLInputElement
 
-  constructor(props: ComponentProps) {
+  constructor(props: Dispatchers & StoreState & OwnProps) {
     super(props)
 
     this.state = {
@@ -50,8 +32,14 @@ export default class Login extends React.PureComponent<ComponentProps, Component
     }
   }
 
-  public componentWillMount(): void {
+  public componentDidMount(): void {
     this.retrieveUserSettings()
+  }
+
+  public UNSAFE_componentWillReceiveProps(): void {
+    if (ElectraJsMiddleware.wallet.state === 'READY' && ElectraJsMiddleware.wallet.lockState === 'STAKING') {
+      this.props.onDone()
+    }
   }
 
   private retrieveUserSettings(): void {
@@ -87,6 +75,13 @@ export default class Login extends React.PureComponent<ComponentProps, Component
           userSettings as UserSettings,
         )
       ElectraJsMiddleware.wallet.start(walletStartData)
+
+      if (ElectraJsMiddleware.wallet.lockState === 'LOCKED') {
+        this.props.openUnlockModal()
+
+        return
+      }
+
       this.props.onDone()
     })
   }
@@ -261,6 +256,8 @@ export default class Login extends React.PureComponent<ComponentProps, Component
   public render(): JSX.Element {
     return (
       <div className={styles.container}>
+        {this.props.login.isUnlockModalOpened && <UnlockModal isCancellable={false} isStakingOnly={true} />}
+
         {this.state.loadingText !== undefined && (
           <div className={styles.innerContainer}>
             <Loader text={this.state.loadingText} />
@@ -452,3 +449,8 @@ export default class Login extends React.PureComponent<ComponentProps, Component
     )
   }
 }
+
+export default connect<StoreState, Dispatchers, OwnProps>(
+  (state: StoreState) => ({ ...state }),
+  dispatchers,
+)(Login)

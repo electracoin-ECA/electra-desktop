@@ -6,11 +6,11 @@ import Loader from '../../libraries/loader'
 import Modal from '../../libraries/modal'
 import { StoreState } from '../../types'
 import dispatchers from './dispatchers'
-import { Dispatchers } from './types'
+import { Dispatchers, Props } from './types'
 
 const styles: any = require('./styles.css')
 
-class UnlockModal extends React.PureComponent<StoreState & Dispatchers> {
+class UnlockModal extends React.PureComponent<StoreState & Dispatchers & Props> {
   private $password: HTMLInputElement
 
   public render(): JSX.Element {
@@ -19,11 +19,15 @@ class UnlockModal extends React.PureComponent<StoreState & Dispatchers> {
         {!this.props.unlockModal.isUnlocking && (
           <Modal
             confirmButtonText={'UNLOCK'}
+            isCancellable={this.props.isCancellable}
             isForm={true}
             title={'Passphrase Verification'}
             text={'Please enter your passphrase to unlock your wallet:'}
-            onClose={() => this.props.closeUnlockModal()}
-            onConfirm={() => this.props.setLockToUnlocked(this.$password.value)}
+            onClose={() => this.props.isCancellable ? this.props.cancelUnlockModal() : void 0}
+            onConfirm={() => this.props.isStakingOnly
+              ? this.props.setLockToStakingOnly(this.$password.value)
+              : this.props.setLockToUnlocked(this.$password.value)
+            }
           >
             <input
               autoFocus={true}
