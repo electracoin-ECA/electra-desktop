@@ -1,0 +1,11 @@
+.inputError {
+  border-color: #e90707;
+}
+
+.error {
+  color: #910606;
+  font-size: 12px;
+  font-weight: 600;
+  height: 18px;
+  margin-top: .5rem;
+}

@@ -7,7 +7,7 @@ import { Icon } from '../../libraries/icon'
 
 interface ComponentProps {
   addresses: WalletAddress[]
-  onClick(): void
+  onCopy(): void
 }
 
 interface ComponentState {
@@ -17,7 +17,6 @@ interface ComponentState {
 export default class ReceiveCardView extends React.PureComponent<ComponentProps, ComponentState> {
   constructor(props: ComponentProps) {
     super(props)
-    console.warn(props)
     this.state = {
       selectedAddress: '',
     }
@@ -61,8 +60,9 @@ export default class ReceiveCardView extends React.PureComponent<ComponentProps,
           </div>
           <div className='c-card__actions'>
             <CopyToClipboard
+              onCopy={() => this.props.onCopy()}
               text={this.state.selectedAddress}>
-              <button onClick={(): void => this.props.onClick()}>Copy wallet address</button>
+              <button>COPY THIS ADDRESS</button>
             </CopyToClipboard>
           </div>
         </div>

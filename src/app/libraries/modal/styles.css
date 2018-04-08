@@ -12,15 +12,44 @@
 }
 
 .innerContainer {
-  align-items: center;
+  align-items: stretch;
+  color: white;
   display: flex;
+  font-size: 16px;
   flex-direction: column;
-  height: 9rem;
   justify-content: space-between;
 }
 
+.title {
+  color: #b63bac;
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
 .text {
-  /* font-family: monospace; */
-  font-size: 18px;
-  color: rgba(255, 255, 255, .9);
+  color: white;
+  text-align: left;
+}
+
+.buttonsRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.button {
+  border-radius: 0;
+  width: 50%;
+}
+.button:nth-child(1) {
+  margin-right: 0.5rem;
+}
+.button:nth-child(2) {
+  margin-left: 0.5rem;
+}
+.buttonCancel {
+  composes: button;
+
+  background-color: #42083d;
 }
