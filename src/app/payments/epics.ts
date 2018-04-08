@@ -36,7 +36,7 @@ export default {
 
   getAddresses: (action$: ActionsObservable<ActionList['GET_ADDRESSES']>) =>
     action$.ofType(ActionType.GET_ADDRESSES)
-      .map(() => ElectraJsMiddleware.wallet.allAddresses)
+      .map(() => ElectraJsMiddleware.wallet.addresses)
       .map((addresses: WalletAddress[]) => ({
         payload: addresses,
         type: ActionType.GET_ADDRESSES_SUCCESS,
