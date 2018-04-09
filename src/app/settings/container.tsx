@@ -1,7 +1,7 @@
 import { remote } from 'electron'
 import * as React from 'react'
 
-export default class Settings extends React.Component<{}, {}> {
+export default class Settings extends React.Component {
   render(): JSX.Element {
     return (
       <div className='c-view'>

@@ -1,6 +1,6 @@
 import Payments from './container'
-import paymentsActions from './dispatchers'
+import dispatchers from './dispatchers'
 import paymentsEpics from './epics'
 import paymentsReducer from './reducer'
 
-export { Payments, paymentsActions, paymentsEpics, paymentsReducer }
+export { Payments, dispatchers as paymentsActions, paymentsEpics, paymentsReducer }

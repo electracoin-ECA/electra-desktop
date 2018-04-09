@@ -3,7 +3,7 @@ import { Props } from './types'
 
 import './icons.sprite.svg'
 
-export default class Icons extends React.Component<Props, any> {
+export default class Icon extends React.Component<Props, any> {
   public render(): any {
     const name: string = this.props.name
     const size: string = this.props.size ? this.props.size : 'xs'

@@ -96,7 +96,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     const randomAddresses: WalletAddressWithoutPK[] = ElectraJsMiddleware.wallet.randomAddresses
 
     this.setState({ loadingText: 'Exporting WEF...' })
-    const wef: WalletExchangeFormat = JSON.parse(await ElectraJsMiddleware.wallet.export())
+    const wef: WalletExchangeFormat = JSON.parse(ElectraJsMiddleware.wallet.export())
 
     this.setState({ loadingText: 'Saving user settings...' })
     const userSettings: UserSettings = {
@@ -175,7 +175,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       return
     }
 
-    this.generateNewHdWallet()
+    await this.generateNewHdWallet()
   }
 
   private async generateNewHdWallet(): Promise<void> {
@@ -190,7 +190,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
   private checkPassphraseStrength(): void {
     let passphraseStrength: string | undefined
-    if (typeof this.$passphrase.value === 'string' && this.$passphrase.value.length !== 0) {
+    if (this.$passphrase.value.length !== 0) {
       const res: zxcvbn.ZXCVBNResult = zxcvbn(this.$passphrase.value)
       passphraseStrength = String(res.crack_times_display.offline_fast_hashing_1e10_per_second)
     }
@@ -201,7 +201,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     event.preventDefault()
     this.setState({ error: undefined })
 
-    if (this.$passphrase.value === undefined || this.$passphrase.value.length < PASSPHRASE_LENGTH_MIN) {
+    if (this.$passphrase.value.length < PASSPHRASE_LENGTH_MIN) {
       this.setState({ error: `Your passphrase must contain at least ${PASSPHRASE_LENGTH_MIN} characters.` })
 
       return
@@ -229,7 +229,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     this.setState({ loadingText: 'Unlocking wallet...' })
     await ElectraJsMiddleware.wallet.unlock(this.state.passphrase, false)
 
-    this.generateNewHdWallet()
+    await this.generateNewHdWallet()
   }
 
   private async checkNewMnemonic(event: React.FormEvent<HTMLFormElement>): Promise<void> {
@@ -242,7 +242,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       return
     }
 
-    this.saveUserSettings()
+    await this.saveUserSettings()
   }
 
   private async recoverWalletFromMnemonic(event: React.FormEvent<HTMLFormElement>): Promise<void> {
