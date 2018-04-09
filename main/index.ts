@@ -128,7 +128,7 @@ function updateTray(): void {
 }
 
 async function exitApp(): Promise<void> {
-  if (isUpdating) return
+  if (isUpdating && process.platform !== 'darwin') return
   isQuiting = true
 
   try {
