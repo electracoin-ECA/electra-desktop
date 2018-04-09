@@ -35,20 +35,25 @@ let tray: Tray
 function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    backgroundColor: '#2e022a',
-    frame: !isProd,
-    height: 900,
+    frame: false,
+    // tslint:disable-next-line:no-magic-numbers
+    height: isProd ? 550 : 900,
+    minHeight: 550,
+    minWidth: 800,
     show: false,
+    titleBarStyle: 'hidden',
+    transparent: true,
     webPreferences: {
       devTools: !isProd,
       webSecurity: true,
     },
-    width: 1500,
+    // tslint:disable-next-line:no-magic-numbers
+    width: isProd ? 800 : 1500,
   })
 
   const indexPath: string = isHot
     ? url.format({
-      host: '0.0.0.0:8080',
+      host: process.platform === 'win32' ? '127.0.0.1:8080' : '0.0.0.0:8080',
       pathname: '',
       protocol: 'http:',
       slashes: true,
@@ -58,6 +63,9 @@ function createWindow(): void {
       protocol: 'file:',
       slashes: true,
     })
+
+  // Maximize window for hot dev mode on Windows
+  if (isHot && process.platform === 'win32') mainWindow.maximize()
 
   mainWindow.loadURL(indexPath)
 
@@ -176,9 +184,10 @@ app.once('ready', () => {
   tray.on('click', toggleMainWindows)
   updateTray()
 
-  // Enable copy, paste and other common shortcuts for MacOS
+  // Enable copy, paste and other common shortcuts on MacOS
   if (process.platform === 'darwin') setMainMenu(exitApp)
 
+  // Install React Developer Tools extension for hot dev mode on Linux & MacOS
   if (isHot && process.platform !== 'win32') {
     installExtension(REACT_DEVELOPER_TOOLS)
       .then((name: any) => {

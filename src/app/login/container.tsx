@@ -255,7 +255,12 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
   // tslint:disable-next-line:cyclomatic-complexity
   public render(): JSX.Element {
     return (
-      <div className={styles.container}>
+      <div
+        className={this.props.login.isUnlockModalOpened || this.state.loadingText !== undefined ?
+          styles.containerTranparent
+          : styles.container
+        }
+      >
         {this.props.login.isUnlockModalOpened && <UnlockModal isCancellable={false} isStakingOnly={true} />}
 
         {this.state.loadingText !== undefined && (

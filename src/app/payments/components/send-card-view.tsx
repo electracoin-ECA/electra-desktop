@@ -41,7 +41,7 @@ export default class SendCardView extends React.PureComponent<ComponentProps> {
           </div>
           <div className='c-card__actions'>
             <button
-              children={'Submit payment'}
+              children={'SUBMIT PAYMENT'}
               onClick={() => this.props.onPaymentSubmit(Number(this.$amount.value), this.$toAddress.value)}
             />
           </div>
