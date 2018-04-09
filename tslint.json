@@ -33,6 +33,7 @@
     "prefer-method-signature": [false],
     "quotemark": [true, "single"],
     "semicolon": [true, "never"],
+    "strict-boolean-expressions": [false],
     "trailing-comma": [
       true,
       {
