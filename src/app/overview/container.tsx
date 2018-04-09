@@ -10,20 +10,23 @@ import CardViewPrices from './components/card-view-prices'
 import { DispatchProps, StateProps } from './types'
 
 // const MAX_DECIMALS: number = 8
-const TRANSACTIONS_COUNT: number = 10
+const TRANSACTIONS_COUNT = 10
 
-const mapStateToProps: MapStateToProps<StateProps,{}, {}> = (state: StateProps): StateProps => ({
+const mapStateToProps: MapStateToProps<StateProps, {}, {}> = (state: StateProps): StateProps => ({
   overview: state.overview,
-  transactions: state.transactions
+  transactions: state.transactions,
 })
 
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
-(dispatch: Dispatch<StateProps>): DispatchProps =>
-  bindActionCreators({
-    getCurrentPriceInBTC,
-    getCurrentPriceInUSD,
-    getGlobalBalance,
-    getTransactions},dispatch)
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = (dispatch: Dispatch<StateProps>): DispatchProps =>
+  bindActionCreators(
+    {
+      getCurrentPriceInBTC,
+      getCurrentPriceInUSD,
+      getGlobalBalance,
+      getTransactions,
+    },
+    dispatch,
+  )
 
 class Overview extends React.Component<StateProps & DispatchProps, any> {
   componentDidMount(): void {
@@ -39,7 +42,7 @@ class Overview extends React.Component<StateProps & DispatchProps, any> {
     return (
       <div className='c-view'>
         <div className='c-view__header'>
-          <h2>Overview</h2>
+          <h2 className='first'>Overview</h2>
         </div>
         <div className='c-view__content'>
           <CardViewPrices

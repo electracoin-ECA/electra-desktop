@@ -1,9 +1,15 @@
 .container {
   align-items: center;
-  background: #2e022a;
+  background: rgba(46, 2, 42, .98);
   display: flex;
   height: 100%;
   justify-content: center;
+}
+
+.containerTranparent {
+  composes: container;
+
+  background: transparent;
 }
 
 .innerContainer {

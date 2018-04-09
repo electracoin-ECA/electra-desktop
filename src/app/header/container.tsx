@@ -37,16 +37,9 @@ class Header extends React.Component<StoreState & Dispatchers> {
     return (
       <div className='c-header'>
         <div className='c-header__logo'>
-          <img src={logo}></img>
-        </div>
-        <div className='c-header__content'></div>
-        <div className='c-header__user'>
           <div className='c-wallet-info' style={{ padding: 0 }}>
             <Icon name='info-circle' size='l'></Icon>
-            <div
-              className='c-card c-card--rounded-lg w-24 c-wallet-info__card'
-              style={{ left: '-365px', margin: 0, top: '23px' }}
-            >
+            <div className='c-card c-card--rounded-lg w-24 c-wallet-info__card'>
               <div className='c-card__content'>
                 <div className='text-xs'>
                   <div className='flex justify-left'>
@@ -76,9 +69,9 @@ class Header extends React.Component<StoreState & Dispatchers> {
                     row={rowTwo}
                     label={'Downloaded blocks'}
                     info={`
-                      ${numeral(localBlockchainHeight).format('0,0')}
-                      ${isSynchonized ? '(Synced)' : ` / ${networkBlockchainHeight}`}
-                    `}
+                        ${numeral(localBlockchainHeight).format('0,0')}
+                        ${isSynchonized ? '(Synced)' : ` / ${networkBlockchainHeight}`}
+                      `}
                   />
                   <WalletInfoComponent
                     row={rowTwo}
@@ -105,6 +98,10 @@ class Header extends React.Component<StoreState & Dispatchers> {
               </div>
             </div>
           </div>
+        </div>
+        <div className='c-header__content'></div>
+        <div className='c-header__logo'>
+            <img src={logo}></img>
         </div>
       </div>
     )
