@@ -37,9 +37,9 @@ function createWindow(): void {
   mainWindow = new BrowserWindow({
     frame: false,
     // tslint:disable-next-line:no-magic-numbers
-    height: isProd ? 550 : 900,
-    minHeight: 550,
-    minWidth: 800,
+    height: isProd ? 605 : 900,
+    minHeight: 605,
+    minWidth: 880,
     show: false,
     titleBarStyle: 'hidden',
     transparent: true,
@@ -48,7 +48,7 @@ function createWindow(): void {
       webSecurity: true,
     },
     // tslint:disable-next-line:no-magic-numbers
-    width: isProd ? 800 : 1500,
+    width: isProd ? 880 : 1500,
   })
 
   const indexPath: string = isHot
