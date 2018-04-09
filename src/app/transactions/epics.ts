@@ -7,8 +7,8 @@ import * as OverviewActionNames from '../overview/action-names'
 import * as TransactionActionNames from './action-names'
 import { TransactionsActions } from './types'
 
-const TRANSACTIONS_NUMBER: number = 100
-const DELAY: number = 1000
+const TRANSACTIONS_NUMBER = 100
+const DELAY = 1000
 
 export function getTransactions(action$: ActionsObservable<TransactionsActions>, store: any):
   Observable<any> {
@@ -20,26 +20,26 @@ export function getTransactions(action$: ActionsObservable<TransactionsActions>,
         .fromPromise(promise)
         .map((data: WalletTransaction[]) => ({
           payload: data,
-          type: TransactionActionNames.GET_TRANSACTIONS_SUCCESS
+          type: TransactionActionNames.GET_TRANSACTIONS_SUCCESS,
         }
         ))
         .catch((error: Error) => {
           console.error(error.message)
 
           return Observable.of({
-            type: TransactionActionNames.GET_TRANSACTIONS
+            type: TransactionActionNames.GET_TRANSACTIONS,
           })
-        })
+        }),
     )
 }
 
-const MAX_DELAY: number = 500
+const MAX_DELAY = 500
 export function getTransaction(action$: ActionsObservable<TransactionsActions>, store: any):
   Observable<any> {
   return action$.ofType(TransactionActionNames.GET_TRANSACTION)
     .debounceTime(MAX_DELAY)
     .map((action: any) => ({
-      payload: action.payload
+      payload: action.payload,
     }))
     .map(async (data: any) => ElectraJsMiddleware.wallet.getTransaction(data.payload))
     .switchMap((promise: any) =>
@@ -51,15 +51,15 @@ export function getTransaction(action$: ActionsObservable<TransactionsActions>, 
 
           return Observable.of(
             { type: TransactionActionNames.GET_TRANSACTIONS },
-            { type: OverviewActionNames.GET_GLOBAL_BALANCE }
+            { type: OverviewActionNames.GET_GLOBAL_BALANCE },
           )
         })
         .catch((error: Error) => {
           console.error(error.message)
 
           return Observable.of({
-            type: TransactionActionNames.GET_TRANSACTIONS_FAIL
+            type: TransactionActionNames.GET_TRANSACTIONS_FAIL,
           })
-        })
+        }),
     )
 }

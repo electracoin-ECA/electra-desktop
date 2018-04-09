@@ -3,18 +3,18 @@ import { GetCurrentPriceBTC, GetCurrentPriceUSD, GetGlobalBalance  } from './typ
 
 export function getGlobalBalance(): GetGlobalBalance {
     return {
-        type: ActionNames.GET_GLOBAL_BALANCE
+        type: ActionNames.GET_GLOBAL_BALANCE,
     }
 }
 
 export function getCurrentPriceInUSD(): GetCurrentPriceUSD {
     return {
-        type: ActionNames.GET_CURRENT_PRICE_USD
+        type: ActionNames.GET_CURRENT_PRICE_USD,
     }
 }
 
 export function getCurrentPriceInBTC(): GetCurrentPriceBTC {
     return {
-        type: ActionNames.GET_CURRENT_PRICE_BTC
+        type: ActionNames.GET_CURRENT_PRICE_BTC,
     }
 }

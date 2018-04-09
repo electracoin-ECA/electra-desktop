@@ -12,14 +12,14 @@ export default function transactionsReducer(state: WalletTransaction[] = initSta
 
       return {
           ...state,
-          transactions
+          transactions,
       }
     }
+
     case ActionNames.GET_TRANSACTIONS_FAIL: {
-      return {
-        ...state
-      }
+      return { ...state }
     }
+
     default: return state
   }
 }

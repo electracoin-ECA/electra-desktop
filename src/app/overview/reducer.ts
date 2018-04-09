@@ -5,7 +5,7 @@ const initialState: OverviewState = {
   confirmedBalance: 0,
   currentPriceBTC: 0,
   currentPriceUSD: 0,
-  unconfirmedBalance: 0
+  unconfirmedBalance: 0,
 }
 
 export default function overviewReducer(state: OverviewState = initialState, action: OverviewActions): any {
@@ -19,29 +19,29 @@ export default function overviewReducer(state: OverviewState = initialState, act
     }
     case ActionNames.GET_GLOBAL_BALANCE_FAIL: {
       return {
-        ...state
+        ...state,
       }
     }
     case ActionNames.GET_CURRENT_PRICE_USD_SUCCESS: {
       return {
         ...state,
-        currentPriceUSD: action.payload
+        currentPriceUSD: action.payload,
       }
     }
     case ActionNames.GET_CURRENT_PRICE_USD_FAIL: {
       return {
-        ...state
+        ...state,
       }
     }
     case ActionNames.GET_CURRENT_PRICE_BTC_SUCCESS: {
       return {
         ...state,
-        currentPriceBTC: action.payload
+        currentPriceBTC: action.payload,
       }
     }
     case ActionNames.GET_CURRENT_PRICE_BTC_FAIL: {
       return {
-        ...state
+        ...state,
       }
     }
     default: return state
