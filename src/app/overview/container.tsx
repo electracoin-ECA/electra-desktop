@@ -61,4 +61,4 @@ class Overview extends React.Component<StateProps & DispatchProps, any> {
   }
 }
 
-export default connect<StateProps, DispatchProps, {}>(mapStateToProps, mapDispatchToProps)(Overview)
+export default connect<StateProps, DispatchProps>(mapStateToProps, mapDispatchToProps)(Overview)

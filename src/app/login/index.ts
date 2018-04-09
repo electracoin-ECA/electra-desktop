@@ -1,7 +1,7 @@
 import Login from './container'
-import loginActions from './dispatchers'
+import dispatchers from './dispatchers'
 import loginEpics from './epics'
 import loginReducer from './reducer'
 
 export default Login
-export { loginActions, loginEpics, loginReducer }
+export { dispatchers as LoginActions, loginEpics, loginReducer }

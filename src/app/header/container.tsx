@@ -108,4 +108,4 @@ class Header extends React.Component<StoreState & Dispatchers> {
   }
 }
 
-export default connect<StoreState, Dispatchers, {}>((state: StoreState) => ({ ...state }), dispatchers)(Header)
+export default connect<StoreState, Dispatchers>((state: StoreState) => ({ ...state }), dispatchers)(Header)

@@ -17,8 +17,9 @@ import { Payments } from './payments'
 import { Settings } from './settings'
 import { Sidebar } from './sidebar'
 import { Transactions } from './transactions'
+import { StoreState } from './types'
 
-interface ComponentState {
+interface OwnState {
   isLoading: boolean
   isQuitting: boolean
   isUpdating: boolean
@@ -27,12 +28,7 @@ interface ComponentState {
 
 const ONE_SECOND = 1000
 
-// tslint:disable-next-line:typedef
-const mapStateToProps = (state: any): any => ({
-  toast: state.toast,
-})
-
-class App extends React.Component<any, ComponentState> {
+class App extends React.Component<StoreState, OwnState> {
   private updateInfo: UpdateInfo
 
   constructor(props: any) {
@@ -132,4 +128,4 @@ class App extends React.Component<any, ComponentState> {
   }
 }
 
-export default connect<null, null, {}>(mapStateToProps, null)(App)
+export default connect<StoreState>((state: StoreState) => ({ ...state }))(App)

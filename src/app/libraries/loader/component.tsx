@@ -8,7 +8,7 @@ interface ComponentProps {
   text: string
 }
 
-export default class Loader extends React.PureComponent<ComponentProps, {}> {
+export default class Loader extends React.PureComponent<ComponentProps> {
   public render(): JSX.Element {
     return (
       <div className={styles.container}>

@@ -1,3 +1,4 @@
+import { ToastState } from './common/toast/types'
 import { State as UnlockModalState } from './common/unlock-modal/types'
 import { State as HeaderState } from './header/types'
 import { State as LoginState } from './login/types'
@@ -28,5 +29,6 @@ export interface StoreState {
   header: HeaderState
   login: LoginState
   payments: PaymentsState
+  toast: ToastState
   unlockModal: UnlockModalState
 }
