@@ -21,7 +21,7 @@
     "no-null-keyword": [false],
     "no-unsafe-any": [false],
     "no-reference": [false],
-    "no-void-expression": [true, "ignore-arrow-function-shorthand"],
+    "no-void-expression": [false],
     "no-var-requires":[false],
     "no-import-side-effect":[false],
     "no-submodule-imports":[false],
