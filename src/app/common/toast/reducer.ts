@@ -3,7 +3,7 @@ import { ToastActions, ToastState } from './types'
 
 const initialState: ToastState = {
   badge: null,
-  message: null
+  message: null,
 }
 
 export default function toastReducer(state: ToastState = initialState, action: ToastActions): any {

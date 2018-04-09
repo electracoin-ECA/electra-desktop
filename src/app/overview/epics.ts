@@ -7,7 +7,7 @@ import * as OverviewActionNames from './action-names'
 import { GlobalBalanceObservable, GlobalBalanceOtherObservable, OverviewActions } from './types'
 
 const BTC: 'BTC' = 'BTC'
-const ONE_SECOND: number = 1000
+const ONE_SECOND = 1000
 
 export function getGlobalBalance(action$: ActionsObservable<OverviewActions>, store: Store<any>):
   Observable<GlobalBalanceObservable> {
@@ -20,18 +20,18 @@ export function getGlobalBalance(action$: ActionsObservable<OverviewActions>, st
       .map((balance: WalletBalance) => ({
         payload: {
           confirmed: balance.confirmed,
-          unconfirmed: balance.unconfirmed
+          unconfirmed: balance.unconfirmed,
         },
-        type: OverviewActionNames.GET_GLOBAL_BALANCE_SUCCESS
+        type: OverviewActionNames.GET_GLOBAL_BALANCE_SUCCESS,
       }))
       .catch((error: Error) => {
         // tslint:disable-next-line:no-console
         console.log(error.message)
 
         return Observable.of({
-        type: OverviewActionNames.GET_GLOBAL_BALANCE
+        type: OverviewActionNames.GET_GLOBAL_BALANCE,
       })
-    })
+    }),
   )
 }
 
@@ -44,12 +44,12 @@ export function getCurrentPriceUSD(action$: ActionsObservable<OverviewActions>, 
         .fromPromise(promise)
         .map((currentPriceUSD: number) => ({
           payload: currentPriceUSD,
-          type: OverviewActionNames.GET_CURRENT_PRICE_USD_SUCCESS
+          type: OverviewActionNames.GET_CURRENT_PRICE_USD_SUCCESS,
         }))
         .catch((error: Error) => Observable.of({
-          type: OverviewActionNames.GET_CURRENT_PRICE_USD_FAIL
-        })
-      )
+          type: OverviewActionNames.GET_CURRENT_PRICE_USD_FAIL,
+        }),
+      ),
     )
 }
 
@@ -62,11 +62,11 @@ export function getCurrentPriceBTC(action$: ActionsObservable<OverviewActions>, 
         .fromPromise(promise)
         .map((currentPriceBTC: number) => ({
           payload: currentPriceBTC,
-          type: OverviewActionNames.GET_CURRENT_PRICE_BTC_SUCCESS
+          type: OverviewActionNames.GET_CURRENT_PRICE_BTC_SUCCESS,
         }))
         .catch((error: Error) => Observable.of({
-          type: OverviewActionNames.GET_CURRENT_PRICE_BTC_FAIL
-        })
-      )
+          type: OverviewActionNames.GET_CURRENT_PRICE_BTC_FAIL,
+        }),
+      ),
     )
 }
