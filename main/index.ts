@@ -5,7 +5,6 @@ import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 import * as path from 'path'
 import * as url from 'url'
-const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer')
 
 import Communication from './communication'
 import setMainMenu from './setMainMenu'
@@ -186,18 +185,6 @@ app.once('ready', () => {
 
   // Enable copy, paste and other common shortcuts on MacOS
   if (process.platform === 'darwin') setMainMenu(exitApp)
-
-  // Install React Developer Tools extension for hot dev mode on Linux & MacOS
-  if (isHot && process.platform !== 'win32') {
-    installExtension(REACT_DEVELOPER_TOOLS)
-      .then((name: any) => {
-        log.info(`Added Extension: ${name}`)
-        createWindow()
-      })
-      .catch(log.error)
-
-    return
-  }
 
   createWindow()
 })
