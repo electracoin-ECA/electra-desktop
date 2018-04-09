@@ -5,8 +5,66 @@
   user-select: none;
 }
 
+html, body {
+  background: transparent;
+}
+
+/* TODO Import these CSS changes in the global design */
+
+h2:not(.first) {
+  margin-top: 1rem;
+}
+
+.c-header {
+  -webkit-app-region: drag;
+  background-color: rgba(255, 255, 255, .99);
+}
+.c-header__logo {
+  margin-right: 0;
+}
+.c-wallet-info {
+  -webkit-app-region: no-drag;
+}
+.c-wallet-info * {
+  cursor: default;
+}
+.c-wallet-info__card {
+  margin-left: 0;
+  top: 30px;
+}
+
+.c-sidebar {
+  background-color: rgba(255, 255, 255, .98);
+}
+.c-nav__title {
+  margin-top: 2rem;
+  padding-bottom: .5rem;
+}
+.c-nav__title:nth-child(1) {
+  margin-top: 0;
+}
+
+.c-view {
+  padding: 30px;
+}
+@media (min-width: 48em) {
+  .c-view {
+    padding: 42px 48px;
+  }
+}
+
 .c-app-layout__container > main {
   position: static;
+}
+.c-app-layout__container > main::-webkit-scrollbar {
+  width: 12px;
+	background-color: rgba(46, 2, 42, 0.1);
+}
+.c-app-layout__container > main::-webkit-scrollbar-track {
+  background-color: #F5F5F5;
+}
+.c-app-layout__container > main::-webkit-scrollbar-thumb {
+	background-color: rgba(46, 2, 42, 0.1);
 }
 
 .c-toast {

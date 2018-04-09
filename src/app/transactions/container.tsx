@@ -5,14 +5,12 @@ import TransactionsComponent from '../common/transactions/transactions'
 import { getTransactions } from '../transactions/actions'
 import { DispatchProps, StateProps } from './types'
 
-const mapStateToProps: MapStateToProps<StateProps,{}, {}> = (state: StateProps): StateProps => ({
-  transactions: state.transactions
+const mapStateToProps: MapStateToProps<StateProps, {}, {}> = (state: StateProps): StateProps => ({
+  transactions: state.transactions,
 })
 
 const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> =
-(dispatch: Dispatch<StateProps>): DispatchProps =>
-  bindActionCreators({
-    getTransactions},dispatch)
+  (dispatch: Dispatch<StateProps>): DispatchProps => bindActionCreators({ getTransactions }, dispatch)
 
 class Transactions extends React.Component<StateProps & DispatchProps, any> {
   componentDidMount(): void {
@@ -28,7 +26,7 @@ class Transactions extends React.Component<StateProps & DispatchProps, any> {
           <h2>Transactions</h2>
         </div>
         <div className='c-view__content'>
-            <TransactionsComponent transactions={transactions}/>
+          <TransactionsComponent transactions={transactions}/>
         </div>
     </div>
     )

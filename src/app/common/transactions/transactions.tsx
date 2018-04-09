@@ -4,12 +4,12 @@ import * as moment from 'moment'
 import * as React from 'react'
 import { Icon } from '../../libraries/icon'
 
-const CONFIRMATIONS_NEEDED: number = 10
-const NO_CONFIRMATIONS: number = 0
-const QUARTER: number = 25
-const HALF: number = 50
-const THREE_QUARTERS: number = 75
-const COMPLETED: number = 100
+const CONFIRMATIONS_NEEDED = 10
+const NO_CONFIRMATIONS = 0
+const QUARTER = 25
+const HALF = 50
+const THREE_QUARTERS = 75
+const COMPLETED = 100
 
 interface State {
   expanded?: boolean[],
@@ -44,7 +44,7 @@ export default class TransactionsComponent extends React.Component<State, any> {
     const { expanded } = this.state
 
     return (
-      <div className='mt-6 '>
+      <div className='mt-6' style={{ paddingTop: '10px' }}>
         {transactions.map((transaction: WalletTransaction, index: number) => (
           <div
             className={`c-card  mb-4 ${expanded[index] ? 'expanded' : ''}`} key={index}>
