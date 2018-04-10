@@ -47,12 +47,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     storage.get('userSettings', async (err: Error, userSettings: Partial<UserSettings>) => {
       if (err) throw err
 
-      this.setState({
-        // If there are no stored userSettings,
-        // it's the first time the user install the new Desktop Wallet on this device.
-        isFirstInstallation: isEmpty(userSettings),
-      })
-
       // If the page was reloaded (i.e.: development environment), the #state won't be EMPTY.
       // And it needs to be EMPTY in order for #startDaemon() to work.
       if (ElectraJsMiddleware.wallet.state !== 'EMPTY') {
@@ -60,6 +54,12 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       }
 
       await this.startDaemon()
+
+      this.setState({
+        // If there are no stored userSettings,
+        // it's the first time the user install the new Desktop Wallet on this device.
+        isFirstInstallation: isEmpty(userSettings) || ElectraJsMiddleware.wallet.lockState === 'UNLOCKED',
+      })
 
       // Now that we have started the wallet daemon,
       // we need to start the first login process if this is a first installation.
