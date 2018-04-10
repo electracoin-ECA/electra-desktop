@@ -21,7 +21,8 @@
     "test": "npm run validate",
     "validate": "npm run validate:tsc && npm run validate:lint",
     "validate:lint": "tslint -p src/tsconfig.json",
-    "validate:tsc": "tsc -p src/tsconfig.json --noEmit --pretty"
+    "validate:tsc": "tsc -p src/tsconfig.json --noEmit --pretty",
+    "preversion": "npm test"
   },
   "build": {
     "productName": "Electra Desktop",
