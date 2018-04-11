@@ -52,7 +52,7 @@ function createWindow(): void {
 
   const indexPath: string = isHot
     ? url.format({
-      host: process.platform === 'win32' ? '127.0.0.1:8080' : '0.0.0.0:8080',
+      host: process.platform === 'darwin' ? '0.0.0.0:8080' : '127.0.0.1:8080',
       pathname: '',
       protocol: 'http:',
       slashes: true,
@@ -178,7 +178,7 @@ autoUpdater.on('update-downloaded', (info: any) => {
 app.once('ready', () => {
   log.info('Electra Desktop starting...')
 
-  tray = new Tray(path.resolve(__dirname, 'assets/icons/tray.png'))
+  tray = new Tray(path.resolve(__dirname, process.platform === 'linux' ? 'assets/icons/tray@2x.png' : 'assets/icons/tray.png'))
   tray.setToolTip('Electra Desktop')
   tray.on('click', toggleMainWindows)
   updateTray()
