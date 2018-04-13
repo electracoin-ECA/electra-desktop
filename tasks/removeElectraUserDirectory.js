@@ -1,9 +1,22 @@
-const ElectraJs = require('electra-js')
 const fs = require('fs')
 const os = require('os')
+const path = require('path')
 const rimraf = require('rimraf')
 
-const electraJs = new ElectraJs({ hard: true })
+let electraDestopUserDirectoryPath
 
-console.log(`Removing ${electraJs.constants.DAEMON_USER_DIR_PATH} directory...`)
-rimraf.sync(electraJs.constants.DAEMON_USER_DIR_PATH)
+switch (process.platform) {
+  case 'darwin':
+    electraDestopUserDirectoryPath = path.resolve(os.homedir(), 'Library/Application Support/Electra')
+    break
+
+  case 'win32':
+    electraDestopUserDirectoryPath = path.resolve(os.homedir(), 'AppData/Roaming/Electra Desktop')
+    break
+
+  default:
+    electraDestopUserDirectoryPath = path.resolve(os.homedir(), '.Electra')
+}
+
+console.log(`Removing ${electraDestopUserDirectoryPath} directory...`)
+rimraf.sync(electraDestopUserDirectoryPath)
