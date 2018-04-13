@@ -80,7 +80,7 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-observable": "^0.18.0",
-    "rxjs": "^5.5.8",
+    "rxjs": "^5.5.10",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
