@@ -1,4 +1,4 @@
-import { WalletTransaction } from 'electra-js'
+import { WalletAddressCategory, WalletTransaction } from 'electra-js'
 import { capitalize } from 'lodash'
 import * as moment from 'moment'
 import * as React from 'react'
@@ -110,18 +110,20 @@ export default class TransactionsComponent extends React.Component<Props, State>
               <span className='block font-semi-bold mt-4'>Transaction ID</span>
               <p className='selectableText'>{transaction.hash}</p>
               <span className='block font-semi-bold mt-4'>Sender</span>
-              <p>
-                {transaction.fromCategories === undefined ||
-                transaction.fromCategories === null ||
-                transaction.fromCategories.length === 0
-                  ? 'Unknown'
-                  : `[${CATEGORY[transaction.fromCategories[transaction.fromCategories.length - 1]]}] `
-                }
-                {transaction.from === undefined || transaction.from === null
-                  ? 'Unknown'
-                  : <span className='selectableText'>{transaction.from[transaction.from.length - 1]}</span>
-                }
-              </p>
+              {transaction.from === undefined ||
+              transaction.from === null ||
+              transaction.from.length === 0
+                ? <p>Unknown</p>
+                : transaction.from.map((address: string, j: number) => (
+                  <p key={`transactionFrom-${j}`}>
+                    {transaction.toCategories[j] >= 0
+                      ? `[${CATEGORY[(transaction.fromCategories as WalletAddressCategory[])[j]]}] `
+                      : '[Foreign Account] '
+                    }
+                    <span children={address} className='selectableText' />
+                  </p>
+                ))
+              }
               <span className='block font-semi-bold mt-4'>Recipient</span>
               {transaction.to.map((address: string, j: number) => (
                 <p key={`transactionTo-${j}`}>
