@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { ActionType } from './types'
 
-// const GET_WALLET_INFO_INTERVAL = 5_000
+const GET_WALLET_INFO_INTERVAL = 5_000
 
 export default {
   getWalletInfo: (action$: ActionsObservable<{ type: 'GET_WALLET_INFO' }>) =>
@@ -29,8 +29,8 @@ export default {
           })}),
       ),
 
-  // getWalletInfoLoop: (action$: ActionsObservable<{ type: 'GET_WALLET_INFO_LOOP' }>) =>
-  //   action$.ofType(ActionType.GET_WALLET_INFO_LOOP)
-  //     .delay(GET_WALLET_INFO_INTERVAL)
-  //     .map(() => ({ type: ActionType.GET_WALLET_INFO })),
+  getWalletInfoLoop: (action$: ActionsObservable<{ type: 'GET_WALLET_INFO_LOOP' }>) =>
+    action$.ofType(ActionType.GET_WALLET_INFO_LOOP)
+      .delay(GET_WALLET_INFO_INTERVAL)
+      .map(() => ({ type: ActionType.GET_WALLET_INFO })),
 }
