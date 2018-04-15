@@ -242,6 +242,23 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     this.setState({ loadingText: 'Unlocking wallet...' })
     await ElectraJsMiddleware.wallet.unlock(this.state.passphrase, false)
 
+    if (this.state.mnemonic !== undefined) {
+      this.setState({ loadingText: 'Recovering wallet from mnemonic...' })
+
+      await ElectraJsMiddleware.wallet.generate(
+        this.state.passphrase,
+        this.$mnemonic.value,
+        this.$mnemonicExtension.value.length === 0 ? undefined : this.$mnemonicExtension.value,
+        1,
+        1,
+        1,
+      )
+
+      await this.saveUserSettings()
+
+      return
+    }
+
     await this.generateNewHdWallet()
   }
 
@@ -262,7 +279,10 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     event.preventDefault()
 
     if (this.state.passphrase === undefined) {
-      this.setState({ firstInstallationScreen: 'ASK_USER_FOR_NEW_PASSPHRASE' })
+      this.setState({
+        firstInstallationScreen: 'ASK_USER_FOR_NEW_PASSPHRASE',
+        mnemonic: this.$mnemonic.value,
+      })
 
       return
     }
