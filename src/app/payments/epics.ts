@@ -1,4 +1,4 @@
-import { WalletAddress, WalletBalance } from 'electra-js'
+import { WalletAddress, WalletAddressCategory, WalletBalance } from 'electra-js'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs/Observable'
 
@@ -7,6 +7,7 @@ import { ActionList as UnlockModalActionsList, ActionType as UnlockModalActionTy
 import { ActionList, ActionType, Transaction } from './types'
 
 let pendingTransaction: Transaction | undefined
+const PURSE_AMOUNT_MAX = 100
 const TRANSACTION_FEE = 0.000_01
 
 export default {
@@ -85,8 +86,20 @@ export default {
           }
         }
 
-        // tslint:disable-next-line:no-magic-numbers
-        if (transaction.amount > (confirmedBalance - 0.00001)) {
+        const toCategory: WalletAddressCategory = ElectraJsMiddleware.wallet.getAddressCategory(transaction.toAddress)
+        console.warn(toCategory)
+
+        if (toCategory === 0 && transaction.amount > PURSE_AMOUNT_MAX) {
+          return {
+            payload: {
+              addressError: undefined,
+              amountError: `You can't send more than ${PURSE_AMOUNT_MAX} ECAs to your Purse.`,
+            },
+            type: ActionType.SUBMIT_TRANSACTION_ERROR,
+          }
+        }
+
+        if (transaction.amount > (confirmedBalance - TRANSACTION_FEE)) {
           return {
             payload: {
               addressError: undefined,
