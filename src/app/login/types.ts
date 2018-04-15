@@ -21,6 +21,7 @@ export interface OwnState {
   isFullInstallation?: boolean
   loadingText: string | undefined
   mnemonic?: string
+  mnemonicExtension?: string
   passphrase?: string
   passphraseStrength?: string
 }
