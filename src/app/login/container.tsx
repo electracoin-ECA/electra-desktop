@@ -270,7 +270,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     this.setState({ loadingText: 'Recovering wallet from mnemonic...' })
 
     await ElectraJsMiddleware.wallet.generate(
-      this.state.passphrase as string,
+      this.state.passphrase,
       this.$mnemonic.value,
       this.$mnemonicExtension.value.length === 0 ? undefined : this.$mnemonicExtension.value,
       1,
