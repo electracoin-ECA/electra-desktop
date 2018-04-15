@@ -63,9 +63,8 @@ export default class TransactionsComponent extends React.Component<Props, State>
           <div
             className={`c-card  mb-4 ${expanded[index] ? 'expanded' : ''}`} key={index}>
             <div
-              className='c-card__content items-center pr-16'
+              className='c-card__content items-center pr-16 pointer-cursor'
               onClick={this.toggleExpand.bind(this, index)}
-              style={{ cursor: 'pointer' }}
             >
               <div className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0'>
                 <span className='block'>{capitalize(transaction.type)}</span>
