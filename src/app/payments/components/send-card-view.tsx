@@ -12,11 +12,28 @@ interface ComponentProps {
   onPaymentSubmit(amount: number, fromCategory: WalletAddressCategory, toAddress: string): void
 }
 
-export default class SendCardView extends React.PureComponent<ComponentProps> {
+interface ComponentState {
+  isFromSavingsAccount: boolean
+}
+
+export default class SendCardView extends React.PureComponent<ComponentProps, ComponentState> {
   private $amount: HTMLInputElement
   private $fromCategory: HTMLSelectElement
   private $toAccount: HTMLSelectElement
   private $toAddress: HTMLInputElement
+
+  constructor(props: ComponentProps) {
+    super(props)
+
+    this.state = {
+      isFromSavingsAccount: false,
+    }
+  }
+
+  private checkFromAccount(): void {
+    // tslint:disable-next-line:no-magic-numbers
+    this.setState({ isFromSavingsAccount: Number(this.$fromCategory.value) === 2 })
+  }
 
   private submitPayment(): void {
     let toAddress: string
@@ -55,7 +72,10 @@ export default class SendCardView extends React.PureComponent<ComponentProps> {
               <div className='c-input'>
                 <span className='c-input__label'>From Account</span>
                 <div className='c-dropdown'>
-                  <select ref={(node: HTMLSelectElement) => this.$fromCategory = node}>
+                  <select
+                    onChange={this.checkFromAccount.bind(this)}
+                    ref={(node: HTMLSelectElement) => this.$fromCategory = node}
+                  >
                     <option children={`Purse`} key={'fromPurse'} value={0} />
                     <option children={`Checking Account`} key={'fromChecking'} value={1} />
                     {/* tslint:disable-next-line:no-magic-numbers */}
@@ -83,14 +103,16 @@ export default class SendCardView extends React.PureComponent<ComponentProps> {
                   </div>
                 </div>
               </div>
-              <div className={`c-input ${this.props.addressError && styles.inputError}`}>
-                <span className='c-input__label'>Wallet Address</span>
-                <input
-                  placeholder='EH123asaeGsearuWWLbKToRdmnoS8BGD9hGC'
-                  ref={(node: HTMLInputElement) => this.$toAddress = node}
-                  type='text'
-                />
-              </div>
+              {!this.state.isFromSavingsAccount && (
+                <div className={`c-input ${this.props.addressError && styles.inputError}`}>
+                  <span className='c-input__label'>[OR] To Address</span>
+                  <input
+                    placeholder='EH123asaeGsearuWWLbKToRdmnoS8BGD9hGC'
+                    ref={(node: HTMLInputElement) => this.$toAddress = node}
+                    type='text'
+                  />
+                </div>
+              )}
               {Boolean(this.props.addressError) && <p children={this.props.addressError} className={styles.error} />}
               <div className={`c-input ${this.props.amountError && styles.inputError}`}>
                 <span className='c-input__label'>Amount</span>
