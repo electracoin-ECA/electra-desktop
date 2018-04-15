@@ -17,6 +17,10 @@ input:focus, select:focus, textarea:focus {
   cursor: text;
   user-select: text;
 }
+.pointer-cursor,
+.pointer-cursor * {
+  cursor: pointer;
+}
 
 /* TODO Import these CSS changes in the global design */
 
