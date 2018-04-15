@@ -21,6 +21,7 @@ const PASSPHRASE_LENGTH_MIN = 8
 
 class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnState> {
   private $mnemonic: HTMLInputElement
+  private $mnemonicExtension: HTMLInputElement
   private $passphrase: HTMLInputElement
 
   constructor(props: Dispatchers & StoreState & OwnProps) {
@@ -183,12 +184,16 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       return
     }
 
-    await this.generateNewHdWallet(passphrase)
+    this.setState({
+      firstInstallationScreen: 'ASK_USER_FOR_START_ACTION_2',
+      loadingText: undefined,
+      passphrase,
+    })
   }
 
-  private async generateNewHdWallet(passphrase: string): Promise<void> {
-    this.setState({ loadingText: 'Generating new mnemonic and comprehensive accounts...' })
-    await ElectraJsMiddleware.wallet.generate(passphrase)
+  private async generateNewHdWallet(): Promise<void> {
+    this.setState({ loadingText: 'Generating new mnemonic...' })
+    await ElectraJsMiddleware.wallet.generate(this.state.passphrase as string)
     this.setState({
       firstInstallationScreen: 'SHOW_USER_NEW_MNEMONIC',
       loadingText: undefined,
@@ -237,7 +242,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     this.setState({ loadingText: 'Unlocking wallet...' })
     await ElectraJsMiddleware.wallet.unlock(this.state.passphrase, false)
 
-    await this.generateNewHdWallet(this.state.passphrase)
+    await this.generateNewHdWallet()
   }
 
   private async checkNewMnemonic(event: React.FormEvent<HTMLFormElement>): Promise<void> {
@@ -255,9 +260,25 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
   private async recoverWalletFromMnemonic(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault()
-    // await ElectraJsMiddleware.wallet.generate(this.$mnemonic.value, undefined, Number(this.$addressesCount.value))
 
-    // this.props.onDone()
+    if (this.state.passphrase === undefined) {
+      this.setState({ firstInstallationScreen: 'ASK_USER_FOR_NEW_PASSPHRASE' })
+
+      return
+    }
+
+    this.setState({ loadingText: 'Recovering wallet from mnemonic...' })
+
+    await ElectraJsMiddleware.wallet.generate(
+      this.state.passphrase as string,
+      this.$mnemonic.value,
+      this.$mnemonicExtension.value.length === 0 ? undefined : this.$mnemonicExtension.value,
+      1,
+      1,
+      1,
+    )
+
+    await this.saveUserSettings()
   }
 
   // tslint:disable-next-line:cyclomatic-complexity
@@ -286,15 +307,42 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
               onClick={(): void => this.setState({ firstInstallationScreen: 'ASK_USER_FOR_NEW_PASSPHRASE' })}
             />
             <button
-              children={'IMPORT PRIVATE KEYS'}
-              className={styles.button}
-              onClick={(): void => this.setState({})}
-            />
-            {/* <button
               children={'RECOVER A WALLET VIA MNEMONIC'}
               className={styles.button}
               onClick={(): void => this.setState({ firstInstallationScreen: 'ASK_USER_FOR_EXISTING_MNEMONIC' })}
-            /> */}
+            />
+          </div>
+        )}
+
+        {/* New (but not brand new) wallet user choices */}
+        {!Boolean(this.state.loadingText) && this.state.firstInstallationScreen === 'ASK_USER_FOR_START_ACTION_2' && (
+          <div className={styles.innerContainer}>
+            <button
+              children={'GENERATE A NEW MNEMONIC'}
+              className={styles.button}
+              onClick={this.generateNewHdWallet.bind(this)}
+            />
+            <button
+              children={'RECOVER A WALLET VIA MNEMONIC'}
+              className={styles.button}
+              onClick={(): void => this.setState({ firstInstallationScreen: 'ASK_USER_FOR_EXISTING_MNEMONIC' })}
+            />
+          </div>
+        )}
+
+        {/* Brand new wallet user choices */}
+        {!Boolean(this.state.loadingText) && this.state.firstInstallationScreen === 'ASK_USER_FOR_START_ACTION' && (
+          <div className={styles.innerContainer}>
+            <button
+              children={'CREATE A NEW WALLET'}
+              className={styles.button}
+              onClick={(): void => this.setState({ firstInstallationScreen: 'ASK_USER_FOR_NEW_PASSPHRASE' })}
+            />
+            <button
+              children={'RECOVER A WALLET VIA MNEMONIC'}
+              className={styles.button}
+              onClick={(): void => this.setState({ firstInstallationScreen: 'ASK_USER_FOR_EXISTING_MNEMONIC' })}
+            />
           </div>
         )}
 
@@ -444,6 +492,13 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
                 autoFocus={true}
                 className={this.state.error !== undefined ? styles.inputError : styles.input}
                 ref={($node: HTMLInputElement): HTMLInputElement => this.$mnemonic = $node}
+                type={'text'}
+              />
+              <p>Please enter your existing mnemonic extemsion (if you have one):</p>
+              <input
+                autoFocus={true}
+                className={this.state.error !== undefined ? styles.inputError : styles.input}
+                ref={($node: HTMLInputElement): HTMLInputElement => this.$mnemonicExtension = $node}
                 type={'text'}
               />
               <p className={styles.error} children={this.state.error !== undefined && `Error: ${this.state.error}`} />
