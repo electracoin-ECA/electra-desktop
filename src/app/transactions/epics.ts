@@ -8,7 +8,7 @@ import * as TransactionActionNames from './action-names'
 import { TransactionsActions } from './types'
 
 const TRANSACTIONS_NUMBER = 100
-// const GET_TRANSACTIONS_LOOP_INTERVAL = 5_000
+const GET_TRANSACTIONS_LOOP_INTERVAL = 5_000
 
 let categoryCurrent: WalletAddressCategory | undefined
 
@@ -43,17 +43,17 @@ export function getTransactions(action$: ActionsObservable<TransactionsActions>,
     )
 }
 
-// export const getWalletInfoLoop = (action$: ActionsObservable<any>) =>
-//   action$.ofType(TransactionActionNames.GET_TRANSACTIONS_LOOP)
-//     .delay(GET_TRANSACTIONS_LOOP_INTERVAL)
-//     .flatMap(({ payload: category }: any) => {
-//       if (categoryCurrent !== category) return []
+export const getWalletInfoLoop = (action$: ActionsObservable<any>) =>
+  action$.ofType(TransactionActionNames.GET_TRANSACTIONS_LOOP)
+    .delay(GET_TRANSACTIONS_LOOP_INTERVAL)
+    .flatMap(({ payload: category }: any) => {
+      if (categoryCurrent !== category) return []
 
-//       return [{
-//         payload: category,
-//         type: TransactionActionNames.GET_TRANSACTIONS,
-//       }]
-//     })
+      return [{
+        payload: category,
+        type: TransactionActionNames.GET_TRANSACTIONS,
+      }]
+    })
 
 const MAX_DELAY = 500
 export function getTransaction(action$: ActionsObservable<TransactionsActions>, store: any):
