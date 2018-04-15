@@ -7,6 +7,7 @@ import { ActionList as UnlockModalActionsList, ActionType as UnlockModalActionTy
 import { ActionList, ActionType, Transaction } from './types'
 
 let pendingTransaction: Transaction | undefined
+const TRANSACTION_FEE = 0.000_01
 
 export default {
   closeUnlockModal: (action$: ActionsObservable<UnlockModalActionsList['CANCEL_UNLOCK_MODAL']>) =>
@@ -36,7 +37,7 @@ export default {
 
   getAddresses: (action$: ActionsObservable<ActionList['GET_ADDRESSES']>) =>
     action$.ofType(ActionType.GET_ADDRESSES)
-      .map(() => ElectraJsMiddleware.wallet.addresses)
+      .map(() => ElectraJsMiddleware.wallet.allAddresses)
       .map((addresses: WalletAddress[]) => ({
         payload: addresses,
         type: ActionType.GET_ADDRESSES_SUCCESS,
@@ -44,8 +45,8 @@ export default {
 
   sendTransaction: (action$: ActionsObservable<ActionList['SEND_TRANSACTION']>) =>
     action$.ofType(ActionType.SEND_TRANSACTION)
-      .mergeMap(({ payload: { amount, toAddress } }: ActionList['SEND_TRANSACTION']) =>
-        Observable.fromPromise(ElectraJsMiddleware.wallet.send(amount, toAddress))
+      .mergeMap(({ payload: { amount, fromCategory: category, toAddress } }: ActionList['SEND_TRANSACTION']) =>
+        Observable.fromPromise(ElectraJsMiddleware.wallet.send(amount + TRANSACTION_FEE, category, toAddress))
           .mapTo({ type: ActionType.SEND_TRANSACTION_SUCCESS })
           .catch((error: Error) => {
             console.error(error.message)

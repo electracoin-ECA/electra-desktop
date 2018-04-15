@@ -5,7 +5,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
-import { Icon } from '../libraries/icon'
+import { Icon } from '../shared/icon'
 import { StoreState } from '../types'
 import dispatchers from './dispatchers'
 import { Dispatchers } from './types'
@@ -38,7 +38,7 @@ class Header extends React.Component<StoreState & Dispatchers> {
       <div className='c-header'>
         <div className='c-header__logo'>
           <div className='c-wallet-info' style={{ padding: 0 }}>
-            <Icon name='info-circle' size='l'></Icon>
+            <Icon name='globe' size='l'></Icon>
             <div className='c-card c-card--rounded-lg w-24 c-wallet-info__card'>
               <div className='c-card__content'>
                 <div className='text-xs'>

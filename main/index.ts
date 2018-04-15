@@ -19,7 +19,7 @@ let mainWindow: BrowserWindow
 // Logs level
 log.transports.console.level = log.transports.file.level = process.env.NODE_ENV === 'production'
   ? false
-  : process.env.NODE_ENV === 'developement' ? 'silly' : 'debug'
+  : process.env.NODE_ENV === 'development' ? 'silly' : 'debug'
 
 // AutoUpdater configuration
 autoUpdater.logger = log
@@ -178,7 +178,10 @@ autoUpdater.on('update-downloaded', (info: any) => {
 app.once('ready', () => {
   log.info('Electra Desktop starting...')
 
-  tray = new Tray(path.resolve(__dirname, process.platform === 'linux' ? 'assets/icons/tray@2x.png' : 'assets/icons/tray.png'))
+  tray = new Tray(path.resolve(__dirname, process.platform === 'linux'
+    ? 'assets/icons/tray@2x.png'
+    : 'assets/icons/tray.png',
+  ))
   tray.setToolTip('Electra Desktop')
   tray.on('click', toggleMainWindows)
   updateTray()

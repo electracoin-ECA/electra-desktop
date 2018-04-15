@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import Spinner from '../../libraries/spinner'
+import Spinner from '../../shared/spinner'
 
 const styles: any = require('./styles.css')
 

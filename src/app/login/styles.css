@@ -78,6 +78,7 @@
   background-color: transparent;
   border: solid 2px white;
   color: inherit;
+  cursor: text;
   font-size: inherit;
   margin-top: 1rem;
   outline: none;

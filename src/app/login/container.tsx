@@ -1,5 +1,5 @@
 import to from 'await-to-js'
-import { WalletAddress, WalletAddressWithoutPK, WalletExchangeFormat, WalletStartDataHard } from 'electra-js'
+import { Address, WalletAddress, /*WalletExchangeFormat,*/ WalletStartDataHard } from 'electra-js'
 import * as storage from 'electron-json-storage'
 import { isEmpty, pick } from 'ramda'
 import * as React from 'react'
@@ -10,7 +10,7 @@ import { USER_SETTINGS_DEFAULT } from '../../constants'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { UserSettings } from '../../types'
 import UnlockModal from '../common/unlock-modal'
-import Loader from '../libraries/loader'
+import Loader from '../shared/loader'
 import { StoreState } from '../types'
 import dispatchers from './dispatchers'
 import { Dispatchers, OwnProps, OwnState } from './types'
@@ -20,7 +20,6 @@ const styles: any = require('./styles.css')
 const PASSPHRASE_LENGTH_MIN = 8
 
 class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnState> {
-  private $addressesCount: HTMLInputElement
   private $mnemonic: HTMLInputElement
   private $passphrase: HTMLInputElement
 
@@ -91,12 +90,15 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     await ElectraJsMiddleware.wallet.lock()
 
     this.setState({ loadingText: 'Exporting addresses...' })
-    const masterNodeAddress: WalletAddress = ElectraJsMiddleware.wallet.masterNodeAddress
-    const addresses: WalletAddressWithoutPK[] = ElectraJsMiddleware.wallet.addresses
-    const randomAddresses: WalletAddressWithoutPK[] = ElectraJsMiddleware.wallet.randomAddresses
+    const masterNodeAddress: Address = ElectraJsMiddleware.wallet.masterNodeAddress
+    const addresses: WalletAddress[] = ElectraJsMiddleware.wallet.addresses
+    const randomAddresses: WalletAddress[] = ElectraJsMiddleware.wallet.randomAddresses
 
-    this.setState({ loadingText: 'Exporting WEF...' })
-    const wef: WalletExchangeFormat = JSON.parse(ElectraJsMiddleware.wallet.export())
+    // this.setState({ loadingText: 'Unlocking wallet...' })
+    // await ElectraJsMiddleware.wallet.unlock(this.state.passphrase as string, false)
+
+    // this.setState({ loadingText: 'Exporting WEF...' })
+    // const wef: WalletExchangeFormat = JSON.parse(await ElectraJsMiddleware.wallet.export())
 
     this.setState({ loadingText: 'Saving user settings...' })
     const userSettings: UserSettings = {
@@ -105,12 +107,15 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
         addresses,
         masterNodeAddress,
         randomAddresses,
-        wef,
+        // wef,
       },
     }
 
-    storage.set('userSettings', userSettings, (err: Error) => {
+    storage.set('userSettings', userSettings, async (err: Error) => {
       if (err) throw err
+
+      this.setState({ loadingText: 'Unlocking wallet for staking only...' })
+      await ElectraJsMiddleware.wallet.unlock(this.state.passphrase as string, true)
 
       this.props.onDone()
     })
@@ -159,28 +164,31 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
   private async unlockWallet(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault()
+    const passphrase: string = this.$passphrase.value
     this.setState({
       error: undefined,
-      loadingText: 'Locking wallet...',
+      loadingText: 'Unlocking wallet...',
+      passphrase: this.$passphrase.value,
     })
 
-    const [err] = await to(ElectraJsMiddleware.wallet.unlock(this.$passphrase.value, false))
+    const [err] = await to(ElectraJsMiddleware.wallet.unlock(passphrase, false))
     if (err !== null) {
       this.setState({
         error: 'Wrong passphrase !',
         firstInstallationScreen: 'ASK_USER_FOR_EXISTING_PASSPHRASE',
         loadingText: undefined,
+        passphrase: undefined,
       })
 
       return
     }
 
-    await this.generateNewHdWallet()
+    await this.generateNewHdWallet(passphrase)
   }
 
-  private async generateNewHdWallet(): Promise<void> {
-    this.setState({ loadingText: 'Generating new mnemonic...' })
-    await ElectraJsMiddleware.wallet.generate()
+  private async generateNewHdWallet(passphrase: string): Promise<void> {
+    this.setState({ loadingText: 'Generating new mnemonic and comprehensive accounts...' })
+    await ElectraJsMiddleware.wallet.generate(passphrase)
     this.setState({
       firstInstallationScreen: 'SHOW_USER_NEW_MNEMONIC',
       loadingText: undefined,
@@ -229,7 +237,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     this.setState({ loadingText: 'Unlocking wallet...' })
     await ElectraJsMiddleware.wallet.unlock(this.state.passphrase, false)
 
-    await this.generateNewHdWallet()
+    await this.generateNewHdWallet(this.state.passphrase)
   }
 
   private async checkNewMnemonic(event: React.FormEvent<HTMLFormElement>): Promise<void> {
@@ -247,9 +255,9 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
   private async recoverWalletFromMnemonic(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault()
-    await ElectraJsMiddleware.wallet.generate(this.$mnemonic.value, undefined, Number(this.$addressesCount.value))
+    // await ElectraJsMiddleware.wallet.generate(this.$mnemonic.value, undefined, Number(this.$addressesCount.value))
 
-    this.props.onDone()
+    // this.props.onDone()
   }
 
   // tslint:disable-next-line:cyclomatic-complexity
@@ -282,11 +290,11 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
               className={styles.button}
               onClick={(): void => this.setState({})}
             />
-            <button
+            {/* <button
               children={'RECOVER A WALLET VIA MNEMONIC'}
               className={styles.button}
               onClick={(): void => this.setState({ firstInstallationScreen: 'ASK_USER_FOR_EXISTING_MNEMONIC' })}
-            />
+            /> */}
           </div>
         )}
 
@@ -439,13 +447,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
                 type={'text'}
               />
               <p className={styles.error} children={this.state.error !== undefined && `Error: ${this.state.error}`} />
-              <p>Please enter how many addresses you had:</p>
-              <input
-                autoFocus={true}
-                className={this.state.error !== undefined ? styles.inputError : styles.input}
-                ref={($node: HTMLInputElement): HTMLInputElement => this.$addressesCount = $node}
-                type={'number'}
-              />
               <button children={'RECOVER'} className={styles.button} type={'submit'} />
             </form>
           </div>

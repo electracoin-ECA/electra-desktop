@@ -5,7 +5,7 @@ import log from 'electron-log'
 // Logs level
 log.transports.console.level = log.transports.file.level = process.env.NODE_ENV === 'production'
   ? false
-  : process.env.NODE_ENV === 'developement' ? 'silly' : 'debug'
+  : process.env.NODE_ENV === 'development' ? 'silly' : 'debug'
 
 export function bindEventToProp(eventName: string, instance: any, prop: string): void {
   ipcMain.on(eventName, (event: any) => {
@@ -17,7 +17,10 @@ export function bindEventToProp(eventName: string, instance: any, prop: string):
 export function bindEventToAsyncCall(eventName: string, call: () => Promise<any>): void {
   ipcMain.on(eventName, async (event: any, argsString: string) => {
     log.debug(`ipcMain: ${eventName}`)
-    const [err, res] = await to(call.apply(null, JSON.parse(argsString)))
+    const [err, res] = await to(call.apply(
+      null,
+      JSON.parse(argsString).map((arg: any) => arg !== null ? arg : undefined),
+    ))
     if (err !== null) {
       log.debug(`ipcMain: ${eventName}:error`, err)
       event.sender.send(`${eventName}:error`, typeof err === 'string' ? err : err.message)
@@ -37,7 +40,7 @@ export function bindEventToSyncCall(eventName: string, call: () => any): void {
 
     try {
       // tslint:disable-next-line:no-shadowed-variable
-      const res: any = call.apply(null, JSON.parse(argsString))
+      const res: any = call.apply(null, JSON.parse(argsString).map((arg: any) => arg !== null ? arg : undefined))
       log.debug(`ipcMain: ${eventName}:success`)
       log.silly(`ipcMain: ${eventName}:success`, res)
       event.returnValue = res === undefined ? '' : JSON.stringify(res)

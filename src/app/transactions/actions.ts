@@ -1,8 +1,11 @@
+import { WalletAddressCategory } from 'electra-js'
+
 import * as ActionNames from './action-names'
 import { GetTransaction, GetTransactions } from './types'
 
-export function getTransactions(): GetTransactions {
+export function getTransactions(category?: WalletAddressCategory): GetTransactions {
   return {
+    payload: category,
     type: ActionNames.GET_TRANSACTIONS,
   }
 }

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
-import { Icon } from '../libraries/icon'
+import { Icon } from '../shared/icon'
 
 export default class Sidebar extends React.Component<any, any> {
   public render(): any {
@@ -16,28 +16,28 @@ export default class Sidebar extends React.Component<any, any> {
                     Overview
                   </NavLink>
                   <li>
-                  <NavLink to='/transactions'>
-                    <Icon name='exchange-alt' size='xs'></Icon>
-                    Transactions
-                  </NavLink>
-                  {/* <NavLink to='/transactions'>
-                    <Icon name='exchange-alt' size='xs'></Icon>
+                  <NavLink to='/purse'>
+                    <Icon name='basket' size='xs'></Icon>
                     Purse
                   </NavLink>
-                  <NavLink to='/transactions'>
-                    <Icon name='exchange-alt' size='xs'></Icon>
+                  <NavLink to='/checking'>
+                    <Icon name='briefcase' size='xs'></Icon>
                     Checking Account
                   </NavLink>
-                  <NavLink to='/transactions'>
-                    <Icon name='exchange-alt' size='xs'></Icon>
+                  <NavLink to='/savings'>
+                    <Icon name='book' size='xs'></Icon>
                     Savings Account
-                  </NavLink> */}
+                  </NavLink>
+                  <NavLink to='/random'>
+                    <Icon name='warning' size='xs'></Icon>
+                    Legacy Account
+                  </NavLink>
                 </li>
                 </li>
                 <div className='c-nav__title'>Operations</div>
                 <li>
                   <NavLink to='/payments'>
-                    <Icon name='handshake' size='xs'></Icon>
+                    <Icon name='credit-card' size='xs'></Icon>
                     Payments
                   </NavLink>
                 </li>
