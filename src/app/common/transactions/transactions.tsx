@@ -123,13 +123,15 @@ export default class TransactionsComponent extends React.Component<Props, State>
                 }
               </p>
               <span className='block font-semi-bold mt-4'>Recipient</span>
-              <p>
-                {transaction.toCategories[transaction.toCategories.length - 1] >= 0
-                  ? `[${CATEGORY[transaction.toCategories[transaction.toCategories.length - 1]]}] `
-                  : 'Foreign Account'
-                }
-                <span className='selectableText'>{transaction.to[transaction.to.length - 1]}</span>
-              </p>
+              {transaction.to.map((address: string, j: number) => (
+                <p key={`transactionTo-${j}`}>
+                  {transaction.toCategories[j] >= 0
+                    ? `[${CATEGORY[transaction.toCategories[j]]}] `
+                    : 'Foreign Account'
+                  }
+                  <span children={address} className='selectableText' />
+                </p>
+              ))}
             </div>
           </div>
         ))}
