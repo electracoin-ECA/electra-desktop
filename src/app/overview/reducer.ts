@@ -5,6 +5,7 @@ const initialState: OverviewState = {
   confirmedBalance: 0,
   currentPriceBTC: 0,
   currentPriceUSD: 0,
+  isLoading: true,
   unconfirmedBalance: 0,
 }
 
@@ -42,6 +43,18 @@ export default function overviewReducer(state: OverviewState = initialState, act
     case ActionNames.GET_CURRENT_PRICE_BTC_FAIL: {
       return {
         ...state,
+      }
+    }
+    case ActionNames.TOGGLE_OFF_TRANSACTIONS_LOADING: {
+      return {
+        ...state,
+        isLoading: false,
+      }
+    }
+    case ActionNames.TOGGLE_ON_TRANSACTIONS_LOADING: {
+      return {
+        ...state,
+        isLoading: true,
       }
     }
     default: return state

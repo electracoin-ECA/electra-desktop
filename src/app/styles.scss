@@ -9,6 +9,15 @@ html, body {
   background: transparent;
 }
 
+input:focus, select:focus, textarea:focus {
+  outline: 0;
+}
+
+.selectableText {
+  cursor: text;
+  user-select: text;
+}
+
 /* TODO Import these CSS changes in the global design */
 
 h2:not(.first) {

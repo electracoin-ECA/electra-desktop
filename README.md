@@ -33,7 +33,7 @@ This command will remove the Electra user directories (daemon & Electron ones) b
 
 ### Staging
 
-The staging environment uses static files but let the web developement console open.
+The staging environment uses static files but let the web development console open.
 
     npm run start:stag
 
@@ -43,7 +43,7 @@ The staging environment uses static files but let the web developement console o
 
 ### Production
 
-The production enviromment uses static files and doesn't allow the web developement console.
+The production enviromment uses static files and doesn't allow the web development console.
 
     npm run start:prod
 

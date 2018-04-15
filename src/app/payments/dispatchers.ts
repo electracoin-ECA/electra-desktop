@@ -1,9 +1,15 @@
+import { WalletAddressCategory } from 'electra-js'
+
 import { ActionList, ActionType, Dispatchers } from './types'
 
 const dispatchers: Dispatchers = {
-  submitTransaction: (amount: number, toAddress: string): ActionList['SUBMIT_TRANSACTION'] =>
+  submitTransaction: (
+    amount: number,
+    fromCategory: WalletAddressCategory,
+    toAddress: string,
+  ): ActionList['SUBMIT_TRANSACTION'] =>
     ({
-      payload: { amount, toAddress },
+      payload: { amount, fromCategory, toAddress },
       type: ActionType.SUBMIT_TRANSACTION,
     }),
 

@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash'
 import * as QRCode from 'qrcode.react'
 import * as React from 'react'
 import * as CopyToClipboard from 'react-copy-to-clipboard'
-import { Icon } from '../../libraries/icon'
+import { Icon } from '../../shared/icon'
 
 interface ComponentProps {
   addresses: WalletAddress[]
@@ -13,6 +13,13 @@ interface ComponentProps {
 interface ComponentState {
   selectedAddress: string
 }
+
+const CATEGORY: any = [
+  'Purse',
+  'Checking Account',
+  'Savings Account',
+  'Legacy Account',
+]
 
 export default class ReceiveCardView extends React.PureComponent<ComponentProps, ComponentState> {
   constructor(props: ComponentProps) {
@@ -31,7 +38,7 @@ export default class ReceiveCardView extends React.PureComponent<ComponentProps,
   componentWillReceiveProps(newProps: any): void {
     if (!isEmpty(newProps.addresses) && isEmpty(this.state.selectedAddress)) {
       this.setState({
-        selectedAddress: newProps.addresses[0].hash,
+        selectedAddress: `[${CATEGORY[newProps.addresses[0].category]}] ${newProps.addresses[0].hash}`,
       })
     }
   }
@@ -45,12 +52,21 @@ export default class ReceiveCardView extends React.PureComponent<ComponentProps,
             <div className='my-4'>
               <div className='c-dropdown'>
                 <select onChange={this.onChange.bind(this)}>
-                  {(this.props.addresses || []).map((address: WalletAddress) =>
-                    <option key={address.hash} value={address.hash}>{address.hash}</option>,
-                  )}
+                  {(this.props.addresses || [])
+                    // tslint:disable-next-line:no-magic-numbers
+                    .filter(({ category }: WalletAddress) => category !== 3)
+                    .map((address: WalletAddress) => address.category !== null
+                      ? <option
+                        children={`[${CATEGORY[address.category]}] ${address.hash}`}
+                        key={address.hash}
+                        value={address.hash}
+                      />
+                      : null,
+                    )
+                  }
                 </select>
                 <div className='c-icon c-dropdown__icon'>
-                  <Icon name='caret-down' />
+                  <Icon name='caret-bottom' />
                 </div>
               </div>
               <div className='c-qr-code mt-8'>

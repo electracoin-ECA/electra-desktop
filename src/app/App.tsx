@@ -8,15 +8,18 @@ import 'rxjs'
 
 import ElectraJsMiddleware from '../middlewares/ElectraJs'
 import { AddressBook } from './addressBook'
+import Checking from './checking'
 import Toast from './common/toast/toast'
 import { Header } from './header'
-import Loader from './libraries/loader'
 import Login from './login'
 import { Overview } from './overview'
 import { Payments } from './payments'
+import Purse from './purse'
+import Random from './random'
+import Savings from './savings'
 import { Settings } from './settings'
+import Loader from './shared/loader'
 import { Sidebar } from './sidebar'
-import { Transactions } from './transactions'
 import { StoreState } from './types'
 
 interface OwnState {
@@ -110,8 +113,11 @@ class App extends React.Component<StoreState, OwnState> {
                 <Redirect to='/' />
                 <Switch>
                   <Route exact path='/' component={Overview} />
+                  <Route exact path='/purse' component={Purse} />
+                  <Route exact path='/checking' component={Checking} />
+                  <Route exact path='/savings' component={Savings} />
+                  <Route exact path='/random' component={Random} />
                   <Route exact path='/payments' component={Payments} />
-                  <Route exact path='/transactions' component={Transactions} />
                   <Route exact path='/address_book' component={AddressBook} />
                   <Route exact path='/settings' component={Settings} />
                 </Switch>

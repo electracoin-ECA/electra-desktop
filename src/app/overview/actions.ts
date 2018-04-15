@@ -1,20 +1,29 @@
+import { WalletAddressCategory } from 'electra-js'
+
 import * as ActionNames from './action-names'
-import { GetCurrentPriceBTC, GetCurrentPriceUSD, GetGlobalBalance  } from './types'
+import { Dispatchers } from './types'
 
-export function getGlobalBalance(): GetGlobalBalance {
-    return {
-        type: ActionNames.GET_GLOBAL_BALANCE,
-    }
+const dispatchers: Dispatchers = {
+  getBalance: (category?: WalletAddressCategory) => ({
+    payload: category,
+    type: ActionNames.GET_GLOBAL_BALANCE,
+  }),
+
+  getCurrentPriceInUSD: () => ({
+    type: ActionNames.GET_CURRENT_PRICE_USD,
+  }),
+
+  getCurrentPriceInBTC: () => ({
+    type: ActionNames.GET_CURRENT_PRICE_BTC,
+  }),
+
+  toggleOffTransactionsLoading: () => ({
+    type: ActionNames.TOGGLE_OFF_TRANSACTIONS_LOADING,
+  }),
+
+  toggleOnTransactionsLoading: () => ({
+    type: ActionNames.TOGGLE_ON_TRANSACTIONS_LOADING,
+  }),
 }
 
-export function getCurrentPriceInUSD(): GetCurrentPriceUSD {
-    return {
-        type: ActionNames.GET_CURRENT_PRICE_USD,
-    }
-}
-
-export function getCurrentPriceInBTC(): GetCurrentPriceBTC {
-    return {
-        type: ActionNames.GET_CURRENT_PRICE_BTC,
-    }
-}
+export default dispatchers

@@ -1,4 +1,4 @@
-import { WalletAddress } from 'electra-js'
+import { WalletAddress, WalletAddressCategory } from 'electra-js'
 
 import { SetMessageAndBadge } from '../common/toast/types'
 import { ActionBaseWithPayload, ActionListGenerator } from '../types'
@@ -14,6 +14,7 @@ export interface State {
 }
 export interface Transaction {
   amount: number
+  fromCategory: WalletAddressCategory
   toAddress: string
 }
 
@@ -22,7 +23,11 @@ export interface Transaction {
  */
 export type Dispatchers = {
   getAddresses(): ActionList['GET_ADDRESSES']
-  submitTransaction(amount: number, toAddress: string): ActionList['SUBMIT_TRANSACTION']
+  submitTransaction(
+    amount: number,
+    fromCategory: WalletAddressCategory,
+    toAddress: string,
+  ): ActionList['SUBMIT_TRANSACTION']
   toggleUnlockModal(): ActionList['TOGGLE_UNLOCK_MODAL']
 }
 export type ComponentDispatchers = Dispatchers & {
