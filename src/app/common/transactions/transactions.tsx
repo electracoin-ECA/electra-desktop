@@ -147,7 +147,7 @@ export default class TransactionsComponent extends React.Component<Props, State>
     )
   }
 
-  public renderSent(transaction: WalletTransaction, index: number): JSX.Element {
+  public renderSent(transaction: WalletTransaction, index: number, isPartial: boolean): JSX.Element {
     return (
       <div
         className={`c-card  mb-4 ${this.state.expandedTransactions[index] ? 'expanded' : ''}`}
@@ -166,12 +166,19 @@ export default class TransactionsComponent extends React.Component<Props, State>
           >
             {this.props.category !== undefined ? '-' : ''}
             {this.props.category === undefined && transaction.amount}
-            {this.props.category !== undefined && transaction.from
+            {this.props.category !== undefined && isPartial && transaction.to
+              .filter(({ category }: WalletTransactionEndpoint) => category !== this.props.category)
+              // tslint:disable-next-line:no-parameter-reassignment
+              .reduce((total: number, { amount }: WalletTransactionEndpoint) => total += amount, 0)
+              .toFixed(DECIMALS_LENGTH)
+            }
+            {this.props.category !== undefined && !isPartial && transaction.from
               .filter(({ category }: WalletTransactionEndpoint) => category === this.props.category)
               // tslint:disable-next-line:no-parameter-reassignment
               .reduce((total: number, { amount }: WalletTransactionEndpoint) => total += amount, 0)
               .toFixed(DECIMALS_LENGTH)
-            } ECA
+            }
+            ECA
           </div>
           <div className='block lg:inline-block lg:float-right pr-6d'>
             <span className='text-grey'>
@@ -249,11 +256,20 @@ export default class TransactionsComponent extends React.Component<Props, State>
     return (
       <div className='mt-6' style={{ paddingTop: '10px' }}>
         {transactions.length === 0 && <p>No transaction.</p>}
-        {transactions.map((transaction: WalletTransaction, index: number) => (
-          R.findIndex<WalletTransactionEndpoint>(R.propEq('category', this.props.category))(transaction.to) === -1
-            ? this.renderSent(transaction, index)
+        {transactions.map((transaction: WalletTransaction, index: number) => {
+          if (
+            R.findIndex<WalletTransactionEndpoint>(R.propEq('category', this.props.category))(transaction.from) !== -1
+            && R.findIndex<WalletTransactionEndpoint>(R.propEq('category', this.props.category))(transaction.to) !== -1
+          ) {
+            return this.renderSent(transaction, index, true)
+          }
+
+          return R.findIndex<WalletTransactionEndpoint>(
+            R.propEq('category', this.props.category),
+          )(transaction.to) === -1
+            ? this.renderSent(transaction, index, false)
             : this.renderReceived(transaction, index)
-        ))}
+        })}
       </div>
     )
   }
