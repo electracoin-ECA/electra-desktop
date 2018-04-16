@@ -7,7 +7,7 @@ import * as OverviewActionNames from '../overview/action-names'
 import * as TransactionActionNames from './action-names'
 import { TransactionsActions } from './types'
 
-const TRANSACTIONS_NUMBER = 100
+const TRANSACTIONS_NUMBER = 10
 const GET_TRANSACTIONS_LOOP_INTERVAL = 5_000
 
 let categoryCurrent: WalletAddressCategory | undefined
