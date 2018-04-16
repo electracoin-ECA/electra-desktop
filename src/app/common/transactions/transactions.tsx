@@ -165,7 +165,7 @@ export default class TransactionsComponent extends React.Component<Props, State>
             style={{ textAlign: 'right', width: '9rem' }}
           >
             {this.props.category !== undefined ? '-' : ''}
-            {this.props.category === undefined && transaction.amount}
+            {this.props.category === undefined && transaction.amount.toFixed(DECIMALS_LENGTH)}
             {this.props.category !== undefined && isPartial && transaction.to
               .filter(({ category }: WalletTransactionEndpoint) => category !== this.props.category)
               // tslint:disable-next-line:no-parameter-reassignment
@@ -177,8 +177,7 @@ export default class TransactionsComponent extends React.Component<Props, State>
               // tslint:disable-next-line:no-parameter-reassignment
               .reduce((total: number, { amount }: WalletTransactionEndpoint) => total += amount, 0)
               .toFixed(DECIMALS_LENGTH)
-            }
-            ECA
+            } ECA
           </div>
           <div className='block lg:inline-block lg:float-right pr-6d'>
             <span className='text-grey'>
