@@ -1,5 +1,6 @@
-import { WalletAddressCategory, WalletTransaction, WalletTransactionFrom } from 'electra-js'
+import { WalletAddressCategory, WalletTransaction, WalletTransactionEndpoint } from 'electra-js'
 import * as moment from 'moment'
+import * as R from 'ramda'
 import * as React from 'react'
 
 import { Icon } from '../../shared/icon'
@@ -66,10 +67,16 @@ export default class TransactionsComponent extends React.Component<Props, State>
         >
           <div className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0' style={{ width: '5rem' }}>Received</div>
           <div
-            children={`${transaction.amount.toFixed(DECIMALS_LENGTH)} ECA`}
             className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0 font-extra-bold'
             style={{ textAlign: 'right', width: '9rem' }}
-          />
+          >
+            {transaction.to
+              .filter(({ category }: WalletTransactionEndpoint) => category === this.props.category)
+              // tslint:disable-next-line:no-parameter-reassignment
+              .reduce((total: number, { amount }: WalletTransactionEndpoint) => total += amount, 0)
+              .toFixed(DECIMALS_LENGTH)
+            } ECA
+          </div>
           <div className='block lg:inline-block lg:float-right pr-6d'>
             <span className='text-grey'>
               <Icon name='calendar-alt' />&nbsp;
@@ -103,7 +110,7 @@ export default class TransactionsComponent extends React.Component<Props, State>
           <span className='block font-semi-bold mt-4'>Sender(s)</span>
           {transaction.from.length === 0
             ? <p>{transaction.type === 'GENERATED' ? 'Interests (Staking Rewards)' : 'Unknown'}</p>
-            : transaction.from.map(({ address, amount, category }: WalletTransactionFrom) => (
+            : transaction.from.map(({ address, amount, category }: WalletTransactionEndpoint) => (
               <p>
                 <span
                   children={`[${category < 0 ? 'Foreign Account' : CATEGORY[category]}] `}
@@ -120,14 +127,21 @@ export default class TransactionsComponent extends React.Component<Props, State>
             ))
           }
           <span className='block font-semi-bold mt-4'>Recipient</span>
-          <p>
-            <span
-              children={`[${transaction.toCategory >= 0 ? CATEGORY[transaction.toCategory] : 'Foreign Account'}] `}
-              className='selectableText'
-              style={{ display: 'inline-block', width: '10rem' }}
-            />
-            <span children={transaction.to} className='selectableText' />
-          </p>
+          {transaction.to.map(({ address, amount, category }: WalletTransactionEndpoint) => (
+            <p>
+              <span
+                children={`[${category < 0 ? 'Foreign Account' : CATEGORY[category]}] `}
+                className='selectableText'
+                style={{ display: 'inline-block', width: '10rem' }}
+              />
+              <span
+                children={address}
+                className='selectableText'
+                style={{ display: 'inline-block', width: '22rem' }}
+              />
+              <span style={{ color: 'gray' }}>({amount.toFixed(DECIMALS_LENGTH)})</span>
+            </p>
+          ))}
         </div>
       </div>
     )
@@ -153,9 +167,9 @@ export default class TransactionsComponent extends React.Component<Props, State>
             {this.props.category !== undefined ? '-' : ''}
             {this.props.category === undefined && transaction.amount}
             {this.props.category !== undefined && transaction.from
-              .filter(({ category }: WalletTransactionFrom) => category === this.props.category)
+              .filter(({ category }: WalletTransactionEndpoint) => category === this.props.category)
               // tslint:disable-next-line:no-parameter-reassignment
-              .reduce((total: number, { amount }: WalletTransactionFrom) => total += amount, 0)
+              .reduce((total: number, { amount }: WalletTransactionEndpoint) => total += amount, 0)
               .toFixed(DECIMALS_LENGTH)
             } ECA
           </div>
@@ -192,7 +206,7 @@ export default class TransactionsComponent extends React.Component<Props, State>
           <span className='block font-semi-bold mt-4'>Sender(s)</span>
           {transaction.from.length === 0
             ? <p>Unknown</p>
-            : transaction.from.map(({ address, amount, category }: WalletTransactionFrom) => (
+            : transaction.from.map(({ address, amount, category }: WalletTransactionEndpoint) => (
               <p>
                 <span
                   children={`[${category < 0 ? 'Foreign Account' : CATEGORY[category]}] `}
@@ -209,14 +223,21 @@ export default class TransactionsComponent extends React.Component<Props, State>
             ))
           }
           <span className='block font-semi-bold mt-4'>Recipient</span>
-          <p>
-            <span
-              children={`[${transaction.toCategory >= 0 ? CATEGORY[transaction.toCategory] : 'Foreign Account'}] `}
-              className='selectableText'
-              style={{ display: 'inline-block', width: '10rem' }}
-            />
-            <span children={transaction.to} className='selectableText' />
-          </p>
+          {transaction.to.map(({ address, amount, category }: WalletTransactionEndpoint) => (
+            <p>
+              <span
+                children={`[${category < 0 ? 'Foreign Account' : CATEGORY[category]}] `}
+                className='selectableText'
+                style={{ display: 'inline-block', width: '10rem' }}
+              />
+              <span
+                children={address}
+                className='selectableText'
+                style={{ display: 'inline-block', width: '22rem' }}
+              />
+              <span style={{ color: 'gray' }}>({amount.toFixed(DECIMALS_LENGTH)})</span>
+            </p>
+          ))}
         </div>
       </div>
     )
@@ -229,9 +250,9 @@ export default class TransactionsComponent extends React.Component<Props, State>
       <div className='mt-6' style={{ paddingTop: '10px' }}>
         {transactions.length === 0 && <p>No transaction.</p>}
         {transactions.map((transaction: WalletTransaction, index: number) => (
-          transaction.toCategory === this.props.category
-            ? this.renderReceived(transaction, index)
-            : this.renderSent(transaction, index)
+          R.findIndex<WalletTransactionEndpoint>(R.propEq('category', this.props.category))(transaction.to) === -1
+            ? this.renderSent(transaction, index)
+            : this.renderReceived(transaction, index)
         ))}
       </div>
     )
