@@ -11,8 +11,7 @@ import dispatchers from './actions'
 import CardViewPrices from './components/card-view-prices'
 import { DispatchProps, OwnProps, StateProps } from './types'
 
-// const MAX_DECIMALS: number = 8
-const TRANSACTIONS_COUNT = 100
+const TRANSACTIONS_COUNT = 10
 
 const mapStateToProps: MapStateToProps<StateProps, {}, {}> = (state: StateProps) => ({ ...state })
 
@@ -100,7 +99,7 @@ class Overview extends React.Component<StateProps & DispatchProps & OwnProps> {
           <h2>Recent Transactions</h2>
           {this.props.overview.isLoading
             ? <div className='mt-6' style={{ paddingTop: '10px' }}><p>Loading...</p></div>
-            : <TransactionsComponent transactions={transactions} />
+            : <TransactionsComponent category={this.props.category} transactions={transactions} />
           }
 
         </div>
