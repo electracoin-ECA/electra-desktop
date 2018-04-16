@@ -2,6 +2,18 @@
   border-color: #e90707;
 }
 
+.amountAvailable {
+  color: #00914d;
+  font-size: 12px;
+  font-weight: 600;
+  height: 18px;
+  margin: .5rem 0 1.5rem;
+}
+.amountAvailable > span {
+  cursor: text;
+  user-select: text;
+}
+
 .error {
   color: #910606;
   font-size: 12px;
