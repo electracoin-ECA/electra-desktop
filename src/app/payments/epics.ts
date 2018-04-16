@@ -61,7 +61,7 @@ export default {
   submitTransaction: (action$: ActionsObservable<any>) =>
     action$.ofType(ActionType.SUBMIT_TRANSACTION)
       .mergeMap(({ payload: transaction }: ActionList['SUBMIT_TRANSACTION']) =>
-        Observable.fromPromise(ElectraJsMiddleware.wallet.getBalance())
+        Observable.fromPromise(ElectraJsMiddleware.wallet.getCategoryBalance(transaction.fromCategory))
           .map(({ confirmed: confirmedBalance }: WalletBalance) => [transaction, confirmedBalance]),
       )
       .map(([transaction, confirmedBalance]: [Transaction, number]) => {
@@ -87,7 +87,6 @@ export default {
         }
 
         const toCategory: WalletAddressCategory = ElectraJsMiddleware.wallet.getAddressCategory(transaction.toAddress)
-        console.warn(toCategory)
 
         if (toCategory === 0 && transaction.amount > PURSE_AMOUNT_MAX) {
           return {
@@ -103,7 +102,7 @@ export default {
           return {
             payload: {
               addressError: undefined,
-              amountError: 'Higher than your confirmed balance.',
+              amountError: 'Higher than your available balance.',
             },
             type: ActionType.SUBMIT_TRANSACTION_ERROR,
           }
