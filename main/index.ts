@@ -7,6 +7,7 @@ import * as path from 'path'
 import * as url from 'url'
 
 import Communication from './communication'
+import loadUserSettings from './loadUserSettings'
 import setMainMenu from './setMainMenu'
 
 let isHidden = false
@@ -68,11 +69,15 @@ function createWindow(): void {
 
   mainWindow.loadURL(indexPath)
 
-  mainWindow.once('ready-to-show', () => {
+  mainWindow.once('ready-to-show', async () => {
     if (mainWindow === null) return
 
     mainWindow.show()
     if (!isProd) mainWindow.webContents.openDevTools()
+
+    // Check if the user allows auto-updates
+    const userSettings = await loadUserSettings()
+    if (!userSettings.settings.autoUpdate) return
 
     // Check for updates
     ipcMain.on('ipcRenderer:autoUpdater:downloadUpdate', () => {
