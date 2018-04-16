@@ -1,10 +1,10 @@
-import { WalletAddress, WalletAddressCategory, WalletTransaction } from 'electra-js'
+import { /*WalletAddress,*/ WalletAddressCategory, WalletTransaction } from 'electra-js'
 import { get, take } from 'lodash'
 import * as React from 'react'
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import ElectraJsMiddleware from '../../middlewares/ElectraJs'
+// import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import TransactionsComponent from '../common/transactions/transactions'
 import { getTransactions } from '../transactions/actions'
 import dispatchers from './actions'
@@ -43,28 +43,28 @@ class Overview extends React.Component<StateProps & DispatchProps & OwnProps> {
   render(): any {
     const transactions: WalletTransaction[] = take(get(this.props, 'transactions.transactions', []), TRANSACTIONS_COUNT)
     let title: string
-    let addresses: WalletAddress[] | undefined
+    // let addresses: WalletAddress[] | undefined
     switch (this.props.category) {
       case 0:
         title = 'Purse'
-        addresses = ElectraJsMiddleware.wallet.purseAddresses
+        // addresses = ElectraJsMiddleware.wallet.purseAddresses
         break
 
       case 1:
         title = 'Checking Account'
-        addresses = ElectraJsMiddleware.wallet.checkingAddresses
+        // addresses = ElectraJsMiddleware.wallet.checkingAddresses
         break
 
       // tslint:disable-next-line:no-magic-numbers
       case 2:
         title = 'Savings Account'
-        addresses = ElectraJsMiddleware.wallet.savingsAddresses
+        // addresses = ElectraJsMiddleware.wallet.savingsAddresses
         break
 
       // tslint:disable-next-line:no-magic-numbers
       case 3:
         title = 'Legacy Account'
-        addresses = ElectraJsMiddleware.wallet.randomAddresses
+        // addresses = ElectraJsMiddleware.wallet.randomAddresses
         break
 
       default:
@@ -85,7 +85,7 @@ class Overview extends React.Component<StateProps & DispatchProps & OwnProps> {
             confirmedBalanceInUSD={this.props.overview.confirmedBalance * this.props.overview.currentPriceUSD}
             unconfirmedBalanceInUSD={this.props.overview.unconfirmedBalance * this.props.overview.currentPriceUSD} />
 
-          {this.props.category !== undefined && (
+          {/* {this.props.category !== undefined && (
             <div>
               <h2>Addresses</h2>
               <ul className='mt-6'>
@@ -94,7 +94,7 @@ class Overview extends React.Component<StateProps & DispatchProps & OwnProps> {
                 ))}
               </ul>
             </div>
-          )}
+          )} */}
 
           <h2>Recent Transactions</h2>
           {this.props.overview.isLoading
