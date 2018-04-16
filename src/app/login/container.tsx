@@ -17,6 +17,7 @@ import { Dispatchers, OwnProps, OwnState } from './types'
 
 const styles: any = require('./styles.css')
 
+const MNEMONIC_WORDS_LENGTH = 24
 const PASSPHRASE_LENGTH_MIN = 8
 
 class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnState> {
@@ -283,6 +284,13 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
   private async recoverWalletFromMnemonic(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault()
+    this.setState({ error: undefined })
+
+    if (this.$mnemonic.value.split(/\s/).length !== MNEMONIC_WORDS_LENGTH) {
+      this.setState({ error: `Wrong mnemonic. It should contain ${MNEMONIC_WORDS_LENGTH} words.` })
+
+      return
+    }
 
     if (this.state.passphrase === undefined) {
       this.setState({
@@ -521,14 +529,18 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
                 ref={($node: HTMLInputElement): HTMLInputElement => this.$mnemonic = $node}
                 type={'text'}
               />
-              <p>Please enter your existing mnemonic extemsion (if you have one):</p>
+              <p className={styles.error} children={this.state.error !== undefined && `Error: ${this.state.error}`} />
+              <p>Please enter your existing mnemonic extension (if you have one):</p>
               <input
                 autoFocus={true}
-                className={this.state.error !== undefined ? styles.inputError : styles.input}
+                className={this.state.errorBis !== undefined ? styles.errorBis : styles.input}
                 ref={($node: HTMLInputElement): HTMLInputElement => this.$mnemonicExtension = $node}
                 type={'text'}
               />
-              <p className={styles.error} children={this.state.error !== undefined && `Error: ${this.state.error}`} />
+              <p
+                className={styles.error}
+                children={this.state.errorBis !== undefined && `Error: ${this.state.errorBis}`}
+              />
               <button children={'RECOVER'} className={styles.button} type={'submit'} />
             </form>
           </div>
