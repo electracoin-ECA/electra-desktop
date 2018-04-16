@@ -9,6 +9,9 @@ html, body {
   background: transparent;
 }
 
+input, textarea {
+  cursor: text;
+}
 input:focus, select:focus, textarea:focus {
   outline: 0;
 }
