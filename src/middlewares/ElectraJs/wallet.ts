@@ -41,7 +41,7 @@ export default class Wallet implements WalletHard {
   public async getCategoryBalance(category: WalletAddressCategory): Promise<WalletBalance> { return bindEventToAsyncCall<WalletBalance>('electraJs:wallet:getCategoryBalance', arguments) }
   public async getInfo(): Promise<WalletInfo> { return bindEventToAsyncCall<WalletInfo>('electraJs:wallet:getInfo', arguments) }
   public async getTransaction(transactionHash: string): Promise<WalletTransaction> { return bindEventToAsyncCall<WalletTransaction>('electraJs:wallet:getTransaction', arguments) }
-  public async getTransactions(count?: number, category?: WalletAddressCategory): Promise<WalletTransaction[]> { return bindEventToAsyncCall<WalletTransaction[]>('electraJs:wallet:getTransactions', arguments) }
+  public async getTransactions(count?: number, inCategory?: WalletAddressCategory): Promise<WalletTransaction[]> { return bindEventToAsyncCall<WalletTransaction[]>('electraJs:wallet:getTransactions', arguments) }
   public async import(wefData: WalletExchangeFormat, passphrase: string): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:import', arguments) }
   public async importRandomAddress(privateKey: string, passphrase: string): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:importRandomAddress', arguments) }
   public async lock(passphrase?: string): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:lock', arguments) }
