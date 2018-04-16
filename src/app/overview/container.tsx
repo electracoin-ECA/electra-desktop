@@ -90,7 +90,7 @@ class Overview extends React.Component<StateProps & DispatchProps & OwnProps> {
               <h2>Addresses</h2>
               <ul className='mt-6'>
                 {(addresses as WalletAddress[]).map(({ hash }: WalletAddress) => (
-                  <li children={hash} className='selectableText' />
+                  <li children={hash} className='selectableText' key={hash} />
                 ))}
               </ul>
             </div>
