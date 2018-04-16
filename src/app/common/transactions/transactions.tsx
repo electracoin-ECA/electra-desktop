@@ -111,7 +111,7 @@ export default class TransactionsComponent extends React.Component<Props, State>
           {transaction.from.length === 0
             ? <p>{transaction.type === 'GENERATED' ? 'Interests (Staking Rewards)' : 'Unknown'}</p>
             : transaction.from.map(({ address, amount, category }: WalletTransactionEndpoint) => (
-              <p>
+              <p key={`${transaction.hash}-${address}`}>
                 <span
                   children={`[${category < 0 ? 'Foreign Account' : CATEGORY[category]}] `}
                   className='selectableText'
@@ -128,7 +128,7 @@ export default class TransactionsComponent extends React.Component<Props, State>
           }
           <span className='block font-semi-bold mt-4'>Recipient</span>
           {transaction.to.map(({ address, amount, category }: WalletTransactionEndpoint) => (
-            <p>
+            <p key={`${transaction.hash}-${address}`}>
               <span
                 children={`[${category < 0 ? 'Foreign Account' : CATEGORY[category]}] `}
                 className='selectableText'
@@ -207,7 +207,7 @@ export default class TransactionsComponent extends React.Component<Props, State>
           {transaction.from.length === 0
             ? <p>Unknown</p>
             : transaction.from.map(({ address, amount, category }: WalletTransactionEndpoint) => (
-              <p>
+              <p key={`${transaction.hash}-${address}`}>
                 <span
                   children={`[${category < 0 ? 'Foreign Account' : CATEGORY[category]}] `}
                   className='selectableText'
@@ -224,7 +224,7 @@ export default class TransactionsComponent extends React.Component<Props, State>
           }
           <span className='block font-semi-bold mt-4'>Recipient</span>
           {transaction.to.map(({ address, amount, category }: WalletTransactionEndpoint) => (
-            <p>
+            <p key={`${transaction.hash}-${address}`}>
               <span
                 children={`[${category < 0 ? 'Foreign Account' : CATEGORY[category]}] `}
                 className='selectableText'
