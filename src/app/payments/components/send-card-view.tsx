@@ -40,6 +40,7 @@ export default class SendCardView extends React.PureComponent<ComponentProps, Co
       .then(({ confirmed }: WalletBalance) => this.setState({
         amountAvailable: Math.max(0, confirmed - TRANSACTION_FEE).toFixed(DECIMALS_LENGTH),
       }))
+      .catch(console.error.bind(console))
   }
 
   private switchFromAccount(): void {
@@ -53,6 +54,7 @@ export default class SendCardView extends React.PureComponent<ComponentProps, Co
       .then(({ confirmed }: WalletBalance) => this.setState({
         amountAvailable: Math.max(0, confirmed - TRANSACTION_FEE).toFixed(DECIMALS_LENGTH),
       }))
+      .catch(console.error.bind(console))
   }
 
   private submitPayment(): void {
