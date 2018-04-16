@@ -1,0 +1,53 @@
+.subtitle {
+  color: #222222;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 1.5rem;
+}
+
+.warning {
+  background-color: #ffc400;
+  border: solid 1px #bb8f00;
+  border-radius: 1px;
+  color: #333333;
+  font-size: 12px;
+  font-weight: 500;
+  margin: .5rem 0 1rem;
+  padding: .1rem .25rem;
+  text-transform: uppercase;
+}
+
+.row {
+  align-items: center;
+  display: flex;
+  height: 2rem;
+}
+
+.label {
+  font-weight: 500;
+  min-width: 20rem;
+}
+
+.checkbox {
+  cursor: pointer;
+}
+
+.field {
+  font-size: 12px;
+}
+.input {
+  composes: field;
+
+  border: solid 1px #666666;
+  line-height: 1.6;
+  padding: 0 .25rem;
+}
+.button {
+  composes: field;
+
+  background-color: #666666;
+  line-height: 1.8;
+  margin-left: .5rem;
+  padding: 0 .4rem;
+  text-transform: uppercase;
+}

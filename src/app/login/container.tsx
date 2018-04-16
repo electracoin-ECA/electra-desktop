@@ -23,6 +23,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
   private $mnemonic: HTMLInputElement
   private $mnemonicExtension: HTMLInputElement
   private $passphrase: HTMLInputElement
+  private currentUserSettings: Partial<UserSettings>
 
   constructor(props: Dispatchers & StoreState & OwnProps) {
     super(props)
@@ -32,8 +33,8 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     }
   }
 
-  public componentDidMount(): void {
-    this.retrieveUserSettings()
+  public async componentDidMount(): Promise<void> {
+    await this.retrieveUserSettings()
   }
 
   public UNSAFE_componentWillReceiveProps(): void {
@@ -42,7 +43,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     }
   }
 
-  private retrieveUserSettings(): void {
+  private async retrieveUserSettings(): Promise<void> {
     this.setState({ loadingText: 'Loading user settings...' })
     storage.get('userSettings', async (err: Error, userSettings: Partial<UserSettings>) => {
       if (err) throw err
@@ -75,6 +76,8 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
           userSettings as UserSettings,
         )
       ElectraJsMiddleware.wallet.start(walletStartData)
+      this.currentUserSettings = userSettings
+      await this.updateUserSettings()
 
       if (ElectraJsMiddleware.wallet.lockState === 'LOCKED') {
         this.props.openUnlockModal()
@@ -83,6 +86,16 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       }
 
       this.props.onDone()
+    })
+  }
+
+  private async updateUserSettings(): Promise<void> {
+    return new Promise((resolve: (value: undefined) => void) => {
+      storage.set('userSettings', { ...USER_SETTINGS_DEFAULT, ...this.currentUserSettings }, (err: Error) => {
+        if (err) throw err
+
+        resolve(undefined)
+      })
     })
   }
 
@@ -95,12 +108,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     const addresses: WalletAddress[] = ElectraJsMiddleware.wallet.addresses
     const randomAddresses: WalletAddress[] = ElectraJsMiddleware.wallet.randomAddresses
 
-    // this.setState({ loadingText: 'Unlocking wallet...' })
-    // await ElectraJsMiddleware.wallet.unlock(this.state.passphrase as string, false)
-
-    // this.setState({ loadingText: 'Exporting WEF...' })
-    // const wef: WalletExchangeFormat = JSON.parse(await ElectraJsMiddleware.wallet.export())
-
     this.setState({ loadingText: 'Saving user settings...' })
     const userSettings: UserSettings = {
       ...USER_SETTINGS_DEFAULT,
@@ -108,7 +115,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
         addresses,
         masterNodeAddress,
         randomAddresses,
-        // wef,
       },
     }
 

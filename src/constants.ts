@@ -7,8 +7,8 @@ export const USER_SETTINGS_DEFAULT: Omit<UserSettings, keyof WalletStartDataHard
     autoMergeSavingsTransactionsAfterRewards: false,
     autoTeamDonationFromRewards: false,
     autoTeamDonationFromRewardsRatio: 0,
-    electraUniversal: false,
-    electraUniversalTwitterUsername: null,
+    autoUpdate: true,
+    electraUniverse: false,
+    electraUniverseTwitterUsername: '',
   },
-  wef: null,
 }
