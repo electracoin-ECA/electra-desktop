@@ -15,24 +15,30 @@ export default class Sidebar extends React.Component<any, any> {
                     <Icon name='home' size='xs'></Icon>
                     Overview
                   </NavLink>
-                  <li>
+                </li>
+                <li>
                   <NavLink to='/purse'>
                     <Icon name='basket' size='xs'></Icon>
                     Purse
                   </NavLink>
+                </li>
+                <li>
                   <NavLink to='/checking'>
                     <Icon name='briefcase' size='xs'></Icon>
                     Checking Account
                   </NavLink>
+                </li>
+                <li>
                   <NavLink to='/savings'>
                     <Icon name='book' size='xs'></Icon>
                     Savings Account
                   </NavLink>
+                </li>
+                <li>
                   <NavLink to='/random'>
                     <Icon name='warning' size='xs'></Icon>
                     Legacy Account
                   </NavLink>
-                </li>
                 </li>
                 <div className='c-nav__title'>Operations</div>
                 <li>
