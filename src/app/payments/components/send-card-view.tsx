@@ -1,4 +1,4 @@
-import { WalletAddressCategory } from 'electra-js'
+import { WalletAddressCategory, WalletBalance } from 'electra-js'
 import * as React from 'react'
 
 import ElectraJsMiddleware from '../../../middlewares/ElectraJs'
@@ -14,7 +14,11 @@ interface ComponentProps {
 
 interface ComponentState {
   isFromSavingsAccount: boolean
+  amountAvailable: string
 }
+
+const DECIMALS_LENGTH = 8
+const TRANSACTION_FEE = 0.00001
 
 export default class SendCardView extends React.PureComponent<ComponentProps, ComponentState> {
   private $amount: HTMLInputElement
@@ -26,13 +30,29 @@ export default class SendCardView extends React.PureComponent<ComponentProps, Co
     super(props)
 
     this.state = {
+      amountAvailable: 'Fetching...',
       isFromSavingsAccount: false,
     }
   }
 
-  private checkFromAccount(): void {
-    // tslint:disable-next-line:no-magic-numbers
-    this.setState({ isFromSavingsAccount: Number(this.$fromCategory.value) === 2 })
+  public componentDidMount(): void {
+    ElectraJsMiddleware.wallet.getCategoryBalance(0)
+      .then(({ confirmed }: WalletBalance) => this.setState({
+        amountAvailable: Math.max(0, confirmed - TRANSACTION_FEE).toFixed(DECIMALS_LENGTH),
+      }))
+  }
+
+  private switchFromAccount(): void {
+    this.setState({
+      amountAvailable: 'Fetching...',
+      // tslint:disable-next-line:no-magic-numbers
+      isFromSavingsAccount: Number(this.$fromCategory.value) === 2,
+    })
+
+    ElectraJsMiddleware.wallet.getCategoryBalance(Number(this.$fromCategory.value))
+      .then(({ confirmed }: WalletBalance) => this.setState({
+        amountAvailable: Math.max(0, confirmed - TRANSACTION_FEE).toFixed(DECIMALS_LENGTH),
+      }))
   }
 
   private submitPayment(): void {
@@ -73,7 +93,7 @@ export default class SendCardView extends React.PureComponent<ComponentProps, Co
                 <span className='c-input__label'>From Account</span>
                 <div className='c-dropdown'>
                   <select
-                    onChange={this.checkFromAccount.bind(this)}
+                    onChange={this.switchFromAccount.bind(this)}
                     ref={(node: HTMLSelectElement) => this.$fromCategory = node}
                   >
                     <option children={`Purse`} key={'fromPurse'} value={0} />
@@ -88,6 +108,9 @@ export default class SendCardView extends React.PureComponent<ComponentProps, Co
                   </div>
                 </div>
               </div>
+              <p className={styles.amountAvailable}>
+                Available: <span>{this.state.amountAvailable}</span> ECA
+              </p>
               <div className='c-input'>
                 <span className='c-input__label'>To Account</span>
                 <div className='c-dropdown'>
