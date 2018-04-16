@@ -19,7 +19,7 @@ interface ComponentState {
 }
 
 function formatPrice(price: number): string {
-  const formattedPrice: string = numeral(price).format(price < 1 ? '0,0.00[000]' : '0,0.00a')
+  const formattedPrice: string = numeral(price).format(price < ONE_THOUSAND ? '0,0.00000' : '0,0.00a')
 
   return (price !== 0 && price < ONE_MILLI_CENT) || formattedPrice === 'NaN' ? '~0.00' : formattedPrice.toUpperCase()
 }
