@@ -7,7 +7,7 @@ export default class Toast extends React.Component<any, any> {
     return (
       <div>
         {!!message && !!badge &&
-          <div className='c-toast active'>
+          <div className='c-toast active' style={{ left: 0 }}>
             <span className='mr-4'>{message}</span>
             <div className='c-badge'>{badge}</div>
           </div>}
