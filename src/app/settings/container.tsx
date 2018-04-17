@@ -39,11 +39,9 @@ export default class Settings extends React.Component<{}, OwnState> {
   }
 
   private updateSetting(name: keyof UserSettings['settings'], value?: any): void {
-    console.warn(value)
     this.setState({ isLoading: true })
     const settings: UserSettings['settings'] = this.state.settings
     settings[name] = value === undefined ? !this.state.settings[name] : value
-    console.warn(settings.electraUniverseTwitterUsername)
     storage.set('userSettings', { ...this.userSettings, ...{ settings } }, (err: Error) => {
       if (err) throw err
 
