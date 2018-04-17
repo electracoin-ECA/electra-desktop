@@ -45,18 +45,6 @@ export default function overviewReducer(state: OverviewState = initialState, act
         ...state,
       }
     }
-    case ActionNames.TOGGLE_OFF_TRANSACTIONS_LOADING: {
-      return {
-        ...state,
-        isLoading: false,
-      }
-    }
-    case ActionNames.TOGGLE_ON_TRANSACTIONS_LOADING: {
-      return {
-        ...state,
-        isLoading: true,
-      }
-    }
     default: return state
   }
 }

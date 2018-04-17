@@ -1,10 +1,9 @@
-import { /*WalletAddress,*/ WalletAddressCategory, WalletTransaction } from 'electra-js'
+import { WalletAddressCategory, WalletTransaction } from 'electra-js'
 import { get, take } from 'lodash'
 import * as React from 'react'
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-// import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import TransactionsComponent from '../common/transactions/transactions'
 import { getTransactions } from '../transactions/actions'
 import dispatchers from './actions'
@@ -26,7 +25,9 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> =
     )
 
 class Overview extends React.Component<StateProps & DispatchProps & OwnProps> {
-  private category: WalletAddressCategory | undefined
+  private category: WalletAddressCategory | null
+  // tslint:disable-next-line:typedef
+  private isSwitchingCategory = true
 
   public componentDidMount(): void {
     this.props.getCurrentPriceInUSD()
@@ -36,35 +37,36 @@ class Overview extends React.Component<StateProps & DispatchProps & OwnProps> {
   }
 
   public UNSAFE_componentWillReceiveProps({ category }: StateProps & DispatchProps & OwnProps): void {
-    if (category !== this.category) this.props.toggleOnTransactionsLoading()
-    this.category = category
+    if ((category === undefined && this.category !== null) || (category !== undefined && category !== this.category)) {
+      this.category = category === undefined ? null : category
+      this.isSwitchingCategory = true
+
+      return
+    }
+
+    this.isSwitchingCategory = false
   }
 
   render(): any {
     const transactions: WalletTransaction[] = take(get(this.props, 'transactions.transactions', []), TRANSACTIONS_COUNT)
     let title: string
-    // let addresses: WalletAddress[] | undefined
     switch (this.props.category) {
       case 0:
         title = 'Purse'
-        // addresses = ElectraJsMiddleware.wallet.purseAddresses
         break
 
       case 1:
         title = 'Checking Account'
-        // addresses = ElectraJsMiddleware.wallet.checkingAddresses
         break
 
       // tslint:disable-next-line:no-magic-numbers
       case 2:
         title = 'Savings Account'
-        // addresses = ElectraJsMiddleware.wallet.savingsAddresses
         break
 
       // tslint:disable-next-line:no-magic-numbers
       case 3:
         title = 'Legacy Account'
-        // addresses = ElectraJsMiddleware.wallet.randomAddresses
         break
 
       default:
@@ -85,19 +87,8 @@ class Overview extends React.Component<StateProps & DispatchProps & OwnProps> {
             confirmedBalanceInUSD={this.props.overview.confirmedBalance * this.props.overview.currentPriceUSD}
             unconfirmedBalanceInUSD={this.props.overview.unconfirmedBalance * this.props.overview.currentPriceUSD} />
 
-          {/* {this.props.category !== undefined && (
-            <div>
-              <h2>Addresses</h2>
-              <ul className='mt-6'>
-                {(addresses as WalletAddress[]).map(({ hash }: WalletAddress) => (
-                  <li children={hash} className='selectableText' key={hash} />
-                ))}
-              </ul>
-            </div>
-          )} */}
-
           <h2>Recent Transactions</h2>
-          {this.props.overview.isLoading
+          {this.isSwitchingCategory
             ? <div className='mt-6' style={{ paddingTop: '10px' }}><p>Loading...</p></div>
             : <TransactionsComponent category={this.props.category} transactions={transactions} />
           }
