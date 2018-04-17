@@ -10,14 +10,15 @@ import { TransactionsActions } from './types'
 const TRANSACTIONS_NUMBER = 10
 const GET_TRANSACTIONS_LOOP_INTERVAL = 5_000
 
-let categoryCurrent: WalletAddressCategory | undefined
+let currentCategory: WalletAddressCategory | undefined
+let lastCategory: WalletAddressCategory | undefined
 let lastTransactionHash: string
 
 export function getTransactions(action$: ActionsObservable<TransactionsActions>, store: any):
   Observable<any> {
   return action$.ofType(TransactionActionNames.GET_TRANSACTIONS)
     .map(async ({ payload: category }: any) => {
-      categoryCurrent = category
+      currentCategory = category
 
       return ElectraJsMiddleware.wallet.getTransactions(TRANSACTIONS_NUMBER, category)
     })
@@ -26,16 +27,19 @@ export function getTransactions(action$: ActionsObservable<TransactionsActions>,
         .fromPromise(promise)
         .flatMap((transactions: WalletTransaction[]) => {
           if (
-            transactions.length !== 0 && transactions[0].hash === lastTransactionHash ||
-            transactions.length === 0 && lastTransactionHash === ''
+            currentCategory === lastCategory && (
+              transactions.length !== 0 && transactions[0].hash === lastTransactionHash ||
+              transactions.length === 0 && lastTransactionHash === ''
+            )
           ) {
             return [{
-              payload: categoryCurrent,
+              payload: currentCategory,
               type: TransactionActionNames.GET_TRANSACTIONS_LOOP,
             }]
           }
 
           lastTransactionHash = transactions.length !== 0 ? transactions[0].hash : ''
+          lastCategory = currentCategory
 
           return [
             {
@@ -43,7 +47,7 @@ export function getTransactions(action$: ActionsObservable<TransactionsActions>,
               type: TransactionActionNames.GET_TRANSACTIONS_SUCCESS,
             },
             {
-              payload: categoryCurrent,
+              payload: currentCategory,
               type: TransactionActionNames.GET_TRANSACTIONS_LOOP,
             },
           ]
@@ -62,7 +66,7 @@ export const getWalletInfoLoop = (action$: ActionsObservable<any>) =>
   action$.ofType(TransactionActionNames.GET_TRANSACTIONS_LOOP)
     .delay(GET_TRANSACTIONS_LOOP_INTERVAL)
     .flatMap(({ payload: category }: any) => {
-      if (categoryCurrent !== category) return []
+      if (currentCategory !== category) return []
 
       return [{
         payload: category,
