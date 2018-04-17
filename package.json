@@ -81,6 +81,7 @@
     "redux-logger": "^3.0.6",
     "redux-observable": "^0.18.0",
     "rxjs": "^5.5.10",
+    "uuid": "^3.2.1",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
@@ -95,6 +96,7 @@
     "@types/react-redux": "^5.0.15",
     "@types/react-router-dom": "^4.2.6",
     "@types/redux-logger": "^3.0.5",
+    "@types/uuid": "^3.4.3",
     "@types/zxcvbn": "^4.4.0",
     "autoprefixer": "^8.2.0",
     "awesome-typescript-loader": "^4.0.1",
