@@ -11,6 +11,7 @@ const TRANSACTIONS_NUMBER = 10
 const GET_TRANSACTIONS_LOOP_INTERVAL = 5_000
 
 let categoryCurrent: WalletAddressCategory | undefined
+let lastTransactionHash: string
 
 export function getTransactions(action$: ActionsObservable<TransactionsActions>, store: any):
   Observable<any> {
@@ -23,16 +24,30 @@ export function getTransactions(action$: ActionsObservable<TransactionsActions>,
     .switchMap((promise: Promise<WalletTransaction[]>) =>
       Observable
         .fromPromise(promise)
-        .flatMap((data: WalletTransaction[]) => [
-          {
-            payload: data,
-            type: TransactionActionNames.GET_TRANSACTIONS_SUCCESS,
-          },
-          {
-            payload: categoryCurrent,
-            type: TransactionActionNames.GET_TRANSACTIONS_LOOP,
-          },
-        ])
+        .flatMap((transactions: WalletTransaction[]) => {
+          if (
+            transactions.length !== 0 && transactions[0].hash === lastTransactionHash ||
+            transactions.length === 0 && lastTransactionHash === ''
+          ) {
+            return [{
+              payload: categoryCurrent,
+              type: TransactionActionNames.GET_TRANSACTIONS_LOOP,
+            }]
+          }
+
+          lastTransactionHash = transactions.length !== 0 ? transactions[0].hash : ''
+
+          return [
+            {
+              payload: transactions,
+              type: TransactionActionNames.GET_TRANSACTIONS_SUCCESS,
+            },
+            {
+              payload: categoryCurrent,
+              type: TransactionActionNames.GET_TRANSACTIONS_LOOP,
+            },
+          ]
+        })
         .catch((error: Error) => {
           console.error(error.message)
 
