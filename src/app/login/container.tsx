@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import * as zxcvbn from 'zxcvbn'
 
 import { USER_SETTINGS_DEFAULT } from '../../constants'
+import waitFor from '../../helpers/waitFor'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { UserSettings } from '../../types'
 import UnlockModal from '../common/unlock-modal'
@@ -17,6 +18,7 @@ import { Dispatchers, OwnProps, OwnState } from './types'
 
 const styles: any = require('./styles.css')
 
+const HEAVY_PROCESS_DELAY = 250
 const MNEMONIC_WORDS_LENGTH = 24
 const PASSPHRASE_LENGTH_MIN = 8
 
@@ -102,6 +104,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
   private async saveUserSettings(): Promise<void> {
     this.setState({ loadingText: 'Locking wallet...' })
+    await waitFor(HEAVY_PROCESS_DELAY)
     await ElectraJsMiddleware.wallet.lock()
 
     this.setState({ loadingText: 'Exporting addresses...' })
@@ -123,6 +126,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       if (err) throw err
 
       this.setState({ loadingText: 'Unlocking wallet for staking only...' })
+      await waitFor(HEAVY_PROCESS_DELAY)
       await ElectraJsMiddleware.wallet.unlock(this.state.passphrase as string, true)
 
       this.props.onDone()
@@ -179,6 +183,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       passphrase: this.$passphrase.value,
     })
 
+    await waitFor(HEAVY_PROCESS_DELAY)
     const [err] = await to(ElectraJsMiddleware.wallet.unlock(passphrase, false))
     if (err !== null) {
       this.setState({
@@ -200,6 +205,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
   private async generateNewHdWallet(): Promise<void> {
     this.setState({ loadingText: 'Generating new mnemonic...' })
+    await waitFor(HEAVY_PROCESS_DELAY)
     await ElectraJsMiddleware.wallet.generate(this.state.passphrase as string)
     this.setState({
       firstInstallationScreen: 'SHOW_USER_NEW_MNEMONIC',
@@ -244,18 +250,20 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     }
 
     this.setState({ loadingText: 'Locking wallet...' })
+    await waitFor(HEAVY_PROCESS_DELAY)
     await ElectraJsMiddleware.wallet.lock(this.state.passphrase)
 
     this.setState({ loadingText: 'Unlocking wallet...' })
+    await waitFor(HEAVY_PROCESS_DELAY)
     await ElectraJsMiddleware.wallet.unlock(this.state.passphrase, false)
 
     if (this.state.mnemonic !== undefined) {
       this.setState({ loadingText: 'Recovering wallet from mnemonic...' })
-
+      await waitFor(HEAVY_PROCESS_DELAY)
       await ElectraJsMiddleware.wallet.generate(
         this.state.passphrase,
         this.state.mnemonic,
-        (this.state.mnemonicExtension as string).length === 0 ? undefined : this.$mnemonicExtension.value,
+        (this.state.mnemonicExtension as string).length === 0 ? undefined : this.state.mnemonicExtension,
         1,
         1,
         1,
@@ -303,7 +311,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     }
 
     this.setState({ loadingText: 'Recovering wallet from mnemonic...' })
-
+    await waitFor(HEAVY_PROCESS_DELAY)
     await ElectraJsMiddleware.wallet.generate(
       this.state.passphrase,
       this.$mnemonic.value,
@@ -352,26 +360,11 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
         {/* New (but not brand new) wallet user choices */}
         {!Boolean(this.state.loadingText) && this.state.firstInstallationScreen === 'ASK_USER_FOR_START_ACTION_2' && (
           <div className={styles.innerContainer}>
+            <p>AAA</p>
             <button
               children={'GENERATE A NEW MNEMONIC'}
               className={styles.button}
               onClick={this.generateNewHdWallet.bind(this)}
-            />
-            <button
-              children={'RECOVER A WALLET VIA MNEMONIC'}
-              className={styles.button}
-              onClick={(): void => this.setState({ firstInstallationScreen: 'ASK_USER_FOR_EXISTING_MNEMONIC' })}
-            />
-          </div>
-        )}
-
-        {/* Brand new wallet user choices */}
-        {!Boolean(this.state.loadingText) && this.state.firstInstallationScreen === 'ASK_USER_FOR_START_ACTION' && (
-          <div className={styles.innerContainer}>
-            <button
-              children={'CREATE A NEW WALLET'}
-              className={styles.button}
-              onClick={(): void => this.setState({ firstInstallationScreen: 'ASK_USER_FOR_NEW_PASSPHRASE' })}
             />
             <button
               children={'RECOVER A WALLET VIA MNEMONIC'}
