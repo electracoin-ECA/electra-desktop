@@ -20,7 +20,7 @@ class Payments extends React.Component<StoreState & ComponentDispatchers> {
       <div className='c-view'>
         {this.props.payments.isUnlockModalOpened && <UnlockModal isCancellable={true} isStakingOnly={false} />}
         <div className='c-view__header'>
-          <h2>Payments</h2>
+          <h2 className='first'>Payments</h2>
         </div>
         <div className='c-view__content c-grid c-grid--halves py-4'>
           <SendCardView
