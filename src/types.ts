@@ -4,6 +4,7 @@ export type Diff<T extends string, U extends string> = ({[P in T]: P } & {[P in 
 export type Omit<T, K extends keyof T> = Pick<T, Diff<keyof T, K>>
 
 export interface UserSettings extends WalletStartDataHard {
+  appId: string
   settings: {
     autoMergeSavingsTransactionsAfterRewards: boolean
     autoTeamDonationFromRewards: boolean

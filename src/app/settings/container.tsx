@@ -59,6 +59,10 @@ export default class Settings extends React.Component<{}, OwnState> {
         </div>
         <div className='c-view__content'>
           <div className={styles.row}>
+            <span className={styles.label}>Application ID</span>
+            {!this.state.isLoading ? this.userSettings.appId : '...'}
+          </div>
+          <div className={styles.row}>
             <span className={styles.label}>Version</span>
             {remote.app.getVersion()}
           </div>
