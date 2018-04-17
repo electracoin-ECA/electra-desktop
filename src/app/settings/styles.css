@@ -38,7 +38,9 @@
 .input {
   composes: field;
 
-  border: solid 1px #666666;
+  background-color: transparent;
+  border: 0;
+  border-bottom: solid 1px #999999;
   line-height: 1.6;
   padding: 0 .25rem;
 }
