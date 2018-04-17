@@ -55,7 +55,7 @@ export default class Settings extends React.Component<{}, OwnState> {
     return (
       <div className='c-view'>
         <div className='c-view__header'>
-          <h2>Settings</h2>
+          <h2 className='first'>Settings</h2>
         </div>
         <div className='c-view__content'>
           <div className={styles.row}>
