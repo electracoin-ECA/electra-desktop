@@ -53,7 +53,7 @@ class Header extends React.Component<StoreState & Dispatchers> {
                   <WalletInfoComponent
                     row={rowTwo}
                     label={'Lock'}
-                    info={_.capitalize(ElectraJsMiddleware.wallet.lockState)}
+                    info={ElectraJsMiddleware.wallet.lockState === 'UNLOCKED' ? 'Unlocked' : 'Locked'}
                   />
                   <WalletInfoComponent
                     row={rowTwo}
