@@ -12,8 +12,6 @@ export interface Dispatchers {
   getCurrentPriceInBTC(): GetCurrentPriceBTC
   getCurrentPriceInUSD(): GetCurrentPriceUSD
   getBalance(category?: WalletAddressCategory): GetGlobalBalance
-  toggleOffTransactionsLoading(): ToggleOffTransactionsLoading
-  toggleOnTransactionsLoading(): ToggleOnTransactionsLoading
 }
 export interface DispatchProps extends Dispatchers {
   getTransactions(category?: WalletAddressCategory): GetTransactions
@@ -48,8 +46,6 @@ export type GET_CURRENT_PRICE_USD_FAIL = 'GET_CURRENT_PRICE_USD_FAIL'
 export type GET_CURRENT_PRICE_BTC = 'GET_CURRENT_PRICE_BTC'
 export type GET_CURRENT_PRICE_BTC_SUCCESS = 'GET_CURRENT_PRICE_BTC_SUCCESS'
 export type GET_CURRENT_PRICE_BTC_FAIL = 'GET_CURRENT_PRICE_BTC_FAIL'
-export type TOGGLE_OFF_TRANSACTIONS_LOADING = 'TOGGLE_OFF_TRANSACTIONS_LOADING'
-export type TOGGLE_ON_TRANSACTIONS_LOADING = 'TOGGLE_ON_TRANSACTIONS_LOADING'
 
 /**
  * action interfaces
@@ -94,14 +90,6 @@ export interface GetCurrentPriceBTCFail {
   type: GET_CURRENT_PRICE_BTC_FAIL
 }
 
-export interface ToggleOffTransactionsLoading {
-  type: TOGGLE_OFF_TRANSACTIONS_LOADING
-}
-
-export interface ToggleOnTransactionsLoading {
-  type: TOGGLE_ON_TRANSACTIONS_LOADING
-}
-
 export type GlobalBalanceActions =  GetGlobalBalance |
                                     GetGlobalBalanceSuccess |
                                     GetGlobalBalanceFail
@@ -127,6 +115,4 @@ export interface GlobalBalanceOtherObservable {
 }
 
 export type OverviewActions =   GlobalBalanceActions |
-                                CurrentPriceActions |
-                                ToggleOffTransactionsLoading |
-                                ToggleOnTransactionsLoading
+                                CurrentPriceActions

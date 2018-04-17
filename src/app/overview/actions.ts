@@ -16,14 +16,6 @@ const dispatchers: Dispatchers = {
   getCurrentPriceInBTC: () => ({
     type: ActionNames.GET_CURRENT_PRICE_BTC,
   }),
-
-  toggleOffTransactionsLoading: () => ({
-    type: ActionNames.TOGGLE_OFF_TRANSACTIONS_LOADING,
-  }),
-
-  toggleOnTransactionsLoading: () => ({
-    type: ActionNames.TOGGLE_ON_TRANSACTIONS_LOADING,
-  }),
 }
 
 export default dispatchers

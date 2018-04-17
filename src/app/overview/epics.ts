@@ -67,10 +67,3 @@ export function getCurrentPriceBTC(action$: ActionsObservable<OverviewActions>, 
       ),
     )
 }
-
-export function getTransactionsSuccess(action$: ActionsObservable<any>): any {
-  return action$.ofType('GET_TRANSACTIONS_SUCCESS')
-    .mapTo({
-      type: 'TOGGLE_OFF_TRANSACTIONS_LOADING',
-    })
-}
