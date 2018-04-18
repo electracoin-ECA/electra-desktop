@@ -103,7 +103,7 @@ export default class SendCardView extends React.PureComponent<ComponentProps, Co
                     {/* tslint:disable-next-line:no-magic-numbers */}
                     <option children={`Savings Account`} key={'fromSavings'} value={2} />
                     {/* tslint:disable-next-line:no-magic-numbers */}
-                    <option children={`Legacy Account`} key={'fromRandom'} value={3} />
+                    {/* <option children={`Legacy Account`} key={'fromRandom'} value={3} /> */}
                   </select>
                   <div className='c-icon c-dropdown__icon'>
                     <Icon name='caret-bottom' />
