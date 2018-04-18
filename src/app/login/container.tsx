@@ -310,12 +310,16 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       return
     }
 
-    this.setState({ loadingText: 'Recovering wallet from mnemonic...' })
+    this.setState({
+      loadingText: 'Recovering wallet from mnemonic...',
+      mnemonic: this.$mnemonic.value,
+      mnemonicExtension: this.$mnemonicExtension.value,
+    })
     await waitFor(HEAVY_PROCESS_DELAY)
     await ElectraJsMiddleware.wallet.generate(
       this.state.passphrase,
-      this.$mnemonic.value,
-      this.$mnemonicExtension.value.length === 0 ? undefined : this.$mnemonicExtension.value,
+      this.state.mnemonic,
+      (this.state.mnemonicExtension as string).length === 0 ? undefined : this.state.mnemonicExtension,
       1,
       1,
       1,
@@ -360,7 +364,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
         {/* New (but not brand new) wallet user choices */}
         {!Boolean(this.state.loadingText) && this.state.firstInstallationScreen === 'ASK_USER_FOR_START_ACTION_2' && (
           <div className={styles.innerContainer}>
-            <p>AAA</p>
             <button
               children={'GENERATE A NEW MNEMONIC'}
               className={styles.button}
