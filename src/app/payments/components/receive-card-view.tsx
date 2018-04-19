@@ -38,7 +38,7 @@ export default class ReceiveCardView extends React.PureComponent<ComponentProps,
   componentWillReceiveProps(newProps: any): void {
     if (!isEmpty(newProps.addresses) && isEmpty(this.state.selectedAddress)) {
       this.setState({
-        selectedAddress: `[${CATEGORY[newProps.addresses[0].category]}] ${newProps.addresses[0].hash}`,
+        selectedAddress: `${newProps.addresses[0].hash}`,
       })
     }
   }
