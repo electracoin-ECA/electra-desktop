@@ -42,7 +42,7 @@ function createWindow(): void {
     minWidth: 880,
     show: false,
     titleBarStyle: 'hidden',
-    transparent: true,
+    transparent: false,
     webPreferences: {
       devTools: !isProd,
       webSecurity: true,
