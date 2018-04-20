@@ -54,7 +54,7 @@ export default class ReceiveCardView extends React.PureComponent<ComponentProps,
                 <select onChange={this.onChange.bind(this)}>
                   {(this.props.addresses || [])
                     // tslint:disable-next-line:no-magic-numbers
-                    .filter(({ category }: WalletAddress) => category !== 1 && category !== 3)
+                    .filter(({ category }: WalletAddress) => category !== 0 && category !== 3)
                     .map((address: WalletAddress) => address.category !== null
                       ? <option
                         children={`[${CATEGORY[address.category]}] ${address.hash}`}
