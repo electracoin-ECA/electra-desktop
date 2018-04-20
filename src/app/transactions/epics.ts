@@ -12,6 +12,7 @@ const GET_TRANSACTIONS_LOOP_INTERVAL = 5_000
 
 let currentCategory: WalletAddressCategory | undefined
 let lastCategory: WalletAddressCategory | undefined
+let lastTransactionConfirmationsCount: number
 let lastTransactionHash: string
 
 export function getTransactions(action$: ActionsObservable<TransactionsActions>, store: any):
@@ -28,8 +29,12 @@ export function getTransactions(action$: ActionsObservable<TransactionsActions>,
         .flatMap((transactions: WalletTransaction[]) => {
           if (
             currentCategory === lastCategory && (
-              transactions.length !== 0 && transactions[0].hash === lastTransactionHash ||
-              transactions.length === 0 && lastTransactionHash === ''
+              transactions.length !== 0 &&
+              transactions[0].hash === lastTransactionHash &&
+              transactions[0].confimationsCount === lastTransactionConfirmationsCount ||
+              transactions.length === 0 &&
+              lastTransactionHash === '' &&
+              lastTransactionConfirmationsCount === -1
             )
           ) {
             return [{
@@ -39,6 +44,7 @@ export function getTransactions(action$: ActionsObservable<TransactionsActions>,
           }
 
           lastTransactionHash = transactions.length !== 0 ? transactions[0].hash : ''
+          lastTransactionConfirmationsCount = transactions.length !== 0 ? transactions[0].confimationsCount : -1
           lastCategory = currentCategory
 
           return [
