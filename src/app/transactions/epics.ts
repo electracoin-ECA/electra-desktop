@@ -27,15 +27,19 @@ export function getTransactions(action$: ActionsObservable<TransactionsActions>,
       Observable
         .fromPromise(promise)
         .flatMap((transactions: WalletTransaction[]) => {
+          if (currentCategory !== lastCategory) {
+            lastCategory = currentCategory
+
+            return []
+          }
+
           if (
-            currentCategory === lastCategory && (
-              transactions.length !== 0 &&
-              transactions[0].hash === lastTransactionHash &&
-              transactions[0].confimationsCount === lastTransactionConfirmationsCount ||
-              transactions.length === 0 &&
-              lastTransactionHash === '' &&
-              lastTransactionConfirmationsCount === -1
-            )
+            transactions.length !== 0 &&
+            transactions[0].hash === lastTransactionHash &&
+            transactions[0].confimationsCount === lastTransactionConfirmationsCount ||
+            transactions.length === 0 &&
+            lastTransactionHash === '' &&
+            lastTransactionConfirmationsCount === -1
           ) {
             return [{
               payload: currentCategory,
