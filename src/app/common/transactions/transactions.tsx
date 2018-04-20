@@ -67,8 +67,8 @@ export default class TransactionsComponent extends React.Component<Props, State>
         >
           <div className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0' style={{ width: '5rem' }}>Received</div>
           <div
-            className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0 font-extra-bold'
-            style={{ textAlign: 'right', width: '9rem' }}
+            className='block lg:inline-block mb-4 lg:mr-10 lg:mb-0 font-extra-bold'
+            style={{ textAlign: 'right', width: '12rem' }}
           >
             {transaction.to
               .filter(({ category }: WalletTransactionEndpoint) => category === this.props.category)
@@ -158,11 +158,11 @@ export default class TransactionsComponent extends React.Component<Props, State>
           onClick={this.toggleExpand.bind(this, index)}
         >
           <div className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0' style={{ width: '5rem' }}>
-            {this.props.category === undefined ? 'Transfered' : 'Sent'}
+            {this.props.category === undefined ? 'Transferred' : 'Sent'}
           </div>
           <div
-            className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0 font-extra-bold'
-            style={{ textAlign: 'right', width: '9rem' }}
+            className='block lg:inline-block mb-4 lg:mr-10 lg:mb-0 font-extra-bold'
+            style={{ textAlign: 'right', width: '12rem' }}
           >
             {this.props.category !== undefined ? '-' : ''}
             {this.props.category === undefined && transaction.amount.toFixed(DECIMALS_LENGTH)}
