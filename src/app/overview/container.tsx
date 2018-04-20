@@ -1,5 +1,6 @@
 import { WalletAddressCategory, WalletTransaction } from 'electra-js'
 import { get, take } from 'lodash'
+import * as numeral from 'numeral'
 import * as React from 'react'
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
@@ -10,7 +11,10 @@ import dispatchers from './actions'
 import CardViewPrices from './components/card-view-prices'
 import { DispatchProps, OwnProps, StateProps } from './types'
 
+const styles = require('./styles.css')
+
 const TRANSACTIONS_COUNT = 10
+const PURSE_MAXIMUM_AMOUNT = 1_000
 
 const mapStateToProps: MapStateToProps<StateProps, {}, {}> = (state: StateProps) => ({ ...state })
 
@@ -86,6 +90,14 @@ class Overview extends React.Component<StateProps & DispatchProps & OwnProps> {
             unconfirmedBalanceInBTC={this.props.overview.unconfirmedBalance * this.props.overview.currentPriceBTC}
             confirmedBalanceInUSD={this.props.overview.confirmedBalance * this.props.overview.currentPriceUSD}
             unconfirmedBalanceInUSD={this.props.overview.unconfirmedBalance * this.props.overview.currentPriceUSD} />
+
+          {this.props.category === 0 &&
+          (this.props.overview.confirmedBalance + this.props.overview.unconfirmedBalance) > PURSE_MAXIMUM_AMOUNT && (
+            <div className={styles.warning}>
+              <div className={styles.warningTitle}>Warning</div>
+              It is not advised to keep more than {numeral(PURSE_MAXIMUM_AMOUNT).format('0,0')} ECAs in your purse.
+            </div>
+          )}
 
           <h2>Recent Transactions</h2>
           {this.isSwitchingCategory
