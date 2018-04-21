@@ -8,7 +8,6 @@ import * as TransactionActionNames from './action-names'
 import { TransactionsActions } from './types'
 
 const TRANSACTIONS_NUMBER = 10
-const GET_TRANSACTIONS_LOOP_INTERVAL = 5_000
 
 let currentCategory: WalletAddressCategory | undefined
 let lastCategory: WalletAddressCategory | undefined
@@ -27,24 +26,17 @@ export function getTransactions(action$: ActionsObservable<TransactionsActions>,
       Observable
         .fromPromise(promise)
         .flatMap((transactions: WalletTransaction[]) => {
-          if (currentCategory !== lastCategory) {
-            lastCategory = currentCategory
-
-            return []
-          }
-
           if (
-            transactions.length !== 0 &&
-            transactions[0].hash === lastTransactionHash &&
-            transactions[0].confimationsCount === lastTransactionConfirmationsCount ||
-            transactions.length === 0 &&
-            lastTransactionHash === '' &&
-            lastTransactionConfirmationsCount === -1
+            currentCategory === lastCategory && (
+              transactions.length !== 0 &&
+              transactions[0].hash === lastTransactionHash &&
+              transactions[0].confimationsCount === lastTransactionConfirmationsCount ||
+              transactions.length === 0 &&
+              lastTransactionHash === '' &&
+              lastTransactionConfirmationsCount === -1
+            )
           ) {
-            return [{
-              payload: currentCategory,
-              type: TransactionActionNames.GET_TRANSACTIONS_LOOP,
-            }]
+            return []
           }
 
           lastTransactionHash = transactions.length !== 0 ? transactions[0].hash : ''
@@ -55,10 +47,6 @@ export function getTransactions(action$: ActionsObservable<TransactionsActions>,
             {
               payload: transactions,
               type: TransactionActionNames.GET_TRANSACTIONS_SUCCESS,
-            },
-            {
-              payload: currentCategory,
-              type: TransactionActionNames.GET_TRANSACTIONS_LOOP,
             },
           ]
         })
@@ -71,18 +59,6 @@ export function getTransactions(action$: ActionsObservable<TransactionsActions>,
         }),
     )
 }
-
-export const getWalletInfoLoop = (action$: ActionsObservable<any>) =>
-  action$.ofType(TransactionActionNames.GET_TRANSACTIONS_LOOP)
-    .delay(GET_TRANSACTIONS_LOOP_INTERVAL)
-    .flatMap(({ payload: category }: any) => {
-      if (currentCategory !== category) return []
-
-      return [{
-        payload: category,
-        type: TransactionActionNames.GET_TRANSACTIONS,
-      }]
-    })
 
 const MAX_DELAY = 500
 export function getTransaction(action$: ActionsObservable<TransactionsActions>, store: any):

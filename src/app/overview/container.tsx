@@ -13,8 +13,9 @@ import { DispatchProps, OwnProps, StateProps } from './types'
 
 const styles = require('./styles.css')
 
-const TRANSACTIONS_COUNT = 10
+const LOOP_INTERVAL = 5_000
 const PURSE_MAXIMUM_AMOUNT = 1_000
+const TRANSACTIONS_COUNT = 10
 
 const mapStateToProps: MapStateToProps<StateProps, {}, {}> = (state: StateProps) => ({ ...state })
 
@@ -47,6 +48,11 @@ class Overview extends React.Component<StateProps & DispatchProps & OwnProps> {
 
       return
     }
+
+    setTimeout(LOOP_INTERVAL, () => {
+      this.props.getTransactions(this.props.category)
+      this.props.getBalance(this.props.category)
+    })
 
     this.isSwitchingCategory = false
   }
