@@ -13,12 +13,9 @@ const styles = require('./styles.css')
 const PURSE_MAXIMUM_AMOUNT = 1_000
 
 class Overview extends React.PureComponent<StoreState & Dispatchers & OwnProps> {
-  public componentDidMount(): void {
-    this.props.getBalanceAndTransactions(this.props.category)
-  }
-
-  public componentWillUnmount(): void {
-    this.props.stopBalanceAndTransactionsLoop()
+  public constructor(props: StoreState & Dispatchers & OwnProps) {
+    super(props)
+    this.props.switchAccountCategory(props.category)
   }
 
   public render(): JSX.Element {

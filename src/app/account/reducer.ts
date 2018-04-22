@@ -24,7 +24,7 @@ export default function accountReducer(state: State = initialState, action: Acti
         unconfirmedBalance: action.payload.balance.unconfirmed,
       }
 
-    case ActionType.STOP_BALANCE_AND_TRANSACTIONS_LOOP:
+    case ActionType.SWITCH_ACCOUNT_CATEGORY:
       return initialState
 
     default:

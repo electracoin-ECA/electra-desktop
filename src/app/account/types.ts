@@ -19,8 +19,7 @@ export interface State {
  * Dispatchers
  */
 export interface Dispatchers {
-  getBalanceAndTransactions(category: AccountCategory): ActionList['GET_BALANCE_AND_TRANSACTIONS']
-  stopBalanceAndTransactionsLoop(): ActionList['STOP_BALANCE_AND_TRANSACTIONS_LOOP']
+  switchAccountCategory(category: AccountCategory): ActionList['SWITCH_ACCOUNT_CATEGORY']
 }
 
 /**
@@ -38,7 +37,7 @@ export enum ActionType {
   GET_BALANCE_AND_TRANSACTIONS_ERROR = 'GET_BALANCE_AND_TRANSACTIONS_ERROR',
   GET_BALANCE_AND_TRANSACTIONS_LOOP = 'GET_BALANCE_AND_TRANSACTIONS_LOOP',
   GET_BALANCE_AND_TRANSACTIONS_SUCCESS = 'GET_BALANCE_AND_TRANSACTIONS_SUCCESS',
-  STOP_BALANCE_AND_TRANSACTIONS_LOOP = 'STOP_BALANCE_AND_TRANSACTIONS_LOOP',
+  SWITCH_ACCOUNT_CATEGORY = 'SWITCH_ACCOUNT_CATEGORY',
 }
 
 export type ActionList = ActionListGenerator<ActionType, {
@@ -58,6 +57,7 @@ export type ActionList = ActionListGenerator<ActionType, {
       transactions: WalletTransaction[]
     }
   >
+  SWITCH_ACCOUNT_CATEGORY: ActionBaseWithPayload<ActionType.SWITCH_ACCOUNT_CATEGORY, AccountCategory>
 }>
 
 /*
