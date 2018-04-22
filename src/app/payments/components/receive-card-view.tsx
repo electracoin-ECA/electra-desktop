@@ -5,12 +5,12 @@ import * as React from 'react'
 import * as CopyToClipboard from 'react-copy-to-clipboard'
 import { Icon } from '../../shared/icon'
 
-interface ComponentProps {
+interface OwnProps {
   addresses: WalletAddress[]
   onCopy(): void
 }
 
-interface ComponentState {
+interface OwnState {
   selectedAddress: string
 }
 
@@ -21,24 +21,24 @@ const CATEGORY: any = [
   'Legacy Account',
 ]
 
-export default class ReceiveCardView extends React.PureComponent<ComponentProps, ComponentState> {
-  constructor(props: ComponentProps) {
+export default class ReceiveCardView extends React.PureComponent<OwnProps, OwnState> {
+  public constructor(props: OwnProps) {
     super(props)
     this.state = {
       selectedAddress: '',
     }
   }
 
-  onChange(event: any): void {
+  private onChange(event: any): void {
     this.setState({
       selectedAddress: event.target.value,
     })
   }
 
-  componentWillReceiveProps(newProps: any): void {
-    if (!isEmpty(newProps.addresses) && isEmpty(this.state.selectedAddress)) {
+  public UNSAFE_componentWillReceiveProps(nextProps: OwnProps): void {
+    if (!isEmpty(nextProps.addresses) && isEmpty(this.state.selectedAddress)) {
       this.setState({
-        selectedAddress: newProps.addresses[0].hash,
+        selectedAddress: nextProps.addresses[0].hash,
       })
     }
   }

@@ -11,7 +11,7 @@ import dispatchers from './dispatchers'
 import { ComponentDispatchers } from './types'
 
 class Payments extends React.Component<StoreState & ComponentDispatchers> {
-  componentDidMount(): void {
+  public componentDidMount(): void {
     this.props.getAddresses()
   }
 

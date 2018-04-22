@@ -13,7 +13,7 @@ export default class Settings extends React.Component<{}, OwnState> {
   private $electraUniverseTwitterUsername: HTMLInputElement
   private userSettings: UserSettings
 
-  constructor(props: {}) {
+  public constructor(props: {}) {
     super(props)
 
     this.state = {
