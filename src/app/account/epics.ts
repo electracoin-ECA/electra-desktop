@@ -13,7 +13,7 @@ const TRANSACTIONS_COUNT = 10
 export default {
   getBalanceAndTransactions: (action$: ActionsObservable<ActionList['GET_BALANCE_AND_TRANSACTIONS']>) =>
     action$.ofType(ActionType.GET_BALANCE_AND_TRANSACTIONS)
-      .map(({ payload: category }: ActionList['GET_BALANCE_AND_TRANSACTIONS']) => Promise.all([
+      .map(async ({ payload: category }: ActionList['GET_BALANCE_AND_TRANSACTIONS']) => Promise.all([
         Promise.resolve(category),
         ElectraJsMiddleware.webServices.getCurrentPriceInBTC('BTC'),
         ElectraJsMiddleware.webServices.getCurrentPriceInUSD(),

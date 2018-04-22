@@ -28,7 +28,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
   private $passphrase: HTMLInputElement
   private currentUserSettings: Partial<UserSettings>
 
-  constructor(props: Dispatchers & StoreState & OwnProps) {
+  public constructor(props: Dispatchers & StoreState & OwnProps) {
     super(props)
 
     this.state = {

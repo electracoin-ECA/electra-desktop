@@ -6,13 +6,13 @@ import { Icon } from '../../shared/icon'
 
 const styles: any = require('./styles.css')
 
-interface ComponentProps {
+interface OwnProps {
   addressError: string | undefined
   amountError: string | undefined
   onPaymentSubmit(amount: number, fromCategory: WalletAddressCategory, toAddress: string): void
 }
 
-interface ComponentState {
+interface OwnState {
   isFromSavingsAccount: boolean
   amountAvailable: string
 }
@@ -20,13 +20,13 @@ interface ComponentState {
 const DECIMALS_LENGTH = 8
 const TRANSACTION_FEE = 0.00001
 
-export default class SendCardView extends React.PureComponent<ComponentProps, ComponentState> {
+export default class SendCardView extends React.PureComponent<OwnProps, OwnState> {
   private $amount: HTMLInputElement
   private $fromCategory: HTMLSelectElement
   private $toAccount: HTMLSelectElement
   private $toAddress: HTMLInputElement
 
-  constructor(props: ComponentProps) {
+  public constructor(props: OwnProps) {
     super(props)
 
     this.state = {
@@ -84,7 +84,7 @@ export default class SendCardView extends React.PureComponent<ComponentProps, Co
     )
   }
 
-  public render(): any {
+  public render(): JSX.Element {
     return (
       <div className='c-grid__item'>
         <div className='c-card'>

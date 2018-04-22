@@ -11,7 +11,7 @@ const initialState: State = {
 
 let currentCategory: AccountCategory
 
-export default function overviewReducer(state: State = initialState, action: ActionList[keyof ActionList]): any {
+export default function accountReducer(state: State = initialState, action: ActionList[keyof ActionList]): any {
   switch (action.type) {
     case ActionType.GET_BALANCE_AND_TRANSACTIONS_SUCCESS:
       if (action.payload.category !== currentCategory) return initialState
