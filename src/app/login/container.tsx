@@ -18,7 +18,7 @@ import { Dispatchers, OwnProps, OwnState } from './types'
 
 const styles: any = require('./styles.css')
 
-const HEAVY_PROCESS_DELAY = 250
+const HEAVY_PROCESS_DELAY = 400
 const MNEMONIC_WORDS_LENGTH = 24
 const PASSPHRASE_LENGTH_MIN = 8
 
@@ -27,6 +27,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
   private $mnemonicExtension: HTMLInputElement
   private $passphrase: HTMLInputElement
   private currentUserSettings: Partial<UserSettings>
+  private walletStartData: WalletStartDataHard
 
   public constructor(props: Dispatchers & StoreState & OwnProps) {
     super(props)
@@ -40,10 +41,12 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     await this.retrieveUserSettings()
   }
 
-  public UNSAFE_componentWillReceiveProps(): void {
+  public UNSAFE_componentWillReceiveProps({ login }: Dispatchers & StoreState & OwnProps): void {
     if (ElectraJsMiddleware.wallet.state === 'READY' && ElectraJsMiddleware.wallet.lockState === 'STAKING') {
       this.props.onDone()
     }
+
+    if (login.passphrase !== undefined) this.startWallet()
   }
 
   private async retrieveUserSettings(): Promise<void> {
@@ -73,23 +76,23 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
         return
       }
 
-      const walletStartData: WalletStartDataHard =
+      this.walletStartData =
         pick<UserSettings, 'addresses' | 'masterNodeAddress' | 'randomAddresses'>(
           ['addresses', 'masterNodeAddress', 'randomAddresses'],
           userSettings as UserSettings,
         )
-      ElectraJsMiddleware.wallet.start(walletStartData)
       this.currentUserSettings = userSettings
       await this.updateUserSettings()
 
-      if (ElectraJsMiddleware.wallet.lockState === 'LOCKED') {
-        this.props.openUnlockModal()
-
-        return
-      }
-
-      this.props.onDone()
+      this.props.openUnlockModal()
     })
+  }
+
+  private async startWallet(): Promise<void> {
+    this.setState({ loadingText: 'Starting wallet...' })
+    await waitFor(HEAVY_PROCESS_DELAY)
+    await ElectraJsMiddleware.wallet.start(this.walletStartData, this.props.login.passphrase as string)
+    this.props.onDone()
   }
 
   private async updateUserSettings(): Promise<void> {
