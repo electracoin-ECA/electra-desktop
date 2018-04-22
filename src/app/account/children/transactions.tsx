@@ -162,7 +162,7 @@ export default class Transactions extends React.Component<Props, State> {
           onClick={this.toggleExpand.bind(this, index)}
         >
           <div className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0' style={{ width: '5rem' }}>
-            {this.props.category === null ? 'Transfered' : isMerged ? 'Merged' : 'Sent'}
+            {this.props.category === null ? 'Transferred' : isMerged ? 'Merged' : 'Sent'}
           </div>
           <div
             className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0 font-extra-bold'
