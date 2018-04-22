@@ -4,5 +4,5 @@ import { Account } from '../account'
 
 export default function(): JSX.Element {
   // tslint:disable-next-line:no-magic-numbers
-  return <Account category={2} />
+  return <Account category={3} />
 }

@@ -11,11 +11,11 @@ import { AddressBook } from './addressBook'
 import Checking from './checking'
 import Toast from './common/toast/toast'
 import { Header } from './header'
+import Legacy from './legacy'
 import Login from './login'
-import { Overview } from './overview'
+import Overview from './overview'
 import { Payments } from './payments'
 import Purse from './purse'
-import Random from './random'
 import Savings from './savings'
 import { Settings } from './settings'
 import Loader from './shared/loader'
@@ -34,7 +34,7 @@ const ONE_SECOND = 1000
 class App extends React.Component<StoreState, OwnState> {
   private updateInfo: UpdateInfo
 
-  constructor(props: any) {
+  public constructor(props: StoreState) {
     super(props)
 
     this.state = {
@@ -116,7 +116,7 @@ class App extends React.Component<StoreState, OwnState> {
                   <Route exact path='/purse' component={Purse} />
                   <Route exact path='/checking' component={Checking} />
                   <Route exact path='/savings' component={Savings} />
-                  <Route exact path='/random' component={Random} />
+                  <Route exact path='/legacy' component={Legacy} />
                   <Route exact path='/payments' component={Payments} />
                   <Route exact path='/address_book' component={AddressBook} />
                   <Route exact path='/settings' component={Settings} />

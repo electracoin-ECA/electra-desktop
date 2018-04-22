@@ -1,3 +1,4 @@
+import { State as AccountState } from './account/types'
 import { ToastState } from './common/toast/types'
 import { State as UnlockModalState } from './common/unlock-modal/types'
 import { State as HeaderState } from './header/types'
@@ -26,6 +27,7 @@ export type ActionListGenerator<
   > = ActionBaseList<ActionType> & ActionsWithPayload
 
 export interface StoreState {
+  account: AccountState
   header: HeaderState
   login: LoginState
   payments: PaymentsState

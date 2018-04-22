@@ -1,7 +1,6 @@
+export { accountReducer as account } from './account'
 export { headerReducer as header } from './header'
 export { loginReducer as login } from './login'
-export { transactionsReducer as transactions } from './transactions'
-export { overviewReducer as overview } from './overview'
 export { paymentsReducer as payments } from './payments'
 export { toastReducer as toast } from './common/toast'
 export { unlockModalReducer as unlockModal } from './common/unlock-modal'

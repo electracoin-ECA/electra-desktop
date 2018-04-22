@@ -70,6 +70,7 @@ h2:not(.first) {
 }
 
 .c-app-layout__container > main {
+  overflow: scroll;
   position: static;
 }
 .c-app-layout__container > main::-webkit-scrollbar {

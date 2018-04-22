@@ -35,7 +35,7 @@ export default class Sidebar extends React.Component<any, any> {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to='/random'>
+                  <NavLink to='/legacy'>
                     <Icon name='warning' size='xs'></Icon>
                     Legacy Account
                   </NavLink>
