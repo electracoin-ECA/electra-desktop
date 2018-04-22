@@ -73,7 +73,7 @@ class Overview extends React.PureComponent<StoreState & Dispatchers & OwnProps> 
               <div className={styles.box}>
                 Estimated Cumulated Interests:
                 {this.props.account.savingsCumulatedRewards === undefined
-                  ? ' Fetching...'
+                  ? ' -.-- ECA'
                   : ` ${numeral(this.props.account.savingsCumulatedRewards).format('0,0.00')} ECA`
                 }
               </div>
