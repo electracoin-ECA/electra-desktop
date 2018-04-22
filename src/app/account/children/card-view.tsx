@@ -32,6 +32,16 @@ function formatPriceFiat(price: number): string {
 }
 
 export default class CardView extends React.PureComponent<OwnProps, OwnState> {
+  public constructor(props: OwnProps) {
+    super(props)
+
+    this.state = {
+      confirmedBalance: '',
+      currencyPrefix: undefined,
+      unconfirmedBalance: '',
+    }
+  }
+
   public static getDerivedStateFromProps({
     confirmedBalance,
     currencyName,
