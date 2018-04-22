@@ -1,10 +1,11 @@
-import { /*ActionBaseWithPayload,*/ ActionListGenerator } from '../types'
+import { ActionBaseWithPayload, ActionListGenerator } from '../types'
 
 /*
  * State
  */
 export interface State {
   isUnlockModalOpened: boolean
+  passphrase?: string
 }
 export interface OwnState {
   error?: string
@@ -48,6 +49,9 @@ export type Dispatchers = {
 export enum ActionType {
   CLOSE_UNLOCK_MODAL = 'CLOSE_UNLOCK_MODAL',
   OPEN_UNLOCK_MODAL = 'OPEN_UNLOCK_MODAL',
+  START_LOGIN_WALLET = 'START_LOGIN_WALLET',
 }
 
-export type ActionList = ActionListGenerator<ActionType, {}>
+export type ActionList = ActionListGenerator<ActionType, {
+  START_LOGIN_WALLET: ActionBaseWithPayload<ActionType.START_LOGIN_WALLET, string>
+}>

@@ -6,5 +6,8 @@ import { ActionType } from './types'
 export default {
   closeUnlockModal: (action$: ActionsObservable<UnlockModalActionsList['SET_LOCK_TO_STAKING_ONLY_SUCCESS']>) =>
     action$.ofType(UnlockModalActionType.SET_LOCK_TO_STAKING_ONLY_SUCCESS)
-      .mapTo({ type: ActionType.CLOSE_UNLOCK_MODAL }),
+      .map(({ payload: passphrase }: UnlockModalActionsList['SET_LOCK_TO_STAKING_ONLY_SUCCESS']) => ({
+        payload: passphrase,
+        type: ActionType.START_LOGIN_WALLET,
+      })),
 }

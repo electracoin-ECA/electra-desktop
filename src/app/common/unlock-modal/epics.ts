@@ -35,7 +35,10 @@ export default {
       )
       .mergeMap((passphrase: string) =>
         Observable.fromPromise(ElectraJsMiddleware.wallet.unlock(passphrase, true))
-          .mapTo({ type: ActionType.SET_LOCK_TO_STAKING_ONLY_SUCCESS })
+          .mapTo({
+            payload: passphrase,
+            type: ActionType.SET_LOCK_TO_STAKING_ONLY_SUCCESS,
+          })
           .catch((error: Error) => {
             console.error(error.message)
 
