@@ -17,26 +17,26 @@ export function bindEventToProp(eventName: string, instance: any, prop: string):
 export function bindEventToAsyncCall(eventName: string, call: () => Promise<any>): void {
   ipcMain.on(eventName, async (event: any, argsString: string) => {
     log.debug(`ipcMain: ${eventName}`)
-    const [err, res] = await to(call.apply(
-      null,
-      JSON.parse(argsString).map((arg: any) => arg !== null ? arg : undefined),
-    ))
+
+    const { args, eventId } = JSON.parse(argsString)
+    const [err, res] = await to(call.apply(null, args.map((arg: any) => arg !== null ? arg : undefined)))
+
     if (err !== null) {
-      log.debug(`ipcMain: ${eventName}:error`, err)
-      event.sender.send(`${eventName}:error`, typeof err === 'string' ? err : err.message)
+      log.debug(`ipcMain: ${eventName}:${eventId}:error`, err)
+      event.sender.send(`${eventName}:${eventId}:error`, typeof err === 'string' ? err : err.message)
 
       return
     }
 
-    log.debug(`ipcMain: ${eventName}:success`)
-    log.silly(`ipcMain: ${eventName}:success`, res)
-    event.sender.send(`${eventName}:success`, JSON.stringify(res))
+    log.debug(`ipcMain: ${eventName}:${eventId}:success`)
+    log.silly(`ipcMain: ${eventName}:${eventId}:success`, res)
+    event.sender.send(`${eventName}:${eventId}:success`, JSON.stringify(res))
   })
 }
 
 export function bindEventToSyncCall(eventName: string, call: () => any): void {
   ipcMain.on(eventName, (event: any, argsString: string) => {
-    // log.debug(`ipcMain: ${eventName}`)
+    log.debug(`ipcMain: ${eventName}`)
 
     try {
       // tslint:disable-next-line:no-shadowed-variable
