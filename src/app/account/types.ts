@@ -10,6 +10,7 @@ export interface State {
   currentPriceUSD: number
   confirmedBalance: number
   isLoading: boolean
+  savingsCumulatedRewards?: number
   transactions: WalletTransaction[]
   unconfirmedBalance: number
 }
@@ -53,6 +54,7 @@ export type ActionList = ActionListGenerator<ActionType, {
       category: AccountCategory
       currentPriceBTC: number
       currentPriceUSD: number
+      savingsCumulatedRewards: number | undefined
       transactions: WalletTransaction[]
     }
   >

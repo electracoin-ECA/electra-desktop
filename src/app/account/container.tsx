@@ -66,7 +66,18 @@ class Overview extends React.PureComponent<StoreState & Dispatchers & OwnProps> 
           (this.props.account.confirmedBalance + this.props.account.unconfirmedBalance) > PURSE_MAXIMUM_AMOUNT && (
             <div className={styles.warning}>
               <div className={styles.warningTitle}>Warning</div>
-              It is not advised to keep more than {numeral(PURSE_MAXIMUM_AMOUNT).format('0,0')} ECAs in your purse.
+              It is not advised to keep more than {numeral(PURSE_MAXIMUM_AMOUNT).format('0,0')} ECA in your purse.
+            </div>
+          )}
+
+          {/* tslint:disable-next-line:no-magic-numbers */}
+          {this.props.category === 2 && (
+            <div>
+              <h2>Estimated Cumulated Interests</h2>
+              {this.props.account.savingsCumulatedRewards === undefined
+                ? 'Fetching...'
+                : `${this.props.account.savingsCumulatedRewards} ECA`
+              }
             </div>
           )}
 
