@@ -80,10 +80,16 @@ export default class CardView extends React.PureComponent<OwnProps, OwnState> {
         <div className='c-card'>
           <div className='c-card__content text-center'>
             <div className='block text-3xl font-extra-bold'>
-              {this.props.isLoading ? '...' : this.state.confirmedBalance}
+              {this.props.isLoading
+                ? this.props.currencyName === 'USD' ? '-.--' : '-.-----'
+                : this.state.confirmedBalance
+              }
             </div>
             <div className='text-grey'>
-              {this.props.isLoading ? '...' : this.state.unconfirmedBalance}
+              {this.props.isLoading
+                ? this.props.currencyName === 'USD' ? '-.--' : '-.-----'
+                : this.state.unconfirmedBalance
+              }
             </div>
             <div className='block text-lg text-purple font-semi-bold'>
               {this.props.currencyName}
