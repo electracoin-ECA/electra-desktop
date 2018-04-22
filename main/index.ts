@@ -10,6 +10,8 @@ import Communication from './communication'
 import loadUserSettings from './loadUserSettings'
 import setMainMenu from './setMainMenu'
 
+const UPDATE_LOOP_DELAY = 1_200
+
 let isHidden = false
 const isHot = Boolean(process.env.IS_HOT)
 const isProd = process.env.NODE_ENV === 'production'
@@ -100,6 +102,7 @@ function createWindow(): void {
       autoUpdater.quitAndInstall()
     })
     autoUpdater.checkForUpdatesAndNotify()
+    setInterval(() => autoUpdater.checkForUpdatesAndNotify(), UPDATE_LOOP_DELAY)
   })
 
   mainWindow.on('minimize', (event: Event) => {
