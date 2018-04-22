@@ -2,7 +2,7 @@
   "name": "electra-desktop",
   "productName": "Electra Desktop",
   "companyName": "Electra Project",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Cross-platform Desktop Wallet for Electra blockchain.",
   "license": "MIT",
   "private": true,
