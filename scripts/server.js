@@ -32,7 +32,7 @@ const server = app.listen(PORT, '127.0.0.1', serverError => {
     return console.error(serverError)
   }
 
-  spawn('npm', ['run', 'start:renderer'], { shell: true, env: process.env, stdio: 'inherit' })
+  spawn('npm', ['run', 'start:renderer'], { shell: true, stdio: 'inherit' })
     .on('close', code => process.exit(code))
     .on('error', spawnError => console.error(spawnError))
 
