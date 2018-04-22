@@ -9,7 +9,7 @@ import { EventToCall, EventToProp } from './types'
 export default class Communication {
   public electraJs: ElectraJs<WalletHard>
 
-  constructor() {
+  public constructor() {
     this.electraJs = new ElectraJs({
       binariesPath: Boolean(process.env.ELECTRON_IS_LOCAL)
         ? path.resolve(__dirname, '../node_modules/electra-js/bin')
@@ -47,12 +47,14 @@ export default class Communication {
       { event: 'electraJs:wallet:getBalance', call: this.electraJs.wallet.getBalance.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:getCategoryBalance', call: this.electraJs.wallet.getCategoryBalance.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:getInfo', call: this.electraJs.wallet.getInfo.bind(this.electraJs.wallet)},
+      { event: 'electraJs:wallet:getSavingsCumulatedRewards', call: this.electraJs.wallet.getSavingsCumulatedRewards.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:getTransaction', call: this.electraJs.wallet.getTransaction.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:getTransactions', call: this.electraJs.wallet.getTransactions.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:import', call: this.electraJs.wallet.import.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:importRandomAddress', call: this.electraJs.wallet.importRandomAddress.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:lock', call: this.electraJs.wallet.lock.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:send', call: this.electraJs.wallet.send.bind(this.electraJs.wallet)},
+      { event: 'electraJs:wallet:start', call: this.electraJs.wallet.start.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:startDaemon', call: this.electraJs.wallet.startDaemon.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:stopDaemon', call: this.electraJs.wallet.stopDaemon.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:unlock', call: this.electraJs.wallet.unlock.bind(this.electraJs.wallet) },
@@ -65,7 +67,6 @@ export default class Communication {
     [
       { event: 'electraJs:wallet:getAddressCategory', call: this.electraJs.wallet.getAddressCategory.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:reset', call: this.electraJs.wallet.reset.bind(this.electraJs.wallet)},
-      { event: 'electraJs:wallet:start', call: this.electraJs.wallet.start.bind(this.electraJs.wallet)},
     ]
       .forEach(({ event, call }: EventToCall) => bindEventToSyncCall(event, call))
   }
