@@ -5,7 +5,14 @@ import { Observable } from 'rxjs/Observable'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { AccountCategory, ActionList, ActionType } from './types'
 
-type GetBalanceAndTransactions = [AccountCategory, number, number, WalletBalance, WalletTransaction[]]
+type GetBalanceAndTransactions = [
+  AccountCategory,
+  number,
+  number,
+  WalletBalance,
+  WalletTransaction[],
+  number | undefined
+]
 
 const LOOP_DELAY = 5_000
 const TRANSACTIONS_COUNT = 10
@@ -21,14 +28,24 @@ export default {
           ? ElectraJsMiddleware.wallet.getBalance()
           : ElectraJsMiddleware.wallet.getCategoryBalance(category),
         ElectraJsMiddleware.wallet.getTransactions(TRANSACTIONS_COUNT, category === null ? undefined : category),
+        // tslint:disable-next-line:no-magic-numbers
+        category === 2
+          ? ElectraJsMiddleware.wallet.getSavingsCumulatedRewards()
+          : Promise.resolve(undefined),
       ]))
       .switchMap((promise: Promise<GetBalanceAndTransactions>) =>
         Observable
           .fromPromise(promise)
-          // tslint:disable-next-line:max-line-length
-          .flatMap(([category, currentPriceBTC, currentPriceUSD, balance, transactions]: GetBalanceAndTransactions) => [
+          .flatMap(([
+            category,
+            currentPriceBTC,
+            currentPriceUSD,
+            balance,
+            transactions,
+            savingsCumulatedRewards,
+          ]: GetBalanceAndTransactions) => [
             {
-              payload: {category, currentPriceBTC, currentPriceUSD, balance, transactions},
+              payload: {category, currentPriceBTC, currentPriceUSD, balance, transactions, savingsCumulatedRewards},
               type: ActionType.GET_BALANCE_AND_TRANSACTIONS_SUCCESS,
             },
             {
