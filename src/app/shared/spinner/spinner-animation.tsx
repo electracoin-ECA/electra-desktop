@@ -7,7 +7,6 @@ const styles: any = require('./styles.css')
 export default function SpinnerAnimation(): JSX.Element {
   return (
     <svg
-      style={{ enableBackground: 'new 0 0 80 80' }}
       version="1.1"
       viewBox="0 0 80 80"
       x="0px"
