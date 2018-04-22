@@ -26,6 +26,17 @@ log.transports.console.level = log.transports.file.level = process.env.NODE_ENV 
 autoUpdater.logger = log
 autoUpdater.autoDownload = false
 
+// Force single instance
+if (
+  app.makeSingleInstance(() => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+    }
+  })
+) app.quit()
+
 // Start IPC events bus listener
 const communication: Communication = new Communication()
 
