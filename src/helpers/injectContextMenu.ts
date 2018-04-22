@@ -56,7 +56,7 @@ export default function(): void {
         break
       }
 
-      if (node.classList !== undefined && node.classList.contains('selectableText')) {
+      if (node.classList.contains('selectableText')) {
         selectableContextMenu.popup(remote.getCurrentWindow())
         break
       }
