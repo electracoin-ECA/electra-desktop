@@ -6,13 +6,14 @@ const ONE_MILLION = 1_000_000
 const ONE_CENT = 0.01
 const ONE_MILLI_CENT = 0.000_01
 
-interface ComponentProps {
+interface OwnProps {
   confirmedBalance: number
   currencyName: 'BTC' | 'ECA' | 'USD'
+  isLoading: boolean
   unconfirmedBalance: number
 }
 
-interface ComponentState {
+interface OwnState {
   confirmedBalance: string
   currencyPrefix: 'm' | 'μ' | undefined
   unconfirmedBalance: string
@@ -30,12 +31,15 @@ function formatPriceFiat(price: number): string {
   return (price !== 0 && price < ONE_CENT) || formattedPrice === 'NaN' ? '~0.00' : formattedPrice
 }
 
-export default class CardView extends React.PureComponent<ComponentProps, ComponentState> {
+export default class CardView extends React.PureComponent<OwnProps, OwnState> {
   public static getDerivedStateFromProps({
     confirmedBalance,
     currencyName,
+    isLoading,
     unconfirmedBalance,
-  }: ComponentProps): ComponentState {
+  }: OwnProps): Partial<OwnState> | null {
+    if (isLoading) return null
+
     if (currencyName === 'USD') {
       return {
         confirmedBalance: formatPriceFiat(confirmedBalance),
@@ -76,13 +80,13 @@ export default class CardView extends React.PureComponent<ComponentProps, Compon
         <div className='c-card'>
           <div className='c-card__content text-center'>
             <div className='block text-3xl font-extra-bold'>
-              {this.state.confirmedBalance}
+              {this.props.isLoading ? '...' : this.state.confirmedBalance}
             </div>
             <div className='text-grey'>
-              {this.state.unconfirmedBalance}
+              {this.props.isLoading ? '...' : this.state.unconfirmedBalance}
             </div>
             <div className='block text-lg text-purple font-semi-bold'>
-              {this.state.currencyPrefix}{this.props.currencyName}
+              {this.props.currencyName}
             </div>
           </div>
         </div>
