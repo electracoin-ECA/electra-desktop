@@ -4,6 +4,8 @@ import { Provider } from 'react-redux'
 
 import App from './app/App'
 import store from './app/store'
+import injectContextMenu from './helpers/injectContextMenu'
+
 import './app/styles.scss'
 
 ReactDOM.render(
@@ -12,3 +14,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root'),
 )
+
+injectContextMenu()
