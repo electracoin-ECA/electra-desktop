@@ -130,7 +130,7 @@ function updateTray(): void {
       : [
         {
           click: toggleMainWindows,
-          label: 'Mimize to Tray',
+          label: 'Minimize to Tray',
         },
       ]
     ).concat(
