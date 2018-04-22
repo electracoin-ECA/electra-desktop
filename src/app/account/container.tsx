@@ -72,12 +72,14 @@ class Overview extends React.PureComponent<StoreState & Dispatchers & OwnProps> 
 
           {/* tslint:disable-next-line:no-magic-numbers */}
           {this.props.category === 2 && (
-            <div>
-              <h2>Estimated Cumulated Interests</h2>
-              {this.props.account.savingsCumulatedRewards === undefined
-                ? 'Fetching...'
-                : `${this.props.account.savingsCumulatedRewards} ECA`
-              }
+            <div className={styles.boxContainer}>
+              <div className={styles.box}>
+                Estimated Cumulated Interests:
+                {this.props.account.savingsCumulatedRewards === undefined
+                  ? ' Fetching...'
+                  : ` ${numeral(this.props.account.savingsCumulatedRewards).format('0,0.00')} ECA`
+                }
+              </div>
             </div>
           )}
 
