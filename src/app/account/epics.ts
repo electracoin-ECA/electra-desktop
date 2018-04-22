@@ -7,7 +7,7 @@ import { AccountCategory, ActionList, ActionType } from './types'
 
 type GetBalanceAndTransactions = [AccountCategory, number, number, WalletBalance, WalletTransaction[]]
 
-const LOOP_DELAY = 1_000
+const LOOP_DELAY = 5_000
 const TRANSACTIONS_COUNT = 10
 
 export default {
@@ -36,7 +36,7 @@ export default {
               type: ActionType.GET_BALANCE_AND_TRANSACTIONS_LOOP,
             },
           ])
-          .takeUntil(action$.ofType(ActionType.RESET_ACCOUNT_STATE))
+          .takeUntil(action$.ofType(ActionType.STOP_BALANCE_AND_TRANSACTIONS_LOOP))
           .catch((error: Error) => {
             console.error(error.message)
 
@@ -49,6 +49,7 @@ export default {
   getBalanceAndTransactionsLoop: (action$: ActionsObservable<ActionList['GET_BALANCE_AND_TRANSACTIONS_LOOP']>) =>
     action$.ofType(ActionType.GET_BALANCE_AND_TRANSACTIONS_LOOP)
       .delay(LOOP_DELAY)
+      .takeUntil(action$.ofType(ActionType.STOP_BALANCE_AND_TRANSACTIONS_LOOP))
       .map(({ payload: category }: ActionList['GET_BALANCE_AND_TRANSACTIONS_LOOP']) => ({
         payload: category,
         type: ActionType.GET_BALANCE_AND_TRANSACTIONS,

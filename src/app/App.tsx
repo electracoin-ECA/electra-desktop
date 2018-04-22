@@ -7,16 +7,12 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import 'rxjs'
 
 import ElectraJsMiddleware from '../middlewares/ElectraJs'
+import { AccountChecking, AccountLegacy, AccountOverview, AccountPurse, AccountSavings } from './account'
 import { AddressBook } from './addressBook'
-import Checking from './checking'
 import Toast from './common/toast/toast'
 import { Header } from './header'
-import Legacy from './legacy'
 import Login from './login'
-import Overview from './overview'
 import { Payments } from './payments'
-import Purse from './purse'
-import Savings from './savings'
 import { Settings } from './settings'
 import Loader from './shared/loader'
 import { Sidebar } from './sidebar'
@@ -112,11 +108,11 @@ class App extends React.Component<StoreState, OwnState> {
                 {/* TODO Fix this dirty hack to handle missing redirect on production app. */}
                 <Redirect to='/' />
                 <Switch>
-                  <Route exact path='/' component={Overview} />
-                  <Route exact path='/purse' component={Purse} />
-                  <Route exact path='/checking' component={Checking} />
-                  <Route exact path='/savings' component={Savings} />
-                  <Route exact path='/legacy' component={Legacy} />
+                  <Route exact path='/' component={AccountOverview} />
+                  <Route exact path='/purse' component={AccountPurse} />
+                  <Route exact path='/checking' component={AccountChecking} />
+                  <Route exact path='/savings' component={AccountSavings} />
+                  <Route exact path='/legacy' component={AccountLegacy} />
                   <Route exact path='/payments' component={Payments} />
                   <Route exact path='/address_book' component={AddressBook} />
                   <Route exact path='/settings' component={Settings} />
