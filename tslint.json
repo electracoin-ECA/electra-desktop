@@ -10,7 +10,6 @@
     "max-line-length": [true, 120],
     "member-ordering": [false],
     "newline-per-chained-call": [false],
-    "member-access":[false],
     "no-any": [false],
     "no-empty":[false],
     "no-console": [true, "log"],
