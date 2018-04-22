@@ -1,13 +1,9 @@
 import { AccountCategory, ActionList, ActionType, Dispatchers } from './types'
 
 const dispatchers: Dispatchers = {
-  getBalanceAndTransactions: (category: AccountCategory): ActionList['GET_BALANCE_AND_TRANSACTIONS'] => ({
+  switchAccountCategory: (category: AccountCategory): ActionList['SWITCH_ACCOUNT_CATEGORY'] => ({
     payload: category,
-    type: ActionType.GET_BALANCE_AND_TRANSACTIONS,
-  }),
-
-  stopBalanceAndTransactionsLoop: (): ActionList['STOP_BALANCE_AND_TRANSACTIONS_LOOP'] => ({
-    type: ActionType.STOP_BALANCE_AND_TRANSACTIONS_LOOP,
+    type: ActionType.SWITCH_ACCOUNT_CATEGORY,
   }),
 }
 

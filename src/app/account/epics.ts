@@ -14,8 +14,10 @@ type GetBalanceAndTransactions = [
   number | undefined
 ]
 
-const LOOP_DELAY = 5_000
+const LOOP_DELAY = 2_000
 const TRANSACTIONS_COUNT = 10
+
+let currentCategory: AccountCategory
 
 export default {
   getBalanceAndTransactions: (action$: ActionsObservable<ActionList['GET_BALANCE_AND_TRANSACTIONS']>) =>
@@ -43,17 +45,20 @@ export default {
             balance,
             transactions,
             savingsCumulatedRewards,
-          ]: GetBalanceAndTransactions) => [
-            {
-              payload: {category, currentPriceBTC, currentPriceUSD, balance, transactions, savingsCumulatedRewards},
-              type: ActionType.GET_BALANCE_AND_TRANSACTIONS_SUCCESS,
-            },
-            {
-              payload: category,
-              type: ActionType.GET_BALANCE_AND_TRANSACTIONS_LOOP,
-            },
-          ])
-          .takeUntil(action$.ofType(ActionType.STOP_BALANCE_AND_TRANSACTIONS_LOOP))
+          ]: GetBalanceAndTransactions) =>
+            category !== currentCategory
+              ? []
+              : [
+                {
+                  payload: {category, currentPriceBTC, currentPriceUSD, balance, transactions, savingsCumulatedRewards},
+                  type: ActionType.GET_BALANCE_AND_TRANSACTIONS_SUCCESS,
+                },
+                {
+                  payload: category,
+                  type: ActionType.GET_BALANCE_AND_TRANSACTIONS_LOOP,
+                },
+              ],
+          )
           .catch((error: Error) => {
             console.error(error.message)
 
@@ -66,9 +71,19 @@ export default {
   getBalanceAndTransactionsLoop: (action$: ActionsObservable<ActionList['GET_BALANCE_AND_TRANSACTIONS_LOOP']>) =>
     action$.ofType(ActionType.GET_BALANCE_AND_TRANSACTIONS_LOOP)
       .delay(LOOP_DELAY)
-      .takeUntil(action$.ofType(ActionType.STOP_BALANCE_AND_TRANSACTIONS_LOOP))
       .map(({ payload: category }: ActionList['GET_BALANCE_AND_TRANSACTIONS_LOOP']) => ({
         payload: category,
         type: ActionType.GET_BALANCE_AND_TRANSACTIONS,
       })),
+
+  switchAccountCategory: (action$: ActionsObservable<ActionList['SWITCH_ACCOUNT_CATEGORY']>) =>
+    action$.ofType(ActionType.SWITCH_ACCOUNT_CATEGORY)
+      .flatMap(({ payload: category }: ActionList['SWITCH_ACCOUNT_CATEGORY']) => {
+        currentCategory = category
+
+        return [{
+          payload: currentCategory,
+          type: ActionType.GET_BALANCE_AND_TRANSACTIONS_LOOP,
+        }]
+      }),
 }
