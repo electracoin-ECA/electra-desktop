@@ -42,10 +42,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
   }
 
   public UNSAFE_componentWillReceiveProps({ login }: Dispatchers & StoreState & OwnProps): void {
-    if (ElectraJsMiddleware.wallet.state === 'READY' && ElectraJsMiddleware.wallet.lockState === 'STAKING') {
-      this.props.onDone()
-    }
-
     if (login.passphrase !== undefined) this.startWallet()
   }
 

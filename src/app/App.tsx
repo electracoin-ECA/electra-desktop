@@ -34,7 +34,11 @@ class App extends React.Component<StoreState, OwnState> {
     super(props)
 
     this.state = {
-      isLoading: true,
+      isLoading: !(
+        ElectraJsMiddleware.wallet.state === 'READY' &&
+        ElectraJsMiddleware.wallet.daemonState === 'STARTED' &&
+        ElectraJsMiddleware.wallet.lockState === 'STAKING'
+      ),
       isQuitting: false,
       isUpdating: false,
       loaderText: '',
