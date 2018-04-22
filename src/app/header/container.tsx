@@ -70,7 +70,10 @@ class Header extends React.Component<StoreState & Dispatchers> {
                     label={'Downloaded blocks'}
                     info={`
                         ${numeral(localBlockchainHeight).format('0,0')}
-                        ${isSynchonized ? '(Synced)' : ` / ${networkBlockchainHeight}`}
+                        ${localBlockchainHeight !== undefined && (isSynchonized
+                          ? '(Synced)'
+                          : ` / ${networkBlockchainHeight}`
+                        )}
                       `}
                   />
                   <WalletInfoComponent
