@@ -148,6 +148,10 @@ export default class Transactions extends React.Component<Props, State> {
   }
 
   public renderSent(transaction: WalletTransaction, index: number, isPartial: boolean): JSX.Element {
+    const isMerged: boolean = transaction.to
+      .filter(({ category }: WalletTransactionEndpoint) => category !== this.props.category)
+      .length === 0
+
     return (
       <div
         className={`c-card  mb-4 ${this.state.expandedTransactions[index] ? 'expanded' : ''}`}
@@ -158,21 +162,21 @@ export default class Transactions extends React.Component<Props, State> {
           onClick={this.toggleExpand.bind(this, index)}
         >
           <div className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0' style={{ width: '5rem' }}>
-            {this.props.category === null ? 'Transfered' : 'Sent'}
+            {this.props.category === null ? 'Transfered' : isMerged ? 'Merged' : 'Sent'}
           </div>
           <div
             className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0 font-extra-bold'
             style={{ textAlign: 'right', width: '9rem' }}
           >
-            {this.props.category !== null ? '-' : ''}
-            {this.props.category === null && transaction.amount.toFixed(DECIMALS_LENGTH)}
-            {this.props.category !== null && isPartial && transaction.to
+            {this.props.category !== null && !isMerged ? '-' : ''}
+            {(this.props.category === null || isMerged) && transaction.amount.toFixed(DECIMALS_LENGTH)}
+            {this.props.category !== null && !isMerged && isPartial && transaction.to
               .filter(({ category }: WalletTransactionEndpoint) => category !== this.props.category)
               // tslint:disable-next-line:no-parameter-reassignment
               .reduce((total: number, { amount }: WalletTransactionEndpoint) => total += amount, 0)
               .toFixed(DECIMALS_LENGTH)
             }
-            {this.props.category !== null && !isPartial && transaction.from
+            {this.props.category !== null && !isMerged && !isPartial && transaction.from
               .filter(({ category }: WalletTransactionEndpoint) => category === this.props.category)
               // tslint:disable-next-line:no-parameter-reassignment
               .reduce((total: number, { amount }: WalletTransactionEndpoint) => total += amount, 0)
