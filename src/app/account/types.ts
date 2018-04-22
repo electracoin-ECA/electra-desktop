@@ -19,7 +19,7 @@ export interface State {
  */
 export interface Dispatchers {
   getBalanceAndTransactions(category: AccountCategory): ActionList['GET_BALANCE_AND_TRANSACTIONS']
-  resetAccountState(category: AccountCategory): ActionList['RESET_ACCOUNT_STATE']
+  stopBalanceAndTransactionsLoop(): ActionList['STOP_BALANCE_AND_TRANSACTIONS_LOOP']
 }
 
 /**
@@ -37,7 +37,7 @@ export enum ActionType {
   GET_BALANCE_AND_TRANSACTIONS_ERROR = 'GET_BALANCE_AND_TRANSACTIONS_ERROR',
   GET_BALANCE_AND_TRANSACTIONS_LOOP = 'GET_BALANCE_AND_TRANSACTIONS_LOOP',
   GET_BALANCE_AND_TRANSACTIONS_SUCCESS = 'GET_BALANCE_AND_TRANSACTIONS_SUCCESS',
-  RESET_ACCOUNT_STATE = 'RESET_ACCOUNT_STATE',
+  STOP_BALANCE_AND_TRANSACTIONS_LOOP = 'STOP_BALANCE_AND_TRANSACTIONS_LOOP',
 }
 
 export type ActionList = ActionListGenerator<ActionType, {
@@ -56,7 +56,6 @@ export type ActionList = ActionListGenerator<ActionType, {
       transactions: WalletTransaction[]
     }
   >
-  RESET_ACCOUNT_STATE: ActionBaseWithPayload<ActionType.RESET_ACCOUNT_STATE, AccountCategory>
 }>
 
 /*

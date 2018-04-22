@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-import { Account } from '../account'
+import Account from '../container'
 
 export default function(): JSX.Element {
   // tslint:disable-next-line:no-magic-numbers
-  return <Account category={1} />
+  return <Account category={2} />
 }

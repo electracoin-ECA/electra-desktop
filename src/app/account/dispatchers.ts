@@ -6,9 +6,8 @@ const dispatchers: Dispatchers = {
     type: ActionType.GET_BALANCE_AND_TRANSACTIONS,
   }),
 
-  resetAccountState: (category: AccountCategory): ActionList['RESET_ACCOUNT_STATE'] => ({
-    payload: category,
-    type: ActionType.RESET_ACCOUNT_STATE,
+  stopBalanceAndTransactionsLoop: (): ActionList['STOP_BALANCE_AND_TRANSACTIONS_LOOP'] => ({
+    type: ActionType.STOP_BALANCE_AND_TRANSACTIONS_LOOP,
   }),
 }
 

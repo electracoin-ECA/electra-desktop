@@ -3,8 +3,8 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 
 import { StoreState } from '../types'
-import CardViewPrices from './components/card-view-prices'
-import Transactions from './components/transactions'
+import CardViewPrices from './children/card-view-prices'
+import Transactions from './children/transactions'
 import dispatchers from './dispatchers'
 import { Dispatchers, OwnProps } from './types'
 
@@ -14,8 +14,11 @@ const PURSE_MAXIMUM_AMOUNT = 1_000
 
 class Overview extends React.PureComponent<StoreState & Dispatchers & OwnProps> {
   public componentDidMount(): void {
-    this.props.resetAccountState(this.props.category)
     this.props.getBalanceAndTransactions(this.props.category)
+  }
+
+  public componentWillUnmount(): void {
+    this.props.stopBalanceAndTransactionsLoop()
   }
 
   public render(): JSX.Element {
