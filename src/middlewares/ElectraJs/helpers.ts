@@ -8,19 +8,21 @@ export function bindEventToSyncCall<T>(eventName: string, args?: IArguments): T 
 
 export async function bindEventToAsyncCall<T>(eventName: string, args?: IArguments): Promise<T> {
   return new Promise((resolve: (res: T) => void, reject: (err: Error) => void): void => {
+    const eventId = +Date.now()
+
     ipcRenderer
-      .on(`${eventName}:success`, (event: any, resString: string): void => {
+      .on(`${eventName}:${eventId}:success`, (event: any, resString: string): void => {
         resolve(JSON.parse(resString))
-        ipcRenderer.removeAllListeners(`${eventName}:success`)
-        ipcRenderer.removeAllListeners(`${eventName}:error`)
+        ipcRenderer.removeAllListeners(`${eventName}:${eventId}:success`)
+        ipcRenderer.removeAllListeners(`${eventName}:${eventId}:error`)
       })
-      .on(`${eventName}:error`, (event: any, err: string): void => {
+      .on(`${eventName}:${eventId}:error`, (event: any, err: string): void => {
         reject(new Error(err))
-        ipcRenderer.removeAllListeners(`${eventName}:success`)
-        ipcRenderer.removeAllListeners(`${eventName}:error`)
+        ipcRenderer.removeAllListeners(`${eventName}:${eventId}:success`)
+        ipcRenderer.removeAllListeners(`${eventName}:${eventId}:error`)
       })
 
     ipcRenderer
-      .send(eventName, JSON.stringify(Array.prototype.slice.call(args)))
+      .send(eventName, JSON.stringify({ eventId, args: Array.prototype.slice.call(args) }))
   })
 }
