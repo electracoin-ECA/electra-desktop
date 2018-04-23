@@ -1,5 +1,6 @@
 import to from 'await-to-js'
-import { Address, WalletAddress, /*WalletExchangeFormat,*/ WalletStartDataHard } from 'electra-js'
+import { Address, WalletAddress, WalletStartDataHard } from 'electra-js'
+import { remote } from 'electron'
 import * as storage from 'electron-json-storage'
 import { isEmpty, pick } from 'ramda'
 import * as React from 'react'
@@ -58,6 +59,11 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
       await this.startDaemon()
 
+      if (ElectraJsMiddleware.wallet.daemonState !== 'STARTED') {
+        window.alert(`[LOGIN-001] The daemon couldn't start.`)
+        remote.app.quit()
+      }
+
       this.setState({
         // If there are no stored userSettings,
         // it's the first time the user install the new Desktop Wallet on this device.
@@ -86,7 +92,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
   private async startWallet(): Promise<void> {
     this.setState({ loadingText: 'Starting wallet...' })
-    await waitFor(HEAVY_PROCESS_DELAY)
     await ElectraJsMiddleware.wallet.start(this.walletStartData, this.props.login.passphrase as string)
     this.props.onDone()
   }
