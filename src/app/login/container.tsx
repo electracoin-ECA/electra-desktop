@@ -92,7 +92,13 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
   private async startWallet(): Promise<void> {
     this.setState({ loadingText: 'Starting wallet...' })
-    await ElectraJsMiddleware.wallet.start(this.walletStartData, this.props.login.passphrase as string)
+    const [err] = await to(
+      ElectraJsMiddleware.wallet.start(this.walletStartData, this.props.login.passphrase as string)
+    )
+    if (err !== null) {
+      window.alert(`[LOGIN-002] ${err.message}.`)
+      remote.app.quit()
+    }
     this.props.onDone()
   }
 
