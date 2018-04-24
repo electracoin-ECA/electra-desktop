@@ -13,11 +13,6 @@ const dispatchers: Dispatchers = {
       type: ActionType.SUBMIT_TRANSACTION,
     }),
 
-  getAddresses: (): ActionList['GET_ADDRESSES'] =>
-    ({
-      type: ActionType.GET_ADDRESSES,
-    }),
-
   toggleUnlockModal: (): ActionList['TOGGLE_UNLOCK_MODAL'] =>
     ({
       type: ActionType.TOGGLE_UNLOCK_MODAL,
