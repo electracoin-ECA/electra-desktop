@@ -1,6 +1,6 @@
 {
-  "name": "electra-desktop",
-  "productName": "Electra Desktop",
+  "name": "electra-desktop-test",
+  "productName": "Electra Desktop Test",
   "companyName": "Electra Project",
   "version": "1.0.8",
   "description": "Cross-platform Desktop Wallet for Electra blockchain.",
@@ -139,10 +139,10 @@
   "contributors": [],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Electra-project/Electra-Desktop.git"
+    "url": "git+https://github.com/Electra-project/electra-desktop-test.git"
   },
   "bugs": {
-    "url": "https://github.com/Electra-project/Electra-Desktop/issues"
+    "url": "https://github.com/Electra-project/electra-desktop-test/issues"
   },
   "homepage": "https://electraproject.org"
 }
