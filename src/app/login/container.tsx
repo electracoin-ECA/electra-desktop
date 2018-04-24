@@ -1,6 +1,5 @@
 import to from 'await-to-js'
 import { Address, WalletAddress, WalletStartDataHard } from 'electra-js'
-import { remote } from 'electron'
 import * as storage from 'electron-json-storage'
 import { isEmpty, pick } from 'ramda'
 import * as React from 'react'
@@ -8,6 +7,8 @@ import { connect } from 'react-redux'
 import * as zxcvbn from 'zxcvbn'
 
 import { USER_SETTINGS_DEFAULT } from '../../constants'
+import throwError, { ERROR } from '../../helpers/throwError'
+import tryCatch from '../../helpers/tryCatch'
 import waitFor from '../../helpers/waitFor'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { UserSettings } from '../../types'
@@ -58,11 +59,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       }
 
       await this.startDaemon()
-
-      if (ElectraJsMiddleware.wallet.daemonState !== 'STARTED') {
-        window.alert(`[LOGIN-001] The daemon couldn't start.`)
-        remote.app.quit()
-      }
+      if (ElectraJsMiddleware.wallet.daemonState !== 'STARTED') throwError(ERROR.LOGIN001)
 
       this.setState({
         // If there are no stored userSettings,
@@ -92,13 +89,10 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
   private async startWallet(): Promise<void> {
     this.setState({ loadingText: 'Starting wallet...' })
-    const [err] = await to(
-      ElectraJsMiddleware.wallet.start(this.walletStartData, this.props.login.passphrase as string)
+    await tryCatch(
+      ElectraJsMiddleware.wallet.start(this.walletStartData, this.props.login.passphrase as string),
+      ERROR.LOGIN002,
     )
-    if (err !== null) {
-      window.alert(`[LOGIN-002] ${err.message}.`)
-      remote.app.quit()
-    }
     this.props.onDone()
   }
 
