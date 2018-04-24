@@ -111,7 +111,7 @@ export default class SendCardView extends React.PureComponent<OwnProps, OwnState
                 </div>
               </div>
               <p className={styles.amountAvailable}>
-                Available: <span>{this.state.amountAvailable}</span> ECA
+                Available: <span className='selectableText'>{this.state.amountAvailable}</span> ECA
               </p>
               <div className='c-input'>
                 <span className='c-input__label'>To Account</span>
