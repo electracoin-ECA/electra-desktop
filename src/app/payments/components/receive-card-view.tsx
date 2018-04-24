@@ -26,8 +26,19 @@ export default class ReceiveCardView extends React.PureComponent<OwnProps, OwnSt
     super(props)
 
     this.state = {
-      selectedAddressHash: props.addresses[0].hash,
+      selectedAddressHash: '',
     }
+  }
+
+  public static getDerivedStateFromProps(
+    { addresses }: OwnProps,
+    { selectedAddressHash }: OwnState,
+  ): Partial<OwnState> | null {
+    if (selectedAddressHash === '' && addresses.length !== 0) {
+      return { selectedAddressHash: addresses[0].hash }
+    }
+
+    return null
   }
 
   private onChange(): void {
