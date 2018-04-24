@@ -58,8 +58,7 @@ export default class Communication {
       { event: 'electraJs:wallet:startDaemon', call: this.electraJs.wallet.startDaemon.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:stopDaemon', call: this.electraJs.wallet.stopDaemon.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:unlock', call: this.electraJs.wallet.unlock.bind(this.electraJs.wallet) },
-      { event: 'electraJs:webServices:getCurrentPriceInBTC', call: this.electraJs.webServices.getCurrentPriceIn.bind(this.electraJs.webServices) },
-      { event: 'electraJs:webServices:getCurrentPriceInUSD', call: this.electraJs.webServices.getCurrentPriceIn.bind(this.electraJs.webServices) },
+      { event: 'electraJs:webServices:getCurrentPriceIn', call: this.electraJs.webServices.getCurrentPriceIn.bind(this.electraJs.webServices) },
     ]
       .forEach(({ event, call }: EventToCall) => bindEventToAsyncCall(event, call));
 

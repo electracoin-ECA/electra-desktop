@@ -1,4 +1,4 @@
-import { CoinMarketCapCurrency } from 'electra-js'
+import { CurrencyPrice } from 'electra-js'
 
 import { bindEventToAsyncCall } from './helpers'
 
@@ -7,10 +7,7 @@ export default class WebServices {
     return bindEventToAsyncCall<number>('electraJs:webServices:getBalanceFor', arguments)
   }
 
-  public async getCurrentPriceInUSD(currency?: CoinMarketCapCurrency): Promise<number> {
-    return bindEventToAsyncCall<number>('electraJs:webServices:getCurrentPriceInUSD', arguments)
-  }
-  public async getCurrentPriceInBTC(currency?: CoinMarketCapCurrency): Promise<number> {
-    return bindEventToAsyncCall<number>('electraJs:webServices:getCurrentPriceInBTC', arguments)
+  public async getCurrentPriceIn(): Promise<CurrencyPrice> {
+    return bindEventToAsyncCall<CurrencyPrice>('electraJs:webServices:getCurrentPriceIn', arguments)
   }
 }
