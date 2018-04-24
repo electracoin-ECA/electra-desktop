@@ -10,7 +10,7 @@ import Communication from './communication'
 import loadUserSettings from './loadUserSettings'
 import setMainMenu from './setMainMenu'
 
-const UPDATE_LOOP_DELAY = 1_200
+const UPDATE_LOOP_DELAY = 1_200_000
 
 let isHidden = false
 const isHot = Boolean(process.env.IS_HOT)
