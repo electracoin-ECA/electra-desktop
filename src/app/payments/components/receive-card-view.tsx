@@ -13,7 +13,7 @@ interface OwnState {
   selectedAddressHash: string
 }
 
-const CATEGORY: any = [
+const CATEGORY: string[] = [
   'Purse',
   'Checking Account',
   'Savings Account',
@@ -45,6 +45,7 @@ export default class ReceiveCardView extends React.PureComponent<OwnProps, OwnSt
                 <select onChange={this.onChange.bind(this)} ref={(node: HTMLSelectElement) => this.$addresses = node}>
                   {this.props.addresses.map((address: WalletAddress) =>
                     <option
+                      // tslint:disable-next-line:no-unnecessary-type-assertion
                       children={`[${CATEGORY[address.category as WalletAddressCategory]}] ${address.hash}`}
                       key={address.hash}
                       value={address.hash}
