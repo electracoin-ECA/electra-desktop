@@ -2,6 +2,7 @@ import { WalletAddress } from 'electra-js'
 import * as React from 'react'
 import { connect } from 'react-redux'
 
+import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { setMessageAndBadge } from '../common/toast/actions'
 import { COPIED_ADDRESS, /*PENDING, SENDING_IN_PROGRESS,*/ SUCCESS } from '../common/toast/toast-messages'
 import UnlockModal from '../common/unlock-modal'
@@ -9,14 +10,26 @@ import { StoreState } from '../types'
 import ReceiveCardView from './components/receive-card-view'
 import SendCardView from './components/send-card-view'
 import dispatchers from './dispatchers'
-import { ComponentDispatchers } from './types'
+import { ComponentDispatchers, OwnState } from './types'
 
-class Payments extends React.Component<StoreState & ComponentDispatchers> {
+class Payments extends React.Component<StoreState & ComponentDispatchers, OwnState> {
+  public constructor(props: StoreState & ComponentDispatchers) {
+    super(props)
+
+    this.state = {
+      addresses: [],
+    }
+  }
+
+  public componentDidMount(): void {
+    this.setState({
+      addresses: ElectraJsMiddleware.wallet.addresses
+        // tslint:disable-next-line:no-magic-numbers
+        .filter(({ category }: WalletAddress) => category !== 0 && category !== 3),
+    })
+  }
+
   public render(): JSX.Element {
-    const addresses: WalletAddress[] = this.props.payments.addresses
-      // tslint:disable-next-line:no-magic-numbers
-      .filter(({ category }: WalletAddress) => category !== 0 && category !== 3)
-
     return (
       <div className='c-view'>
         {this.props.payments.isUnlockModalOpened && <UnlockModal isCancellable={true} isStakingOnly={false} />}
@@ -30,7 +43,7 @@ class Payments extends React.Component<StoreState & ComponentDispatchers> {
             onPaymentSubmit={this.props.submitTransaction.bind(this)}
           />
           <ReceiveCardView
-            addresses={addresses}
+            addresses={this.state.addresses}
             onCopy={() => this.props.setMessageAndBadge(COPIED_ADDRESS, SUCCESS)}
           />
         </div>

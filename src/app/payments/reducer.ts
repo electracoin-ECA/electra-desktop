@@ -1,10 +1,7 @@
-import ElectraJsMiddleware from '../../middlewares/ElectraJs'
-
 import { ActionList, ActionType, State } from './types'
 
 const initialState: State = {
   addressError: undefined,
-  addresses: ElectraJsMiddleware.wallet.addresses,
   amountError: undefined,
   isUnlockModalOpened: false,
 }

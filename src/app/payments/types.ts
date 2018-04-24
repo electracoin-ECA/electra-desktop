@@ -7,10 +7,12 @@ import { ActionBaseWithPayload, ActionListGenerator } from '../types'
  * State
  */
 export interface State {
-  addresses: WalletAddress[]
   addressError: string | undefined
   amountError: string | undefined
   isUnlockModalOpened: boolean
+}
+export interface OwnState {
+  addresses: WalletAddress[]
 }
 export interface Transaction {
   amount: number
