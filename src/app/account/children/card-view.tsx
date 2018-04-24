@@ -102,6 +102,7 @@ export default class CardView extends React.PureComponent<OwnProps, OwnState> {
               }
             </div>
             <div className='block text-lg text-purple font-semi-bold'>
+              {this.state.currencyPrefix}
               {this.props.currencyName}
             </div>
           </div>
