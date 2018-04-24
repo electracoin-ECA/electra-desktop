@@ -25,7 +25,7 @@
     "preversion": "npm test"
   },
   "build": {
-    "productName": "Electra Desktop",
+    "productName": "Electra Desktop Test",
     "copyright": "Electra Project",
     "appId": "org.electraproject.desktop",
     "files": [
