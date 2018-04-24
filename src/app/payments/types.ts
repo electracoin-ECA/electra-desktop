@@ -22,7 +22,6 @@ export interface Transaction {
  * Dispatchers
  */
 export type Dispatchers = {
-  getAddresses(): ActionList['GET_ADDRESSES']
   submitTransaction(
     amount: number,
     fromCategory: WalletAddressCategory,
@@ -38,9 +37,6 @@ export type ComponentDispatchers = Dispatchers & {
  * Actions
  */
 export enum ActionType {
-  GET_ADDRESSES = 'GET_ADDRESSES',
-  GET_ADDRESSES_ERROR = 'GET_ADDRESSES_ERROR',
-  GET_ADDRESSES_SUCCESS = 'GET_ADDRESSES_SUCCESS',
   SEND_TRANSACTION = 'SEND_TRANSACTION',
   SEND_TRANSACTION_ERROR = 'SEND_TRANSACTION_ERROR',
   SEND_TRANSACTION_SUCCESS = 'SEND_TRANSACTION_SUCCESS',
@@ -50,7 +46,6 @@ export enum ActionType {
 }
 
 export type ActionList = ActionListGenerator<ActionType, {
-  GET_ADDRESSES_SUCCESS: ActionBaseWithPayload<ActionType.GET_ADDRESSES_SUCCESS, WalletAddress[]>
   SEND_TRANSACTION: ActionBaseWithPayload<ActionType.SEND_TRANSACTION, Transaction>
   SUBMIT_TRANSACTION: ActionBaseWithPayload<ActionType.SUBMIT_TRANSACTION, Transaction>
   SUBMIT_TRANSACTION_ERROR: ActionBaseWithPayload<
