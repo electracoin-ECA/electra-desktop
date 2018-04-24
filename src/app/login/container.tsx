@@ -9,7 +9,6 @@ import * as zxcvbn from 'zxcvbn'
 import { USER_SETTINGS_DEFAULT } from '../../constants'
 import throwError, { ERROR } from '../../helpers/throwError'
 import tryCatch from '../../helpers/tryCatch'
-import waitFor from '../../helpers/waitFor'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { UserSettings } from '../../types'
 import UnlockModal from '../common/unlock-modal'
@@ -20,7 +19,6 @@ import { Dispatchers, OwnProps, OwnState } from './types'
 
 const styles: any = require('./styles.css')
 
-const HEAVY_PROCESS_DELAY = 400
 const MNEMONIC_WORDS_LENGTH = 24
 const PASSPHRASE_LENGTH_MIN = 8
 
@@ -44,7 +42,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
   }
 
   public async UNSAFE_componentWillReceiveProps({ login }: Dispatchers & StoreState & OwnProps): Promise<void> {
-    if (login.passphrase !== undefined) await this.startWallet()
+    if (login.passphrase !== undefined) await this.startWallet(login.passphrase)
   }
 
   private async retrieveUserSettings(): Promise<void> {
@@ -87,10 +85,10 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     })
   }
 
-  private async startWallet(): Promise<void> {
+  private async startWallet(passphrase: string): Promise<void> {
     this.setState({ loadingText: 'Starting wallet...' })
     await tryCatch(
-      ElectraJsMiddleware.wallet.start(this.walletStartData, this.props.login.passphrase as string),
+      ElectraJsMiddleware.wallet.start(this.walletStartData, passphrase),
       ERROR.LOGIN002,
     )
     this.props.onDone()
@@ -108,7 +106,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
   private async saveUserSettings(): Promise<void> {
     this.setState({ loadingText: 'Locking wallet...' })
-    await waitFor(HEAVY_PROCESS_DELAY)
     await ElectraJsMiddleware.wallet.lock()
 
     this.setState({ loadingText: 'Exporting addresses...' })
@@ -130,7 +127,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       if (err) throw err
 
       this.setState({ loadingText: 'Unlocking wallet for staking only...' })
-      await waitFor(HEAVY_PROCESS_DELAY)
       await ElectraJsMiddleware.wallet.unlock(this.state.passphrase as string, true)
 
       this.props.onDone()
@@ -187,7 +183,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       passphrase: this.$passphrase.value,
     })
 
-    await waitFor(HEAVY_PROCESS_DELAY)
     const [err] = await to(ElectraJsMiddleware.wallet.unlock(passphrase, false))
     if (err !== null) {
       this.setState({
@@ -209,7 +204,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
   private async generateNewHdWallet(): Promise<void> {
     this.setState({ loadingText: 'Generating new mnemonic...' })
-    await waitFor(HEAVY_PROCESS_DELAY)
     await ElectraJsMiddleware.wallet.generate(this.state.passphrase as string)
     this.setState({
       firstInstallationScreen: 'SHOW_USER_NEW_MNEMONIC',
@@ -254,16 +248,13 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     }
 
     this.setState({ loadingText: 'Locking wallet...' })
-    await waitFor(HEAVY_PROCESS_DELAY)
     await ElectraJsMiddleware.wallet.lock(this.state.passphrase)
 
     this.setState({ loadingText: 'Unlocking wallet...' })
-    await waitFor(HEAVY_PROCESS_DELAY)
     await ElectraJsMiddleware.wallet.unlock(this.state.passphrase, false)
 
     if (this.state.mnemonic !== undefined) {
       this.setState({ loadingText: 'Recovering wallet from mnemonic...' })
-      await waitFor(HEAVY_PROCESS_DELAY)
       await ElectraJsMiddleware.wallet.generate(
         this.state.passphrase,
         this.state.mnemonic,
@@ -319,7 +310,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       mnemonic: this.$mnemonic.value,
       mnemonicExtension: this.$mnemonicExtension.value,
     })
-    await waitFor(HEAVY_PROCESS_DELAY)
     await ElectraJsMiddleware.wallet.generate(
       this.state.passphrase,
       this.state.mnemonic,
