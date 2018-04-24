@@ -1,4 +1,4 @@
-import { WalletBalance, WalletTransaction } from 'electra-js'
+import { CurrencyPrice, WalletBalance, WalletTransaction } from 'electra-js'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs/Observable'
 
@@ -7,8 +7,7 @@ import { AccountCategory, ActionList, ActionType } from './types'
 
 type GetBalanceAndTransactions = [
   AccountCategory,
-  number,
-  number,
+  CurrencyPrice,
   WalletBalance,
   WalletTransaction[],
   number | undefined
@@ -24,8 +23,7 @@ export default {
     action$.ofType(ActionType.GET_BALANCE_AND_TRANSACTIONS)
       .map(async ({ payload: category }: ActionList['GET_BALANCE_AND_TRANSACTIONS']) => Promise.all([
         Promise.resolve(category),
-        ElectraJsMiddleware.webServices.getCurrentPriceInBTC('BTC'),
-        ElectraJsMiddleware.webServices.getCurrentPriceInUSD(),
+        ElectraJsMiddleware.webServices.getCurrentPriceIn(),
         category === null
           ? ElectraJsMiddleware.wallet.getBalance()
           : ElectraJsMiddleware.wallet.getCategoryBalance(category),
@@ -40,8 +38,7 @@ export default {
           .fromPromise(promise)
           .flatMap(([
             category,
-            currentPriceBTC,
-            currentPriceUSD,
+            currentPrices,
             balance,
             transactions,
             savingsCumulatedRewards,
@@ -50,7 +47,14 @@ export default {
               ? []
               : [
                 {
-                  payload: {category, currentPriceBTC, currentPriceUSD, balance, transactions, savingsCumulatedRewards},
+                  payload: {
+                    balance,
+                    category,
+                    currentPriceBTC: currentPrices.priceInBtc,
+                    currentPriceUSD: currentPrices.price,
+                    savingsCumulatedRewards,
+                    transactions,
+                  },
                   type: ActionType.GET_BALANCE_AND_TRANSACTIONS_SUCCESS,
                 },
                 {
