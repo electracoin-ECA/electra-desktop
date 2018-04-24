@@ -97,10 +97,7 @@ function createWindow(): void {
       isUpdating = true
       autoUpdater.downloadUpdate()
     })
-    ipcMain.on('ipcRenderer:autoUpdater:quitAndInstall', () => {
-      isUpdating = true
-      autoUpdater.quitAndInstall()
-    })
+    ipcMain.on('ipcRenderer:autoUpdater:quitAndInstall', () => exitApp(true))
     autoUpdater.checkForUpdatesAndNotify()
     setInterval(() => autoUpdater.checkForUpdatesAndNotify(), UPDATE_LOOP_DELAY)
   })
@@ -145,20 +142,30 @@ function updateTray(): void {
   tray.setContextMenu(contextMenu)
 }
 
-async function exitApp(): Promise<void> {
-  if (isUpdating && process.platform !== 'darwin') return
+// tslint:disable-next-line:typedef
+async function exitApp(toInstallUpdate = false): Promise<void> {
+  if (isUpdating && !toInstallUpdate) return
   isQuiting = true
 
   try {
     mainWindow.webContents.send('ipcMain:app:quit')
     log.info('Closing Electra daemon...')
     await communication.electraJs.wallet.stopDaemon()
+
     app.quit()
   }
   catch (err) {
     log.error(err)
     app.quit()
   }
+
+  if (toInstallUpdate) {
+    autoUpdater.quitAndInstall()
+
+    return
+  }
+
+  app.quit()
 }
 
 function toggleMainWindows(): void {
@@ -206,12 +213,15 @@ app.once('ready', () => {
   updateTray()
 
   // Enable copy, paste and other common shortcuts on MacOS
-  if (process.platform === 'darwin') setMainMenu(exitApp)
+  // tslint:disable-next-line:no-unnecessary-callback-wrapper
+  if (process.platform === 'darwin') setMainMenu(() => exitApp())
 
   createWindow()
 })
 
 app.once('before-quit', (event: Event) => {
+  if (isUpdating) return
+
   event.preventDefault()
   exitApp()
 })
