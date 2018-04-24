@@ -1,20 +1,16 @@
+import ElectraJsMiddleware from '../../middlewares/ElectraJs'
+
 import { ActionList, ActionType, State } from './types'
 
 const initialState: State = {
   addressError: undefined,
-  addresses: [],
+  addresses: ElectraJsMiddleware.wallet.addresses,
   amountError: undefined,
   isUnlockModalOpened: false,
 }
 
 export default function(state: State = initialState, action: ActionList[keyof ActionList]): State {
   switch (action.type) {
-    case ActionType.GET_ADDRESSES_SUCCESS:
-      return {
-        ...state,
-        addresses: action.payload,
-      }
-
     case ActionType.SEND_TRANSACTION:
       return {
         ...state,

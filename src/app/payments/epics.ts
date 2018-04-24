@@ -1,4 +1,4 @@
-import { WalletAddress, WalletAddressCategory, WalletBalance } from 'electra-js'
+import { WalletAddressCategory, WalletBalance } from 'electra-js'
 import { ActionsObservable } from 'redux-observable'
 import { Observable } from 'rxjs/Observable'
 
@@ -35,14 +35,6 @@ export default {
 
         return [{ type: ActionType.TOGGLE_UNLOCK_MODAL }]
       }),
-
-  getAddresses: (action$: ActionsObservable<ActionList['GET_ADDRESSES']>) =>
-    action$.ofType(ActionType.GET_ADDRESSES)
-      .map(() => ElectraJsMiddleware.wallet.allAddresses)
-      .map((addresses: WalletAddress[]) => ({
-        payload: addresses,
-        type: ActionType.GET_ADDRESSES_SUCCESS,
-      })),
 
   sendTransaction: (action$: ActionsObservable<ActionList['SEND_TRANSACTION']>) =>
     action$.ofType(ActionType.SEND_TRANSACTION)

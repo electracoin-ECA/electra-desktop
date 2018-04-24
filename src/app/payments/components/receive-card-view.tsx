@@ -1,5 +1,4 @@
-import { WalletAddress } from 'electra-js'
-import { isEmpty } from 'lodash'
+import { WalletAddress, WalletAddressCategory } from 'electra-js'
 import * as QRCode from 'qrcode.react'
 import * as React from 'react'
 import * as CopyToClipboard from 'react-copy-to-clipboard'
@@ -11,7 +10,7 @@ interface OwnProps {
 }
 
 interface OwnState {
-  selectedAddress: string
+  selectedAddressHash: string
 }
 
 const CATEGORY: any = [
@@ -22,25 +21,17 @@ const CATEGORY: any = [
 ]
 
 export default class ReceiveCardView extends React.PureComponent<OwnProps, OwnState> {
+  private $addresses: HTMLSelectElement
   public constructor(props: OwnProps) {
     super(props)
+
     this.state = {
-      selectedAddress: '',
+      selectedAddressHash: props.addresses[0].hash,
     }
   }
 
-  private onChange(event: any): void {
-    this.setState({
-      selectedAddress: event.target.value,
-    })
-  }
-
-  public UNSAFE_componentWillReceiveProps(nextProps: OwnProps): void {
-    if (!isEmpty(nextProps.addresses) && isEmpty(this.state.selectedAddress)) {
-      this.setState({
-        selectedAddress: nextProps.addresses[0].hash,
-      })
-    }
+  private onChange(): void {
+    this.setState({ selectedAddressHash: this.$addresses.value })
   }
 
   public render(): JSX.Element {
@@ -51,33 +42,28 @@ export default class ReceiveCardView extends React.PureComponent<OwnProps, OwnSt
             <h3>Receive ECA</h3>
             <div className='my-4'>
               <div className='c-dropdown'>
-                <select onChange={this.onChange.bind(this)}>
-                  {(this.props.addresses || [])
-                    // tslint:disable-next-line:no-magic-numbers
-                    .filter(({ category }: WalletAddress) => category !== 0 && category !== 3)
-                    .map((address: WalletAddress) => address.category !== null
-                      ? <option
-                        children={`[${CATEGORY[address.category]}] ${address.hash}`}
-                        key={address.hash}
-                        value={address.hash}
-                      />
-                      : null,
-                    )
-                  }
+                <select onChange={this.onChange.bind(this)} ref={(node: HTMLSelectElement) => this.$addresses = node}>
+                  {this.props.addresses.map((address: WalletAddress) =>
+                    <option
+                      children={`[${CATEGORY[address.category as WalletAddressCategory]}] ${address.hash}`}
+                      key={address.hash}
+                      value={address.hash}
+                    />,
+                  )}
                 </select>
                 <div className='c-icon c-dropdown__icon'>
                   <Icon name='caret-bottom' />
                 </div>
               </div>
               <div className='c-qr-code mt-8'>
-                <QRCode value={this.state.selectedAddress} />
+                <QRCode value={this.state.selectedAddressHash} />
               </div>
             </div>
           </div>
           <div className='c-card__actions'>
             <CopyToClipboard
               onCopy={() => this.props.onCopy()}
-              text={this.state.selectedAddress}>
+              text={this.state.selectedAddressHash}>
               <button>COPY THIS ADDRESS</button>
             </CopyToClipboard>
           </div>

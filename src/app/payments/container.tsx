@@ -1,3 +1,4 @@
+import { WalletAddress } from 'electra-js'
 import * as React from 'react'
 import { connect } from 'react-redux'
 
@@ -11,11 +12,11 @@ import dispatchers from './dispatchers'
 import { ComponentDispatchers } from './types'
 
 class Payments extends React.Component<StoreState & ComponentDispatchers> {
-  public componentDidMount(): void {
-    this.props.getAddresses()
-  }
-
   public render(): JSX.Element {
+    const addresses: WalletAddress[] = this.props.payments.addresses
+      // tslint:disable-next-line:no-magic-numbers
+      .filter(({ category }: WalletAddress) => category !== 0 && category !== 3)
+
     return (
       <div className='c-view'>
         {this.props.payments.isUnlockModalOpened && <UnlockModal isCancellable={true} isStakingOnly={false} />}
@@ -29,7 +30,7 @@ class Payments extends React.Component<StoreState & ComponentDispatchers> {
             onPaymentSubmit={this.props.submitTransaction.bind(this)}
           />
           <ReceiveCardView
-            addresses={this.props.payments.addresses}
+            addresses={addresses}
             onCopy={() => this.props.setMessageAndBadge(COPIED_ADDRESS, SUCCESS)}
           />
         </div>
