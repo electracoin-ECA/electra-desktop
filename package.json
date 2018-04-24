@@ -2,7 +2,7 @@
   "name": "electra-desktop-test",
   "productName": "Electra Desktop Test",
   "companyName": "Electra Project",
-  "version": "1.0.10-1",
+  "version": "1.0.10-2",
   "description": "Cross-platform Desktop Wallet for Electra blockchain.",
   "license": "MIT",
   "private": true,
