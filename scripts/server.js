@@ -1,3 +1,5 @@
+const os = require('os')
+
 /**
  * Setup and run the development server for Hot-Module-Replacement
  * https://webpack.github.io/docs/hot-module-replacement-with-webpack.html
@@ -32,7 +34,14 @@ const server = app.listen(PORT, '127.0.0.1', serverError => {
     return console.error(serverError)
   }
 
-  spawn('npm', ['run', 'start:renderer'], { shell: true, stdio: 'inherit' })
+  const spawnOptions = {
+    shell: true,
+    stdio: 'inherit',
+  }
+
+  if (os.platform !== 'linux') spawnOptions.env = process.env
+
+  spawn('npm', ['run', 'start:renderer'], spawnOptions)
     .on('close', code => process.exit(code))
     .on('error', spawnError => console.error(spawnError))
 
