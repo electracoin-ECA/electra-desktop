@@ -48,7 +48,7 @@ let tray: Tray
 function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    frame: false,
+    frame: true,
     // tslint:disable-next-line:no-magic-numbers
     height: isProd ? 605 : 900,
     minHeight: 605,
@@ -77,6 +77,7 @@ function createWindow(): void {
       slashes: true,
     })
 
+  if (isProd && process.platform === 'win32') mainWindow.setMenu(null)
   // Maximize window for hot dev mode on Windows
   if (isHot && process.platform === 'win32') mainWindow.maximize()
 
