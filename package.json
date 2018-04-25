@@ -44,6 +44,12 @@
         {
           "target": "deb"
         }
+        {
+          "target": "freebsd"
+        }
+        {
+          "target": "rpm"
+        }
       ]
     },
     "mac": {
