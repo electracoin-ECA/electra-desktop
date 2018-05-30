@@ -1,6 +1,17 @@
 # Electra Wallet
+
 Electron wallet for **Electra** blockchain
 
+[![Github All Releases](https://img.shields.io/github/downloads/Electra-project/electra-desktop/total.svg?style=flat-square)](https://github.com/Electra-project/electra-desktop/releases)
+[![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](http://opensource.org/licenses/MIT)
+[![David](https://img.shields.io/david/Electra-project/electra-desktop.svg?style=flat-square)](https://david-dm.org/Electra-project/electra-desktop)
+[![David](https://img.shields.io/david/dev/Electra-project/electra-desktop.svg?style=flat-square)](https://david-dm.org/InspiredBeings/electra-desktop)
+
+[![NSP Status](https://nodesecurity.io/orgs/ivan-gabriele/projects/e8f9941a-7742-4aac-8754-931af71f1e3f/badge)](https://nodesecurity.io/orgs/ivan-gabriele/projects/e8f9941a-7742-4aac-8754-931af71f1e3f)
+
+## Issues & Feedback
+
+Please report any issue or provide your feedback [there](https://github.com/Electra-project/electra-desktop/issues).
 
 ## Contribute
 
