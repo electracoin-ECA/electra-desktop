@@ -20,7 +20,6 @@ Please report any issue or provide your feedback [there](https://github.com/Elec
 
 **Prerequisites**
 * Node >= 9.4
-* [Python v2](https://www.python.org/downloads/)
 * Windows: [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools#readme)
 
 **Installation**
@@ -62,19 +61,3 @@ The production enviromment uses static files and doesn't allow the web developme
 **Build an installable package**
 
     npm run package:prod
-
-## Concepts
-
-## Roadmap / Todo
-- [x] Integrate Wallet Setup / On boarding Flow
-- [x] Use Electra-Js for blockchain interaction
-- Necessary features to complete
-	- [ ] Add necessary views
-	- [ ] Generate HD wallet
-	- [ ] Receive ECA
-	- [ ] Send ECA
-	- [ ] Wallet locking/unlocking
-- Good to have features:
-	- [ ] Block explorer
-	- [ ] ECA price feed
-	- [ ] Social pay
