@@ -130,6 +130,7 @@
     "typescript": "2.8.3",
     "url-loader": "^1.0.1",
     "webpack": "^4.10.2",
+    "webpack-cli": "^2.1.4",
     "webpack-dev-server": "^3.1.4",
     "webpack-hot-middleware": "^2.22.2",
     "webpack-merge": "^4.1.2"
