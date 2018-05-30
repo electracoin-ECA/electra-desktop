@@ -7,7 +7,7 @@ Electron wallet for **Electra** blockchain
 [![David](https://img.shields.io/david/Electra-project/electra-desktop.svg?style=flat-square)](https://david-dm.org/Electra-project/electra-desktop)
 [![David](https://img.shields.io/david/dev/Electra-project/electra-desktop.svg?style=flat-square)](https://david-dm.org/InspiredBeings/electra-desktop)
 
-[![NSP Status](https://nodesecurity.io/orgs/ivan-gabriele/projects/e8f9941a-7742-4aac-8754-931af71f1e3f/badge)](https://nodesecurity.io/orgs/ivan-gabriele/projects/e8f9941a-7742-4aac-8754-931af71f1e3f)
+[![NSP Status](https://nodesecurity.io/orgs/electra-project/projects/37b08e1f-04ad-4005-8187-916630475872/badge)](https://nodesecurity.io/orgs/electra-project/projects/37b08e1f-04ad-4005-8187-916630475872)
 
 ## Issues & Feedback
 
