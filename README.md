@@ -2,8 +2,9 @@
 
 Electron wallet for **Electra** blockchain
 
-[![Github All Releases](https://img.shields.io/github/downloads/Electra-project/electra-desktop/total.svg?style=flat-square)](https://github.com/Electra-project/electra-desktop/releases)
 [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](http://opensource.org/licenses/MIT)
+[![GitHub release](https://img.shields.io/github/release/Electra-project/electra-desktop.svg?style=flat-square)](https://github.com/Electra-project/electra-desktop/releases)
+[![Github All Releases](https://img.shields.io/github/downloads/Electra-project/electra-desktop/total.svg?style=flat-square)](https://github.com/Electra-project/electra-desktop/releases)
 [![David](https://img.shields.io/david/Electra-project/electra-desktop.svg?style=flat-square)](https://david-dm.org/Electra-project/electra-desktop)
 [![David](https://img.shields.io/david/dev/Electra-project/electra-desktop.svg?style=flat-square)](https://david-dm.org/InspiredBeings/electra-desktop)
 
