@@ -19,7 +19,7 @@ Please report any issue or provide your feedback [there](https://github.com/Elec
 ### Getting Started
 
 **Prerequisites**
-* Node >= 9.4
+* [NodeJS v10 (with npm v6)](https://nodejs.org)
 * Windows: [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools#readme)
 
 **Installation**
