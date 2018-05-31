@@ -13,7 +13,6 @@ module.exports = webpackMerge(rendererConfig, {
   devtool: 'inline-source-map',
 
   entry: [
-    'react-hot-loader/patch',
     `webpack-hot-middleware/client?path=http://127.0.0.1:${PORT}/__webpack_hmr&reload=true`,
     configPaths.entryRenderer
   ],
@@ -27,13 +26,20 @@ module.exports = webpackMerge(rendererConfig, {
       {
         test: /\.tsx?$/,
         use: [
-          { loader: 'react-hot-loader/webpack' },
+          // https://github.com/gaearon/react-hot-loader#typescript
+          {
+            loader: 'babel-loader',
+            options: {
+              babelrc: false,
+              plugins: ['react-hot-loader/babel'],
+            },
+          },
           {
             loader: 'awesome-typescript-loader',
             options: {
               configFileName: configPaths.tsconfigRenderer,
-            }
-          }
+            },
+          },
         ],
       },
       {
@@ -100,7 +106,8 @@ module.exports = webpackMerge(rendererConfig, {
 
     new ExtractTextWebpackPlugin('bundle.css'),
 
-    // https://webpack.github.io/docs/hot-module-replacement-with-webpack.html
+    // https://webpack.js.org/guides/hot-module-replacement/#enabling-hmr
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
 
     new webpack.NoEmitOnErrorsPlugin(),
