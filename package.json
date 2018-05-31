@@ -90,7 +90,6 @@
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "@types/bitcoinjs-lib": "^3.4.0",
     "@types/electron-json-storage": "^4.0.0",
     "@types/lodash": "^4.14.109",
     "@types/numeral": "0.0.22",
