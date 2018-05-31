@@ -25,7 +25,7 @@ const mainConfig = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /.*\.ts$/,
         loader: 'awesome-typescript-loader',

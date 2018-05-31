@@ -3,6 +3,8 @@ const webpack = require('webpack')
 const webpackMerge = require('webpack-merge')
 
 module.exports = webpackMerge(mainConfig, {
+  mode: 'development',
+
   plugins: [
     new webpack.DefinePlugin({
       'process.env.IS_HOT': true,
