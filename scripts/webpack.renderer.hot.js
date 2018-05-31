@@ -9,6 +9,7 @@ const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin')
 const PORT = process.env.NODE_PORT || 8080
 
 module.exports = webpackMerge(rendererConfig, {
+  mode: 'development',
   devtool: 'inline-source-map',
 
   entry: [

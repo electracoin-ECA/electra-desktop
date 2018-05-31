@@ -7,6 +7,8 @@ const webpackMerge = require('webpack-merge')
 
 module.exports = [
   webpackMerge(mainConfig, {
+    mode: 'production',
+
     plugins: [
       new webpack.DefinePlugin({
         'process.env.IS_HOT': false,
@@ -17,6 +19,8 @@ module.exports = [
   }),
 
   webpackMerge(rendererConfig, {
+    mode: 'production',
+
     entry: configPaths.entryRenderer,
 
     output: {
