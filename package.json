@@ -106,6 +106,7 @@
     "@types/zxcvbn": "^4.4.0",
     "autoprefixer": "^8.5.2",
     "awesome-typescript-loader": "^5.0.0",
+    "babel-loader": "^7.1.4",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
     "cors": "^2.8.4",
