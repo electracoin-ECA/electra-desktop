@@ -1,6 +1,7 @@
 import { WalletAddressCategory, WalletBalance } from 'electra-js'
-import { ActionsObservable } from 'redux-observable'
-import { Observable } from 'rxjs/Observable'
+import { ActionsObservable, ofType } from 'redux-observable'
+import { from, of } from 'rxjs'
+import { catchError, flatMap, map, mapTo, mergeMap } from 'rxjs/operators'
 
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { ActionList as UnlockModalActionsList, ActionType as UnlockModalActionType } from '../common/unlock-modal/types'
@@ -12,14 +13,17 @@ const TRANSACTION_FEE = 0.000_01
 
 export default {
   closeUnlockModal: (action$: ActionsObservable<UnlockModalActionsList['CANCEL_UNLOCK_MODAL']>) =>
-    action$.ofType(UnlockModalActionType.CANCEL_UNLOCK_MODAL)
-      .mapTo({ type: ActionType.TOGGLE_UNLOCK_MODAL }),
+    action$.pipe(
+      ofType(UnlockModalActionType.CANCEL_UNLOCK_MODAL),
+      mapTo({ type: ActionType.TOGGLE_UNLOCK_MODAL }),
+    ),
 
   closeUnlockModalAndSendTransaction: (action$: ActionsObservable<
     UnlockModalActionsList['SET_LOCK_TO_UNLOCKED_SUCCESS']>,
   ) =>
-    action$.ofType(UnlockModalActionType.SET_LOCK_TO_UNLOCKED_SUCCESS)
-      .flatMap(() => {
+    action$.pipe(
+      ofType(UnlockModalActionType.SET_LOCK_TO_UNLOCKED_SUCCESS),
+      flatMap(() => {
         if (pendingTransaction !== undefined) {
           const payload = pendingTransaction
           pendingTransaction = undefined
@@ -35,28 +39,34 @@ export default {
 
         return [{ type: ActionType.TOGGLE_UNLOCK_MODAL }]
       }),
+    ),
 
   sendTransaction: (action$: ActionsObservable<ActionList['SEND_TRANSACTION']>) =>
-    action$.ofType(ActionType.SEND_TRANSACTION)
-      .mergeMap(({ payload: { amount, fromCategory: category, toAddress } }: ActionList['SEND_TRANSACTION']) =>
-        Observable.fromPromise(ElectraJsMiddleware.wallet.send(amount + TRANSACTION_FEE, category, toAddress))
-          .mapTo({ type: ActionType.SEND_TRANSACTION_SUCCESS })
-          .catch((error: Error) => {
+    action$.pipe(
+      ofType(ActionType.SEND_TRANSACTION),
+      mergeMap(({ payload: { amount, fromCategory: category, toAddress } }: ActionList['SEND_TRANSACTION']) =>
+        from(ElectraJsMiddleware.wallet.send(amount + TRANSACTION_FEE, category, toAddress)).pipe(
+          mapTo({ type: ActionType.SEND_TRANSACTION_SUCCESS }),
+          catchError((error: Error) => {
             console.error(error.message)
 
-            return Observable.of({
+            return of({
               type: ActionType.SEND_TRANSACTION_ERROR,
             })
           }),
+        ),
+      ),
     ),
 
   submitTransaction: (action$: ActionsObservable<any>) =>
-    action$.ofType(ActionType.SUBMIT_TRANSACTION)
-      .mergeMap(({ payload: transaction }: ActionList['SUBMIT_TRANSACTION']) =>
-        Observable.fromPromise(ElectraJsMiddleware.wallet.getCategoryBalance(transaction.fromCategory))
-          .map(({ confirmed: confirmedBalance }: WalletBalance) => [transaction, confirmedBalance]),
-      )
-      .map(([transaction, confirmedBalance]: [Transaction, number]) => {
+    action$.pipe(
+      ofType(ActionType.SUBMIT_TRANSACTION),
+      mergeMap(({ payload: transaction }: ActionList['SUBMIT_TRANSACTION']) =>
+        from(ElectraJsMiddleware.wallet.getCategoryBalance(transaction.fromCategory)).pipe(
+          map(({ confirmed: confirmedBalance }: WalletBalance) => [transaction, confirmedBalance]),
+        ),
+      ),
+      map(([transaction, confirmedBalance]: [Transaction, number]) => {
         if (transaction.toAddress.length === 0 || transaction.toAddress[0] !== 'E') {
           return {
             payload: {
@@ -111,4 +121,5 @@ export default {
           type: ActionType.SEND_TRANSACTION,
         }
       }),
+    ),
 }

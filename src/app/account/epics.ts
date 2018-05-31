@@ -1,6 +1,7 @@
 import { CurrencyPrice, WalletBalance, WalletTransaction } from 'electra-js'
-import { ActionsObservable } from 'redux-observable'
-import { Observable } from 'rxjs/Observable'
+import { ActionsObservable, ofType } from 'redux-observable'
+import { from, of } from 'rxjs'
+import { catchError, delay, flatMap, map, switchMap } from 'rxjs/operators'
 
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { AccountCategory, ActionList, ActionType } from './types'
@@ -20,8 +21,9 @@ let currentCategory: AccountCategory
 
 export default {
   getBalanceAndTransactions: (action$: ActionsObservable<ActionList['GET_BALANCE_AND_TRANSACTIONS']>) =>
-    action$.ofType(ActionType.GET_BALANCE_AND_TRANSACTIONS)
-      .map(async ({ payload: category }: ActionList['GET_BALANCE_AND_TRANSACTIONS']) => Promise.all([
+    action$.pipe(
+      ofType(ActionType.GET_BALANCE_AND_TRANSACTIONS),
+      map(async ({ payload: category }: ActionList['GET_BALANCE_AND_TRANSACTIONS']) => Promise.all([
         Promise.resolve(category),
         ElectraJsMiddleware.webServices.getCurrentPriceIn(),
         category === null
@@ -32,11 +34,10 @@ export default {
         category === 2
           ? ElectraJsMiddleware.wallet.getSavingsCumulatedRewards()
           : Promise.resolve(undefined),
-      ]))
-      .switchMap((promise: Promise<GetBalanceAndTransactions>) =>
-        Observable
-          .fromPromise(promise)
-          .flatMap(([
+      ])),
+      switchMap((promise: Promise<GetBalanceAndTransactions>) =>
+        from(promise).pipe(
+          flatMap(([
             category,
             currentPrices,
             balance,
@@ -62,27 +63,32 @@ export default {
                   type: ActionType.GET_BALANCE_AND_TRANSACTIONS_LOOP,
                 },
               ],
-          )
-          .catch((error: Error) => {
+          ),
+          catchError((error: Error) => {
             console.error(error.message)
 
-            return Observable.of({
+            return of({
               type: ActionType.GET_BALANCE_AND_TRANSACTIONS_ERROR,
             })
           }),
+        ),
       ),
+    ),
 
   getBalanceAndTransactionsLoop: (action$: ActionsObservable<ActionList['GET_BALANCE_AND_TRANSACTIONS_LOOP']>) =>
-    action$.ofType(ActionType.GET_BALANCE_AND_TRANSACTIONS_LOOP)
-      .delay(LOOP_DELAY)
-      .map(({ payload: category }: ActionList['GET_BALANCE_AND_TRANSACTIONS_LOOP']) => ({
+    action$.pipe(
+      ofType(ActionType.GET_BALANCE_AND_TRANSACTIONS_LOOP),
+      delay(LOOP_DELAY),
+      map(({ payload: category }: ActionList['GET_BALANCE_AND_TRANSACTIONS_LOOP']) => ({
         payload: category,
         type: ActionType.GET_BALANCE_AND_TRANSACTIONS,
       })),
+    ),
 
   switchAccountCategory: (action$: ActionsObservable<ActionList['SWITCH_ACCOUNT_CATEGORY']>) =>
-    action$.ofType(ActionType.SWITCH_ACCOUNT_CATEGORY)
-      .flatMap(({ payload: category }: ActionList['SWITCH_ACCOUNT_CATEGORY']) => {
+    action$.pipe(
+      ofType(ActionType.SWITCH_ACCOUNT_CATEGORY),
+      flatMap(({ payload: category }: ActionList['SWITCH_ACCOUNT_CATEGORY']) => {
         currentCategory = category
 
         return [{
@@ -90,4 +96,5 @@ export default {
           type: ActionType.GET_BALANCE_AND_TRANSACTIONS_LOOP,
         }]
       }),
+    ),
 }
