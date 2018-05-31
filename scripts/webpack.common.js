@@ -37,9 +37,15 @@ const mainConfig = {
   },
 
   plugins: [
-    new CleanWebpackPlugin([configPaths.buildPath], {
-      root: process.cwd(),
-    }),
+    new CleanWebpackPlugin(
+      [
+        configPaths.buildPath,
+        configPaths.distPath,
+      ],
+      {
+        root: process.cwd(),
+      }
+    ),
 
     new CopyWebpackPlugin([
       {
