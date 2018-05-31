@@ -3,18 +3,18 @@ matrix:
     - stage: Test
       os: linux
       language: node_js
-      node_js: "9"
+      node_js: "10"
 
     - stage: Test
       os: osx
       language: node_js
-      node_js: "9"
+      node_js: "10"
 
     - stage: Release
       os: osx
       osx_image: xcode9.2
       language: node_js
-      node_js: "9"
+      node_js: "10"
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
