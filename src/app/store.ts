@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 reduxMiddleWares.push(createEpicMiddleware(appEpics))
 
-export default createStore<StoreState>(
+export default createStore<StoreState, any, {}, {}>(
   appReducer,
   applyMiddleware(...reduxMiddleWares),
 )
