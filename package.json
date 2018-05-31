@@ -67,7 +67,6 @@
   "dependencies": {
     "ajv": "^6.5.0",
     "await-to-js": "^2.0.1",
-    "classnames": "^2.2.5",
     "electra-js": "0.14.4",
     "electron-json-storage": "^4.1.0",
     "electron-log": "^2.2.14",
