@@ -77,15 +77,19 @@ function createWindow(): void {
       slashes: true,
     })
 
-  // Maximize window for hot dev mode on Windows
-  if (isHot && process.platform === 'win32') mainWindow.maximize()
-
   mainWindow.loadURL(indexPath)
 
   mainWindow.once('ready-to-show', async () => {
     if (mainWindow === null) return
 
-    mainWindow.show()
+    // Maximize window for hot dev mode on Windows
+    if (isHot && process.platform === 'win32') {
+      mainWindow.maximize()
+    } else {
+      mainWindow.show()
+    }
+
+    // Open Devloper Tools for non-production mode
     if (!isProd) mainWindow.webContents.openDevTools()
 
     // Check if the user allows auto-updates
