@@ -15,8 +15,9 @@ const UPDATE_LOOP_DELAY = 1_200_000
 let isHidden = false
 const isHot = Boolean(process.env.IS_HOT)
 const isProd = process.env.NODE_ENV === 'production'
-let isUpdating = false
 let isQuiting = false
+let isStarting = false
+let isUpdating = false
 let mainWindow: BrowserWindow
 
 // Logs level
@@ -93,9 +94,11 @@ function createWindow(): void {
     if (!isProd) mainWindow.webContents.openDevTools()
 
     log.info('Starting Electra daemon...')
+    isStarting = true
     await communication.electraJs.wallet.startDaemon()
     log.info('Electra daemon started.')
     mainWindow.webContents.send('ipcMain:electraJs:started')
+    isStarting = false
 
     // Check for updates
     ipcMain.on('ipcRenderer:autoUpdater:downloadUpdate', () => {
@@ -161,7 +164,7 @@ function updateTray(): void {
 
 // tslint:disable-next-line:typedef
 async function exitApp(toInstallUpdate = false): Promise<void> {
-  if (isUpdating && !toInstallUpdate) return
+  if (isStarting || (isUpdating && !toInstallUpdate)) return
   isQuiting = true
 
   try {
