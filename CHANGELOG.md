@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Linux AppImage package build.
 - Linux RPM package build.
 - A title bar with minimize, maximize and close buttons for Linux & Windows.
+- NPM: @electra/electra-style.
 
 ### Changed
 - Migration to electron v2.
@@ -26,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Mnemonic recovery.
 - Hidden normal quitting error (acting as an install-update-and-quit instead of a simple daemon closing).
 - Missing prefixes in (crypto)currencies top shown values.
+- Payments page caret down icon.
 
 ### Security
 - Fixed all Snyk, NSP & npm audit vulnerabilities.
