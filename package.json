@@ -68,6 +68,7 @@
     }
   },
   "dependencies": {
+    "@electra/electra-styleguide": "^1.0.1",
     "ajv": "^6.5.0",
     "await-to-js": "^2.0.1",
     "electra-js": "0.14.2",
