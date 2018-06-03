@@ -40,7 +40,7 @@ const mainConfig = {
     new CleanWebpackPlugin(
       [
         configPaths.buildPath,
-        configPaths.distPath,
+        // configPaths.distPath,
       ],
       {
         root: process.cwd(),
