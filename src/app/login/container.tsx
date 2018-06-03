@@ -33,11 +33,13 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     super(props)
 
     this.state = {
-      loadingText: 'Bootstrapping...',
+      loadingText: 'Loading user settings...',
     }
   }
 
   public async componentDidMount(): Promise<void> {
+    if (ElectraJsMiddleware.wallet.daemonState !== 'STARTED') throwError(ERROR.LOGIN001)
+
     await this.retrieveUserSettings()
   }
 
@@ -46,18 +48,8 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
   }
 
   private async retrieveUserSettings(): Promise<void> {
-    this.setState({ loadingText: 'Loading user settings...' })
     storage.get('userSettings', async (err: Error, userSettings: Partial<UserSettings>) => {
       if (err) throw err
-
-      // If the page was reloaded (i.e.: development environment), the #state won't be EMPTY.
-      // And it needs to be EMPTY in order for #startDaemon() to work.
-      if (ElectraJsMiddleware.wallet.state !== 'EMPTY') {
-        ElectraJsMiddleware.wallet.reset()
-      }
-
-      await this.startDaemon()
-      if (ElectraJsMiddleware.wallet.daemonState !== 'STARTED') throwError(ERROR.LOGIN001)
 
       this.setState({
         // If there are no stored userSettings,
@@ -81,6 +73,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       this.currentUserSettings = userSettings
       await this.updateUserSettings()
 
+      this.setState({ loadingText: undefined })
       this.props.openUnlockModal()
     })
   }
@@ -131,12 +124,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
       this.props.onDone()
     })
-  }
-
-  private async startDaemon(): Promise<void> {
-    this.setState({ loadingText: 'Starting Daemon...' })
-    await ElectraJsMiddleware.wallet.startDaemon()
-    this.setState({ loadingText: undefined })
   }
 
   private startFirstInstallation(): void {
