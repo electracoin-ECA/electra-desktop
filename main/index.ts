@@ -92,8 +92,9 @@ function createWindow(): void {
     // Open Devloper Tools for non-production mode
     if (!isProd) mainWindow.webContents.openDevTools()
 
-    // log.info('Starting Electra daemon...')
+    log.info('Starting Electra daemon...')
     await communication.electraJs.wallet.startDaemon()
+    log.info('Electra daemon started.')
     mainWindow.webContents.send('ipcMain:electraJs:started')
 
     // Check for updates
