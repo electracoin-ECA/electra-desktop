@@ -47,6 +47,9 @@
         },
         {
           "target": "deb"
+        },
+        {
+          "target": "rpm"
         }
       ]
     },
