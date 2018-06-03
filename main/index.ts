@@ -92,9 +92,9 @@ function createWindow(): void {
     // Open Devloper Tools for non-production mode
     if (!isProd) mainWindow.webContents.openDevTools()
 
-    // Check if the user allows auto-updates
-    const userSettings = await loadUserSettings()
-    if (!userSettings.settings.autoUpdate) return
+    // log.info('Starting Electra daemon...')
+    await communication.electraJs.wallet.startDaemon()
+    mainWindow.webContents.send('ipcMain:electraJs:started')
 
     // Check for updates
     ipcMain.on('ipcRenderer:autoUpdater:downloadUpdate', () => {
@@ -102,8 +102,20 @@ function createWindow(): void {
       autoUpdater.downloadUpdate()
     })
     ipcMain.on('ipcRenderer:autoUpdater:quitAndInstall', () => exitApp(true))
+
     autoUpdater.checkForUpdatesAndNotify()
-    setInterval(() => autoUpdater.checkForUpdatesAndNotify(), UPDATE_LOOP_DELAY)
+    setInterval(
+      async () => {
+        if (isUpdating) return
+
+        // Check if the user allows auto-updates
+        const userSettings = await loadUserSettings()
+        if (!userSettings.settings.autoUpdate) return
+
+        autoUpdater.checkForUpdatesAndNotify()
+      },
+      UPDATE_LOOP_DELAY,
+    )
   })
 
   mainWindow.on('minimize', (event: Event) => {
@@ -137,7 +149,7 @@ function updateTray(): void {
     ).concat(
       [
         {
-          click: exitApp,
+          click: () => exitApp(false),
           label: 'Exit',
         },
       ],
@@ -155,21 +167,22 @@ async function exitApp(toInstallUpdate = false): Promise<void> {
     mainWindow.webContents.send('ipcMain:app:quit')
     log.info('Closing Electra daemon...')
     await communication.electraJs.wallet.stopDaemon()
-
-    app.quit()
   }
   catch (err) {
     log.error(err)
-    app.quit()
+
+    if (toInstallUpdate) {
+      autoUpdater.quitAndInstall()
+    } else {
+      app.quit()
+    }
   }
 
   if (toInstallUpdate) {
     autoUpdater.quitAndInstall()
-
-    return
+  } else {
+    app.quit()
   }
-
-  app.quit()
 }
 
 function toggleMainWindows(): void {
@@ -208,6 +221,7 @@ autoUpdater.on('update-downloaded', (info: any) => {
 app.once('ready', () => {
   log.info('Electra Desktop starting...')
 
+  // Tray initialization
   tray = new Tray(path.resolve(__dirname, process.platform === 'linux'
     ? 'assets/icons/tray@2x.png'
     : 'assets/icons/tray.png',
@@ -218,14 +232,7 @@ app.once('ready', () => {
 
   // Enable copy, paste and other common shortcuts on MacOS
   // tslint:disable-next-line:no-unnecessary-callback-wrapper
-  if (process.platform === 'darwin') setMainMenu(() => exitApp())
+  if (process.platform === 'darwin') setMainMenu(() => exitApp(false))
 
   createWindow()
-})
-
-app.once('before-quit', (event: Event) => {
-  if (isUpdating) return
-
-  event.preventDefault()
-  exitApp()
 })
