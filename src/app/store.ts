@@ -1,22 +1,24 @@
 import * as _ from 'lodash'
-import { applyMiddleware, combineReducers, createStore, Middleware, Reducer } from 'redux'
+import { Action, applyMiddleware, combineReducers, createStore, Middleware, Reducer } from 'redux'
 import logger from 'redux-logger'
-import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
+import { combineEpics, createEpicMiddleware, Epic, EpicMiddleware } from 'redux-observable'
 
 import epics from './epics'
 import * as reducers from './reducers'
 import { StoreState } from './types'
 
-const appReducer: Reducer<StoreState> = combineReducers({ ...reducers })
-const appEpics: Epic<any, any, any, any> = combineEpics(..._.values(epics))
+const epicMiddleware: EpicMiddleware<Action<any>, Action<any>, void, any> = createEpicMiddleware()
+const rootReducer: Reducer<StoreState> = combineReducers({ ...reducers })
+const rootEpic: Epic<any, any, any, any> = combineEpics(..._.values(epics))
 
-const reduxMiddleWares: Middleware[] = []
-if (process.env.NODE_ENV !== 'production') {
-  reduxMiddleWares.push(logger)
-}
-reduxMiddleWares.push(createEpicMiddleware(appEpics))
+const middlewares: Middleware[] = []
+if (process.env.NODE_ENV !== 'production') middlewares.push(logger)
+middlewares.push(epicMiddleware)
 
 export default createStore<StoreState, any, {}, {}>(
-  appReducer,
-  applyMiddleware(...reduxMiddleWares),
+  rootReducer,
+  applyMiddleware(...middlewares),
 )
+
+// https://redux-observable.js.org/MIGRATION.html#setting-up-the-middleware
+epicMiddleware.run(rootEpic)
