@@ -36,7 +36,7 @@ class Payments extends React.Component<StoreState & ComponentDispatchers, OwnSta
         <div className='c-view__header'>
           <h2 className='first'>Payments</h2>
         </div>
-        <div className='c-view__content c-grid c-grid--halves py-4'>
+        <div className='o-grid o-grid--halves' style={{marginTop: '1em'}}>
           <SendCardView
             addressError={this.props.payments.addressError}
             amountError={this.props.payments.amountError}
