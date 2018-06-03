@@ -7,9 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.1.0] - 2018-06-XX
 
-### Added
-- More npm, webpack, editorconfig & vscode patterns in default settings.
-
 ### Changed
 - Migration to electron v2.
 - Migration to redux-observable v1 (beta).
