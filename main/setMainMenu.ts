@@ -5,16 +5,12 @@ export default function(onQuit: MenuItemConstructorOptions['click']): void {
     {
       label: 'Electra Desktop',
       submenu: [
+        { role: 'about' },
+        { type: 'separator' },
         {
-          // label: 'About Electra Desktop',
-          role: 'about',
-        },
-        {
-          type: 'separator',
-        },
-        {
+          accelerator: 'Cmd+Q',
           click: onQuit,
-          role: 'quit',
+          label: 'Quit Electra Desktop',
         },
       ] as MenuItemConstructorOptions[],
     },
