@@ -52,12 +52,12 @@ export default function(): void {
 
     while (node) {
       if (node.nodeName.match(/^(input|textarea)$/i) || node.isContentEditable) {
-        editableContextMenu.popup(remote.getCurrentWindow())
+        editableContextMenu.popup({ window: remote.getCurrentWindow() })
         break
       }
 
       if (node.classList.contains('selectableText')) {
-        selectableContextMenu.popup(remote.getCurrentWindow())
+        selectableContextMenu.popup({ window: remote.getCurrentWindow() })
         break
       }
 
