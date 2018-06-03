@@ -21,6 +21,7 @@ import { StoreState } from './types'
 interface OwnState {
   isLoading: boolean
   isQuitting: boolean
+  isStarting: boolean
   isUpdating: boolean
   loaderText: string
 }
@@ -33,20 +34,30 @@ class App extends React.Component<StoreState, OwnState> {
   public constructor(props: StoreState) {
     super(props)
 
+    const isStartedAndReady =
+      ElectraJsMiddleware.wallet.daemonState === 'STARTED' &&
+      ElectraJsMiddleware.wallet.state === 'READY' &&
+      ElectraJsMiddleware.wallet.lockState === 'STAKING'
+    const isStarting = ['STARTING', 'STOPPED'].includes(ElectraJsMiddleware.wallet.daemonState)
+
     this.state = {
-      isLoading: !(
-        ElectraJsMiddleware.wallet.state === 'READY' &&
-        ElectraJsMiddleware.wallet.daemonState === 'STARTED' &&
-        ElectraJsMiddleware.wallet.lockState === 'STAKING'
-      ),
+      isLoading: !isStarting && !isStartedAndReady,
       isQuitting: false,
+      isStarting,
       isUpdating: false,
-      loaderText: '',
+      loaderText: isStarting ? 'Starting Daemon...' : '',
     }
   }
 
   public componentDidMount(): void {
-    ipcRenderer.on('ipcMain:autoUpdater:found', this.startAutoUpdate.bind(this))
+    ipcRenderer.once('ipcMain:electraJs:started', () => this.setState({
+      isLoading: true,
+      isStarting: false,
+      loaderText: '',
+    }))
+
+    ipcRenderer.once('ipcMain:autoUpdater:found', this.startAutoUpdate.bind(this))
+
     ipcRenderer.on('ipcMain:app:quit', () => this.setState({
       isLoading: false,
       isQuitting: true,
@@ -91,14 +102,18 @@ class App extends React.Component<StoreState, OwnState> {
   }
 
   public render(): JSX.Element {
-    const isReady: boolean = !(this.state.isLoading || this.state.isQuitting || this.state.isUpdating)
+    const isReady: boolean =
+      !this.state.isLoading &&
+      !this.state.isQuitting &&
+      !this.state.isStarting &&
+      !this.state.isUpdating
 
     return (
       <Router>
         <div className='c-app-layout'>
           {this.state.isLoading && <Login onDone={(): void => this.setState({ isLoading: false })} />}
-          {this.state.isUpdating && <Loader text={this.state.loaderText} />}
           {this.state.isQuitting && <Loader text={'Closing daemon...'} />}
+          {(this.state.isStarting || this.state.isUpdating) && <Loader text={this.state.loaderText} />}
 
           {isReady && [
             <div key='toolbar' className='c-app-layout__toolbar'>
