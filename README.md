@@ -15,6 +15,10 @@ Electron wallet for **Electra** blockchain
 
 Please report any issue or provide your feedback [there](https://github.com/Electra-project/electra-desktop/issues).
 
+## Change Log
+
+Please check the [changelog file](https://github.com/Electra-project/electra-desktop/blob/master/CHANGELOG.md).
+
 ## Contribute
 
 ### Getting Started
