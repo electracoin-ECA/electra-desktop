@@ -86,7 +86,7 @@ export default class CardView extends React.PureComponent<OwnProps, OwnState> {
 
   public render(): any {
     return (
-      <div className='c-grid__item'>
+      <div className='o-grid__item'>
         <div className='c-card'>
           <div className='c-card__content text-center'>
             <div className='block text-3xl font-extra-bold'>

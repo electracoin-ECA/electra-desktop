@@ -15,7 +15,7 @@ interface ComponentProps {
 export default class CardViewPrices extends React.Component<ComponentProps> {
   public render(): any {
     return (
-      <div className='c-grid c-grid--thirds py-4'>
+      <div className='o-grid o-grid--thirds'>
         <CardView
           confirmedBalance={this.props.confirmedBalance}
           currencyName='ECA'

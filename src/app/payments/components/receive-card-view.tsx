@@ -2,7 +2,6 @@ import { WalletAddress, WalletAddressCategory } from 'electra-js'
 import * as QRCode from 'qrcode.react'
 import * as React from 'react'
 import * as CopyToClipboard from 'react-copy-to-clipboard'
-import { Icon } from '../../shared/icon'
 
 interface OwnProps {
   addresses: WalletAddress[]
@@ -47,7 +46,7 @@ export default class ReceiveCardView extends React.PureComponent<OwnProps, OwnSt
 
   public render(): JSX.Element {
     return (
-      <div className='c-grid__item'>
+      <div className='o-grid__item'>
         <div className='c-card'>
           <div className='c-card__content'>
             <h3>Receive ECA</h3>
@@ -63,9 +62,6 @@ export default class ReceiveCardView extends React.PureComponent<OwnProps, OwnSt
                     />,
                   )}
                 </select>
-                <div className='c-icon c-dropdown__icon'>
-                  <Icon name='caret-bottom' />
-                </div>
               </div>
               <div className='c-qr-code mt-8'>
                 <QRCode value={this.state.selectedAddressHash} />

@@ -2,7 +2,6 @@ import { WalletAddressCategory, WalletBalance } from 'electra-js'
 import * as React from 'react'
 
 import ElectraJsMiddleware from '../../../middlewares/ElectraJs'
-import { Icon } from '../../shared/icon'
 
 const styles: any = require('./styles.css')
 
@@ -86,7 +85,7 @@ export default class SendCardView extends React.PureComponent<OwnProps, OwnState
 
   public render(): JSX.Element {
     return (
-      <div className='c-grid__item'>
+      <div className='o-grid__item'>
         <div className='c-card'>
           <div className='c-card__content'>
             <h3>Send ECA</h3>
@@ -105,9 +104,6 @@ export default class SendCardView extends React.PureComponent<OwnProps, OwnState
                     {/* tslint:disable-next-line:no-magic-numbers */}
                     <option children={`Legacy Account`} key={'fromRandom'} value={3} />
                   </select>
-                  <div className='c-icon c-dropdown__icon'>
-                    <Icon name='caret-bottom' />
-                  </div>
                 </div>
               </div>
               <p className={styles.amountAvailable}>
@@ -123,9 +119,6 @@ export default class SendCardView extends React.PureComponent<OwnProps, OwnState
                     {/* tslint:disable-next-line:no-magic-numbers */}
                     <option children={`Savings Account`} key={'toSavings'} value={2} />
                   </select>
-                  <div className='c-icon c-dropdown__icon'>
-                    <Icon name='caret-bottom' />
-                  </div>
                 </div>
               </div>
               {!this.state.isFromSavingsAccount && (
