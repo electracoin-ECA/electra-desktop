@@ -7,7 +7,9 @@ const webpackMerge = require('webpack-merge')
 
 module.exports = [
   webpackMerge(mainConfig, {
-    mode: 'production',
+    // We don't want any automated minifaction here because it breaks the types-checking.
+    // https://webpack.js.org/concepts/mode/#mode-none
+    mode: 'none',
 
     plugins: [
       new webpack.DefinePlugin({
