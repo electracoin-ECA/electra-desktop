@@ -68,7 +68,7 @@ export default class Transactions extends React.Component<Props, State> {
           <div className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0' style={{ width: '5rem' }}>Received</div>
           <div
             className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0 font-extra-bold'
-            style={{ textAlign: 'right', width: '9rem' }}
+            style={{ textAlign: 'right' }}
           >
             {transaction.to
               .filter(({ category }: WalletTransactionEndpoint) => category === this.props.category)
@@ -166,7 +166,7 @@ export default class Transactions extends React.Component<Props, State> {
           </div>
           <div
             className='block lg:inline-block mb-4 lg:mr-8 lg:mb-0 font-extra-bold'
-            style={{ textAlign: 'right', width: '9rem' }}
+            style={{ textAlign: 'right' }}
           >
             {this.props.category !== null && !isMerged ? '-' : ''}
             {(this.props.category === null || isMerged) && transaction.amount.toFixed(DECIMALS_LENGTH)}
