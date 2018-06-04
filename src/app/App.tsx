@@ -15,6 +15,7 @@ import Login from './login'
 import { Payments } from './payments'
 import { Settings } from './settings'
 import Loader from './shared/loader'
+import TitleBar from './shared/title-bar'
 import { Sidebar } from './sidebar'
 import { StoreState } from './types'
 
@@ -116,6 +117,8 @@ class App extends React.Component<StoreState, OwnState> {
           {(this.state.isStarting || this.state.isUpdating) && <Loader text={this.state.loaderText} />}
 
           {isReady && [
+            // We show the custom title bar on Linux & Windows to show minimize/maximize/close usual buttons.
+            process.platform !== 'darwin' ? <TitleBar /> : undefined,
             <div key='toolbar' className='c-app-layout__toolbar'>
               <Header />
             </div>,
