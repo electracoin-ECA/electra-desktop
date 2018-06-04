@@ -1,14 +1,14 @@
 import * as _ from 'lodash'
-import { Action, applyMiddleware, combineReducers, createStore, Middleware, Reducer } from 'redux'
+import { applyMiddleware, combineReducers, createStore, Middleware } from 'redux'
 import logger from 'redux-logger'
-import { combineEpics, createEpicMiddleware, EpicMiddleware } from 'redux-observable'
+import { combineEpics, createEpicMiddleware } from 'redux-observable'
 
 import epics from './epics'
 import * as reducers from './reducers'
 import { StoreState } from './types'
 
-const epicMiddleware: EpicMiddleware<Action<any>, Action<any>, void, any> = createEpicMiddleware()
-const rootReducer: Reducer<StoreState> = combineReducers({ ...reducers })
+const epicMiddleware = createEpicMiddleware()
+const rootReducer = combineReducers<StoreState>({ ...reducers })
 const rootEpic = combineEpics(..._.values(epics))
 
 const middlewares: Middleware[] = []
