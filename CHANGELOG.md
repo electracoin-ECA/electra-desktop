@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Linux AppImage package build.
 - Linux RPM package build.
+- A title bar with minimize, maximize and close buttons for Linux & Windows.
 
 ### Changed
 - Migration to electron v2.
