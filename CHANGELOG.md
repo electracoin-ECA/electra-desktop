@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Linux AppImage package build.
 - Linux RPM package build.
 - A title bar with minimize, maximize and close buttons for Linux & Windows.
-- NPM: @electra/electra-style.
+- NPM: @electra/electra-styleguide.
 
 ### Changed
 - Migration to electron v2.
