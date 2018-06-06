@@ -127,8 +127,6 @@ class App extends React.Component<StoreState, OwnState> {
                 <Sidebar />
               </aside>
               <main>
-                {/* TODO Fix this dirty hack to handle missing redirect on production app. */}
-                <Redirect to='/' />
                 <Switch>
                   <Route exact path='/' component={AccountOverview} />
                   <Route exact path='/purse' component={AccountPurse} />
@@ -138,6 +136,7 @@ class App extends React.Component<StoreState, OwnState> {
                   <Route exact path='/payments' component={Payments} />
                   <Route exact path='/address_book' component={AddressBook} />
                   <Route exact path='/settings' component={Settings} />
+                  <Redirect to='/' />
                 </Switch>
                 <Toast
                   message={this.props.toast.message}
