@@ -118,7 +118,7 @@ class App extends React.Component<StoreState, OwnState> {
 
           {isReady && [
             // We show the custom title bar on Linux & Windows to show minimize/maximize/close usual buttons.
-            process.platform !== 'darwin' ? <TitleBar key='title-bar' /> : undefined,
+            process.platform === 'win32' ? <TitleBar key='title-bar' /> : undefined,
             <div key='header' className='c-app-layout__toolbar'>
               <Header />
             </div>,
