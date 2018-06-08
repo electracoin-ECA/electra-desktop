@@ -15,7 +15,7 @@
     "postinstall": "node ./tasks/changeBinariesRights && electron-builder install-app-deps",
     "prerelease": "cross-env NODE_ENV=production webpack --config ./scripts/webpack.static.js",
     "release": "npm run prerelease && electron-builder --linux --windows",
-    "release:macos:64": "npm run prerelease && electron-builder --macos",
+    "release:macos": "npm run prerelease && electron-builder --macos",
     "start": "cross-env NODE_ENV=development node --max_old_space_size=2096 ./scripts/server.js",
     "start:new": "node ./tasks/removeElectraUserDirectory && npm start",
     "start:prod": "cross-env ELECTRON_IS_LOCAL=1 NODE_ENV=production webpack --config ./scripts/webpack.static.js && electron --noDevServer .",
