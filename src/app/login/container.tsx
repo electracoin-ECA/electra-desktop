@@ -40,6 +40,9 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
   public async componentDidMount(): Promise<void> {
     if (ElectraJsMiddleware.wallet.daemonState !== 'STARTED') throwError(ERROR.LOGIN001)
 
+    // For developement purposes, after hot-reloading, we can skip this screen.
+    if (ElectraJsMiddleware.wallet.lockState !== 'LOCKED') this.props.onDone()
+
     await this.retrieveUserSettings()
   }
 
