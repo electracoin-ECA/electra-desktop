@@ -1,4 +1,5 @@
 .container {
+  -webkit-app-region: drag;
   background-color: #fbfaff;
   display: flex;
   min-height: 30px;
