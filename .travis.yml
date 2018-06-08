@@ -23,13 +23,6 @@ matrix:
       os: linux
       services: docker
       language: generic
-      env: ARCH=ia32
-
-    - stage: Release
-      os: linux
-      services: docker
-      language: generic
-      env: ARCH=x64
 
 stages:
   - name: Test
@@ -56,23 +49,13 @@ script:
     fi
     if [ "$TRAVIS_BUILD_STAGE_NAME" == "Release" ]; then
       if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-        if [ "$ARCH" == "ia32" ]; then
-          docker run --rm \
-            --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
-            -v ${PWD}:/project \
-            -v ~/.cache/electron:/root/.cache/electron \
-            -v ~/.cache/electron-builder:/root/.cache/electron-builder \
-            electronuserland/builder:wine \
-            /bin/bash -c "npm i && npm run release:ia32"
-        else
-          docker run --rm \
-            --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
-            -v ${PWD}:/project \
-            -v ~/.cache/electron:/root/.cache/electron \
-            -v ~/.cache/electron-builder:/root/.cache/electron-builder \
-            electronuserland/builder:wine \
-            /bin/bash -c "npm i && npm run release:x64"
-        fi
+        docker run --rm \
+          --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
+          -v ${PWD}:/project \
+          -v ~/.cache/electron:/root/.cache/electron \
+          -v ~/.cache/electron-builder:/root/.cache/electron-builder \
+          electronuserland/builder:wine \
+          /bin/bash -c "npm i && npm run release:x64"
       else
         npm run release:macos
       fi
