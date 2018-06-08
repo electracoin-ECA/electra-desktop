@@ -1,5 +1,4 @@
 import { ActionsObservable, ofType } from 'redux-observable'
-import { of } from 'rxjs'
 import { delay, mapTo } from 'rxjs/operators'
 
 import { ActionList as PaymentActionList, ActionType as PaymentsActionType } from '../../payments/types'
@@ -13,9 +12,9 @@ export function hideToastMessageAndBadge(action$: ActionsObservable<ToastActions
   return action$.pipe(
     ofType(ToastActionNames.SET_MESSAGE_AND_BADGE),
     delay(MAX_DELAY),
-    mapTo(of({
+    mapTo({
       type: ToastActionNames.HIDE_MESSAGE_AND_BADGE,
-    })),
+    }),
   )
 }
 
