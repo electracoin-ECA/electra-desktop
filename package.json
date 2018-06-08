@@ -14,8 +14,7 @@
   "scripts": {
     "postinstall": "node ./tasks/changeBinariesRights && electron-builder install-app-deps",
     "prerelease": "cross-env NODE_ENV=production webpack --config ./scripts/webpack.static.js",
-    "release:ia32": "npm run prerelease && electron-builder --windows --ia32",
-    "release:x64": "npm run prerelease && electron-builder --linux --windows --x64",
+    "release": "npm run prerelease && electron-builder --linux --windows",
     "release:macos:64": "npm run prerelease && electron-builder --macos",
     "start": "cross-env NODE_ENV=development node --max_old_space_size=2096 ./scripts/server.js",
     "start:new": "node ./tasks/removeElectraUserDirectory && npm start",
@@ -61,7 +60,16 @@
       "icon": "build/assets/icons/icon.icns"
     },
     "win": {
-      "icon": "build/assets/icons/icon.ico"
+      "icon": "build/assets/icons/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
     },
     "publish": {
       "provider": "github"
