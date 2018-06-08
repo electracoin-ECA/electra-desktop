@@ -12,11 +12,11 @@
     "npm": ">=6.1.0"
   },
   "scripts": {
-    "package:prod": "cross-env NODE_ENV=production webpack --config ./scripts/webpack.static.js && electron-builder",
-    "package:stag": "cross-env NODE_ENV=staging webpack --config ./scripts/webpack.static.js && electron-builder",
     "postinstall": "node ./tasks/changeBinariesRights && electron-builder install-app-deps",
-    "release": "cross-env NODE_ENV=production webpack --config ./scripts/webpack.static.js && electron-builder --linux --win",
-    "release:mac": "npm run package:prod",
+    "prerelease": "cross-env NODE_ENV=production webpack --config ./scripts/webpack.static.js",
+    "release:ia32": "npm run prerelease && electron-builder --linux --windows --ia32",
+    "release:x64": "npm run prerelease && electron-builder --linux --windows --x64",
+    "release:macos:64": "npm run prerelease && electron-builder --macos",
     "start": "cross-env NODE_ENV=development node --max_old_space_size=2096 ./scripts/server.js",
     "start:new": "node ./tasks/removeElectraUserDirectory && npm start",
     "start:prod": "cross-env ELECTRON_IS_LOCAL=1 NODE_ENV=production webpack --config ./scripts/webpack.static.js && electron --noDevServer .",
