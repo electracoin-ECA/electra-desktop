@@ -1,6 +1,6 @@
 import { ActionsObservable, ofType } from 'redux-observable'
 import { from, of } from 'rxjs'
-import { catchError, delay, map, mapTo, mergeMap } from 'rxjs/operators'
+import { catchError, delay, flatMap, map, mapTo, mergeMap } from 'rxjs/operators'
 
 import ElectraJsMiddleware from '../../../middlewares/ElectraJs'
 import { ActionList, ActionType } from './types'
@@ -78,7 +78,7 @@ export default {
       ),
       mergeMap((passphrase: string) =>
         from(ElectraJsMiddleware.wallet.unlock(passphrase, false)).pipe(
-          mapTo([
+          flatMap(() => [
             { type: ActionType.SET_LOCK_TO_UNLOCKED_SUCCESS },
             {
               payload: passphrase,
