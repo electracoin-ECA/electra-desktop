@@ -23,7 +23,7 @@ export default class TitleBar extends React.PureComponent {
   private getIconMinimize(): JSX.Element {
     return (
       <svg viewBox='0 0 10 10'>
-        <line x1='0.5' y1='4' x2='9.5' y2='4' stroke='#000000' />
+        <line x1='0.5' y1='5.5' x2='9.5' y2='5.5' stroke='#000000' />
       </svg>
     )
   }
