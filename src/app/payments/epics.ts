@@ -7,9 +7,11 @@ import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { ActionList as UnlockModalActionsList, ActionType as UnlockModalActionType } from '../common/unlock-modal/types'
 import { ActionList, ActionType, Transaction } from './types'
 
-let pendingTransaction: Transaction | undefined
+const DECIMALS_LENGTH = 8
 const PURSE_AMOUNT_MAX = 100
 const TRANSACTION_FEE = 0.000_01
+
+let pendingTransaction: Transaction | undefined
 
 export default {
   closeUnlockModal: (action$: ActionsObservable<UnlockModalActionsList['CANCEL_UNLOCK_MODAL']>) =>
@@ -67,6 +69,9 @@ export default {
         ),
       ),
       map(([transaction, confirmedBalance]: [Transaction, number]) => {
+        // tslint:disable-next-line:no-parameter-reassignment
+        confirmedBalance = Number(confirmedBalance.toFixed(DECIMALS_LENGTH))
+
         if (transaction.toAddress.length === 0 || transaction.toAddress[0] !== 'E') {
           return {
             payload: {
