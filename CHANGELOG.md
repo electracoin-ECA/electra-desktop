@@ -10,8 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Linux AppImage package build.
 - Linux RPM package build.
-- A title bar with minimize, maximize and close buttons for Linux & Windows.
+- A title bar with minimize, maximize and close buttons for Windows.
 - NPM: @electra/electra-styleguide.
+- Windows ia32 architecture package build.
 
 ### Changed
 - Migration to electron v2.
@@ -24,10 +25,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Auto-update on MacOS & Windows: Multiple downloads loop.
 - Auto-update on MacOS: No auto-restart with auto-installation.
 - Auto-update on MacOS: Stucked quitting behavior.
-- Mnemonic recovery.
+- Login mnemonic recovery.
 - Hidden normal quitting error (acting as an install-update-and-quit instead of a simple daemon closing).
 - Missing prefixes in (crypto)currencies top shown values.
 - Payments page caret down icon.
+- Router (react-router) redirection issue.
+- Full available account balance sending.
+- Balances & ammounts decimals issues (some may be left).
 
 ### Security
 - Fixed all Snyk, NSP & npm audit vulnerabilities.
