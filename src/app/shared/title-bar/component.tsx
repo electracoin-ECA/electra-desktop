@@ -34,7 +34,8 @@ export default class TitleBar extends React.PureComponent {
         <rect
           x='0.5' y='0.5' width='9' height='9'
           style={{
-            fill: '#fbfaff',
+            // fill: '#fbfaff',
+            fillOpacity: 0,
             stroke: '#000000',
             strokeWidth: 1,
           }}
@@ -46,18 +47,15 @@ export default class TitleBar extends React.PureComponent {
   private getIconUnmaximize(): JSX.Element {
     return (
       <svg viewBox='0 0 10 10'>
-        <rect
-          x='2.5' y='0.5' width='7' height='7'
-          style={{
-            fill: '#fbfaff',
-            stroke: '#000000',
-            strokeWidth: 1,
-          }}
-        />
+        <line x1='2.5' y1='2.5' x2='2.5' y2='0.5' stroke='#000000' />
+        <line x1='2.5' y1='0.5' x2='9.5' y2='0.5' stroke='#000000' />
+        <line x1='9.5' y1='0.5' x2='9.5' y2='7.5' stroke='#000000' />
+        <line x1='9.5' y1='7.5' x2='7.5' y2='7.5' stroke='#000000' />
         <rect
           x='0.5' y='2.5' width='7' height='7'
           style={{
-            fill: '#fbfaff',
+            // fill: '#fbfaff',
+            fillOpacity: 0,
             stroke: '#000000',
             strokeWidth: 1,
           }}
@@ -69,6 +67,7 @@ export default class TitleBar extends React.PureComponent {
   public render(): JSX.Element {
     return (
       <div className={styles.container}>
+        <div className={styles.draggable} />
         <div className={styles.button} onClick={() => mainWindow.minimize()}>{this.getIconMinimize()}</div>
         {mainWindow.isMaximized()
          ? <div className={styles.button} onClick={() => mainWindow.unmaximize()}>{this.getIconUnmaximize()}</div>
