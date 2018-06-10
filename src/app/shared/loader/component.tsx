@@ -6,6 +6,7 @@ const styles: any = require('./styles.css')
 
 interface ComponentProps {
   text: string
+  subtext?: string
 }
 
 export default class Loader extends React.PureComponent<ComponentProps> {
@@ -14,7 +15,10 @@ export default class Loader extends React.PureComponent<ComponentProps> {
       <div className={styles.container}>
         <div className={styles.innerContainer}>
           <Spinner />
-          <p className={styles.text}>{this.props.text}</p>
+          <div className={styles.textContainer}>
+            <p className={styles.text}>{this.props.text}</p>
+            <p className={styles.subtext}>{this.props.subtext}</p>
+          </div>
         </div>
       </div>
     )
