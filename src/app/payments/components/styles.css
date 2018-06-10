@@ -2,6 +2,15 @@
   border-color: #e90707;
 }
 
+.inputGroup {
+  display: flex;
+}
+.inputGroupButton {
+  /* flex-grow: 1; */
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
 .amountAvailable {
   color: #00914d;
   font-size: 12px;

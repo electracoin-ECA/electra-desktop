@@ -56,6 +56,10 @@ export default class SendCardView extends React.PureComponent<OwnProps, OwnState
       .catch(console.error.bind(console))
   }
 
+  private setAmountToMax(): void {
+    this.$amount.value = this.state.amountAvailable
+  }
+
   private submitPayment(): void {
     let toAddress: string
     switch (Number(this.$toAccount.value)) {
@@ -134,20 +138,24 @@ export default class SendCardView extends React.PureComponent<OwnProps, OwnState
               {Boolean(this.props.addressError) && <p children={this.props.addressError} className={styles.error} />}
               <div className={`c-input${this.props.amountError ? styles.inputError : ''}`}>
                 <span className='c-input__label'>Amount</span>
-                <input
-                  placeholder='0.00'
-                  ref={(node: HTMLInputElement) => this.$amount = node}
-                  type='number'
-                />
+                <div className={styles.inputGroup}>
+                  <input
+                    placeholder='0.00'
+                    ref={(node: HTMLInputElement) => this.$amount = node}
+                    type='number'
+                  />
+                  <button
+                    children={'ALL'}
+                    className={styles.inputGroupButton}
+                    onClick={this.setAmountToMax.bind(this)}
+                  />
+                </div>
               </div>
               {Boolean(this.props.amountError) && <p children={this.props.amountError} className={styles.error} />}
             </div>
           </div>
           <div className='c-card__actions'>
-            <button
-              children={'SUBMIT PAYMENT'}
-              onClick={this.submitPayment.bind(this)}
-            />
+            <button children={'SUBMIT PAYMENT'} onClick={this.submitPayment.bind(this)} />
           </div>
         </div>
       </div>
