@@ -12,6 +12,7 @@ import { Dispatchers } from './types'
 import { WalletInfoComponent } from './wallet-info'
 
 const logo: string = require('./logo.svg')
+const styles: any = require('./styles.css')
 
 const rowTwo = 2
 const rowSix = 6
@@ -48,7 +49,7 @@ class Header extends React.Component<StoreState & Dispatchers> {
                   <WalletInfoComponent
                     row={rowSix}
                     label={'Status'}
-                    info={isStaking ? 'Staking' : 'Not staking'}
+                    info={isSynchonized ? isStaking ? 'Staking' : 'Not staking' : 'Synching blockchain...'}
                   />
                   <WalletInfoComponent
                     row={rowTwo}
@@ -58,7 +59,7 @@ class Header extends React.Component<StoreState & Dispatchers> {
                   <WalletInfoComponent
                     row={rowTwo}
                     label={'Your weight'}
-                    info={`${numeral(localStakingWeight).format('0,0')}`}
+                    info={isSynchonized ? numeral(localStakingWeight).format('0,0') : 'Synching blockchain...'}
                   />
                   <WalletInfoComponent
                     row={rowTwo}
@@ -90,8 +91,8 @@ class Header extends React.Component<StoreState & Dispatchers> {
                   <WalletInfoComponent
                     row={rowTwo}
                     label={'Next reward'}
-                    info={nextStakingRewardIn === 0
-                      ? 'Fetching...'
+                    info={nextStakingRewardIn === 0 || !isSynchonized
+                      ? 'Synching blockchain...'
                       : nextStakingRewardIn === -1
                         ? 'Never'
                         : _.upperFirst(moment().add(nextStakingRewardIn, 's').fromNow())
@@ -101,6 +102,16 @@ class Header extends React.Component<StoreState & Dispatchers> {
               </div>
             </div>
           </div>
+        </div>
+        <div className='c-header__logo'>
+          {!isSynchonized && (
+            <progress
+              className={styles.progressBar}
+              max='100'
+              // tslint:disable-next-line:binary-expression-operand-order no-magic-numbers
+              value={Math.floor(100 * Number(localBlockchainHeight) / networkBlockchainHeight)}
+            />
+          )}
         </div>
         <div className='c-header__content'></div>
         <div className='c-header__logo'>
