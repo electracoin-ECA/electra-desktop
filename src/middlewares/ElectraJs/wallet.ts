@@ -34,7 +34,7 @@ export default class Wallet implements WalletHard {
 
   public async createAddress(passphrase: string, category: WalletAddressCategory): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:createAddress', arguments) }
   public async export(): Promise<string> { return bindEventToAsyncCall<string>('electraJs:wallet:export', arguments) }
-  public async generate(passphrase: string, mnemonic?: string, mnemonicExtension?: string, purseAddressesCount?: number, checkingAddressesCount?: number, savingsAddressesCount?: number): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:generate', arguments) }
+  public async generate(passphrase: string, mnemonic?: string, mnemonicExtension?: string, purseAddressesCount?: number, checkingAddressesCount?: number, savingsAddressesCount?: number): Promise<string> { return bindEventToAsyncCall<string>('electraJs:wallet:generate', arguments) }
   public async getAddressBalance(addressHash: string): Promise<WalletBalance> { return bindEventToAsyncCall<WalletBalance>('electraJs:wallet:getAddressBalance', arguments) }
   public getAddressCategory(addressHash: string): WalletAddressCategory { return bindEventToSyncCall<WalletAddressCategory>('electraJs:wallet:getAddressCategory', arguments) }
   public async getBalance(): Promise<WalletBalance> { return bindEventToAsyncCall<WalletBalance>('electraJs:wallet:getBalance', arguments) }
@@ -46,7 +46,7 @@ export default class Wallet implements WalletHard {
   public async import(wefData: WalletExchangeFormat, passphrase: string): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:import', arguments) }
   public async importRandomAddress(privateKey: string, passphrase: string): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:importRandomAddress', arguments) }
   public async lock(passphrase?: string): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:lock', arguments) }
-  public reset(): void { return bindEventToSyncCall<void>('electraJs:wallet:reset', arguments) }
+  public async reset(): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:reset', arguments) }
   public async send(amount: number, category: WalletAddressCategory, toAddressHash: string): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:send', arguments) }
   public async start(data: WalletStartDataHard, passphrase: string): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:start', arguments) }
   public async startDaemon(): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:startDaemon', arguments) }
