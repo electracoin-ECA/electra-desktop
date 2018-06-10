@@ -3,20 +3,20 @@ const os = require('os')
 const path = require('path')
 const rimraf = require('rimraf')
 
-let electraDestopUserDirectoryPath
+let electraDaemonUserDirectoryPath
 
 switch (process.platform) {
   case 'darwin':
-    electraDestopUserDirectoryPath = path.resolve(os.homedir(), 'Library/Application Support/Electra')
+    electraDaemonUserDirectoryPath = path.resolve(os.homedir(), 'Library/Application Support/Electra')
     break
 
   case 'win32':
-    electraDestopUserDirectoryPath = path.resolve(os.homedir(), 'AppData/Roaming/Electra Desktop')
+    electraDaemonUserDirectoryPath = path.resolve(os.homedir(), 'AppData/Roaming/Electra')
     break
 
   default:
-    electraDestopUserDirectoryPath = path.resolve(os.homedir(), '.Electra')
+    electraDaemonUserDirectoryPath = path.resolve(os.homedir(), '.Electra')
 }
 
-console.log(`Removing ${electraDestopUserDirectoryPath} directory...`)
-rimraf.sync(electraDestopUserDirectoryPath)
+console.log(`Removing ${electraDaemonUserDirectoryPath} directory...`)
+rimraf.sync(electraDaemonUserDirectoryPath)
