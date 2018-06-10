@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - A title bar with minimize, maximize and close buttons for Windows.
 - NPM: @electra/electra-styleguide.
 - Windows ia32 architecture package build.
+- "ALL" button in payment sending card.
+- Progress bar in the header while downloading the blockchain.
 
 ### Changed
 - Migration to electron v2.
@@ -20,6 +22,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Migration to rxjs v6.
 - Migration to webpack v4.
 - Daemon starting process starting sooner (moved into main process).
+- Automatically remove daemon user data when generating a new mnemonic or recovering one.
+- In the information popover: "Status", "Your weight" and "Next reward" now outputs "Syncing blockchain..." when the
+  wallet in not synchromized.
 
 ### Fixed
 - Auto-update on MacOS & Windows: Multiple downloads loop.
