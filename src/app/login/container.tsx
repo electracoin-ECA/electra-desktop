@@ -137,6 +137,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       this.setState({
         firstInstallationScreen: 'ASK_USER_FOR_EXISTING_PASSPHRASE',
         isFullInstallation: false,
+        loadingText: undefined,
       })
 
       return
@@ -149,6 +150,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       this.setState({
         firstInstallationScreen: 'ASK_USER_FOR_START_ACTION',
         isFullInstallation: true,
+        loadingText: undefined,
       })
 
       return
@@ -161,6 +163,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     this.setState({
       firstInstallationScreen: 'ASK_USER_FOR_NEW_PASSPHRASE',
       isFullInstallation: true,
+      loadingText: undefined,
     })
   }
 
@@ -223,6 +226,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
     this.setState({
       firstInstallationScreen: 'ASK_USER_FOR_NEW_PASSPHRASE_REPEAT',
+      loadingText: undefined,
       passphrase: this.$passphrase.value,
     })
   }
@@ -288,6 +292,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     if (this.state.passphrase === undefined) {
       this.setState({
         firstInstallationScreen: 'ASK_USER_FOR_NEW_PASSPHRASE',
+        loadingText: undefined,
         mnemonic: this.$mnemonic.value,
         mnemonicExtension: this.$mnemonicExtension.value,
       })
