@@ -24,10 +24,12 @@ interface OwnState {
   isQuitting: boolean
   isStarting: boolean
   isUpdating: boolean
+  loaderSubtext?: string
   loaderText: string
 }
 
-const ONE_SECOND = 1000
+const ONE_SECOND = 1_000
+const QUITTING_SLOW_DELAY = 3_000
 
 class App extends React.Component<StoreState, OwnState> {
   private updateInfo: UpdateInfo
@@ -54,16 +56,12 @@ class App extends React.Component<StoreState, OwnState> {
     ipcRenderer.once('ipcMain:electraJs:started', () => this.setState({
       isLoading: true,
       isStarting: false,
+      loaderSubtext: undefined,
       loaderText: '',
     }))
 
     ipcRenderer.once('ipcMain:autoUpdater:found', this.startAutoUpdate.bind(this))
-
-    ipcRenderer.on('ipcMain:app:quit', () => this.setState({
-      isLoading: false,
-      isQuitting: true,
-      isUpdating: false,
-    }))
+    ipcRenderer.on('ipcMain:app:quit', this.onQuit.bind(this))
   }
 
   private startAutoUpdate(event: any, resString: string): void {
@@ -82,6 +80,7 @@ class App extends React.Component<StoreState, OwnState> {
     this.setState({
       isLoading: false,
       isUpdating: true,
+      loaderSubtext: `Please don't close the wallet.`,
       loaderText: `Downloading update ${this.updateInfo.version}...`,
     })
   }
@@ -89,17 +88,27 @@ class App extends React.Component<StoreState, OwnState> {
   private updateDownloadStatus(event: any, resString: string): void {
     const progressInfo: ProgressInfo = JSON.parse(resString) as ProgressInfo
     this.setState({
+      loaderSubtext: `Please don't close the wallet.`,
       loaderText: `Downloading update ${this.updateInfo.version} (${Math.round(progressInfo.percent)}%)...`,
     })
   }
 
   private async installUpdate(event: any, resString: string): Promise<void> {
-    this.setState({
-      isQuitting: true,
-      isUpdating: false,
-    })
+    this.onQuit()
     await ElectraJsMiddleware.wallet.stopDaemon()
     ipcRenderer.send('ipcRenderer:autoUpdater:quitAndInstall')
+  }
+
+  private onQuit(): void {
+    this.setState({
+      isLoading: false,
+      isQuitting: true,
+      isUpdating: false,
+      loaderSubtext: undefined,
+      loaderText: 'Closing daemon...',
+    })
+
+    setTimeout(() => this.setState({ loaderSubtext: 'This may take a while.' }), QUITTING_SLOW_DELAY)
   }
 
   public render(): JSX.Element {
@@ -113,8 +122,9 @@ class App extends React.Component<StoreState, OwnState> {
       <Router>
         <div className='c-app-layout'>
           {this.state.isLoading && <Login onDone={(): void => this.setState({ isLoading: false })} />}
-          {this.state.isQuitting && <Loader text={'Closing daemon...'} />}
-          {(this.state.isStarting || this.state.isUpdating) && <Loader text={this.state.loaderText} />}
+          {(this.state.isStarting || this.state.isUpdating || this.state.isQuitting) && (
+            <Loader text={this.state.loaderText} subtext={this.state.loaderSubtext} />
+          )}
 
           {isReady && [
             // We show the custom title bar on Linux & Windows to show minimize/maximize/close usual buttons.
