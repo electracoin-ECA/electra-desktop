@@ -49,7 +49,7 @@ class Header extends React.Component<StoreState & Dispatchers> {
                   <WalletInfoComponent
                     row={rowSix}
                     label={'Status'}
-                    info={isSynchonized ? isStaking ? 'Staking' : 'Not staking' : 'Synching blockchain...'}
+                    info={isSynchonized ? isStaking ? 'Staking' : 'Not staking' : 'Syncing blockchain...'}
                   />
                   <WalletInfoComponent
                     row={rowTwo}
@@ -59,7 +59,7 @@ class Header extends React.Component<StoreState & Dispatchers> {
                   <WalletInfoComponent
                     row={rowTwo}
                     label={'Your weight'}
-                    info={isSynchonized ? numeral(localStakingWeight).format('0,0') : 'Synching blockchain...'}
+                    info={isSynchonized ? numeral(localStakingWeight).format('0,0') : 'Syncing blockchain...'}
                   />
                   <WalletInfoComponent
                     row={rowTwo}
@@ -92,7 +92,7 @@ class Header extends React.Component<StoreState & Dispatchers> {
                     row={rowTwo}
                     label={'Next reward'}
                     info={nextStakingRewardIn === 0 || !isSynchonized
-                      ? 'Synching blockchain...'
+                      ? 'Syncing blockchain...'
                       : nextStakingRewardIn === -1
                         ? 'Never'
                         : _.upperFirst(moment().add(nextStakingRewardIn, 's').fromNow())
