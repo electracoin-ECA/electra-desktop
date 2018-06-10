@@ -122,7 +122,7 @@ export default class SendCardView extends React.PureComponent<OwnProps, OwnState
                 </div>
               </div>
               {!this.state.isFromSavingsAccount && (
-                <div className={`c-input ${this.props.addressError && styles.inputError}`}>
+                <div className={`c-input${this.props.addressError ? styles.inputError : ''}`}>
                   <span className='c-input__label'>[OR] To Address</span>
                   <input
                     placeholder='EH123asaeGsearuWWLbKToRdmnoS8BGD9hGC'
@@ -132,7 +132,7 @@ export default class SendCardView extends React.PureComponent<OwnProps, OwnState
                 </div>
               )}
               {Boolean(this.props.addressError) && <p children={this.props.addressError} className={styles.error} />}
-              <div className={`c-input ${this.props.amountError && styles.inputError}`}>
+              <div className={`c-input${this.props.amountError ? styles.inputError : ''}`}>
                 <span className='c-input__label'>Amount</span>
                 <input
                   placeholder='0.00'
