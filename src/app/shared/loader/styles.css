@@ -15,12 +15,26 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 9rem;
+  height: 11rem;
   justify-content: space-between;
 }
 
+.textContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 3rem;
+  justify-content: space-between;
+}
 .text {
-  /* font-family: monospace; */
   font-size: 18px;
   color: rgba(255, 255, 255, .9);
+  line-height: 1;
+  margin: 0;
+}
+.subtext {
+  font-size: 14px;
+  color: rgba(255, 255, 255, .3);
+  font-style: italic;
+  line-height: 1;
 }
