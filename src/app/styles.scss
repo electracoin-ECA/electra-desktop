@@ -12,7 +12,7 @@ html, body {
 input, textarea {
   cursor: text;
 }
-input:focus, select:focus, textarea:focus {
+button:focus, input:focus, select:focus, textarea:focus {
   outline: 0;
 }
 
