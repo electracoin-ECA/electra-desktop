@@ -197,11 +197,11 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
 
   private async generateNewHdWallet(): Promise<void> {
     this.setState({ loadingText: 'Generating new mnemonic...' })
-    await ElectraJsMiddleware.wallet.generate(this.state.passphrase as string)
+    const mnemonic = await ElectraJsMiddleware.wallet.generate(this.state.passphrase as string)
     this.setState({
       firstInstallationScreen: 'SHOW_USER_NEW_MNEMONIC',
       loadingText: undefined,
-      mnemonic: ElectraJsMiddleware.wallet.mnemonic,
+      mnemonic,
     })
   }
 
