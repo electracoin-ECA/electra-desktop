@@ -11,5 +11,6 @@ export const USER_SETTINGS_DEFAULT: Omit<UserSettings, keyof WalletStartDataHard
     autoTeamDonationFromRewardsRatio: 0,
     autoUpdate: true,
     electraUniverseTwitterUsername: '',
+    synchronizeSettings: false,
   },
 }

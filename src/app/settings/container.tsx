@@ -80,6 +80,16 @@ export default class Settings extends React.Component<{}, OwnState> {
         <div className={styles.subtitle}>Experimental</div>
         <div className={styles.warning}>Do not use these settings unless you really know what you're doing !</div>
         <div className={styles.row}>
+          <span className={styles.label}>Synchronize settings between apps:</span>
+          <input
+            className={styles.checkbox}
+            defaultChecked={this.state.settings.synchronizeSettings}
+            disabled={this.state.isLoading}
+            onChange={() => this.updateSetting('synchronizeSettings')}
+            type='checkbox'
+          />
+        </div>
+        <div className={styles.row}>
           <span className={styles.label}>Enable auto-merge after rewards:</span>
           <input
             className={styles.checkbox}
