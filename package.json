@@ -78,7 +78,7 @@
     "@electra/electra-styleguide": "^1.0.2",
     "ajv": "^6.5.0",
     "await-to-js": "^2.0.1",
-    "electra-js": "0.18.0",
+    "electra-js": "0.18.1",
     "electron-json-storage": "^4.1.0",
     "electron-log": "^2.2.14",
     "electron-updater": "^2.21.10",
