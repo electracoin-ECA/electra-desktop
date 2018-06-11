@@ -17,6 +17,7 @@ export default class Settings extends React.Component<{}, OwnState> {
     super(props)
 
     this.state = {
+      containerKeyIndex: 0,
       isLoading: true,
       settings: USER_SETTINGS_DEFAULT.settings,
     }
@@ -32,6 +33,7 @@ export default class Settings extends React.Component<{}, OwnState> {
 
       this.userSettings = userSettings
       this.setState({
+        containerKeyIndex: this.state.containerKeyIndex + 1,
         isLoading: false,
         settings: userSettings.settings,
       })
@@ -51,7 +53,7 @@ export default class Settings extends React.Component<{}, OwnState> {
 
   public render(): JSX.Element {
     return (
-      <div className='c-view'>
+      <div className='c-view' key={String(this.state.containerKeyIndex)}>
         <div className='c-view__header'>
           <h2 className='first'>Settings</h2>
         </div>
@@ -67,8 +69,8 @@ export default class Settings extends React.Component<{}, OwnState> {
           <div className={styles.row}>
             <span className={styles.label}>Enable auto-updates:</span>
             <input
-              checked={this.state.settings.autoUpdate}
               className={styles.checkbox}
+              defaultChecked={this.state.settings.autoUpdate}
               disabled={this.state.isLoading}
               onChange={() => this.updateSetting('autoUpdate')}
               type='checkbox'
@@ -80,8 +82,8 @@ export default class Settings extends React.Component<{}, OwnState> {
         <div className={styles.row}>
           <span className={styles.label}>Enable auto-merge after rewards:</span>
           <input
-            checked={this.state.settings.autoMergeSavingsTransactionsAfterRewards}
             className={styles.checkbox}
+            defaultChecked={this.state.settings.autoMergeSavingsTransactionsAfterRewards}
             disabled={this.state.isLoading}
             onChange={() => this.updateSetting('autoMergeSavingsTransactionsAfterRewards')}
             type='checkbox'
@@ -90,8 +92,8 @@ export default class Settings extends React.Component<{}, OwnState> {
         <div className={styles.row}>
           <span className={styles.label}>Enable Team auto-donation from rewards:</span>
           <input
-            checked={this.state.settings.autoTeamDonationFromRewards}
             className={styles.checkbox}
+            defaultChecked={this.state.settings.autoTeamDonationFromRewards}
             disabled={this.state.isLoading}
             onChange={() => this.updateSetting('autoTeamDonationFromRewards')}
             type='checkbox'
@@ -120,8 +122,8 @@ export default class Settings extends React.Component<{}, OwnState> {
         <div className={styles.row}>
           <span className={styles.label}>Enable Electra Universe:</span>
           <input
-            checked={this.state.settings.electraUniverse}
             className={styles.checkbox}
+            defaultChecked={this.state.settings.electraUniverse}
             disabled={this.state.isLoading}
             onChange={() => this.updateSetting('electraUniverse')}
             type='checkbox'
@@ -129,7 +131,6 @@ export default class Settings extends React.Component<{}, OwnState> {
         </div>
         <div className={styles.row}>
           <span className={styles.label}>Electra Universe Twitter username:</span>
-          {/* {this.state.settings.electraUniverseTwitterUsername} */}
           <input
             className={styles.input}
             defaultValue={this.state.settings.electraUniverseTwitterUsername}
