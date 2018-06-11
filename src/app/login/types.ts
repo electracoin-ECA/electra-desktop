@@ -39,7 +39,6 @@ export interface OwnProps {
  * Dispatchers
  */
 export type Dispatchers = {
-  closeUnlockModal(): ActionList['CLOSE_UNLOCK_MODAL']
   openUnlockModal(): ActionList['OPEN_UNLOCK_MODAL']
 }
 
