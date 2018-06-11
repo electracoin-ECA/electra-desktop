@@ -44,9 +44,6 @@
       "icon": "build/assets/icons/",
       "target": [
         {
-          "target": "AppImage"
-        },
-        {
           "target": "deb"
         },
         {
