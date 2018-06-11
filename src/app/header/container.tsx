@@ -104,7 +104,7 @@ class Header extends React.Component<StoreState & Dispatchers> {
           </div>
         </div>
         <div className='c-header__logo'>
-          {!isSynchonized && (
+          {!isSynchonized && networkBlockchainHeight !== 0 && (
             <progress
               className={styles.progressBar}
               max='100'
