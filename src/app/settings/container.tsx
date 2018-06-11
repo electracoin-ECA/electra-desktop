@@ -120,16 +120,6 @@ export default class Settings extends React.Component<{}, OwnState> {
           />
         </div>
         <div className={styles.row}>
-          <span className={styles.label}>Enable Electra Universe:</span>
-          <input
-            className={styles.checkbox}
-            defaultChecked={this.state.settings.electraUniverse}
-            disabled={this.state.isLoading}
-            onChange={() => this.updateSetting('electraUniverse')}
-            type='checkbox'
-          />
-        </div>
-        <div className={styles.row}>
           <span className={styles.label}>Electra Universe Twitter username:</span>
           <input
             className={styles.input}
