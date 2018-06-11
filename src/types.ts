@@ -10,7 +10,6 @@ export interface UserSettings extends WalletStartDataHard {
     autoTeamDonationFromRewards: boolean
     autoTeamDonationFromRewardsRatio: number
     autoUpdate: boolean
-    electraUniverse: boolean
     electraUniverseTwitterUsername: string
   }
 }
