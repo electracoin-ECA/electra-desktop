@@ -40,9 +40,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
   public async componentDidMount(): Promise<void> {
     if (ElectraJsMiddleware.wallet.daemonState !== 'STARTED') throwError(ERROR.LOGIN001)
 
-    // For developement purposes, after hot-reloading, we can skip this screen.
-    if (ElectraJsMiddleware.wallet.lockState !== 'LOCKED') this.props.onDone()
-
     await this.retrieveUserSettings()
   }
 
@@ -70,6 +67,13 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       // we need to start the first login process if this is a first installation.
       if (this.state.isFirstInstallation) {
         this.startFirstInstallation()
+
+        return
+      }
+
+      // For developement purposes, after hot-reloading, we can skip this screen.
+      if (ElectraJsMiddleware.wallet.lockState === 'STAKING') {
+        this.props.onDone()
 
         return
       }
