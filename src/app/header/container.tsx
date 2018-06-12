@@ -73,7 +73,7 @@ class Header extends React.Component<StoreState & Dispatchers> {
                         ${numeral(localBlockchainHeight).format('0,0')}
                         ${localBlockchainHeight !== undefined && (isSynchonized
                           ? '(Synced)'
-                          : ` / ${networkBlockchainHeight}`
+                          : ` / ${numeral(networkBlockchainHeight).format('0,0')}`
                         )}
                       `}
                   />
