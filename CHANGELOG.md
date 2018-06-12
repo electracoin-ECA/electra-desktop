@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Windows ia32 architecture package build.
 - "ALL" button in payment sending card.
 - Progress bar in the header while downloading the blockchain.
-- Progress bar in the header while downloading the blockchain.
+- Add soft and hard reset buttons in settings.
 
 ### Changed
 - Migration to electron v2.
