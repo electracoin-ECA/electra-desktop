@@ -47,7 +47,13 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
   }
 
   public async UNSAFE_componentWillReceiveProps({ login }: Dispatchers & StoreState & OwnProps): Promise<void> {
-    if (login.passphrase !== undefined) await this.startWallet(login.passphrase)
+    if (login.passphrase !== undefined) {
+      if (ElectraJsMiddleware.wallet.state === 'EMPTY') {
+        await this.startWallet(login.passphrase)
+      } else {
+        this.props.onDone()
+      }
+    }
   }
 
   private async retrieveUserSettings(): Promise<void> {
