@@ -3,6 +3,7 @@ import * as storage from 'electron-json-storage'
 import * as React from 'react'
 
 import { USER_SETTINGS_DEFAULT } from '../../constants'
+import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { UserSettings } from '../../types'
 import { OwnState } from './types'
 
@@ -41,6 +42,8 @@ export default class Settings extends React.Component<{}, OwnState> {
   }
 
   private updateSetting(name: keyof UserSettings['settings'], value?: any): void {
+    if (this.state.isLoading) return
+
     this.setState({ isLoading: true })
     const settings: UserSettings['settings'] = this.state.settings
     settings[name] = value === undefined ? !this.state.settings[name] : value
@@ -48,6 +51,27 @@ export default class Settings extends React.Component<{}, OwnState> {
       if (err) throw err
 
       this.loadUserSettings()
+    })
+  }
+
+  private async runSoftReset(): Promise<void> {
+    if (this.state.isLoading) return
+
+    this.setState({ isLoading: true })
+    await ElectraJsMiddleware.wallet.reset()
+    window.location.reload()
+  }
+
+  private async runHardReset(): Promise<void> {
+    if (this.state.isLoading) return
+
+    this.setState({ isLoading: true })
+    await ElectraJsMiddleware.wallet.stopDaemon()
+    storage.clear(async (err: Error) => {
+      if (err) throw err
+
+      await ElectraJsMiddleware.wallet.startDaemon()
+      window.location.reload()
     })
   }
 
@@ -76,6 +100,27 @@ export default class Settings extends React.Component<{}, OwnState> {
               type='checkbox'
             />
           </div>
+        </div>
+        <div className={styles.subtitle}>Recovery</div>
+        <div className={styles.row}>
+          <span className={styles.label}>Reset Electra Daemon local data:</span>
+          <button
+            children={this.state.isLoading ? '...' : 'SOFT RESET'}
+            className={styles.button}
+            disabled={this.state.isLoading}
+            onClick={this.runSoftReset.bind(this)}
+            type='button'
+          />
+        </div>
+        <div className={styles.row}>
+          <span className={styles.label}>Reset ALL the local data:</span>
+          <button
+            children={this.state.isLoading ? '...' : 'HARD RESET'}
+            className={styles.button}
+            disabled={this.state.isLoading}
+            onClick={this.runHardReset.bind(this)}
+            type='button'
+          />
         </div>
         <div className={styles.subtitle}>Experimental</div>
         <div className={styles.warning}>Do not use these settings unless you really know what you're doing !</div>
