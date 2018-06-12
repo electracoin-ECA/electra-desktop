@@ -8,12 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.1.0] - IN PROGRESS
 
 ### Added
-- Linux AppImage package build.
 - Linux RPM package build.
 - A title bar with minimize, maximize and close buttons for Windows.
 - NPM: @electra/electra-styleguide.
 - Windows ia32 architecture package build.
 - "ALL" button in payment sending card.
+- Progress bar in the header while downloading the blockchain.
 - Progress bar in the header while downloading the blockchain.
 
 ### Changed
@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Router (react-router) redirection issue.
 - Full available account balance sending.
 - Balances & ammounts decimals issues (some may be left).
+- Settings save & load.
 
 ### Security
 - Fixed all Snyk, NSP & npm audit vulnerabilities.
