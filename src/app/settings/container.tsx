@@ -1,3 +1,4 @@
+import { WalletAddress } from 'electra-js'
 import { remote } from 'electron'
 import * as storage from 'electron-json-storage'
 import * as React from 'react'
@@ -122,6 +123,23 @@ export default class Settings extends React.Component<{}, OwnState> {
             type='button'
           />
         </div>
+        <div className={styles.subtitle}>Addresses</div>
+        {ElectraJsMiddleware.wallet.addresses.map((address: WalletAddress) => (
+          <div className={styles.row} key={address.hash}>
+            <span className={styles.label}>
+              {['Purse', 'Checking Account', 'Savings Account'][Number(address.category)]}
+            </span>
+            <span className='selectableText' style={{ fontFamily: 'monospace' }}>
+              {`${address.hash} (${address.change})`}
+            </span>
+          </div>
+        ))}
+        {ElectraJsMiddleware.wallet.randomAddresses.map((address: WalletAddress) => (
+          <div className={styles.row} key={address.hash}>
+            <span className={styles.label}>Legacy Account</span>
+            <span className='selectableText' style={{ fontFamily: 'monospace' }}>{address.hash}</span>
+          </div>
+        ))}
         <div className={styles.subtitle}>Experimental</div>
         <div className={styles.warning}>Do not use these settings unless you really know what you're doing !</div>
         <div className={styles.row}>
