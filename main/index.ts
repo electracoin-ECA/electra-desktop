@@ -122,11 +122,6 @@ function createWindow(): void {
     )
   })
 
-  mainWindow.on('minimize', (event: Event) => {
-    event.preventDefault()
-    toggleMainWindows()
-  })
-
   mainWindow.on('close', (event: Event) => {
     if (isQuiting) return
 
