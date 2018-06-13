@@ -60,7 +60,7 @@ export default class Settings extends React.Component<{}, OwnState> {
 
     this.setState({ isLoading: true })
     await ElectraJsMiddleware.wallet.reset()
-    window.location.reload()
+    remote.app.relaunch()
   }
 
   private async runHardReset(): Promise<void> {
@@ -71,8 +71,7 @@ export default class Settings extends React.Component<{}, OwnState> {
     storage.clear(async (err: Error) => {
       if (err) throw err
 
-      await ElectraJsMiddleware.wallet.startDaemon()
-      window.location.reload()
+      remote.app.relaunch()
     })
   }
 
