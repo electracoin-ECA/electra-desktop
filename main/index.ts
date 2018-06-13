@@ -51,8 +51,8 @@ function createWindow(): void {
   mainWindow = new BrowserWindow({
     frame: false,
     // tslint:disable-next-line:no-magic-numbers
-    height: isProd ? 605 : 900,
-    minHeight: 605,
+    height: isProd ? 620 : 900,
+    minHeight: 620,
     minWidth: 880,
     show: false,
     titleBarStyle: 'hidden',
