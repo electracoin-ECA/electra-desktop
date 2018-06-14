@@ -55,6 +55,7 @@ export default class Communication {
       { event: 'electraJs:wallet:lock', call: this.electraJs.wallet.lock.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:reset', call: this.electraJs.wallet.reset.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:send', call: this.electraJs.wallet.send.bind(this.electraJs.wallet)},
+      { event: 'electraJs:wallet:signMessage', call: this.electraJs.wallet.signMessage.bind(this.electraJs.wallet)},
       { event: 'electraJs:wallet:start', call: this.electraJs.wallet.start.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:startDaemon', call: this.electraJs.wallet.startDaemon.bind(this.electraJs.wallet) },
       { event: 'electraJs:wallet:stopDaemon', call: this.electraJs.wallet.stopDaemon.bind(this.electraJs.wallet) },
