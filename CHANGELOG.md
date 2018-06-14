@@ -46,6 +46,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed all Snyk, NSP & npm audit vulnerabilities.
 
 ### Removed
+- "Estimated Cumulated Interests" in Savings Account (will be re-enabled after the fork)
 - NPM: @types/bitcoinjs-lib
 - NPM: classnames
-- NPM: open-browser-webpack-plugin,
+- NPM: open-browser-webpack-plugin
