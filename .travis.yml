@@ -55,7 +55,7 @@ script:
           -v ~/.cache/electron:/root/.cache/electron \
           -v ~/.cache/electron-builder:/root/.cache/electron-builder \
           electronuserland/builder:wine \
-          /bin/bash -c "npm i -g --production windows-build-tools && npm i && npm run release"
+          /bin/bash -c "npm i && npm run release"
       else
         npm run release:macos
       fi
