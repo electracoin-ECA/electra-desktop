@@ -166,8 +166,10 @@ async function exitApp(toInstallUpdate = false): Promise<void> {
 
   try {
     mainWindow.webContents.send('ipcMain:app:quit')
-    log.info('Closing Electra daemon...')
-    await communication.electraJs.wallet.stopDaemon()
+    if (communication.electraJs.wallet.daemonState !== 'STOPPED') {
+      log.info('Closing Electra daemon...')
+      await communication.electraJs.wallet.stopDaemon()
+    }
   }
   catch (err) {
     log.error(err)
