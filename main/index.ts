@@ -100,13 +100,15 @@ function createWindow(): void {
     mainWindow.webContents.send('ipcMain:electraJs:started')
     isStarting = false
 
-    // Check for updates
+    // Listen for Renderer events
+    ipcMain.on('ipcRenderer:app:quit', () => exitApp(false))
     ipcMain.on('ipcRenderer:autoUpdater:downloadUpdate', () => {
       isUpdating = true
       autoUpdater.downloadUpdate()
     })
     ipcMain.on('ipcRenderer:autoUpdater:quitAndInstall', () => exitApp(true))
 
+    // Check for updates
     autoUpdater.checkForUpdatesAndNotify()
     setInterval(
       async () => {
