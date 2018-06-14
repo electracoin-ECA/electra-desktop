@@ -48,6 +48,7 @@ export default class Wallet implements WalletHard {
   public async lock(passphrase?: string): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:lock', arguments) }
   public async reset(): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:reset', arguments) }
   public async send(amount: number, category: WalletAddressCategory, toAddressHash: string): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:send', arguments) }
+  public async signMessage(message: string): Promise<string> { return bindEventToAsyncCall<string>('electraJs:wallet:signMessage', arguments) }
   public async start(data: WalletStartDataHard, passphrase: string): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:start', arguments) }
   public async startDaemon(): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:startDaemon', arguments) }
   public async stopDaemon(): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:stopDaemon', arguments) }
