@@ -1,4 +1,5 @@
 import { CurrencyPrice, WalletBalance, WalletTransaction } from 'electra-js'
+import { ipcRenderer } from 'electron'
 import { ActionsObservable, ofType } from 'redux-observable'
 import { from, of } from 'rxjs'
 import { catchError, delay, flatMap, map, switchMap } from 'rxjs/operators'
@@ -20,6 +21,8 @@ const TRANSACTIONS_COUNT = 10
 
 let currentCategory: AccountCategory
 let isLooping = true
+
+ipcRenderer.on('ipcMain:app:quit', () => isLooping = false)
 
 export default {
   getBalanceAndTransactions: (action$: ActionsObservable<ActionList['GET_BALANCE_AND_TRANSACTIONS']>) =>
