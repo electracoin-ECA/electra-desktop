@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Settings save & load.
 - Pending "Closing daemon...".
 - Background daemon RPC calls while quitting.
+- Auto-focus on the mnemonic extension input.
 
 ### Security
 - Fixed all Snyk, NSP & npm audit vulnerabilities.
