@@ -1,4 +1,5 @@
 import { WalletInfo } from 'electra-js'
+import { ipcRenderer } from 'electron'
 import { ActionsObservable, ofType } from 'redux-observable'
 import { from, of } from 'rxjs'
 import { catchError, delay, flatMap, map, mergeMap } from 'rxjs/operators'
@@ -10,6 +11,8 @@ import { ActionType } from './types'
 const GET_WALLET_INFO_INTERVAL = 5_000
 
 let isLooping = true
+
+ipcRenderer.on('ipcMain:app:quit', () => isLooping = false)
 
 export default {
   getWalletInfo: (action$: ActionsObservable<{ type: 'GET_WALLET_INFO' }>) =>
