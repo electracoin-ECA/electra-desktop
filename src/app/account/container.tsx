@@ -68,7 +68,7 @@ class Overview extends React.PureComponent<StoreState & Dispatchers & OwnProps> 
           )}
 
           {/* tslint:disable-next-line:no-magic-numbers */}
-          {this.props.category === 2 && (
+          {/* {this.props.category === 2 && (
             <div className={styles.boxContainer}>
               <div className={styles.box}>
                 Estimated Cumulated Interests:
@@ -78,7 +78,7 @@ class Overview extends React.PureComponent<StoreState & Dispatchers & OwnProps> 
                 }
               </div>
             </div>
-          )}
+          )} */}
 
           <h2>Recent Transactions</h2>
           {this.props.account.isLoading
