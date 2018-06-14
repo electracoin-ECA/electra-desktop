@@ -4,6 +4,10 @@
   flex-direction: column;
   justify-content: center;
 }
+.container > svg,
+.container > svg * {
+  cursor: default;
+}
 
 @keyframes fadePulse {
   0% {
