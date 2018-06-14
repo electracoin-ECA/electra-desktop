@@ -527,7 +527,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
               <p className={styles.error} children={this.state.error !== undefined && `Error: ${this.state.error}`} />
               <p>Please enter your existing mnemonic extension (if you have one):</p>
               <input
-                autoFocus={true}
                 className={this.state.errorBis !== undefined ? styles.errorBis : styles.input}
                 ref={($node: HTMLInputElement): HTMLInputElement => this.$mnemonicExtension = $node}
                 type={'text'}
