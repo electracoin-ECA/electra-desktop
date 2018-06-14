@@ -1,4 +1,4 @@
-import { remote } from 'electron'
+import { ipcRenderer } from 'electron'
 
 import { ERROR, ERRORS } from './throwError.data'
 export { ERROR }
@@ -9,5 +9,5 @@ export default function(code: keyof typeof ERROR, error?: Error, hasToQuit: bool
   alertMessage += `\n\n[${code}] ${ERRORS[code]}`
   if (error !== undefined) alertMessage += `\n\n${error.stack}`
   window.alert(alertMessage)
-  if (hasToQuit) remote.app.quit()
+  if (hasToQuit) ipcRenderer.send('ipcRenderer:app:quit')
 }
