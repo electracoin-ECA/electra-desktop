@@ -4,6 +4,7 @@ import { from, of } from 'rxjs'
 import { catchError, delay, flatMap, map, switchMap } from 'rxjs/operators'
 
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
+import { ActionType as SettingsActionType } from '../settings/types'
 import { AccountCategory, ActionList, ActionType } from './types'
 
 type GetBalanceAndTransactions = [
@@ -18,6 +19,7 @@ const LOOP_DELAY = 2_000
 const TRANSACTIONS_COUNT = 10
 
 let currentCategory: AccountCategory
+let isLooping = true
 
 export default {
   getBalanceAndTransactions: (action$: ActionsObservable<ActionList['GET_BALANCE_AND_TRANSACTIONS']>) =>
@@ -79,10 +81,13 @@ export default {
     action$.pipe(
       ofType(ActionType.GET_BALANCE_AND_TRANSACTIONS_LOOP),
       delay(LOOP_DELAY),
-      map(({ payload: category }: ActionList['GET_BALANCE_AND_TRANSACTIONS_LOOP']) => ({
-        payload: category,
-        type: ActionType.GET_BALANCE_AND_TRANSACTIONS,
-      })),
+      map(({ payload: category }: ActionList['GET_BALANCE_AND_TRANSACTIONS_LOOP']) => isLooping
+        ? {
+          payload: category,
+          type: ActionType.GET_BALANCE_AND_TRANSACTIONS,
+        }
+        : { type: 'VOID' },
+      ),
     ),
 
   switchAccountCategory: (action$: ActionsObservable<ActionList['SWITCH_ACCOUNT_CATEGORY']>) =>
@@ -95,6 +100,16 @@ export default {
           payload: currentCategory,
           type: ActionType.GET_BALANCE_AND_TRANSACTIONS_LOOP,
         }]
+      }),
+    ),
+
+  stopWalletInfoLoop: (action$: ActionsObservable<{ type: 'STOP_LOOP_CALLS' }>) =>
+    action$.pipe(
+      ofType(SettingsActionType.STOP_LOOP_CALLS),
+      map(() => {
+        isLooping = false
+
+        return { type: 'VOID' }
       }),
     ),
 }

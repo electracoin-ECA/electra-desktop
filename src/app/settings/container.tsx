@@ -1,26 +1,31 @@
 import { WalletAddress } from 'electra-js'
-import { remote } from 'electron'
+import { ipcRenderer, remote } from 'electron'
 import * as storage from 'electron-json-storage'
 import * as React from 'react'
+import { connect } from 'react-redux'
 
 import { USER_SETTINGS_DEFAULT } from '../../constants'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { UserSettings } from '../../types'
-import { OwnState } from './types'
+import Loader from '../shared/loader'
+import { StoreState } from '../types'
+import dispatchers from './dispatchers'
+import { Dispatchers, OwnState } from './types'
 
 const styles = require('./styles.css')
 
-export default class Settings extends React.Component<{}, OwnState> {
+class Settings extends React.Component<Dispatchers & StoreState, OwnState> {
   private $autoTeamDonationFromRewardsRatio: HTMLInputElement
   private $electraUniverseTwitterUsername: HTMLInputElement
   private userSettings: UserSettings
 
-  public constructor(props: {}) {
+  public constructor(props: Dispatchers & StoreState) {
     super(props)
 
     this.state = {
       containerKeyIndex: 0,
       isLoading: true,
+      isResetting: false,
       settings: USER_SETTINGS_DEFAULT.settings,
     }
   }
@@ -58,26 +63,38 @@ export default class Settings extends React.Component<{}, OwnState> {
   private async runSoftReset(): Promise<void> {
     if (this.state.isLoading) return
 
-    this.setState({ isLoading: true })
+    this.setState({
+      isLoading: true,
+      isResetting: true,
+    })
+    this.props.stopLoopCalls()
     await ElectraJsMiddleware.wallet.reset()
-    remote.app.relaunch()
+    ipcRenderer.send('ipcRenderer:app:quit')
   }
 
   private async runHardReset(): Promise<void> {
     if (this.state.isLoading) return
 
-    this.setState({ isLoading: true })
+    this.setState({
+      isLoading: true,
+      isResetting: true,
+    })
+    this.props.stopLoopCalls()
     await ElectraJsMiddleware.wallet.stopDaemon()
     storage.clear(async (err: Error) => {
       if (err) throw err
 
-      remote.app.relaunch()
+      ipcRenderer.send('ipcRenderer:app:quit')
     })
   }
 
   public render(): JSX.Element {
     return (
       <div className='c-view' key={String(this.state.containerKeyIndex)}>
+        {this.state.isResetting && (
+          <Loader text='Resetting in progress...' subtext={`The application will automatically exit once it's done.`} />
+        )}
+
         <div className='c-view__header'>
           <h2 className='first'>Settings</h2>
         </div>
@@ -215,3 +232,8 @@ export default class Settings extends React.Component<{}, OwnState> {
     )
   }
 }
+
+export default connect<StoreState, Dispatchers>(
+  (state: StoreState) => ({ ...state }),
+  dispatchers,
+)(Settings)

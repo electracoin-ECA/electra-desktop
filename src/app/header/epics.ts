@@ -4,9 +4,12 @@ import { from, of } from 'rxjs'
 import { catchError, delay, flatMap, map, mergeMap } from 'rxjs/operators'
 
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
+import { ActionType as SettingsActionType } from '../settings/types'
 import { ActionType } from './types'
 
 const GET_WALLET_INFO_INTERVAL = 5_000
+
+let isLooping = true
 
 export default {
   getWalletInfo: (action$: ActionsObservable<{ type: 'GET_WALLET_INFO' }>) =>
@@ -36,6 +39,16 @@ export default {
     action$.pipe(
       ofType(ActionType.GET_WALLET_INFO_LOOP),
       delay(GET_WALLET_INFO_INTERVAL),
-      map(() => ({ type: ActionType.GET_WALLET_INFO })),
+      map(() => isLooping ? { type: ActionType.GET_WALLET_INFO } : { type: 'VOID' }),
+    ),
+
+  stopWalletInfoLoop: (action$: ActionsObservable<{ type: 'STOP_LOOP_CALLS' }>) =>
+    action$.pipe(
+      ofType(SettingsActionType.STOP_LOOP_CALLS),
+      map(() => {
+        isLooping = false
+
+        return { type: 'VOID' }
+      }),
     ),
 }
