@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Balances & ammounts decimals issues (some may be left).
 - Settings save & load.
 - Pending "Closing daemon...".
+- Background daemon RPC calls while quitting.
 
 ### Security
 - Fixed all Snyk, NSP & npm audit vulnerabilities.
