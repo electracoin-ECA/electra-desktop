@@ -12,7 +12,7 @@
     "npm": ">=6.1.0"
   },
   "scripts": {
-    "postinstall": "node ./tasks/changeBinariesRights && electron-builder install-app-deps",
+    "postinstall": "node ./tasks/changeBinariesRights",
     "prerelease": "cross-env NODE_ENV=production webpack --config ./scripts/webpack.static.js",
     "release": "npm run prerelease && electron-builder --linux --windows",
     "release:macos": "npm run prerelease && electron-builder --macos",
