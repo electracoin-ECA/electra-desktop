@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Migration to redux-observable v1 (beta).
 - Migration to rxjs v6.
 - Migration to webpack v4.
+- Migration to typescript v2.9.
 - Daemon starting process starting sooner (moved into main process).
 - Automatically remove daemon user data when generating a new mnemonic or recovering one.
 - In the information popover: "Status", "Your weight" and "Next reward" now outputs "Syncing blockchain..." when the
