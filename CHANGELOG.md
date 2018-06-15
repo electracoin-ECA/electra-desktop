@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2018-06-15
+
+### Fixed
+- "Next reward" date.
+
 ## [1.1.0] - 2018-06-15
 
 ### Added
@@ -49,7 +54,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed all Snyk, NSP & npm audit vulnerabilities.
 
 ### Removed
-- "Estimated Cumulated Interests" in Savings Account (will be re-enabled after the fork)
-- NPM: @types/bitcoinjs-lib
-- NPM: classnames
-- NPM: open-browser-webpack-plugin
+- "Estimated Cumulated Interests" in Savings Account (will be re-enabled after the fork).
+- npm: @types/bitcoinjs-lib.
+- npm: classnames.
+- npm: open-browser-webpack-plugin.
