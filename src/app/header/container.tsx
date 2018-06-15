@@ -95,7 +95,7 @@ class Header extends React.Component<StoreState & Dispatchers> {
                       ? 'Syncing blockchain...'
                       : nextStakingRewardIn === -1
                         ? 'Never'
-                        : _.upperFirst(moment.unix(nextStakingRewardIn).toNow())
+                        : _.upperFirst(moment(nextStakingRewardIn).toNow())
                     }
                   />
                 </div>
