@@ -48,6 +48,9 @@
         },
         {
           "target": "rpm"
+        },
+        {
+          "target": "snap"
         }
       ]
     },
