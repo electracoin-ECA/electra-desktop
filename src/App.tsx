@@ -6,18 +6,18 @@ import { connect } from 'react-redux'
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import 'rxjs'
 
-import ElectraJsMiddleware from '../middlewares/ElectraJs'
-import { StoreState } from '../types'
 import { AccountChecking, AccountLegacy, AccountOverview, AccountPurse, AccountSavings } from './account'
 import { AddressBook } from './addressBook'
 import Toast from './common/toast/toast'
 import { Header } from './header'
 import Login from './login'
+import ElectraJsMiddleware from './middlewares/ElectraJs'
 import { Payments } from './payments'
 import Settings from './settings'
 import Loader from './shared/loader'
 import TitleBar from './shared/title-bar'
 import { Sidebar } from './sidebar'
+import { StoreState } from './types'
 
 interface OwnState {
   isLoading: boolean

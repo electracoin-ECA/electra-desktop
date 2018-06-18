@@ -3,9 +3,9 @@ import { applyMiddleware, combineReducers, createStore, Middleware } from 'redux
 import logger from 'redux-logger'
 import { combineEpics, createEpicMiddleware } from 'redux-observable'
 
-import { StoreState } from '../types'
 import epics from './epics'
 import * as reducers from './reducers'
+import { StoreState } from './types'
 
 const epicMiddleware = createEpicMiddleware()
 const rootReducer = combineReducers<StoreState>({ ...reducers })

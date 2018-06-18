@@ -1,6 +1,6 @@
 import { WalletInfo } from 'electra-js'
 
-import { ActionBaseWithPayload, ActionListGenerator } from '../../types'
+import { ActionBaseWithPayload, ActionListGenerator } from '../types'
 
 /*
  * State

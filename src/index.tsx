@@ -2,11 +2,11 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 
-import App from './app/App'
-import store from './app/store'
+import App from './App'
 import injectContextMenu from './helpers/injectContextMenu'
+import store from './store'
 
-import './app/styles.scss'
+import './styles.scss'
 
 ReactDOM.render(
   <Provider store={store}>

@@ -1,7 +1,7 @@
 import { WalletAddressCategory, WalletBalance } from 'electra-js'
 import * as React from 'react'
 
-import ElectraJsMiddleware from '../../../middlewares/ElectraJs'
+import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 
 const styles: any = require('./styles.css')
 

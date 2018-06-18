@@ -1,7 +1,7 @@
 import { WalletAddress, WalletAddressCategory } from 'electra-js'
 
-import { ActionBaseWithPayload, ActionListGenerator } from '../../types'
 import { SetMessageAndBadge } from '../common/toast/types'
+import { ActionBaseWithPayload, ActionListGenerator } from '../types'
 
 /*
  * State

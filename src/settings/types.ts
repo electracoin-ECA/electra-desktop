@@ -1,4 +1,4 @@
-import { ActionListGenerator, UserSettings } from '../../types'
+import { ActionListGenerator, UserSettings } from '../types'
 
 /*
  * State

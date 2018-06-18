@@ -2,7 +2,7 @@ import { ActionsObservable, ofType } from 'redux-observable'
 import { from, of } from 'rxjs'
 import { catchError, delay, flatMap, map, mapTo, mergeMap } from 'rxjs/operators'
 
-import ElectraJsMiddleware from '../../../middlewares/ElectraJs'
+import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { ActionList, ActionType } from './types'
 
 const AUTO_RELOCK_TO_STAKING_ONLY_DELAY = 10_000

@@ -1,4 +1,4 @@
-import { ActionBaseWithPayload, ActionListGenerator } from '../../../types'
+import { ActionBaseWithPayload, ActionListGenerator } from '../../types'
 
 /*
  * State

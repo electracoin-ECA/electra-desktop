@@ -3,8 +3,8 @@ import { ActionsObservable, ofType } from 'redux-observable'
 import { from, of } from 'rxjs'
 import { catchError, flatMap, map, mapTo, mergeMap } from 'rxjs/operators'
 
-import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { ActionList as UnlockModalActionsList, ActionType as UnlockModalActionType } from '../common/unlock-modal/types'
+import ElectraJsMiddleware from '../middlewares/ElectraJs'
 import { ActionList, ActionType, Transaction } from './types'
 
 const DECIMALS_LENGTH = 8

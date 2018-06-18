@@ -4,7 +4,7 @@ import { ActionsObservable, ofType } from 'redux-observable'
 import { from, of } from 'rxjs'
 import { catchError, delay, flatMap, map, switchMap } from 'rxjs/operators'
 
-import ElectraJsMiddleware from '../../middlewares/ElectraJs'
+import ElectraJsMiddleware from '../middlewares/ElectraJs'
 import { ActionType as SettingsActionType } from '../settings/types'
 import { AccountCategory, ActionList, ActionType } from './types'
 
