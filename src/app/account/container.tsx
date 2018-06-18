@@ -2,7 +2,7 @@ import * as numeral from 'numeral'
 import * as React from 'react'
 import { connect } from 'react-redux'
 
-import { StoreState } from '../types'
+import { StoreState } from '../../types'
 import CardViewPrices from './children/card-view-prices'
 import Transactions from './children/transactions'
 import dispatchers from './dispatchers'

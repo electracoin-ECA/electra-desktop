@@ -6,9 +6,8 @@ import { connect } from 'react-redux'
 
 import { USER_SETTINGS_DEFAULT } from '../../constants'
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
-import { UserSettings } from '../../types'
+import { StoreState, UserSettings } from '../../types'
 import Loader from '../shared/loader'
-import { StoreState } from '../types'
 import dispatchers from './dispatchers'
 import { Dispatchers, OwnState } from './types'
 

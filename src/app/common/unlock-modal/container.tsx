@@ -2,9 +2,9 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 
+import { StoreState } from '../../../types'
 import Loader from '../../shared/loader'
 import Modal from '../../shared/modal'
-import { StoreState } from '../../types'
 import dispatchers from './dispatchers'
 import { Dispatchers, Props } from './types'
 
