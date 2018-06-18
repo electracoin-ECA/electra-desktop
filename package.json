@@ -81,6 +81,7 @@
     "@electra/electra-styleguide": "^1.0.2",
     "ajv": "^6.5.1",
     "await-to-js": "^2.0.1",
+    "axios": "^0.18.0",
     "electra-js": "0.19.4",
     "electron-json-storage": "^4.1.0",
     "electron-log": "^2.2.15",
