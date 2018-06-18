@@ -13,6 +13,7 @@ export type Omit<T, K extends Extract<keyof T, string>> = Pick<T, Diff<Extract<k
 export interface UserSettings extends WalletStartDataHard {
   appId: string
   settings: {
+    apiToken: string
     autoMergeSavingsTransactionsAfterRewards: boolean
     autoTeamDonationFromRewards: boolean
     autoTeamDonationFromRewardsRatio: number
