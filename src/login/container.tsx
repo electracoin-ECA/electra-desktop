@@ -1,7 +1,7 @@
 import to from 'await-to-js'
 import { Address, WalletAddress, WalletStartDataHard } from 'electra-js'
 import * as storage from 'electron-json-storage'
-import { isEmpty, pick } from 'ramda'
+import { isEmpty, omit, pick } from 'ramda'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import * as zxcvbn from 'zxcvbn'
@@ -100,6 +100,11 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
   }
 
   private async updateUserSettings(): Promise<void> {
+    this.currentUserSettings.settings = omit(
+      Object.getOwnPropertyNames(USER_SETTINGS_DEFAULT.settings),
+      this.currentUserSettings.settings,
+    ) as UserSettings['settings']
+
     return new Promise((resolve: (value: undefined) => void) => {
       storage.set('userSettings', { ...USER_SETTINGS_DEFAULT, ...this.currentUserSettings }, (err: Error) => {
         if (err) throw err
