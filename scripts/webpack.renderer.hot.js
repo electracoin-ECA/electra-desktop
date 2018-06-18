@@ -55,9 +55,10 @@ module.exports = webpackMerge(rendererConfig, {
             },
           }
         ],
+        exclude: configPaths.stylePaths,
       },
       {
-        test: /\.scss$/,
+        test: /\.css$/,
         use: ExtractTextWebpackPlugin.extract({
           fallback: "style-loader",
           use: [
@@ -67,7 +68,6 @@ module.exports = webpackMerge(rendererConfig, {
                 importLoaders: 1,
               }
             },
-            { loader: 'sass-loader', query: {} }
           ]
         }),
         include: configPaths.stylePaths,

@@ -46,19 +46,20 @@ module.exports = [
         },
         {
           test: /\.css$/,
-          use: ExtractTextWebpackPlugin.extract({
-            fallback: 'style-loader',
-            use: [{
+          use: [
+            { loader: 'style-loader' },
+            {
               loader: 'css-loader',
               query: {
                 modules: true,
                 localIdentName: '[local]-[hash:base64:5]',
               },
-            }],
-          }),
+            }
+          ],
+          exclude: configPaths.stylePaths,
         },
         {
-          test: /\.scss$/,
+          test: /\.css$/,
           use: ExtractTextWebpackPlugin.extract({
             fallback: "style-loader",
             use: [
@@ -68,7 +69,6 @@ module.exports = [
                   importLoaders: 1,
                 }
               },
-              { loader: 'sass-loader', query: {} }
             ]
           }),
           include: configPaths.stylePaths,

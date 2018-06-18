@@ -6,7 +6,7 @@ import App from './App'
 import injectContextMenu from './helpers/injectContextMenu'
 import store from './store'
 
-import './styles.scss'
+import './styles.css'
 
 ReactDOM.render(
   <Provider store={store}>
