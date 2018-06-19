@@ -49,6 +49,7 @@
   composes: field;
 
   background-color: #666666;
+  border-radius: 0;
   line-height: 1.8;
   padding: 0 .4rem;
   text-transform: uppercase;
