@@ -1,5 +1,5 @@
 import to from 'await-to-js'
-import axios, { AxiosRequestConfig } from 'axios'
+import Axios, { AxiosRequestConfig } from 'axios'
 import { Address, WalletAddress, WalletStartDataHard } from 'electra-js'
 import * as storage from 'electron-json-storage'
 import { isEmpty, omit, pick } from 'ramda'
@@ -88,7 +88,9 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       ERROR.LOGIN002,
     )
 
-    this.generateApiSignature()
+    await this.generateApiSignature()
+
+    this.props.onDone()
   }
 
   private async updateUserSettings(): Promise<void> {
@@ -146,11 +148,11 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     const urlBase = 'https://electra-auth.herokuapp.com/v1'
     let signature: string
 
-    let [err, res] = await to(axios.get(`${urlBase}/user/${purseHash}/token`))
+    let [err, res] = await to(Axios.get(`${urlBase}/user/${purseHash}/token`))
     if (err !== null || res === undefined) {
       // tslint:disable-next-line:no-magic-numbers
       if (err.response.status === 401) {
-        [err, res] = await to(axios.post(`${urlBase}/user/${purseHash}/token`))
+        [err, res] = await to(Axios.post(`${urlBase}/user/${purseHash}/token`))
         if (err !== null || res === undefined) return
 
         signature = await ElectraJsMiddleware.wallet.signMessage(res.data.data.challenge)
@@ -166,7 +168,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     await this.getApiToken(signature)
   }
 
-  private async getApiToken(signature: string): Promise<any> {
+  private async getApiToken(signature: string): Promise<void> {
     this.setState({ loadingText: 'Getting API token..' })
 
     const purseHash = ElectraJsMiddleware.wallet.purseAddresses[0].hash
@@ -179,11 +181,11 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       },
     }
 
-    let [err, res] = await to(axios.get(`${urlBase}/user`, config))
+    let [err, res] = await to(Axios.get(`${urlBase}/user`, config))
     if (err !== null || res === undefined) {
       // tslint:disable-next-line:no-magic-numbers
       if (err.response.status === 401) {
-        [err, res] = await to(axios.post(`${urlBase}/user`, {}, config))
+        [err, res] = await to(Axios.post(`${urlBase}/user`, {}, config))
         if (err !== null || res === undefined) return
 
         cache.set('apiAuthUsername', purseHash)
