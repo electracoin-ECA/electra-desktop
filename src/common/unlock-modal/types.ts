@@ -46,4 +46,5 @@ export type ActionList = ActionListGenerator<ActionType, {
   SET_LOCK_TO_STAKING_ONLY_SUCCESS: ActionBaseWithPayload<ActionType.SET_LOCK_TO_STAKING_ONLY_SUCCESS, string>
   SET_LOCK_TO_UNLOCKED: ActionBaseWithPayload<ActionType.SET_LOCK_TO_UNLOCKED, string>
   SET_LOCK_TO_UNLOCKED_ERROR: ActionBaseWithPayload<ActionType.SET_LOCK_TO_UNLOCKED_ERROR, string>
+  SET_LOCK_TO_UNLOCKED_SUCCESS: ActionBaseWithPayload<ActionType.SET_LOCK_TO_UNLOCKED_SUCCESS, string>
 }>
