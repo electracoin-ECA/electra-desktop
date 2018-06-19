@@ -79,7 +79,10 @@ export default {
       mergeMap((passphrase: string) =>
         from(ElectraJsMiddleware.wallet.unlock(passphrase, false)).pipe(
           flatMap(() => [
-            { type: ActionType.SET_LOCK_TO_UNLOCKED_SUCCESS },
+            {
+              payload: passphrase,
+              type: ActionType.SET_LOCK_TO_UNLOCKED_SUCCESS,
+            },
             {
               payload: passphrase,
               type: ActionType.AUTO_RELOCK_TO_STAKING_ONLY,
