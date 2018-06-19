@@ -151,7 +151,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     let [err, res] = await to(Axios.get(`${urlBase}/user/${purseHash}/token`))
     if (err !== null || res === undefined) {
       // tslint:disable-next-line:no-magic-numbers
-      if (err.response.status === 401) {
+      if (err.response.status === 404) {
         [err, res] = await to(Axios.post(`${urlBase}/user/${purseHash}/token`))
         if (err !== null || res === undefined) return
 
@@ -184,7 +184,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     let [err, res] = await to(Axios.get(`${urlBase}/user`, config))
     if (err !== null || res === undefined) {
       // tslint:disable-next-line:no-magic-numbers
-      if (err.response.status === 401) {
+      if (err.response.status === 404) {
         [err, res] = await to(Axios.post(`${urlBase}/user`, {}, config))
         if (err !== null || res === undefined) return
 
