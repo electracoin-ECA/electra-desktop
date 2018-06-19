@@ -5,7 +5,7 @@ import { catchError, delay, flatMap, map, mapTo, mergeMap } from 'rxjs/operators
 import ElectraJsMiddleware from '../../middlewares/ElectraJs'
 import { ActionList, ActionType } from './types'
 
-const AUTO_RELOCK_TO_STAKING_ONLY_DELAY = 10_000
+const AUTO_RELOCK_TO_STAKING_ONLY_DELAY = 30_000
 
 export default {
   autoRelockToStakingOnly: (action$: ActionsObservable<{ type: 'AUTO_RELOCK_TO_STAKING_ONLY' }>) =>
