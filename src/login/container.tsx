@@ -1,4 +1,5 @@
 import to from 'await-to-js'
+import axios, { AxiosRequestConfig } from 'axios'
 import { Address, WalletAddress, WalletStartDataHard } from 'electra-js'
 import * as storage from 'electron-json-storage'
 import { isEmpty, omit, pick } from 'ramda'
@@ -8,6 +9,7 @@ import * as zxcvbn from 'zxcvbn'
 
 import UnlockModal from '../common/unlock-modal'
 import { USER_SETTINGS_DEFAULT } from '../constants'
+import cache from '../helpers/cache'
 import throwError, { ERROR } from '../helpers/throwError'
 import tryCatch from '../helpers/tryCatch'
 import ElectraJsMiddleware from '../middlewares/ElectraJs'
@@ -43,12 +45,8 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
   }
 
   public async UNSAFE_componentWillReceiveProps({ login }: Dispatchers & StoreState & OwnProps): Promise<void> {
-    if (login.passphrase !== undefined) {
-      if (ElectraJsMiddleware.wallet.state === 'EMPTY') {
-        await this.startWallet(login.passphrase)
-      } else {
-        this.props.onDone()
-      }
+    if (login.passphrase !== undefined && ElectraJsMiddleware.wallet.state === 'EMPTY') {
+      await this.startWallet(login.passphrase)
     }
   }
 
@@ -66,13 +64,6 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       // we need to start the first login process if this is a first installation.
       if (this.state.isFirstInstallation) {
         this.startFirstInstallation()
-
-        return
-      }
-
-      // For developement purposes, after hot-reloading, we can skip this screen.
-      if (ElectraJsMiddleware.wallet.lockState === 'STAKING') {
-        this.props.onDone()
 
         return
       }
@@ -96,7 +87,8 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
       ElectraJsMiddleware.wallet.start(this.walletStartData, passphrase),
       ERROR.LOGIN002,
     )
-    this.props.onDone()
+
+    this.generateApiSignature()
   }
 
   private async updateUserSettings(): Promise<void> {
@@ -136,11 +128,77 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
     storage.set('userSettings', userSettings, async (err: Error) => {
       if (err) throw err
 
-      this.setState({ loadingText: 'Unlocking wallet for staking only...' })
-      await ElectraJsMiddleware.wallet.unlock(this.state.passphrase as string, true)
+      this.setState({ loadingText: 'Unlocking wallet...' })
+      await ElectraJsMiddleware.wallet.unlock(this.state.passphrase as string, false)
+      await this.generateApiSignature()
 
       this.props.onDone()
     })
+  }
+
+  private async generateApiSignature(): Promise<void> {
+    this.setState({
+      firstInstallationScreen: undefined,
+      loadingText: 'Generating API signature...',
+    })
+
+    const purseHash = ElectraJsMiddleware.wallet.purseAddresses[0].hash
+    const urlBase = 'https://electra-auth.herokuapp.com/v1'
+    let signature: string
+
+    let [err, res] = await to(axios.get(`${urlBase}/user/${purseHash}/token`))
+    if (err !== null || res === undefined) {
+      // tslint:disable-next-line:no-magic-numbers
+      if (err.response.status === 401) {
+        [err, res] = await to(axios.post(`${urlBase}/user/${purseHash}/token`))
+        if (err !== null || res === undefined) return
+
+        signature = await ElectraJsMiddleware.wallet.signMessage(res.data.data.challenge)
+        await this.getApiToken(signature)
+
+        return
+      }
+
+      return
+    }
+
+    signature = await ElectraJsMiddleware.wallet.signMessage(res.data.data.challenge)
+    await this.getApiToken(signature)
+  }
+
+  private async getApiToken(signature: string): Promise<any> {
+    this.setState({ loadingText: 'Getting API token..' })
+
+    const purseHash = ElectraJsMiddleware.wallet.purseAddresses[0].hash
+    const urlBase = 'https://electra-auth.herokuapp.com/v1'
+
+    const config: AxiosRequestConfig = {
+      auth: {
+        password: signature,
+        username: purseHash,
+      },
+    }
+
+    let [err, res] = await to(axios.get(`${urlBase}/user`, config))
+    if (err !== null || res === undefined) {
+      // tslint:disable-next-line:no-magic-numbers
+      if (err.response.status === 401) {
+        [err, res] = await to(axios.post(`${urlBase}/user`, {}, config))
+        if (err !== null || res === undefined) return
+
+        cache.set('apiAuthUsername', purseHash)
+        cache.set('apiAuthPassword', signature)
+        cache.set('apiToken', res.data.data.token)
+
+        return
+      }
+
+      return
+    }
+
+    cache.set('apiAuthUsername', purseHash)
+    cache.set('apiAuthPassword', signature)
+    cache.set('apiToken', res.data.data.token)
   }
 
   private startFirstInstallation(): void {
@@ -340,7 +398,7 @@ class Login extends React.Component<Dispatchers & StoreState & OwnProps, OwnStat
           : styles.container
         }
       >
-        {this.props.login.isUnlockModalOpened && <UnlockModal isCancellable={false} isStakingOnly={true} />}
+        {this.props.login.isUnlockModalOpened && <UnlockModal isCancellable={false} isStakingOnly={false} />}
 
         {this.state.loadingText !== undefined && (
           <div className={styles.innerContainer}>
