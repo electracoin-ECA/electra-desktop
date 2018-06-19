@@ -6,7 +6,6 @@ import { Omit, UserSettings } from './types'
 export const USER_SETTINGS_DEFAULT: Omit<UserSettings, keyof WalletStartDataHard> = {
   appId: uuid.v4(),
   settings: {
-    apiToken: '',
     autoMergeSavingsTransactionsAfterRewards: false,
     autoTeamDonationFromRewards: false,
     autoTeamDonationFromRewardsRatio: 0,
