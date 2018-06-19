@@ -106,7 +106,7 @@
   },
   "devDependencies": {
     "@types/electron-json-storage": "^4.0.0",
-    "@types/lodash": "^4.14.109",
+    "@types/lodash": "^4.14.110",
     "@types/numeral": "0.0.22",
     "@types/qrcode.react": "^0.6.3",
     "@types/ramda": "^0.25.33",
@@ -118,7 +118,7 @@
     "@types/uuid": "^3.4.3",
     "@types/zxcvbn": "^4.4.0",
     "autoprefixer": "^8.6.3",
-    "awesome-typescript-loader": "^5.1.0",
+    "awesome-typescript-loader": "^5.1.1",
     "babel-loader": "^7.1.4",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
