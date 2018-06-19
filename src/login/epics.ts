@@ -5,10 +5,10 @@ import { ActionList as UnlockModalActionsList, ActionType as UnlockModalActionTy
 import { ActionType } from './types'
 
 export default {
-  closeUnlockModal: (action$: ActionsObservable<UnlockModalActionsList['SET_LOCK_TO_STAKING_ONLY_SUCCESS']>) =>
+  closeUnlockModal: (action$: ActionsObservable<UnlockModalActionsList['SET_LOCK_TO_UNLOCKED_SUCCESS']>) =>
     action$.pipe(
-      ofType(UnlockModalActionType.SET_LOCK_TO_STAKING_ONLY_SUCCESS),
-      map(({ payload: passphrase }: UnlockModalActionsList['SET_LOCK_TO_STAKING_ONLY_SUCCESS']) => ({
+      ofType(UnlockModalActionType.SET_LOCK_TO_UNLOCKED_SUCCESS),
+      map(({ payload: passphrase }: UnlockModalActionsList['SET_LOCK_TO_UNLOCKED_SUCCESS']) => ({
         payload: passphrase,
         type: ActionType.START_LOGIN_WALLET,
       })),
