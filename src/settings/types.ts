@@ -5,6 +5,7 @@ import { ActionListGenerator, UserSettings } from '../types'
  */
 export interface OwnState {
   containerKeyIndex: number
+  feedback?: string
   isLoading: boolean
   isResetting: boolean
   settings: UserSettings['settings']

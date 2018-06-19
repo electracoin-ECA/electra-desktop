@@ -2,9 +2,11 @@ import { WalletAddress } from 'electra-js'
 import { ipcRenderer, remote } from 'electron'
 import * as storage from 'electron-json-storage'
 import * as React from 'react'
+import * as CopyToClipboard from 'react-copy-to-clipboard'
 import { connect } from 'react-redux'
 
 import { USER_SETTINGS_DEFAULT } from '../constants'
+import cache from '../helpers/cache'
 import ElectraJsMiddleware from '../middlewares/ElectraJs'
 import Loader from '../shared/loader'
 import { StoreState, UserSettings } from '../types'
@@ -105,6 +107,12 @@ class Settings extends React.Component<Dispatchers & StoreState, OwnState> {
           <div className={styles.row}>
             <span className={styles.label}>Version</span>
             {remote.app.getVersion()}
+          </div>
+          <div className={styles.row}>
+            <span className={styles.label}>API Token</span>
+            <CopyToClipboard text={cache.get('apiToken')}>
+              <button children={this.state.isLoading ? '...' : 'COPY'} className={styles.button} />
+            </CopyToClipboard>
           </div>
           <div className={styles.row}>
             <span className={styles.label}>Enable auto-updates:</span>
