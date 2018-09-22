@@ -30,15 +30,19 @@ autoUpdater.logger = log
 autoUpdater.autoDownload = false
 
 // Force single instance
-if (
-  app.makeSingleInstance(() => {
-    // Someone tried to run a second instance, we should focus our window.
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore()
-      mainWindow.focus()
-    }
-  })
-) app.quit()
+const gotTheLock = app.requestSingleInstanceLock()
+
+app.on('second-instance', () => {
+  // Someone tried to run a second instance, we should focus our window.
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore()
+    mainWindow.focus()
+  }
+})
+
+if (!gotTheLock) {
+  app.quit()
+}
 
 // Start IPC events bus listener
 const communication: Communication = new Communication()
