@@ -2,8 +2,8 @@ import { ActionsObservable, ofType } from 'redux-observable'
 import { delay, mapTo } from 'rxjs/operators'
 
 import { ActionList as PaymentActionList, ActionType as PaymentsActionType } from '../../payments/types'
-import * as ToastActionNames from './action-names'
-import { FAILED, SEND_FAIL, SEND_SUCCESS, SUCCESS } from './toast-messages'
+import * as ToastActionNames from './actionNames'
+import { FAILED, SEND_FAIL, SEND_SUCCESS, SUCCESS } from './toastMessages'
 import { ToastActions } from './types'
 
 const MAX_DELAY = 5000

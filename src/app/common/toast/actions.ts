@@ -1,4 +1,4 @@
-import * as ActionNames from './action-names'
+import * as ActionNames from './actionNames'
 import { SetMessageAndBadge } from './types'
 
 export function setMessageAndBadge(message: string, badge: string): SetMessageAndBadge {
