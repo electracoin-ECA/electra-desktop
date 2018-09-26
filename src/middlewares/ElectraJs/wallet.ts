@@ -54,7 +54,7 @@ export default class Wallet implements WalletHard {
   public async stopDaemon(): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:stopDaemon', arguments) }
   public async unlock(passphrase: string, forStakingOnly: boolean): Promise<void> { return bindEventToAsyncCall<void>('electraJs:wallet:unlock', arguments) }
 
-  getFirstPurseAddressPrivateKey(passphrase: string): string {
-    return "";
+  public getFirstPurseAddressPrivateKey(passphrase: string): string {
+    return ''
   }
 }
