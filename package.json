@@ -14,8 +14,9 @@
   "scripts": {
     "postinstall": "node ./tasks/changeBinariesRights",
     "prerelease": "cross-env NODE_ENV=production webpack --config ./scripts/webpack.static.js",
-    "release": "npm run prerelease && electron-builder --linux --windows",
+    "release": "npm run prerelease && electron-builder --windows",
     "release:macos": "npm run prerelease && electron-builder --macos",
+    "release:linux": "npm run prerelease && electron-builder --linux",
     "start": "cross-env NODE_ENV=development node --max_old_space_size=2096 ./scripts/server.js",
     "start:new": "node ./tasks/removeElectraDaemonUserDirectory && node ./tasks/removeElectraDesktopUserDirectory && npm start",
     "start:new:qt": "node ./tasks/removeElectraDesktopUserDirectory && npm start",
