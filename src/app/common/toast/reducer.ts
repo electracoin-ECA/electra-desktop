@@ -1,4 +1,4 @@
-import * as ActionNames from './action-names'
+import * as ActionNames from './actionNames'
 import { ToastActions, ToastState } from './types'
 
 const initialState: ToastState = {
