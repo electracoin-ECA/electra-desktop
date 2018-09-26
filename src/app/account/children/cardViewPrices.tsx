@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import CardView from './card-view'
+import CardView from './cardView'
 
 interface ComponentProps {
   confirmedBalance: number
