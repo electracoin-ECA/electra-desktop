@@ -28,7 +28,9 @@
     "validate:lint": "tslint -p src/tsconfig.json",
     "validate:tsc": "tsc -p src/tsconfig.json --noEmit --pretty",
     "preversion": "npm test",
-    "postversion": "git push origin head && git push --tags"
+    "postversion": "git push origin head && git push --tags",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "build": {
     "productName": "Electra Desktop",
@@ -101,7 +103,8 @@
     "redux-observable": "^1.0.0",
     "rxjs": "^6.3.2",
     "uuid": "^3.3.2",
-    "zxcvbn": "^4.4.2"
+    "zxcvbn": "^4.4.2",
+    "snyk": "^1.161.1"
   },
   "devDependencies": {
     "@types/electron-json-storage": "^4.0.0",
@@ -165,5 +168,6 @@
   "bugs": {
     "url": "https://github.com/Electra-project/Electra-Desktop/issues"
   },
-  "homepage": "https://electraproject.org"
+  "homepage": "https://electraproject.org",
+  "snyk": true
 }
